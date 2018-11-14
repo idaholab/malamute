@@ -1,3 +1,5 @@
+epsilon='1E-15'
+
 [GlobalParams]
   gravity = '0 0 0'
   pspg = true
@@ -14,8 +16,8 @@
   xmax = 0.35
   ymin = -.35
   ymax = 0.35
-  nx = 16
-  ny = 16
+  nx = 4
+  ny = 4
 []
 
 [MeshModifiers]
@@ -28,15 +30,23 @@
 
 [Variables]
   [./vel_x]
+    [./InitialCondition]
+      type = ConstantIC
+      value = ${epsilon}
+    [../]
   [../]
 
   [./vel_y]
+    [./InitialCondition]
+      type = ConstantIC
+      value = ${epsilon}
+    [../]
   [../]
 
   [./T]
     [./InitialCondition]
       type = ConstantIC
-      value = 300.0
+      value = 1.0
     [../]
   [../]
 
@@ -115,51 +125,60 @@
     value = 0.0
   [../]
 
-  # [./T_hot]
-  #   type = DirichletBC
-  #   variable = T
-  #   boundary = 'bottom'
-  #   value = 1
-  # [../]
+  [./T_cold]
+    type = DirichletBC
+    variable = T
+    boundary = 'bottom'
+    value = 1
+  [../]
 
-  # [./pressure_pin]
-  #   type = DirichletBC
-  #   variable = p
-  #   boundary = 'pinned_node'
-  #   value = 0
-  # [../]
+  [./pressure_pin]
+    type = DirichletBC
+    variable = p
+    boundary = 'pinned_node'
+    value = 0
+  [../]
 
   [./weld_flux]
     type = GaussianWeldEnergyFluxBC
     variable = T
     boundary = 'top'
     reff = 0.6
-    F0 = 2.546e9
-    R = 1e-4
+    F0 = 1
+    R = 1e-1
+    beam_coords = '0 0 0'
   [../]
+[]
 
+[ADBCs]
   [./radiation_flux]
     type = RadiationEnergyFluxBC
     variable = T
     boundary = 'top'
-    ff_temp = 300
+    ff_temp = 1
     sb_constant = 'sb_constant'
     absorptivity = 'abs'
   [../]
 []
 
-[ADMaterials]
-  [./kc_fits]
-    type = CrazyKCPlantFits
-    temperature = T
-  [../]
-[]
+# [ADMaterials]
+#   [./kc_fits]
+#     type = CrazyKCPlantFits
+#     temperature = T
+#   [../]
+# []
 
 [Materials]
   [./const]
     type = GenericConstantMaterial
     prop_names = 'abs sb_constant'
-    prop_values = '1  5.67e-8'
+    prop_values = '1  1'
+  [../]
+  [./sub]
+    type = GenericConstantMaterial
+    block = 0
+    prop_names = 'rho mu cp k'
+    prop_values = '1  1  1  1'
   [../]
 []
 
@@ -185,19 +204,20 @@
   type = Transient
   # Run for 100+ timesteps to reach steady state.
   num_steps = 5
-  dt = 1e-6
-  dtmin = .1e-6
-  petsc_options_iname = '-pc_type -pc_asm_overlap -sub_pc_type -sub_pc_factor_levels'
-  petsc_options_value = 'asm      2               ilu          4'
+  dt = .1
+  dtmin = .1
+  petsc_options_iname = '-pc_type -pc_factor_shift_type -pc_factor_shift_amount'
+  petsc_options_value = 'lu       NONZERO               1e-15'
   line_search = 'none'
-  nl_rel_tol = 1e-12
-  nl_abs_tol = 1e-13
-  nl_max_its = 6
-  l_tol = 1e-6
-  l_max_its = 500
+  nl_max_its = 10
+  l_max_its = 10
 []
 
 [Outputs]
-  file_base = lid_driven_out
+  file_base = kc_out
   exodus = true
+  [./dofmap]
+    type = DOFMap
+    execute_on = 'initial'
+  [../]
 []
