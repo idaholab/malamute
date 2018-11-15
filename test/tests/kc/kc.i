@@ -21,8 +21,8 @@ epsilon='1E-15'
   xmax = 0.35e-3
   ymin = -.35e-3
   ymax = 0
-  nx = 16
-  ny = 16
+  nx = 8
+  ny = 8
   uniform_refine = 2
 []
 
@@ -177,22 +177,22 @@ epsilon='1E-15'
 []
 
 [ADBCs]
-#   [./radiation_flux]
-#     type = RadiationEnergyFluxBC
-#     variable = T
-#     boundary = 'top'
-#     ff_temp = 1
-#     sb_constant = 'sb_constant'
-#     absorptivity = 'abs'
-#   [../]
+  [./radiation_flux]
+    type = RadiationEnergyFluxBC
+    variable = T
+    boundary = 'top'
+    ff_temp = 1
+    sb_constant = 'sb_constant'
+    absorptivity = 'abs'
+  [../]
 
   [./vapor_recoil]
     type = VaporRecoilPressureMomentumFluxBC
     temperature = T
     variable = p
     boundary = 'top'
-    ap2 = 0
-    bp1 = 0
+    # ap2 = 0
+    # bp1 = 0
   [../]
 []
 
@@ -245,11 +245,11 @@ epsilon='1E-15'
   petsc_options_iname = '-pc_type -pc_factor_shift_type -pc_factor_shift_amount -snes_linesearch_minlambda'
   petsc_options_value = 'lu       NONZERO               1e-15                   1e-3'
   line_search = 'none'
-  nl_max_its = 12
+  nl_max_its = 8
   l_max_its = 10
   [./TimeStepper]
     type = IterationAdaptiveDT
-    optimal_iterations = 6
+    optimal_iterations = 4
     dt = 1e-6
   [../]
 []
