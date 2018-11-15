@@ -1,8 +1,13 @@
 epsilon='1E-15'
 
+[Problem]
+  kernel_coverage_check = false
+[]
+
 [GlobalParams]
   gravity = '0 0 0'
-  pspg = true
+  pspg = false
+  supg = true
   laplace = true
   integrate_p_by_parts = true
   convective_term = true
@@ -12,13 +17,14 @@ epsilon='1E-15'
 [Mesh]
   type = GeneratedMesh
   dim = 2
-  xmin = -.35
-  xmax = 0.35
-  ymin = -.35
-  ymax = 0.35
+  xmin = -.35e-3
+  xmax = 0.35e-3
+  ymin = -.35e-3
+  ymax = 0
   nx = 8
   ny = 8
-  uniform_refine = 1
+  uniform_refine = 2
+  elem_type = QUAD9
 []
 
 [MeshModifiers]
@@ -31,6 +37,7 @@ epsilon='1E-15'
 
 [Variables]
   [./vel_x]
+    order = SECOND
     [./InitialCondition]
       type = ConstantIC
       value = ${epsilon}
@@ -38,6 +45,7 @@ epsilon='1E-15'
   [../]
 
   [./vel_y]
+    order = SECOND
     [./InitialCondition]
       type = ConstantIC
       value = ${epsilon}
@@ -45,15 +53,27 @@ epsilon='1E-15'
   [../]
 
   [./T]
+    order = SECOND
     [./InitialCondition]
       type = ConstantIC
-      value = 1.0
+      value = 300
     [../]
   [../]
 
   [./p]
   [../]
 []
+
+# [Kernels]
+#   # mass
+#   [./mass]
+#     type = INSMass
+#     variable = p
+#     u = vel_x
+#     v = vel_y
+#     p = p
+#   [../]
+# []
 
 [ADKernels]
   # mass
@@ -108,6 +128,7 @@ epsilon='1E-15'
    variable = T
    u = vel_x
    v = vel_y
+   p = p
  [../]
 []
 
@@ -130,16 +151,16 @@ epsilon='1E-15'
     type = DirichletBC
     variable = T
     boundary = 'bottom'
-    value = 1
+    value = 300
   [../]
 
-  [./lid]
-    type = FunctionDirichletBC
-    # variable = vel_x
-    variable = p
-    boundary = 'top'
-    function = 'lid_function'
-  [../]
+  # [./lid]
+  #   type = FunctionDirichletBC
+  #   # variable = vel_x
+  #   variable = p
+  #   boundary = 'top'
+  #   function = 'lid_function'
+  # [../]
 
 # [./pressure_pin]
   #   type = DirichletBC
@@ -152,14 +173,14 @@ epsilon='1E-15'
     type = GaussianWeldEnergyFluxBC
     variable = T
     boundary = 'top'
-    reff = 1
-    F0 = 1e6
-    R = .1
+    reff = 0.6
+    F0 = 2.546e9
+    R = 1e-4
     beam_coords = '0 0 0'
   [../]
 []
 
-# [ADBCs]
+[ADBCs]
 #   [./radiation_flux]
 #     type = RadiationEnergyFluxBC
 #     variable = T
@@ -168,7 +189,16 @@ epsilon='1E-15'
 #     sb_constant = 'sb_constant'
 #     absorptivity = 'abs'
 #   [../]
-# []
+
+  [./vapor_recoil]
+    type = VaporRecoilPressureMomentumFluxBC
+    temperature = T
+    variable = p
+    boundary = 'top'
+    ap2 = 0
+    bp1 = 0
+  [../]
+[]
 
 [ADMaterials]
   [./kc_fits]
@@ -181,14 +211,15 @@ epsilon='1E-15'
   [./const]
     type = GenericConstantMaterial
     prop_names = 'abs sb_constant'
-    prop_values = '1  1'
+    # prop_values = '1  1'
+    prop_values = '1 5.67e-8'
   [../]
-  [./sub]
-    type = GenericConstantMaterial
-    block = 0
-    prop_names = 'rho cp k'
-    prop_values = '1  1  .1'
-  [../]
+  # [./sub]
+  #   type = GenericConstantMaterial
+  #   block = 0
+  #   prop_names = 'rho cp k'
+  #   prop_values = '1  1  .1'
+  # [../]
 []
 
 [Functions]
@@ -212,14 +243,19 @@ epsilon='1E-15'
 [Executioner]
   type = Transient
   # Run for 100+ timesteps to reach steady state.
-  num_steps = 5
-  dt = .1
-  dtmin = .1
-  petsc_options_iname = '-pc_type -pc_factor_shift_type -pc_factor_shift_amount'
-  petsc_options_value = 'lu       NONZERO               1e-15'
+  end_time = 10000
+  # num_steps = 16
+  dtmin = 1e-6
+  petsc_options_iname = '-pc_type -pc_factor_shift_type -pc_factor_shift_amount -snes_linesearch_minlambda'
+  petsc_options_value = 'lu       NONZERO               1e-15                   1e-3'
   line_search = 'none'
-  nl_max_its = 10
+  nl_max_its = 12
   l_max_its = 10
+  [./TimeStepper]
+    type = IterationAdaptiveDT
+    optimal_iterations = 6
+    dt = 1e-6
+  [../]
 []
 
 [Outputs]
@@ -233,6 +269,7 @@ epsilon='1E-15'
     type = DOFMap
     execute_on = 'initial'
   [../]
+  checkpoint = true
 []
 
 [Debug]
@@ -241,7 +278,7 @@ epsilon='1E-15'
 
 [Adaptivity]
   marker = combo
-  max_h_level = 5
+  max_h_level = 4
 
   [./Indicators]
     [./error_x]
@@ -251,6 +288,14 @@ epsilon='1E-15'
     [./error_y]
       type = GradientJumpIndicator
       variable = vel_y
+    [../]
+    [./error_p]
+      type = GradientJumpIndicator
+      variable = p
+    [../]
+    [./error_T]
+      type = GradientJumpIndicator
+      variable = T
     [../]
   [../]
 
@@ -267,9 +312,28 @@ epsilon='1E-15'
       coarsen = 0.1
       indicator = error_y
     [../]
+    [./errorfrac_p]
+      type = ErrorFractionMarker
+      refine = 0.9
+      coarsen = 0.1
+      indicator = error_p
+    [../]
+    [./errorfrac_T]
+      type = ErrorFractionMarker
+      refine = 0.9
+      coarsen = 0.1
+      indicator = error_T
+    [../]
     [./combo]
       type = ComboMarker
-      markers = 'errorfrac_x errorfrac_y'
+      markers = 'errorfrac_x errorfrac_y errorfrac_T'
     [../]
+  [../]
+[]
+
+[Postprocessors]
+  [./num_dofs]
+    type = NumDOFS
+    system = 'NL'
   [../]
 []

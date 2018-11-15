@@ -54,10 +54,13 @@ CrazyKCPlantFits<compute_stage>::CrazyKCPlantFits(const InputParameters & parame
     _c_cp1(adGetParam<Real>("c_cp1")),
     _c_rho0(adGetParam<Real>("c_rho0")),
     _temperature(adCoupledValue("temperature")),
-    _mu(adDeclareADProperty<Real>(adGetParam<MaterialPropertyName>("mu_name")))
-// _k(adDeclareADProperty<Real>(adGetParam<MaterialPropertyName>("k_name"))),
-// _cp(adDeclareADProperty<Real>(adGetParam<MaterialPropertyName>("cp_name"))),
-// _rho(adDeclareADProperty<Real>(adGetParam<MaterialPropertyName>("rho_name")))
+    _grad_temperature(adCoupledGradient("temperature")),
+    _mu(adDeclareADProperty<Real>(adGetParam<MaterialPropertyName>("mu_name"))),
+    _k(adDeclareADProperty<Real>(adGetParam<MaterialPropertyName>("k_name"))),
+    _cp(adDeclareADProperty<Real>(adGetParam<MaterialPropertyName>("cp_name"))),
+    _rho(adDeclareADProperty<Real>(adGetParam<MaterialPropertyName>("rho_name"))),
+    _grad_k(
+        adDeclareADProperty<RealVectorValue>("grad_" + adGetParam<MaterialPropertyName>("k_name")))
 {
 }
 
@@ -65,18 +68,18 @@ template <ComputeStage compute_stage>
 void
 CrazyKCPlantFits<compute_stage>::computeQpProperties()
 {
-  // if (_temperature[_qp] < _Tl)
-  //   _mu[_qp] = (_c_mu0 + _c_mu1 * _Tl + _c_mu2 * _Tl * _Tl + _c_mu3 * _Tl * _Tl * _Tl) *
-  //              (_beta + (1 - _beta) * (_temperature[_qp] - _T90) / (_Tl - _T90));
-  // else
-  // {
-  //   typename std::remove_const<
-  //       typename std::remove_reference<decltype(_temperature[_qp])>::type>::type That;
-  //   That = _temperature[_qp] > _Tmax ? _Tmax : _temperature[_qp];
-  //   _mu[_qp] = _c_mu0 + _c_mu1 * That + _c_mu2 * That * That + _c_mu3 * That * That * That;
-  // }
-  // _k[_qp] = _c_k0 + _c_k1 * _temperature[_qp];
-  // _cp[_qp] = _c_cp0 + _c_cp1 * _temperature[_qp];
-  // _rho[_qp] = _c_rho0;
-  _mu[_qp] = _temperature[_qp];
+  if (_temperature[_qp] < _Tl)
+    _mu[_qp] = (_c_mu0 + _c_mu1 * _Tl + _c_mu2 * _Tl * _Tl + _c_mu3 * _Tl * _Tl * _Tl) *
+               (_beta + (1 - _beta) * (_temperature[_qp] - _T90) / (_Tl - _T90));
+  else
+  {
+    typename std::remove_const<
+        typename std::remove_reference<decltype(_temperature[_qp])>::type>::type That;
+    That = _temperature[_qp] > _Tmax ? _Tmax : _temperature[_qp];
+    _mu[_qp] = _c_mu0 + _c_mu1 * That + _c_mu2 * That * That + _c_mu3 * That * That * That;
+  }
+  _k[_qp] = _c_k0 + _c_k1 * _temperature[_qp];
+  _grad_k[_qp] = _c_k1 * _grad_temperature[_qp];
+  _cp[_qp] = _c_cp0 + _c_cp1 * _temperature[_qp];
+  _rho[_qp] = _c_rho0;
 }

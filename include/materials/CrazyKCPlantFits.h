@@ -42,10 +42,12 @@ protected:
   const Real _c_cp1;
   const Real _c_rho0;
   const ADVariableValue & _temperature;
+  const ADVariableGradient & _grad_temperature;
   ADMaterialProperty(Real) & _mu;
-  // ADMaterialProperty(Real) & _k;
-  // ADMaterialProperty(Real) & _cp;
-  // ADMaterialProperty(Real) & _rho;
+  ADMaterialProperty(Real) & _k;
+  ADMaterialProperty(Real) & _cp;
+  ADMaterialProperty(Real) & _rho;
+  ADMaterialProperty(RealVectorValue) & _grad_k;
 
   usingMaterialMembers;
 };
