@@ -16,8 +16,9 @@ epsilon='1E-15'
   xmax = 0.35
   ymin = -.35
   ymax = 0.35
-  nx = 4
-  ny = 4
+  nx = 8
+  ny = 8
+  uniform_refine = 1
 []
 
 [MeshModifiers]
@@ -132,41 +133,49 @@ epsilon='1E-15'
     value = 1
   [../]
 
-  [./pressure_pin]
-    type = DirichletBC
+  [./lid]
+    type = FunctionDirichletBC
+    # variable = vel_x
     variable = p
-    boundary = 'pinned_node'
-    value = 0
+    boundary = 'top'
+    function = 'lid_function'
   [../]
+
+# [./pressure_pin]
+  #   type = DirichletBC
+  #   variable = p
+  #   boundary = 'pinned_node'
+  #   value = 0
+  # [../]
 
   [./weld_flux]
     type = GaussianWeldEnergyFluxBC
     variable = T
     boundary = 'top'
-    reff = 0.6
-    F0 = 1
-    R = 1e-1
+    reff = 1
+    F0 = 1e6
+    R = .1
     beam_coords = '0 0 0'
   [../]
 []
 
-[ADBCs]
-  [./radiation_flux]
-    type = RadiationEnergyFluxBC
-    variable = T
-    boundary = 'top'
-    ff_temp = 1
-    sb_constant = 'sb_constant'
-    absorptivity = 'abs'
-  [../]
-[]
-
-# [ADMaterials]
-#   [./kc_fits]
-#     type = CrazyKCPlantFits
-#     temperature = T
+# [ADBCs]
+#   [./radiation_flux]
+#     type = RadiationEnergyFluxBC
+#     variable = T
+#     boundary = 'top'
+#     ff_temp = 1
+#     sb_constant = 'sb_constant'
+#     absorptivity = 'abs'
 #   [../]
 # []
+
+[ADMaterials]
+  [./kc_fits]
+    type = CrazyKCPlantFits
+    temperature = T
+  [../]
+[]
 
 [Materials]
   [./const]
@@ -177,8 +186,8 @@ epsilon='1E-15'
   [./sub]
     type = GenericConstantMaterial
     block = 0
-    prop_names = 'rho mu cp k'
-    prop_values = '1  1  1  1'
+    prop_names = 'rho cp k'
+    prop_values = '1  1  .1'
   [../]
 []
 
@@ -188,7 +197,7 @@ epsilon='1E-15'
     # space so that the Dirichlet conditions are the same regardless
     # of the mesh spacing.
     type = ParsedFunction
-    value = '4*x*(1-x)'
+    value = '-1 / .1225 * x^2 + 1'
   [../]
 []
 
@@ -215,9 +224,52 @@ epsilon='1E-15'
 
 [Outputs]
   file_base = kc_out
-  exodus = true
+  [./exodus]
+    type = Exodus
+    output_material_properties = true
+    show_material_properties = 'mu'
+  [../]
   [./dofmap]
     type = DOFMap
     execute_on = 'initial'
+  [../]
+[]
+
+[Debug]
+  show_var_residual_norms = true
+[]
+
+[Adaptivity]
+  marker = combo
+  max_h_level = 5
+
+  [./Indicators]
+    [./error_x]
+      type = GradientJumpIndicator
+      variable = vel_x
+    [../]
+    [./error_y]
+      type = GradientJumpIndicator
+      variable = vel_y
+    [../]
+  [../]
+
+  [./Markers]
+    [./errorfrac_x]
+      type = ErrorFractionMarker
+      refine = 0.9
+      coarsen = 0.1
+      indicator = error_x
+    [../]
+    [./errorfrac_y]
+      type = ErrorFractionMarker
+      refine = 0.9
+      coarsen = 0.1
+      indicator = error_y
+    [../]
+    [./combo]
+      type = ComboMarker
+      markers = 'errorfrac_x errorfrac_y'
+    [../]
   [../]
 []

@@ -43,9 +43,9 @@ protected:
   const Real _c_rho0;
   const ADVariableValue & _temperature;
   ADMaterialProperty(Real) & _mu;
-  ADMaterialProperty(Real) & _k;
-  ADMaterialProperty(Real) & _cp;
-  ADMaterialProperty(Real) & _rho;
+  // ADMaterialProperty(Real) & _k;
+  // ADMaterialProperty(Real) & _cp;
+  // ADMaterialProperty(Real) & _rho;
 
   usingMaterialMembers;
 };
