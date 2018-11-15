@@ -6,7 +6,7 @@ epsilon='1E-15'
 
 [GlobalParams]
   gravity = '0 0 0'
-  pspg = false
+  pspg = true
   supg = true
   laplace = true
   integrate_p_by_parts = true
@@ -21,10 +21,9 @@ epsilon='1E-15'
   xmax = 0.35e-3
   ymin = -.35e-3
   ymax = 0
-  nx = 8
-  ny = 8
+  nx = 16
+  ny = 16
   uniform_refine = 2
-  elem_type = QUAD9
 []
 
 [MeshModifiers]
@@ -37,7 +36,6 @@ epsilon='1E-15'
 
 [Variables]
   [./vel_x]
-    order = SECOND
     [./InitialCondition]
       type = ConstantIC
       value = ${epsilon}
@@ -45,7 +43,6 @@ epsilon='1E-15'
   [../]
 
   [./vel_y]
-    order = SECOND
     [./InitialCondition]
       type = ConstantIC
       value = ${epsilon}
@@ -53,7 +50,6 @@ epsilon='1E-15'
   [../]
 
   [./T]
-    order = SECOND
     [./InitialCondition]
       type = ConstantIC
       value = 300
@@ -333,7 +329,7 @@ epsilon='1E-15'
 
 [Postprocessors]
   [./num_dofs]
-    type = NumDOFS
+    type = NumDOFs
     system = 'NL'
   [../]
 []
