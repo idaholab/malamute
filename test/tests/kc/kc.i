@@ -17,9 +17,9 @@ epsilon='1E-15'
 [Mesh]
   type = GeneratedMesh
   dim = 2
-  xmin = -.35e-3
-  xmax = 0.35e-3
-  ymin = -.35e-3
+  xmin = -.1e-3
+  xmax = 0.1e-3
+  ymin = -.1e-3
   ymax = 0
   nx = 8
   ny = 8
@@ -139,7 +139,7 @@ epsilon='1E-15'
   [./y_no_slip]
     type = DirichletBC
     variable = vel_y
-    boundary = 'bottom right top left'
+    boundary = 'bottom right left'
     value = 0.0
   [../]
 
@@ -159,11 +159,11 @@ epsilon='1E-15'
   # [../]
 
 # [./pressure_pin]
-  #   type = DirichletBC
-  #   variable = p
-  #   boundary = 'pinned_node'
-  #   value = 0
-  # [../]
+#     type = DirichletBC
+#     variable = p
+#     boundary = 'pinned_node'
+#     value = 0
+#   [../]
 
   [./weld_flux]
     type = GaussianWeldEnergyFluxBC
@@ -186,11 +186,22 @@ epsilon='1E-15'
     absorptivity = 'abs'
   [../]
 
-  [./vapor_recoil]
+  [./vapor_recoil_x]
     type = VaporRecoilPressureMomentumFluxBC
     temperature = T
-    variable = p
+    variable = vel_x
     boundary = 'top'
+    component = 0
+    # ap2 = 0
+    # bp1 = 0
+  [../]
+
+  [./vapor_recoil_y]
+    type = VaporRecoilPressureMomentumFluxBC
+    temperature = T
+    variable = vel_y
+    boundary = 'top'
+    component = 1
     # ap2 = 0
     # bp1 = 0
   [../]
@@ -200,6 +211,9 @@ epsilon='1E-15'
   [./kc_fits]
     type = CrazyKCPlantFits
     temperature = T
+    c_mu1 = 0
+    c_mu2 = 0
+    c_mu3 = 0
   [../]
 []
 
@@ -241,15 +255,16 @@ epsilon='1E-15'
   # Run for 100+ timesteps to reach steady state.
   end_time = 10000
   # num_steps = 16
-  dtmin = 1e-6
+  dtmin = 1e-7
+  petsc_options = '-snes_converged_reason -ksp_converged_reason'
   petsc_options_iname = '-pc_type -pc_factor_shift_type -pc_factor_shift_amount -snes_linesearch_minlambda'
   petsc_options_value = 'lu       NONZERO               1e-15                   1e-3'
   line_search = 'none'
-  nl_max_its = 8
+  nl_max_its = 12
   l_max_its = 10
   [./TimeStepper]
     type = IterationAdaptiveDT
-    optimal_iterations = 4
+    optimal_iterations = 6
     dt = 1e-6
   [../]
 []
@@ -274,7 +289,7 @@ epsilon='1E-15'
 
 [Adaptivity]
   marker = combo
-  max_h_level = 4
+  max_h_level = 3
 
   [./Indicators]
     [./error_x]
