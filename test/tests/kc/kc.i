@@ -21,9 +21,10 @@ epsilon='1E-15'
   xmax = 0.1e-3
   ymin = -.1e-3
   ymax = 0
-  nx = 8
-  ny = 8
-  uniform_refine = 2
+  nx = 2
+  ny = 2
+  displacements = 'disp_x disp_y'
+  # uniform_refine = 2
 []
 
 [MeshModifiers]
@@ -58,18 +59,22 @@ epsilon='1E-15'
 
   [./p]
   [../]
+  [./disp_x]
+  [../]
+  [./disp_y]
+  [../]
 []
 
-# [Kernels]
-#   # mass
-#   [./mass]
-#     type = INSMass
-#     variable = p
-#     u = vel_x
-#     v = vel_y
-#     p = p
-#   [../]
-# []
+[Kernels]
+  [./disp_x]
+    type = Diffusion
+    variable = disp_x
+  [../]
+  [./disp_y]
+    type = Diffusion
+    variable = disp_y
+  [../]
+[]
 
 [ADKernels]
   # mass
@@ -79,12 +84,14 @@ epsilon='1E-15'
     u = vel_x
     v = vel_y
     p = p
+    use_displaced_mesh = true
   [../]
 
   # x-momentum, time
   [./x_momentum_time]
     type = INSADMomentumTimeDerivative
     variable = vel_x
+    use_displaced_mesh = true
   [../]
 
   # x-momentum, space
@@ -95,12 +102,14 @@ epsilon='1E-15'
     v = vel_y
     p = p
     component = 0
+    use_displaced_mesh = true
   [../]
 
   # y-momentum, time
   [./y_momentum_time]
     type = INSADMomentumTimeDerivative
     variable = vel_y
+    use_displaced_mesh = true
   [../]
 
   # y-momentum, space
@@ -111,12 +120,14 @@ epsilon='1E-15'
     v = vel_y
     p = p
     component = 1
+    use_displaced_mesh = true
   [../]
 
  # temperature
  [./temperature_time]
    type = INSADTemperatureTimeDerivative
    variable = T
+   use_displaced_mesh = true
  [../]
 
  [./temperature_space]
@@ -125,10 +136,24 @@ epsilon='1E-15'
    u = vel_x
    v = vel_y
    p = p
+   use_displaced_mesh = true
  [../]
 []
 
 [BCs]
+  [./x_no_disp]
+    type = DirichletBC
+    variable = disp_x
+    boundary = 'bottom right left'
+    value = 0
+  [../]
+  [./y_no_disp]
+    type = DirichletBC
+    variable = disp_y
+    boundary = 'bottom right left'
+    value = 0
+  [../]
+
   [./x_no_slip]
     type = DirichletBC
     variable = vel_x
@@ -150,21 +175,6 @@ epsilon='1E-15'
     value = 300
   [../]
 
-  # [./lid]
-  #   type = FunctionDirichletBC
-  #   # variable = vel_x
-  #   variable = p
-  #   boundary = 'top'
-  #   function = 'lid_function'
-  # [../]
-
-# [./pressure_pin]
-#     type = DirichletBC
-#     variable = p
-#     boundary = 'pinned_node'
-#     value = 0
-#   [../]
-
   [./weld_flux]
     type = GaussianWeldEnergyFluxBC
     variable = T
@@ -173,6 +183,7 @@ epsilon='1E-15'
     F0 = 2.546e9
     R = 1e-4
     beam_coords = '0 0 0'
+    use_displaced_mesh = true
   [../]
 []
 
@@ -184,6 +195,7 @@ epsilon='1E-15'
     ff_temp = 1
     sb_constant = 'sb_constant'
     absorptivity = 'abs'
+    use_displaced_mesh = true
   [../]
 
   [./vapor_recoil_x]
@@ -192,6 +204,7 @@ epsilon='1E-15'
     variable = vel_x
     boundary = 'top'
     component = 0
+    use_displaced_mesh = true
     # ap2 = 0
     # bp1 = 0
   [../]
@@ -204,6 +217,20 @@ epsilon='1E-15'
     component = 1
     # ap2 = 0
     # bp1 = 0
+    use_displaced_mesh = true
+  [../]
+
+  [./displace_x_top]
+    type = DisplaceBoundaryBC
+    boundary = 'top'
+    variable = 'disp_x'
+    velocity = 'vel_x'
+  [../]
+  [./displace_y_top]
+    type = DisplaceBoundaryBC
+    boundary = 'top'
+    variable = 'disp_y'
+    velocity = 'vel_y'
   [../]
 []
 
@@ -255,11 +282,11 @@ epsilon='1E-15'
   # Run for 100+ timesteps to reach steady state.
   end_time = 10000
   # num_steps = 16
-  dtmin = 1e-7
+  dtmin = 1e-6
   petsc_options = '-snes_converged_reason -ksp_converged_reason'
   petsc_options_iname = '-pc_type -pc_factor_shift_type -pc_factor_shift_amount -snes_linesearch_minlambda'
   petsc_options_value = 'lu       NONZERO               1e-15                   1e-3'
-  line_search = 'none'
+  line_search = 'bt'
   nl_max_its = 12
   l_max_its = 10
   [./TimeStepper]
@@ -287,60 +314,61 @@ epsilon='1E-15'
   show_var_residual_norms = true
 []
 
-[Adaptivity]
-  marker = combo
-  max_h_level = 3
 
-  [./Indicators]
-    [./error_x]
-      type = GradientJumpIndicator
-      variable = vel_x
-    [../]
-    [./error_y]
-      type = GradientJumpIndicator
-      variable = vel_y
-    [../]
-    [./error_p]
-      type = GradientJumpIndicator
-      variable = p
-    [../]
-    [./error_T]
-      type = GradientJumpIndicator
-      variable = T
-    [../]
-  [../]
+# [Adaptivity]
+#   marker = combo
+#   max_h_level = 4
 
-  [./Markers]
-    [./errorfrac_x]
-      type = ErrorFractionMarker
-      refine = 0.9
-      coarsen = 0.1
-      indicator = error_x
-    [../]
-    [./errorfrac_y]
-      type = ErrorFractionMarker
-      refine = 0.9
-      coarsen = 0.1
-      indicator = error_y
-    [../]
-    [./errorfrac_p]
-      type = ErrorFractionMarker
-      refine = 0.9
-      coarsen = 0.1
-      indicator = error_p
-    [../]
-    [./errorfrac_T]
-      type = ErrorFractionMarker
-      refine = 0.9
-      coarsen = 0.1
-      indicator = error_T
-    [../]
-    [./combo]
-      type = ComboMarker
-      markers = 'errorfrac_x errorfrac_y errorfrac_T'
-    [../]
-  [../]
-[]
+#   [./Indicators]
+#     [./error_x]
+#       type = GradientJumpIndicator
+#       variable = vel_x
+#     [../]
+#     [./error_y]
+#       type = GradientJumpIndicator
+#       variable = vel_y
+#     [../]
+#     [./error_p]
+#       type = GradientJumpIndicator
+#       variable = p
+#     [../]
+#     [./error_T]
+#       type = GradientJumpIndicator
+#       variable = T
+#     [../]
+#   [../]
+
+#   [./Markers]
+#     [./errorfrac_x]
+#       type = ErrorFractionMarker
+#       refine = 0.9
+#       coarsen = 0.1
+#       indicator = error_x
+#     [../]
+#     [./errorfrac_y]
+#       type = ErrorFractionMarker
+#       refine = 0.9
+#       coarsen = 0.1
+#       indicator = error_y
+#     [../]
+#     [./errorfrac_p]
+#       type = ErrorFractionMarker
+#       refine = 0.9
+#       coarsen = 0.1
+#       indicator = error_p
+#     [../]
+#     [./errorfrac_T]
+#       type = ErrorFractionMarker
+#       refine = 0.9
+#       coarsen = 0.1
+#       indicator = error_T
+#     [../]
+#     [./combo]
+#       type = ComboMarker
+#       markers = 'errorfrac_x errorfrac_y errorfrac_T'
+#     [../]
+#   [../]
+# []
 
 [Postprocessors]
   [./num_dofs]
