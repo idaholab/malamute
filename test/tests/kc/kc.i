@@ -1,9 +1,5 @@
 epsilon='1E-15'
 
-[Problem]
-  kernel_coverage_check = false
-[]
-
 [GlobalParams]
   gravity = '0 0 0'
   pspg = true
@@ -21,10 +17,10 @@ epsilon='1E-15'
   xmax = 0.1e-3
   ymin = -.1e-3
   ymax = 0
-  nx = 2
-  ny = 2
+  nx = 4
+  ny = 4
   displacements = 'disp_x disp_y'
-  # uniform_refine = 2
+  uniform_refine = 2
 []
 
 [MeshModifiers]
@@ -238,9 +234,9 @@ epsilon='1E-15'
   [./kc_fits]
     type = CrazyKCPlantFits
     temperature = T
-    c_mu1 = 0
-    c_mu2 = 0
-    c_mu3 = 0
+    # c_mu1 = 0
+    # c_mu2 = 0
+    # c_mu3 = 0
   [../]
 []
 
@@ -271,7 +267,7 @@ epsilon='1E-15'
 
 [Preconditioning]
   [./SMP]
-    type = SMP
+    type = FDP
     full = true
     solve_type = 'NEWTON'
   [../]
@@ -281,14 +277,17 @@ epsilon='1E-15'
   type = Transient
   # Run for 100+ timesteps to reach steady state.
   end_time = 10000
-  # num_steps = 16
+  # num_steps = 1
   dtmin = 1e-6
-  petsc_options = '-snes_converged_reason -ksp_converged_reason'
-  petsc_options_iname = '-pc_type -pc_factor_shift_type -pc_factor_shift_amount -snes_linesearch_minlambda'
-  petsc_options_value = 'lu       NONZERO               1e-15                   1e-3'
-  line_search = 'bt'
+  petsc_options = '-snes_converged_reason -ksp_converged_reason -options_left'
+  # petsc_options_iname = '-pc_type -pc_factor_shift_type -pc_factor_shift_amount -snes_linesearch_minlambda -pc_factor_mat_solver_package'
+  # petsc_options_value = 'lu       NONZERO               1                   1e-3                       superlu_dist'
+  petsc_options_iname = '-pc_type -pc_hypre_type -ksp_gmres_restart'
+  petsc_options_value = 'hypre boomeramg         101'
+
+  line_search = 'none'
   nl_max_its = 12
-  l_max_its = 10
+  l_max_its = 100
   [./TimeStepper]
     type = IterationAdaptiveDT
     optimal_iterations = 6
@@ -315,60 +314,60 @@ epsilon='1E-15'
 []
 
 
-# [Adaptivity]
-#   marker = combo
-#   max_h_level = 4
+[Adaptivity]
+  marker = combo
+  max_h_level = 3
 
-#   [./Indicators]
-#     [./error_x]
-#       type = GradientJumpIndicator
-#       variable = vel_x
-#     [../]
-#     [./error_y]
-#       type = GradientJumpIndicator
-#       variable = vel_y
-#     [../]
-#     [./error_p]
-#       type = GradientJumpIndicator
-#       variable = p
-#     [../]
-#     [./error_T]
-#       type = GradientJumpIndicator
-#       variable = T
-#     [../]
-#   [../]
+  [./Indicators]
+    [./error_x]
+      type = GradientJumpIndicator
+      variable = vel_x
+    [../]
+    [./error_y]
+      type = GradientJumpIndicator
+      variable = vel_y
+    [../]
+    [./error_p]
+      type = GradientJumpIndicator
+      variable = p
+    [../]
+    [./error_T]
+      type = GradientJumpIndicator
+      variable = T
+    [../]
+  [../]
 
-#   [./Markers]
-#     [./errorfrac_x]
-#       type = ErrorFractionMarker
-#       refine = 0.9
-#       coarsen = 0.1
-#       indicator = error_x
-#     [../]
-#     [./errorfrac_y]
-#       type = ErrorFractionMarker
-#       refine = 0.9
-#       coarsen = 0.1
-#       indicator = error_y
-#     [../]
-#     [./errorfrac_p]
-#       type = ErrorFractionMarker
-#       refine = 0.9
-#       coarsen = 0.1
-#       indicator = error_p
-#     [../]
-#     [./errorfrac_T]
-#       type = ErrorFractionMarker
-#       refine = 0.9
-#       coarsen = 0.1
-#       indicator = error_T
-#     [../]
-#     [./combo]
-#       type = ComboMarker
-#       markers = 'errorfrac_x errorfrac_y errorfrac_T'
-#     [../]
-#   [../]
-# []
+  [./Markers]
+    [./errorfrac_x]
+      type = ErrorFractionMarker
+      refine = 0.9
+      coarsen = 0.1
+      indicator = error_x
+    [../]
+    [./errorfrac_y]
+      type = ErrorFractionMarker
+      refine = 0.9
+      coarsen = 0.1
+      indicator = error_y
+    [../]
+    [./errorfrac_p]
+      type = ErrorFractionMarker
+      refine = 0.9
+      coarsen = 0.1
+      indicator = error_p
+    [../]
+    [./errorfrac_T]
+      type = ErrorFractionMarker
+      refine = 0.9
+      coarsen = 0.1
+      indicator = error_T
+    [../]
+    [./combo]
+      type = ComboMarker
+      markers = 'errorfrac_x errorfrac_y errorfrac_T errorfrac_p'
+    [../]
+  [../]
+[]
 
 [Postprocessors]
   [./num_dofs]
