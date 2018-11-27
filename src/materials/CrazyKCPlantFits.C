@@ -27,7 +27,7 @@ defineADValidParams(
     params.addParam<Real>("c_cp0", 425.75, "cp0 coefficient");
     params.addParam<Real>("c_cp1", 170.833e-3, "cp1 coefficient");
     params.addParam<Real>("c_rho0", 7.9e3, "The constant density");
-    params.addRequiredCoupledVar("temperature", "The temperature");
+    params.addCoupledVar("temperature", 1., "The temperature");
     params.addParam<MaterialPropertyName>("mu_name",
                                           "mu",
                                           "The name of the viscosity material property");

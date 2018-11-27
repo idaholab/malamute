@@ -13,14 +13,14 @@ epsilon='1E-15'
 [Mesh]
   type = GeneratedMesh
   dim = 2
-  xmin = -.1e-3
-  xmax = 0.1e-3
-  ymin = -.1e-3
+  xmin = -.35e-3
+  xmax = 0.35e-3
+  ymin = -.7e-3
   ymax = 0
-  nx = 4
-  ny = 4
+  nx = 2
+  ny = 2
   displacements = 'disp_x disp_y'
-  uniform_refine = 2
+  uniform_refine = 3
 []
 
 [MeshModifiers]
@@ -267,9 +267,9 @@ epsilon='1E-15'
 
 [Preconditioning]
   [./SMP]
-    type = FDP
+    type = SMP
     full = true
-    solve_type = 'NEWTON'
+    solve_type = 'PJFNK'
   [../]
 []
 
@@ -280,18 +280,17 @@ epsilon='1E-15'
   # num_steps = 1
   dtmin = 1e-6
   petsc_options = '-snes_converged_reason -ksp_converged_reason -options_left'
-  # petsc_options_iname = '-pc_type -pc_factor_shift_type -pc_factor_shift_amount -snes_linesearch_minlambda -pc_factor_mat_solver_package'
-  # petsc_options_value = 'lu       NONZERO               1                   1e-3                       superlu_dist'
-  petsc_options_iname = '-pc_type -pc_hypre_type -ksp_gmres_restart'
-  petsc_options_value = 'hypre boomeramg         101'
+  petsc_options_iname = '-pc_type -pc_factor_shift_type -pc_factor_shift_amount -snes_linesearch_minlambda -pc_factor_mat_solver_type -mat_mffd_err'
+  petsc_options_value = 'lu       NONZERO               1e-15                   1e-3                       superlu_dist               1e-5'
 
-  line_search = 'none'
+  line_search = 'bt'
   nl_max_its = 12
   l_max_its = 100
   [./TimeStepper]
     type = IterationAdaptiveDT
     optimal_iterations = 6
     dt = 1e-6
+    linear_iteration_ratio = 1e6
   [../]
 []
 
@@ -316,7 +315,7 @@ epsilon='1E-15'
 
 [Adaptivity]
   marker = combo
-  max_h_level = 3
+  max_h_level = 5
 
   [./Indicators]
     [./error_x]
@@ -334,6 +333,14 @@ epsilon='1E-15'
     [./error_T]
       type = GradientJumpIndicator
       variable = T
+    [../]
+    [./error_dispx]
+      type = GradientJumpIndicator
+      variable = disp_x
+    [../]
+    [./error_dispy]
+      type = GradientJumpIndicator
+      variable = disp_y
     [../]
   [../]
 
@@ -362,9 +369,21 @@ epsilon='1E-15'
       coarsen = 0.1
       indicator = error_T
     [../]
+    [./errorfrac_dispx]
+      type = ErrorFractionMarker
+      refine = 0.9
+      coarsen = 0.1
+      indicator = error_dispx
+    [../]
+    [./errorfrac_dispy]
+      type = ErrorFractionMarker
+      refine = 0.9
+      coarsen = 0.1
+      indicator = error_dispy
+    [../]
     [./combo]
       type = ComboMarker
-      markers = 'errorfrac_x errorfrac_y errorfrac_T errorfrac_p'
+      markers = 'errorfrac_x errorfrac_y errorfrac_T errorfrac_p errorfrac_dispx errorfrac_dispy'
     [../]
   [../]
 []
