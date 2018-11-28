@@ -228,8 +228,7 @@
     reff = 0.6
     F0 = 2.546e9
     R = 1e-4
-    # x_beam_coord = '-1.5e-4 + 1.5e-6 * t / .5e-6'
-    x_beam_coord = '-1e-4 + 1e-4 * t / 2e-4'
+    x_beam_coord = '1e-4 * sin(t * 2 * pi / 2e-4)'
     y_beam_coord = 0
     z_beam_coord = 0
     use_displaced_mesh = true
