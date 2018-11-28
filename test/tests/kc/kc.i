@@ -84,6 +84,27 @@
     type = Diffusion
     variable = disp_z
   [../]
+  [./mesh_x]
+    type = INSConvectedMesh
+    variable = vel_x
+    disp_x = disp_x
+    disp_y = disp_y
+    disp_z = disp_z
+  [../]
+  [./mesh_y]
+    type = INSConvectedMesh
+    variable = vel_x
+    disp_x = disp_x
+    disp_y = disp_y
+    disp_z = disp_z
+  [../]
+  [./mesh_z]
+    type = INSConvectedMesh
+    variable = vel_x
+    disp_x = disp_x
+    disp_y = disp_y
+    disp_z = disp_z
+  [../]
 []
 
 [ADKernels]
@@ -444,7 +465,7 @@
     [../]
     [./combo]
       type = ComboMarker
-      markers = 'errorfrac_x errorfrac_y errorfrac_z errorfrac_T errorfrac_p errorfrac_dispx errorfrac_dispy errorfrac_dispz'
+      markers = 'errorfrac_dispx errorfrac_dispy errorfrac_dispz'
     [../]
   [../]
 []
