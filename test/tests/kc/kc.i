@@ -1,5 +1,3 @@
-epsilon='1E-15'
-
 [GlobalParams]
   gravity = '0 0 0'
   pspg = true
@@ -12,15 +10,18 @@ epsilon='1E-15'
 
 [Mesh]
   type = GeneratedMesh
-  dim = 2
-  xmin = -.35e-3
-  xmax = 0.35e-3
-  ymin = -.7e-3
-  ymax = 0
-  nx = 2
-  ny = 2
-  displacements = 'disp_x disp_y'
-  uniform_refine = 3
+  dim = 3
+  xmin = -.2e-3
+  xmax = 0.2e-3
+  ymin = -.2e-3
+  ymax = .2e-3
+  zmin = -.05e-3
+  zmax = 0
+  nx = 8
+  ny = 8
+  nz = 4
+  displacements = 'disp_x disp_y disp_z'
+  uniform_refine = 1
 []
 
 [MeshModifiers]
@@ -35,14 +36,21 @@ epsilon='1E-15'
   [./vel_x]
     [./InitialCondition]
       type = ConstantIC
-      value = ${epsilon}
+      value = 1e-15
     [../]
   [../]
 
   [./vel_y]
     [./InitialCondition]
       type = ConstantIC
-      value = ${epsilon}
+      value = 1e-15
+    [../]
+  [../]
+
+  [./vel_z]
+    [./InitialCondition]
+      type = ConstantIC
+      value = 1e-15
     [../]
   [../]
 
@@ -59,6 +67,8 @@ epsilon='1E-15'
   [../]
   [./disp_y]
   [../]
+  [./disp_z]
+  [../]
 []
 
 [Kernels]
@@ -70,6 +80,10 @@ epsilon='1E-15'
     type = Diffusion
     variable = disp_y
   [../]
+  [./disp_z]
+    type = Diffusion
+    variable = disp_z
+  [../]
 []
 
 [ADKernels]
@@ -79,6 +93,7 @@ epsilon='1E-15'
     variable = p
     u = vel_x
     v = vel_y
+    w = vel_z
     p = p
     use_displaced_mesh = true
   [../]
@@ -96,6 +111,7 @@ epsilon='1E-15'
     variable = vel_x
     u = vel_x
     v = vel_y
+    w = vel_z
     p = p
     component = 0
     use_displaced_mesh = true
@@ -114,8 +130,28 @@ epsilon='1E-15'
     variable = vel_y
     u = vel_x
     v = vel_y
+    w = vel_z
     p = p
     component = 1
+    use_displaced_mesh = true
+  [../]
+
+  # z-momentum, time
+  [./z_momentum_time]
+    type = INSADMomentumTimeDerivative
+    variable = vel_z
+    use_displaced_mesh = true
+  [../]
+
+  # z-momentum, space
+  [./z_momentum_space]
+    type = INSADMomentumLaplaceForm
+    variable = vel_z
+    u = vel_x
+    v = vel_y
+    w = vel_z
+    p = p
+    component = 2
     use_displaced_mesh = true
   [../]
 
@@ -131,6 +167,7 @@ epsilon='1E-15'
    variable = T
    u = vel_x
    v = vel_y
+   w = vel_z
    p = p
    use_displaced_mesh = true
  [../]
@@ -140,45 +177,61 @@ epsilon='1E-15'
   [./x_no_disp]
     type = DirichletBC
     variable = disp_x
-    boundary = 'bottom right left'
+    boundary = 'bottom right left top back'
     value = 0
   [../]
   [./y_no_disp]
     type = DirichletBC
     variable = disp_y
-    boundary = 'bottom right left'
+    boundary = 'bottom right left top back'
+    value = 0
+  [../]
+  [./z_no_disp]
+    type = DirichletBC
+    variable = disp_z
+    boundary = 'bottom right left top back'
     value = 0
   [../]
 
   [./x_no_slip]
     type = DirichletBC
     variable = vel_x
-    boundary = 'bottom right left'
+    boundary = 'bottom right left top back'
     value = 0.0
   [../]
 
   [./y_no_slip]
     type = DirichletBC
     variable = vel_y
-    boundary = 'bottom right left'
+    boundary = 'bottom right left top back'
+    value = 0.0
+  [../]
+
+  [./z_no_slip]
+    type = DirichletBC
+    variable = vel_z
+    boundary = 'bottom right left top back'
     value = 0.0
   [../]
 
   [./T_cold]
     type = DirichletBC
     variable = T
-    boundary = 'bottom'
+    boundary = 'back'
     value = 300
   [../]
 
   [./weld_flux]
     type = GaussianWeldEnergyFluxBC
     variable = T
-    boundary = 'top'
+    boundary = 'front'
     reff = 0.6
     F0 = 2.546e9
     R = 1e-4
-    beam_coords = '0 0 0'
+    # x_beam_coord = '-1.5e-4 + 1.5e-6 * t / .5e-6'
+    x_beam_coord = '-1e-4 + 1e-4 * t / 2e-4'
+    y_beam_coord = 0
+    z_beam_coord = 0
     use_displaced_mesh = true
   [../]
 []
@@ -187,7 +240,7 @@ epsilon='1E-15'
   [./radiation_flux]
     type = RadiationEnergyFluxBC
     variable = T
-    boundary = 'top'
+    boundary = 'front'
     ff_temp = 1
     sb_constant = 'sb_constant'
     absorptivity = 'abs'
@@ -198,35 +251,46 @@ epsilon='1E-15'
     type = VaporRecoilPressureMomentumFluxBC
     temperature = T
     variable = vel_x
-    boundary = 'top'
+    boundary = 'front'
     component = 0
     use_displaced_mesh = true
-    # ap2 = 0
-    # bp1 = 0
   [../]
 
   [./vapor_recoil_y]
     type = VaporRecoilPressureMomentumFluxBC
     temperature = T
     variable = vel_y
-    boundary = 'top'
+    boundary = 'front'
     component = 1
-    # ap2 = 0
-    # bp1 = 0
+    use_displaced_mesh = true
+  [../]
+
+  [./vapor_recoil_z]
+    type = VaporRecoilPressureMomentumFluxBC
+    temperature = T
+    variable = vel_z
+    boundary = 'front'
+    component = 2
     use_displaced_mesh = true
   [../]
 
   [./displace_x_top]
     type = DisplaceBoundaryBC
-    boundary = 'top'
+    boundary = 'front'
     variable = 'disp_x'
     velocity = 'vel_x'
   [../]
   [./displace_y_top]
     type = DisplaceBoundaryBC
-    boundary = 'top'
+    boundary = 'front'
     variable = 'disp_y'
     velocity = 'vel_y'
+  [../]
+  [./displace_z_top]
+    type = DisplaceBoundaryBC
+    boundary = 'front'
+    variable = 'disp_z'
+    velocity = 'vel_z'
   [../]
 []
 
@@ -234,9 +298,6 @@ epsilon='1E-15'
   [./kc_fits]
     type = CrazyKCPlantFits
     temperature = T
-    # c_mu1 = 0
-    # c_mu2 = 0
-    # c_mu3 = 0
   [../]
 []
 
@@ -244,24 +305,7 @@ epsilon='1E-15'
   [./const]
     type = GenericConstantMaterial
     prop_names = 'abs sb_constant'
-    # prop_values = '1  1'
     prop_values = '1 5.67e-8'
-  [../]
-  # [./sub]
-  #   type = GenericConstantMaterial
-  #   block = 0
-  #   prop_names = 'rho cp k'
-  #   prop_values = '1  1  .1'
-  # [../]
-[]
-
-[Functions]
-  [./lid_function]
-    # We pick a function that is exactly represented in the velocity
-    # space so that the Dirichlet conditions are the same regardless
-    # of the mesh spacing.
-    type = ParsedFunction
-    value = '-1 / .1225 * x^2 + 1'
   [../]
 []
 
@@ -275,21 +319,19 @@ epsilon='1E-15'
 
 [Executioner]
   type = Transient
-  # Run for 100+ timesteps to reach steady state.
   end_time = 10000
-  # num_steps = 1
   dtmin = 1e-6
   petsc_options = '-snes_converged_reason -ksp_converged_reason -options_left'
-  petsc_options_iname = '-pc_type -pc_factor_shift_type -pc_factor_shift_amount -snes_linesearch_minlambda -pc_factor_mat_solver_type -mat_mffd_err'
-  petsc_options_value = 'lu       NONZERO               1e-15                   1e-3                       superlu_dist               1e-5'
+  petsc_options_iname = '-pc_type -pc_factor_shift_type -pc_factor_shift_amount -snes_linesearch_minlambda -pc_factor_mat_solver_type -mat_mffd_err -ksp_gmres_restart'
+  petsc_options_value = 'lu       NONZERO               1e-15                   1e-3                       superlu_dist               1e-5          100'
 
-  line_search = 'bt'
+  line_search = 'none'
   nl_max_its = 12
   l_max_its = 100
   [./TimeStepper]
     type = IterationAdaptiveDT
     optimal_iterations = 6
-    dt = 1e-6
+    dt = 1e-5
     linear_iteration_ratio = 1e6
   [../]
 []
@@ -315,7 +357,7 @@ epsilon='1E-15'
 
 [Adaptivity]
   marker = combo
-  max_h_level = 5
+  max_h_level = 1
 
   [./Indicators]
     [./error_x]
@@ -325,6 +367,10 @@ epsilon='1E-15'
     [./error_y]
       type = GradientJumpIndicator
       variable = vel_y
+    [../]
+    [./error_z]
+      type = GradientJumpIndicator
+      variable = vel_z
     [../]
     [./error_p]
       type = GradientJumpIndicator
@@ -342,6 +388,10 @@ epsilon='1E-15'
       type = GradientJumpIndicator
       variable = disp_y
     [../]
+    [./error_dispz]
+      type = GradientJumpIndicator
+      variable = disp_z
+    [../]
   [../]
 
   [./Markers]
@@ -356,6 +406,12 @@ epsilon='1E-15'
       refine = 0.9
       coarsen = 0.1
       indicator = error_y
+    [../]
+    [./errorfrac_z]
+      type = ErrorFractionMarker
+      refine = 0.9
+      coarsen = 0.1
+      indicator = error_z
     [../]
     [./errorfrac_p]
       type = ErrorFractionMarker
@@ -381,9 +437,15 @@ epsilon='1E-15'
       coarsen = 0.1
       indicator = error_dispy
     [../]
+    [./errorfrac_dispz]
+      type = ErrorFractionMarker
+      refine = 0.9
+      coarsen = 0.1
+      indicator = error_dispz
+    [../]
     [./combo]
       type = ComboMarker
-      markers = 'errorfrac_x errorfrac_y errorfrac_T errorfrac_p errorfrac_dispx errorfrac_dispy'
+      markers = 'errorfrac_x errorfrac_y errorfrac_z errorfrac_T errorfrac_p errorfrac_dispx errorfrac_dispy errorfrac_dispz'
     [../]
   [../]
 []
