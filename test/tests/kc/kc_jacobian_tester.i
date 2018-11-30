@@ -1,7 +1,7 @@
 [GlobalParams]
   gravity = '0 0 0'
   pspg = true
-  supg = true
+  # supg = true
   laplace = true
   integrate_p_by_parts = true
   convective_term = true
@@ -10,7 +10,7 @@
 
 [Mesh]
   type = GeneratedMesh
-  dim = 2
+  dim = 1
   xmin = -1
   xmax = 1
   ymin = -1
@@ -21,7 +21,7 @@
   ny = 1
   nz = 1
   # displacements = 'disp_x disp_y disp_z'
-  displacements = 'disp_x disp_y'
+  displacements = 'disp_x'
 []
 
 [Problem]
@@ -29,24 +29,24 @@
 []
 
 [Variables]
+  [./disp_x]
+  [../]
+  [./p]
+  [../]
   [./vel_x]
   [../]
 
-  [./vel_y]
-  [../]
+  # [./vel_y]
+  # [../]
 
   # [./vel_z]
   # [../]
 
-  [./T]
-  [../]
+  # [./T]
+  # [../]
 
-  [./p]
-  [../]
-  [./disp_x]
-  [../]
-  [./disp_y]
-  [../]
+  # [./disp_y]
+  # [../]
   # [./disp_z]
   # [../]
 []
@@ -56,10 +56,10 @@
     type = Diffusion
     variable = disp_x
   [../]
-  [./disp_y]
-    type = Diffusion
-    variable = disp_y
-  [../]
+  # [./disp_y]
+  #   type = Diffusion
+  #   variable = disp_y
+  # [../]
   # [./disp_z]
   #   type = Diffusion
   #   variable = disp_z
@@ -93,7 +93,7 @@
     type = INSADMass
     variable = p
     u = vel_x
-    v = vel_y
+    # v = vel_y
     # w = vel_z
     p = p
     use_displaced_mesh = true
@@ -111,7 +111,7 @@
     type = INSADMomentumLaplaceForm
     variable = vel_x
     u = vel_x
-    v = vel_y
+    # v = vel_y
     # w = vel_z
     p = p
     component = 0
@@ -156,22 +156,22 @@
   #   use_displaced_mesh = true
   # [../]
 
- # temperature
- [./temperature_time]
-   type = INSADTemperatureTimeDerivative
-   variable = T
-   use_displaced_mesh = true
- [../]
+#  # temperature
+#  [./temperature_time]
+#    type = INSADTemperatureTimeDerivative
+#    variable = T
+#    use_displaced_mesh = true
+#  [../]
 
- [./temperature_space]
-   type = INSADTemperature
-   variable = T
-   u = vel_x
-   v = vel_y
-   # w = vel_z
-   p = p
-   use_displaced_mesh = true
- [../]
+#  [./temperature_space]
+#    type = INSADTemperature
+#    variable = T
+#    u = vel_x
+#    v = vel_y
+#    # w = vel_z
+#    p = p
+#    use_displaced_mesh = true
+#  [../]
 []
 
 # [BCs]
@@ -295,7 +295,7 @@
 [ADMaterials]
   [./kc_fits]
     type = CrazyKCPlantFits
-    temperature = T
+    # temperature = T
     c_mu1 = 1
     c_mu2 = 1
     c_mu3 = 1
@@ -312,8 +312,8 @@
   [./boundary]
     type = CrazyKCPlantFitsBoundary
     # boundary = 'front'
-    boundary = 'top'
-    temperature = T
+    boundary = 'left'
+    # temperature = T
     c_mu0 = 1
     ap0 = 1
     ap1 = 1
@@ -392,12 +392,12 @@
     max = 3.9
     variable = vel_x
   [../]
-  [./vel_y]
-    type = RandomIC
-    min = 0.1
-    max = 3.9
-    variable = vel_y
-  [../]
+  # [./vel_y]
+  #   type = RandomIC
+  #   min = 0.1
+  #   max = 3.9
+  #   variable = vel_y
+  # [../]
   # [./vel_z]
   #   type = RandomIC
   #   min = 0.1
@@ -410,12 +410,12 @@
     max = 0.2
     variable = disp_x
   [../]
-  [./disp_y]
-    type = RandomIC
-    min = 0.1
-    max = 0.2
-    variable = disp_y
-  [../]
+  # [./disp_y]
+  #   type = RandomIC
+  #   min = 0.1
+  #   max = 0.2
+  #   variable = disp_y
+  # [../]
   # [./disp_z]
   #   type = RandomIC
   #   min = 0.1
@@ -428,10 +428,10 @@
     max = 3.9
     variable = p
   [../]
-  [./T]
-    type = RandomIC
-    min = 0.1
-    max = 3.9
-    variable = T
-  [../]
+  # [./T]
+  #   type = RandomIC
+  #   min = 0.1
+  #   max = 3.9
+  #   variable = T
+  # [../]
 []
