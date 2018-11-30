@@ -24,14 +24,6 @@
   uniform_refine = 1
 []
 
-[MeshModifiers]
-  [./corner_node]
-    type = AddExtraNodeset
-    new_boundary = 'pinned_node'
-    nodes = '0'
-  [../]
-[]
-
 [Variables]
   [./vel_x]
     [./InitialCondition]
@@ -90,6 +82,7 @@
     disp_x = disp_x
     disp_y = disp_y
     disp_z = disp_z
+    use_displaced_mesh = true
   [../]
   [./mesh_y]
     type = INSConvectedMesh
@@ -97,6 +90,7 @@
     disp_x = disp_x
     disp_y = disp_y
     disp_z = disp_z
+    use_displaced_mesh = true
   [../]
   [./mesh_z]
     type = INSConvectedMesh
@@ -104,6 +98,7 @@
     disp_x = disp_x
     disp_y = disp_y
     disp_z = disp_z
+    use_displaced_mesh = true
   [../]
 []
 
@@ -128,7 +123,7 @@
 
   # x-momentum, space
   [./x_momentum_space]
-    type = INSADMomentumLaplaceForm
+    type = INSADMomentumBase
     variable = vel_x
     u = vel_x
     v = vel_y
@@ -147,7 +142,7 @@
 
   # y-momentum, space
   [./y_momentum_space]
-    type = INSADMomentumLaplaceForm
+    type = INSADMomentumBase
     variable = vel_y
     u = vel_x
     v = vel_y
@@ -166,7 +161,7 @@
 
   # z-momentum, space
   [./z_momentum_space]
-    type = INSADMomentumLaplaceForm
+    type = INSADMomentumBase
     variable = vel_z
     u = vel_x
     v = vel_y
@@ -198,19 +193,19 @@
   [./x_no_disp]
     type = DirichletBC
     variable = disp_x
-    boundary = 'bottom right left top back'
+    boundary = 'back'
     value = 0
   [../]
   [./y_no_disp]
     type = DirichletBC
     variable = disp_y
-    boundary = 'bottom right left top back'
+    boundary = 'back'
     value = 0
   [../]
   [./z_no_disp]
     type = DirichletBC
     variable = disp_z
-    boundary = 'bottom right left top back'
+    boundary = 'back'
     value = 0
   [../]
 
@@ -241,19 +236,6 @@
     boundary = 'back'
     value = 300
   [../]
-
-  [./weld_flux]
-    type = GaussianWeldEnergyFluxBC
-    variable = T
-    boundary = 'front'
-    reff = 0.6
-    F0 = 2.546e9
-    R = 1e-4
-    x_beam_coord = '1e-4 * sin(t * 2 * pi / 2e-4)'
-    y_beam_coord = 0
-    z_beam_coord = 0
-    use_displaced_mesh = true
-  [../]
 []
 
 [ADBCs]
@@ -267,9 +249,21 @@
     use_displaced_mesh = true
   [../]
 
+  [./weld_flux]
+    type = GaussianWeldEnergyFluxBC
+    variable = T
+    boundary = 'front'
+    reff = 0.6
+    F0 = 2.546e9
+    R = 1e-4
+    x_beam_coord = '1e-4 * sin(t * 2 * pi / 2e-4)'
+    y_beam_coord = 0
+    z_beam_coord = 0
+    use_displaced_mesh = true
+  [../]
+
   [./vapor_recoil_x]
     type = VaporRecoilPressureMomentumFluxBC
-    temperature = T
     variable = vel_x
     boundary = 'front'
     component = 0
@@ -278,7 +272,6 @@
 
   [./vapor_recoil_y]
     type = VaporRecoilPressureMomentumFluxBC
-    temperature = T
     variable = vel_y
     boundary = 'front'
     component = 1
@@ -287,7 +280,6 @@
 
   [./vapor_recoil_z]
     type = VaporRecoilPressureMomentumFluxBC
-    temperature = T
     variable = vel_z
     boundary = 'front'
     component = 2
@@ -319,6 +311,11 @@
     type = CrazyKCPlantFits
     temperature = T
   [../]
+  [./boundary]
+    type = CrazyKCPlantFitsBoundary
+    boundary = 'front'
+    temperature = T
+  [../]
 []
 
 [Materials]
@@ -333,13 +330,13 @@
   [./SMP]
     type = SMP
     full = true
-    solve_type = 'PJFNK'
+    solve_type = 'NEWTON'
   [../]
 []
 
 [Executioner]
   type = Transient
-  end_time = 10000
+  end_time = 5e-4
   dtmin = 1e-6
   petsc_options = '-snes_converged_reason -ksp_converged_reason -options_left'
   petsc_options_iname = '-pc_type -pc_factor_shift_type -pc_factor_shift_amount -snes_linesearch_minlambda -pc_factor_mat_solver_type -mat_mffd_err -ksp_gmres_restart'
@@ -380,26 +377,26 @@
   max_h_level = 1
 
   [./Indicators]
-    [./error_x]
-      type = GradientJumpIndicator
-      variable = vel_x
-    [../]
-    [./error_y]
-      type = GradientJumpIndicator
-      variable = vel_y
-    [../]
-    [./error_z]
-      type = GradientJumpIndicator
-      variable = vel_z
-    [../]
-    [./error_p]
-      type = GradientJumpIndicator
-      variable = p
-    [../]
-    [./error_T]
-      type = GradientJumpIndicator
-      variable = T
-    [../]
+    # [./error_x]
+    #   type = GradientJumpIndicator
+    #   variable = vel_x
+    # [../]
+    # [./error_y]
+    #   type = GradientJumpIndicator
+    #   variable = vel_y
+    # [../]
+    # [./error_z]
+    #   type = GradientJumpIndicator
+    #   variable = vel_z
+    # [../]
+    # [./error_p]
+    #   type = GradientJumpIndicator
+    #   variable = p
+    # [../]
+    # [./error_T]
+    #   type = GradientJumpIndicator
+    #   variable = T
+    # [../]
     [./error_dispx]
       type = GradientJumpIndicator
       variable = disp_x
@@ -415,36 +412,36 @@
   [../]
 
   [./Markers]
-    [./errorfrac_x]
-      type = ErrorFractionMarker
-      refine = 0.9
-      coarsen = 0.1
-      indicator = error_x
-    [../]
-    [./errorfrac_y]
-      type = ErrorFractionMarker
-      refine = 0.9
-      coarsen = 0.1
-      indicator = error_y
-    [../]
-    [./errorfrac_z]
-      type = ErrorFractionMarker
-      refine = 0.9
-      coarsen = 0.1
-      indicator = error_z
-    [../]
-    [./errorfrac_p]
-      type = ErrorFractionMarker
-      refine = 0.9
-      coarsen = 0.1
-      indicator = error_p
-    [../]
-    [./errorfrac_T]
-      type = ErrorFractionMarker
-      refine = 0.9
-      coarsen = 0.1
-      indicator = error_T
-    [../]
+    # [./errorfrac_x]
+    #   type = ErrorFractionMarker
+    #   refine = 0.9
+    #   coarsen = 0.1
+    #   indicator = error_x
+    # [../]
+    # [./errorfrac_y]
+    #   type = ErrorFractionMarker
+    #   refine = 0.9
+    #   coarsen = 0.1
+    #   indicator = error_y
+    # [../]
+    # [./errorfrac_z]
+    #   type = ErrorFractionMarker
+    #   refine = 0.9
+    #   coarsen = 0.1
+    #   indicator = error_z
+    # [../]
+    # [./errorfrac_p]
+    #   type = ErrorFractionMarker
+    #   refine = 0.9
+    #   coarsen = 0.1
+    #   indicator = error_p
+    # [../]
+    # [./errorfrac_T]
+    #   type = ErrorFractionMarker
+    #   refine = 0.9
+    #   coarsen = 0.1
+    #   indicator = error_T
+    # [../]
     [./errorfrac_dispx]
       type = ErrorFractionMarker
       refine = 0.9
@@ -474,5 +471,12 @@
   [./num_dofs]
     type = NumDOFs
     system = 'NL'
+  [../]
+  [./nl]
+    type = NumNonlinearIterations
+  [../]
+  [./tot_nl]
+    type = CumulativeValuePostprocessor
+    postprocessor = 'nl'
   [../]
 []
