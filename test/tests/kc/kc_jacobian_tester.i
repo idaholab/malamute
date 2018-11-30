@@ -1,7 +1,7 @@
 [GlobalParams]
   gravity = '0 0 0'
   pspg = true
-  # supg = true
+  supg = true
   laplace = true
   integrate_p_by_parts = true
   convective_term = true
@@ -108,7 +108,7 @@
 
   # x-momentum, space
   [./x_momentum_space]
-    type = INSADMomentumLaplaceForm
+    type = INSADMomentumBase
     variable = vel_x
     u = vel_x
     # v = vel_y
@@ -127,7 +127,7 @@
 
   # # y-momentum, space
   # [./y_momentum_space]
-  #   type = INSADMomentumLaplaceForm
+  #   type = INSADMomentumBase
   #   variable = vel_y
   #   u = vel_x
   #   v = vel_y
@@ -146,7 +146,7 @@
 
   # # z-momentum, space
   # [./z_momentum_space]
-  #   type = INSADMomentumLaplaceForm
+  #   type = INSADMomentumBase
   #   variable = vel_z
   #   u = vel_x
   #   v = vel_y
