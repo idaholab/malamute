@@ -261,7 +261,7 @@
     type = RadiationEnergyFluxBC
     variable = T
     boundary = 'front'
-    ff_temp = 1
+    ff_temp = 300
     sb_constant = 'sb_constant'
     absorptivity = 'abs'
     use_displaced_mesh = true
