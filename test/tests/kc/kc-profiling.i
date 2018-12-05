@@ -21,16 +21,7 @@
   ny = 8
   nz = 4
   displacements = 'disp_x disp_y disp_z'
-  # uniform_refine = 1
 []
-
-# [MeshModifiers]
-#   [./corner_node]
-#     type = AddExtraNodeset
-#     new_boundary = 'pinned_node'
-#     nodes = '0'
-#   [../]
-# []
 
 [Variables]
   [./vel_x]
@@ -198,12 +189,6 @@
 []
 
 [BCs]
-  # [./pressure_pin]
-  #   type = DirichletBC
-  #   variable = p
-  #   boundary = 'pinned_node'
-  #   value = 0
-  # [../]
   [./x_no_disp]
     type = DirichletBC
     variable = disp_x
@@ -354,10 +339,8 @@
   dtmin = 1e-5
   num_steps = 3
   petsc_options = '-snes_converged_reason -ksp_converged_reason -options_left'
-  # petsc_options_iname = '-ksp_gmres_restart -sub_pc_factor_shift_type -sub_pc_factor_shift_amount  -pc_type -sub_pc_type'
-  # petsc_options_value = '100                NONZERO                   1e-15                                                      asm      lu'
   petsc_options_iname = '-ksp_gmres_restart -pc_factor_shift_type -pc_factor_shift_amount -pc_type'
-  petsc_options_value = '100                NONZERO                   1e-15                       lu'
+  petsc_options_value = '100                NONZERO               1e-15                   ilu'
 
   line_search = 'none'
   nl_max_its = 12
@@ -386,103 +369,6 @@
 [Debug]
   show_var_residual_norms = true
 []
-
-
-# [Adaptivity]
-#   marker = combo
-#   max_h_level = 2
-#   start_time = 8e-5
-
-#   [./Indicators]
-#     # [./error_x]
-#     #   type = GradientJumpIndicator
-#     #   variable = vel_x
-#     # [../]
-#     # [./error_y]
-#     #   type = GradientJumpIndicator
-#     #   variable = vel_y
-#     # [../]
-#     # [./error_z]
-#     #   type = GradientJumpIndicator
-#     #   variable = vel_z
-#     # [../]
-#     # [./error_p]
-#     #   type = GradientJumpIndicator
-#     #   variable = p
-#     # [../]
-#     # [./error_T]
-#     #   type = GradientJumpIndicator
-#     #   variable = T
-#     # [../]
-#     [./error_dispx]
-#       type = GradientJumpIndicator
-#       variable = disp_x
-#     [../]
-#     [./error_dispy]
-#       type = GradientJumpIndicator
-#       variable = disp_y
-#     [../]
-#     [./error_dispz]
-#       type = GradientJumpIndicator
-#       variable = disp_z
-#     [../]
-#   [../]
-
-#   [./Markers]
-#     # [./errorfrac_x]
-#     #   type = ErrorFractionMarker
-#     #   refine = 0.9
-#     #   coarsen = 0.1
-#     #   indicator = error_x
-#     # [../]
-#     # [./errorfrac_y]
-#     #   type = ErrorFractionMarker
-#     #   refine = 0.9
-#     #   coarsen = 0.1
-#     #   indicator = error_y
-#     # [../]
-#     # [./errorfrac_z]
-#     #   type = ErrorFractionMarker
-#     #   refine = 0.9
-#     #   coarsen = 0.1
-#     #   indicator = error_z
-#     # [../]
-#     # [./errorfrac_p]
-#     #   type = ErrorFractionMarker
-#     #   refine = 0.9
-#     #   coarsen = 0.1
-#     #   indicator = error_p
-#     # [../]
-#     # [./errorfrac_T]
-#     #   type = ErrorFractionMarker
-#     #   refine = 0.9
-#     #   coarsen = 0.1
-#     #   indicator = error_T
-#     # [../]
-#     [./errorfrac_dispx]
-#       type = ErrorFractionMarker
-#       refine = 0.9
-#       coarsen = 0.1
-#       indicator = error_dispx
-#     [../]
-#     [./errorfrac_dispy]
-#       type = ErrorFractionMarker
-#       refine = 0.9
-#       coarsen = 0.1
-#       indicator = error_dispy
-#     [../]
-#     [./errorfrac_dispz]
-#       type = ErrorFractionMarker
-#       refine = 0.9
-#       coarsen = 0.1
-#       indicator = error_dispz
-#     [../]
-#     [./combo]
-#       type = ComboMarker
-#       markers = 'errorfrac_dispx errorfrac_dispy errorfrac_dispz'
-#     [../]
-#   [../]
-# []
 
 [Postprocessors]
   [./num_dofs]
