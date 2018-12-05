@@ -15,11 +15,11 @@
   xmax = 0.2e-3
   ymin = -.2e-3
   ymax = .2e-3
-  zmin = -.05e-3
+  zmin = -.4e-3
   zmax = 0
   nx = 8
   ny = 8
-  nz = 4
+  nz = 8
   displacements = 'disp_x disp_y disp_z'
   uniform_refine = 1
 []
@@ -49,7 +49,7 @@
   [./T]
     [./InitialCondition]
       type = ConstantIC
-      value = 300
+      value = 1623
     [../]
   [../]
 
@@ -234,7 +234,7 @@
     type = DirichletBC
     variable = T
     boundary = 'back'
-    value = 300
+    value = 1623
   [../]
 []
 
@@ -337,10 +337,10 @@
 [Executioner]
   type = Transient
   end_time = 5e-4
-  dtmin = 1e-6
-  petsc_options = '-snes_converged_reason -ksp_converged_reason -options_left'
-  petsc_options_iname = '-pc_type -pc_factor_shift_type -pc_factor_shift_amount -snes_linesearch_minlambda -pc_factor_mat_solver_type -mat_mffd_err -ksp_gmres_restart'
-  petsc_options_value = 'lu       NONZERO               1e-15                   1e-3                       superlu_dist               1e-5          100'
+  dtmin = 1e-8
+  petsc_options = '-snes_converged_reason -ksp_converged_reason -options_left -ksp_monitor_singular_value'
+  petsc_options_iname = '-ksp_gmres_restart -pc_type'
+  petsc_options_value = '100		    asm'
 
   line_search = 'none'
   nl_max_its = 12
@@ -348,13 +348,14 @@
   [./TimeStepper]
     type = IterationAdaptiveDT
     optimal_iterations = 6
-    dt = 1e-5
+    dt = 1e-6
     linear_iteration_ratio = 1e6
   [../]
 []
 
 [Outputs]
   file_base = kc_out
+  print_linear_residuals = false
   [./exodus]
     type = Exodus
     output_material_properties = true
@@ -374,7 +375,7 @@
 
 [Adaptivity]
   marker = combo
-  max_h_level = 1
+  max_h_level = 3
 
   [./Indicators]
     # [./error_x]
@@ -414,50 +415,50 @@
   [./Markers]
     # [./errorfrac_x]
     #   type = ErrorFractionMarker
-    #   refine = 0.9
-    #   coarsen = 0.1
+    #   refine = 0.7
+    #   coarsen = 0.3
     #   indicator = error_x
     # [../]
     # [./errorfrac_y]
     #   type = ErrorFractionMarker
-    #   refine = 0.9
-    #   coarsen = 0.1
+    #   refine = 0.7
+    #   coarsen = 0.3
     #   indicator = error_y
     # [../]
     # [./errorfrac_z]
     #   type = ErrorFractionMarker
-    #   refine = 0.9
-    #   coarsen = 0.1
+    #   refine = 0.7
+    #   coarsen = 0.3
     #   indicator = error_z
     # [../]
     # [./errorfrac_p]
     #   type = ErrorFractionMarker
-    #   refine = 0.9
-    #   coarsen = 0.1
+    #   refine = 0.7
+    #   coarsen = 0.3
     #   indicator = error_p
     # [../]
     # [./errorfrac_T]
     #   type = ErrorFractionMarker
-    #   refine = 0.9
-    #   coarsen = 0.1
+    #   refine = 0.7
+    #   coarsen = 0.3
     #   indicator = error_T
     # [../]
     [./errorfrac_dispx]
       type = ErrorFractionMarker
-      refine = 0.9
-      coarsen = 0.1
+      refine = 0.7
+      coarsen = 0.3
       indicator = error_dispx
     [../]
     [./errorfrac_dispy]
       type = ErrorFractionMarker
-      refine = 0.9
-      coarsen = 0.1
+      refine = 0.7
+      coarsen = 0.3
       indicator = error_dispy
     [../]
     [./errorfrac_dispz]
       type = ErrorFractionMarker
-      refine = 0.9
-      coarsen = 0.1
+      refine = 0.7
+      coarsen = 0.3
       indicator = error_dispz
     [../]
     [./combo]
@@ -478,5 +479,12 @@
   [./tot_nl]
     type = CumulativeValuePostprocessor
     postprocessor = 'nl'
+  [../]
+  [./linear]
+    type = NumLinearIterations
+  [../]
+  [./tot_linear]
+    type = CumulativeValuePostprocessor
+    postprocessor = 'linear'
   [../]
 []
