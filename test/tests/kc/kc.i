@@ -1,7 +1,7 @@
 [GlobalParams]
   gravity = '0 0 0'
   pspg = true
-  supg = true
+  # supg = true
   laplace = true
   integrate_p_by_parts = true
   convective_term = true
@@ -11,11 +11,11 @@
 [Mesh]
   type = GeneratedMesh
   dim = 3
-  xmin = -.2e-3
-  xmax = 0.2e-3
-  ymin = -.2e-3
-  ymax = .2e-3
-  zmin = -.4e-3
+  xmin = -.35e-3
+  xmax = 0.35e-3
+  ymin = -.35e-3
+  ymax = .35e-3
+  zmin = -.7e-3
   zmax = 0
   nx = 8
   ny = 8
@@ -49,7 +49,7 @@
   [./T]
     [./InitialCondition]
       type = ConstantIC
-      value = 1623
+      value = 300
     [../]
   [../]
 
@@ -234,7 +234,7 @@
     type = DirichletBC
     variable = T
     boundary = 'back'
-    value = 1623
+    value = 300
   [../]
 []
 
@@ -256,7 +256,7 @@
     reff = 0.6
     F0 = 2.546e9
     R = 1e-4
-    x_beam_coord = '1e-4 * sin(t * 2 * pi / 2e-4)'
+    x_beam_coord = '1e-4 * sin(t * 2 * pi / 2e-5)'
     y_beam_coord = 0
     z_beam_coord = 0
     use_displaced_mesh = true
@@ -310,6 +310,7 @@
   [./kc_fits]
     type = CrazyKCPlantFits
     temperature = T
+    beta = 1e7
   [../]
   [./boundary]
     type = CrazyKCPlantFitsBoundary
@@ -394,18 +395,18 @@
     #   type = GradientJumpIndicator
     #   variable = p
     # [../]
-    # [./error_T]
+    [./error_T]
+      type = GradientJumpIndicator
+      variable = T
+    [../]
+    # [./error_dispx]
     #   type = GradientJumpIndicator
-    #   variable = T
+    #   variable = disp_x
     # [../]
-    [./error_dispx]
-      type = GradientJumpIndicator
-      variable = disp_x
-    [../]
-    [./error_dispy]
-      type = GradientJumpIndicator
-      variable = disp_y
-    [../]
+    # [./error_dispy]
+    #   type = GradientJumpIndicator
+    #   variable = disp_y
+    # [../]
     [./error_dispz]
       type = GradientJumpIndicator
       variable = disp_z
@@ -437,24 +438,24 @@
     #   coarsen = 0.3
     #   indicator = error_p
     # [../]
-    # [./errorfrac_T]
+    [./errorfrac_T]
+      type = ErrorFractionMarker
+      refine = 0.7
+      coarsen = 0.3
+      indicator = error_T
+    [../]
+    # [./errorfrac_dispx]
     #   type = ErrorFractionMarker
     #   refine = 0.7
     #   coarsen = 0.3
-    #   indicator = error_T
+    #   indicator = error_dispx
     # [../]
-    [./errorfrac_dispx]
-      type = ErrorFractionMarker
-      refine = 0.7
-      coarsen = 0.3
-      indicator = error_dispx
-    [../]
-    [./errorfrac_dispy]
-      type = ErrorFractionMarker
-      refine = 0.7
-      coarsen = 0.3
-      indicator = error_dispy
-    [../]
+    # [./errorfrac_dispy]
+    #   type = ErrorFractionMarker
+    #   refine = 0.7
+    #   coarsen = 0.3
+    #   indicator = error_dispy
+    # [../]
     [./errorfrac_dispz]
       type = ErrorFractionMarker
       refine = 0.7
@@ -463,7 +464,7 @@
     [../]
     [./combo]
       type = ComboMarker
-      markers = 'errorfrac_dispx errorfrac_dispy errorfrac_dispz'
+      markers = 'errorfrac_T errorfrac_dispz'
     [../]
   [../]
 []
