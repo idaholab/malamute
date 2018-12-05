@@ -1,3 +1,6 @@
+period=4e-5
+timestep=4e-7
+
 [GlobalParams]
   gravity = '0 0 0'
   pspg = true
@@ -47,10 +50,6 @@
   [../]
 
   [./T]
-    [./InitialCondition]
-      type = ConstantIC
-      value = 300
-    [../]
   [../]
 
   [./p]
@@ -60,6 +59,14 @@
   [./disp_y]
   [../]
   [./disp_z]
+  [../]
+[]
+
+[ICs]
+  [./T]
+    type = FunctionIC
+    variable = T
+    function = '(3000 - 300) / .7e-3 * z + 3000'
   [../]
 []
 
@@ -256,8 +263,8 @@
     reff = 0.6
     F0 = 2.546e9
     R = 1e-4
-    x_beam_coord = '1e-4 * sin(t * 2 * pi / 2e-5)'
-    y_beam_coord = 0
+    x_beam_coord = '2e-4 * cos(t * 2 * pi / ${period})'
+    y_beam_coord = '2e-4 * sin(t * 2 * pi / ${period})'
     z_beam_coord = 0
     use_displaced_mesh = true
   [../]
@@ -337,8 +344,9 @@
 
 [Executioner]
   type = Transient
-  end_time = 5e-4
+  end_time = ${period}
   dtmin = 1e-8
+  dtmax = ${timestep}
   petsc_options = '-snes_converged_reason -ksp_converged_reason -options_left -ksp_monitor_singular_value'
   petsc_options_iname = '-ksp_gmres_restart -pc_type'
   petsc_options_value = '100		    asm'
@@ -348,9 +356,10 @@
   l_max_its = 100
   [./TimeStepper]
     type = IterationAdaptiveDT
-    optimal_iterations = 6
-    dt = 1e-6
+    optimal_iterations = 7
+    dt = ${timestep}
     linear_iteration_ratio = 1e6
+    growth_factor = 1.5
   [../]
 []
 
@@ -440,8 +449,8 @@
     # [../]
     [./errorfrac_T]
       type = ErrorFractionMarker
-      refine = 0.7
-      coarsen = 0.3
+      refine = 0.5
+      coarsen = 0.2
       indicator = error_T
     [../]
     # [./errorfrac_dispx]
@@ -458,8 +467,8 @@
     # [../]
     [./errorfrac_dispz]
       type = ErrorFractionMarker
-      refine = 0.7
-      coarsen = 0.3
+      refine = 0.5
+      coarsen = 0.2
       indicator = error_dispz
     [../]
     [./combo]
