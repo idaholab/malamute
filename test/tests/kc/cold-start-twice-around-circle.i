@@ -1,5 +1,7 @@
-period=4e-5
-timestep=4e-7
+period=1.25e-3
+endtime=2.5e-3
+timestep=1.25e-5
+surfacetemp=300
 
 [GlobalParams]
   gravity = '0 0 0'
@@ -20,11 +22,11 @@ timestep=4e-7
   ymax = .35e-3
   zmin = -.7e-3
   zmax = 0
-  nx = 8
-  ny = 8
-  nz = 8
+  nx = 4
+  ny = 4
+  nz = 4
   displacements = 'disp_x disp_y disp_z'
-  uniform_refine = 1
+  uniform_refine = 2
 []
 
 [Variables]
@@ -66,7 +68,7 @@ timestep=4e-7
   [./T]
     type = FunctionIC
     variable = T
-    function = '(3000 - 300) / .7e-3 * z + 3000'
+    function = '(${surfacetemp} - 300) / .7e-3 * z + ${surfacetemp}'
   [../]
 []
 
@@ -344,7 +346,7 @@ timestep=4e-7
 
 [Executioner]
   type = Transient
-  end_time = ${period}
+  end_time = ${endtime}
   dtmin = 1e-8
   dtmax = ${timestep}
   petsc_options = '-snes_converged_reason -ksp_converged_reason -options_left -ksp_monitor_singular_value'
@@ -364,7 +366,6 @@ timestep=4e-7
 []
 
 [Outputs]
-  file_base = kc_out
   print_linear_residuals = false
   [./exodus]
     type = Exodus
@@ -385,7 +386,7 @@ timestep=4e-7
 
 [Adaptivity]
   marker = combo
-  max_h_level = 3
+  max_h_level = 4
 
   [./Indicators]
     # [./error_x]
@@ -449,7 +450,7 @@ timestep=4e-7
     # [../]
     [./errorfrac_T]
       type = ErrorFractionMarker
-      refine = 0.5
+      refine = 0.4
       coarsen = 0.2
       indicator = error_T
     [../]
@@ -467,7 +468,7 @@ timestep=4e-7
     # [../]
     [./errorfrac_dispz]
       type = ErrorFractionMarker
-      refine = 0.5
+      refine = 0.4
       coarsen = 0.2
       indicator = error_dispz
     [../]
