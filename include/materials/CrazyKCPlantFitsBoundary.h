@@ -41,8 +41,12 @@ protected:
   const Real _Tbound2;
 
   const ADVariableValue & _temperature;
+  const ADVariableGradient & _grad_temperature;
 
   ADMaterialProperty(Real) & _rc_pressure;
+
+  const Real _alpha;
+  ADMaterialProperty(RealVectorValue) & _grad_surface_tension;
 
   usingMaterialMembers;
 };
