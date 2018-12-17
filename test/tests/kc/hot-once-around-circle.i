@@ -293,6 +293,30 @@ timestep=4e-7
     use_displaced_mesh = true
   [../]
 
+  [./surface_x]
+    type = SurfaceTensionBC
+    variable = vel_x
+    boundary = 'front'
+    component = 0
+    use_displaced_mesh = true
+  [../]
+
+  [./surface_y]
+    type = SurfaceTensionBC
+    variable = vel_y
+    boundary = 'front'
+    component = 1
+    use_displaced_mesh = true
+  [../]
+
+  [./surface_z]
+    type = SurfaceTensionBC
+    variable = vel_z
+    boundary = 'front'
+    component = 2
+    use_displaced_mesh = true
+  [../]
+
   [./displace_x_top]
     type = DisplaceBoundaryBC
     boundary = 'front'
