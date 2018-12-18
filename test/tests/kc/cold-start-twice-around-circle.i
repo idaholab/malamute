@@ -11,6 +11,7 @@ surfacetemp=300
   integrate_p_by_parts = true
   convective_term = true
   transient_term = true
+  temperature = T
 []
 
 [Mesh]
@@ -85,6 +86,9 @@ surfacetemp=300
     type = Diffusion
     variable = disp_z
   [../]
+[]
+
+[ADKernels]
   [./mesh_x]
     type = INSConvectedMesh
     variable = vel_x
@@ -95,7 +99,7 @@ surfacetemp=300
   [../]
   [./mesh_y]
     type = INSConvectedMesh
-    variable = vel_x
+    variable = vel_y
     disp_x = disp_x
     disp_y = disp_y
     disp_z = disp_z
@@ -103,15 +107,13 @@ surfacetemp=300
   [../]
   [./mesh_z]
     type = INSConvectedMesh
-    variable = vel_x
+    variable = vel_z
     disp_x = disp_x
     disp_y = disp_y
     disp_z = disp_z
     use_displaced_mesh = true
   [../]
-[]
 
-[ADKernels]
   # mass
   [./mass]
     type = INSADMass
