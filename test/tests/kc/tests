@@ -1,0 +1,9 @@
+[Tests]
+  [./jacobian]
+    type = PetscJacobianTester
+    input = kc_jacobian_tester.i
+    ratio_tol = 1e-7
+    difference_tol = 1e-4
+    run_sim = True
+  [../]
+[]
