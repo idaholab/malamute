@@ -17,9 +17,9 @@
   ymax = 1
   zmin = -1
   zmax = 0
-  nx = 3
-  ny = 3
-  nz = 3
+  nx = 1
+  ny = 1
+  nz = 1
   displacements = 'disp_x disp_y disp_z'
 []
 
@@ -46,242 +46,266 @@
   [../]
 []
 
-[Kernels]
-  [./disp_x]
-    type = Diffusion
-    variable = disp_x
-  [../]
-  [./disp_y]
-    type = Diffusion
-    variable = disp_y
-  [../]
-  [./disp_z]
-    type = Diffusion
-    variable = disp_z
-  [../]
-  [./mesh_x]
-    type = INSConvectedMesh
-    variable = vel_x
-    disp_x = disp_x
-    disp_y = disp_y
-    disp_z = disp_z
-    use_displaced_mesh = true
-  [../]
-  [./mesh_y]
-    type = INSConvectedMesh
-    variable = vel_x
-    disp_x = disp_x
-    disp_y = disp_y
-    disp_z = disp_z
-  [../]
-  [./mesh_z]
-    type = INSConvectedMesh
-    variable = vel_x
-    disp_x = disp_x
-    disp_y = disp_y
-    disp_z = disp_z
-  [../]
-[]
+# [Kernels]
+#   [./disp_x]
+#     type = Diffusion
+#     variable = disp_x
+#   [../]
+#   [./disp_y]
+#     type = Diffusion
+#     variable = disp_y
+#   [../]
+#   [./disp_z]
+#     type = Diffusion
+#     variable = disp_z
+#   [../]
+#   [./mesh_x]
+#     type = INSConvectedMesh
+#     variable = vel_x
+#     disp_x = disp_x
+#     disp_y = disp_y
+#     disp_z = disp_z
+#     use_displaced_mesh = true
+#   [../]
+#   [./mesh_y]
+#     type = INSConvectedMesh
+#     variable = vel_x
+#     disp_x = disp_x
+#     disp_y = disp_y
+#     disp_z = disp_z
+#   [../]
+#   [./mesh_z]
+#     type = INSConvectedMesh
+#     variable = vel_x
+#     disp_x = disp_x
+#     disp_y = disp_y
+#     disp_z = disp_z
+#   [../]
+# []
 
-[ADKernels]
-  # mass
-  [./mass]
-    type = INSADMass
-    variable = p
-    u = vel_x
-    v = vel_y
-    w = vel_z
-    p = p
-    use_displaced_mesh = true
-  [../]
+# [ADKernels]
+#   # mass
+#   [./mass]
+#     type = INSADMass
+#     variable = p
+#     u = vel_x
+#     v = vel_y
+#     w = vel_z
+#     p = p
+#     use_displaced_mesh = true
+#   [../]
 
-  # x-momentum, time
-  [./x_momentum_time]
-    type = INSADMomentumTimeDerivative
-    variable = vel_x
-    use_displaced_mesh = true
-  [../]
+#   # x-momentum, time
+#   [./x_momentum_time]
+#     type = INSADMomentumTimeDerivative
+#     variable = vel_x
+#     use_displaced_mesh = true
+#   [../]
 
-  # x-momentum, space
-  [./x_momentum_space]
-    type = INSADMomentumBase
-    variable = vel_x
-    u = vel_x
-    v = vel_y
-    w = vel_z
-    p = p
-    component = 0
-    use_displaced_mesh = true
-  [../]
+#   # x-momentum, space
+#   [./x_momentum_space]
+#     type = INSADMomentumBase
+#     variable = vel_x
+#     u = vel_x
+#     v = vel_y
+#     w = vel_z
+#     p = p
+#     component = 0
+#     use_displaced_mesh = true
+#   [../]
 
-  # y-momentum, time
-  [./y_momentum_time]
-    type = INSADMomentumTimeDerivative
-    variable = vel_y
-    use_displaced_mesh = true
-  [../]
+#   # y-momentum, time
+#   [./y_momentum_time]
+#     type = INSADMomentumTimeDerivative
+#     variable = vel_y
+#     use_displaced_mesh = true
+#   [../]
 
-  # y-momentum, space
-  [./y_momentum_space]
-    type = INSADMomentumBase
-    variable = vel_y
-    u = vel_x
-    v = vel_y
-    w = vel_z
-    p = p
-    component = 1
-    use_displaced_mesh = true
-  [../]
+#   # y-momentum, space
+#   [./y_momentum_space]
+#     type = INSADMomentumBase
+#     variable = vel_y
+#     u = vel_x
+#     v = vel_y
+#     w = vel_z
+#     p = p
+#     component = 1
+#     use_displaced_mesh = true
+#   [../]
 
-  # z-momentum, time
-  [./z_momentum_time]
-    type = INSADMomentumTimeDerivative
-    variable = vel_z
-    use_displaced_mesh = true
-  [../]
+#   # z-momentum, time
+#   [./z_momentum_time]
+#     type = INSADMomentumTimeDerivative
+#     variable = vel_z
+#     use_displaced_mesh = true
+#   [../]
 
-  # z-momentum, space
-  [./z_momentum_space]
-    type = INSADMomentumBase
-    variable = vel_z
-    u = vel_x
-    v = vel_y
-    w = vel_z
-    p = p
-    component = 2
-    use_displaced_mesh = true
-  [../]
+#   # z-momentum, space
+#   [./z_momentum_space]
+#     type = INSADMomentumBase
+#     variable = vel_z
+#     u = vel_x
+#     v = vel_y
+#     w = vel_z
+#     p = p
+#     component = 2
+#     use_displaced_mesh = true
+#   [../]
 
- # temperature
- [./temperature_time]
-   type = INSADTemperatureTimeDerivative
-   variable = T
-   use_displaced_mesh = true
- [../]
+#  # temperature
+#  [./temperature_time]
+#    type = INSADTemperatureTimeDerivative
+#    variable = T
+#    use_displaced_mesh = true
+#  [../]
 
- [./temperature_space]
-   type = INSADTemperature
-   variable = T
-   u = vel_x
-   v = vel_y
-   w = vel_z
-   p = p
-   use_displaced_mesh = true
- [../]
-[]
+#  [./temperature_space]
+#    type = INSADTemperature
+#    variable = T
+#    u = vel_x
+#    v = vel_y
+#    w = vel_z
+#    p = p
+#    use_displaced_mesh = true
+#  [../]
+# []
 
-[BCs]
-  [./x_no_disp]
-    type = DirichletBC
-    variable = disp_x
-    boundary = 'back'
-    value = 0
-  [../]
-  [./y_no_disp]
-    type = DirichletBC
-    variable = disp_y
-    boundary = 'back'
-    value = 0
-  [../]
-  [./z_no_disp]
-    type = DirichletBC
-    variable = disp_z
-    boundary = 'back'
-    value = 0
-  [../]
+# [BCs]
+#   [./x_no_disp]
+#     type = DirichletBC
+#     variable = disp_x
+#     boundary = 'back'
+#     value = 0
+#   [../]
+#   [./y_no_disp]
+#     type = DirichletBC
+#     variable = disp_y
+#     boundary = 'back'
+#     value = 0
+#   [../]
+#   [./z_no_disp]
+#     type = DirichletBC
+#     variable = disp_z
+#     boundary = 'back'
+#     value = 0
+#   [../]
 
-  [./x_no_slip]
-    type = DirichletBC
-    variable = vel_x
-    boundary = 'left right top bottom back'
-    value = 0.0
-  [../]
+#   [./x_no_slip]
+#     type = DirichletBC
+#     variable = vel_x
+#     boundary = 'left right top bottom back'
+#     value = 0.0
+#   [../]
 
-  [./y_no_slip]
-    type = DirichletBC
-    variable = vel_y
-    boundary = 'left right top bottom back'
-    value = 0.0
-  [../]
+#   [./y_no_slip]
+#     type = DirichletBC
+#     variable = vel_y
+#     boundary = 'left right top bottom back'
+#     value = 0.0
+#   [../]
 
-  [./z_no_slip]
-    type = DirichletBC
-    variable = vel_z
-    boundary = 'bottom right left top back'
-    value = 0.0
-  [../]
+#   [./z_no_slip]
+#     type = DirichletBC
+#     variable = vel_z
+#     boundary = 'bottom right left top back'
+#     value = 0.0
+#   [../]
 
-  [./T_cold]
-    type = DirichletBC
-    variable = T
-    boundary = 'back'
-    value = 1
-  [../]
-[]
+#   [./T_cold]
+#     type = DirichletBC
+#     variable = T
+#     boundary = 'back'
+#     value = 1
+#   [../]
+# []
 
 [ADBCs]
-  [./radiation_flux]
-    type = RadiationEnergyFluxBC
-    variable = T
-    boundary = 'front'
-    ff_temp = 1
-    use_displaced_mesh = true
-  [../]
-  [./weld_flux]
-    type = GaussianWeldEnergyFluxBC
-    variable = T
-    boundary = 'front'
-    reff = 1
-    F0 = 1
-    R = 1
-    x_beam_coord = 0
-    y_beam_coord = 0
-    z_beam_coord = 0
-    use_displaced_mesh = true
-  [../]
+  # [./radiation_flux]
+  #   type = RadiationEnergyFluxBC
+  #   variable = T
+  #   boundary = 'front'
+  #   ff_temp = 1
+  #   use_displaced_mesh = true
+  # [../]
+  # [./weld_flux]
+  #   type = GaussianWeldEnergyFluxBC
+  #   variable = T
+  #   boundary = 'front'
+  #   reff = 1
+  #   F0 = 1
+  #   R = 1
+  #   x_beam_coord = 0
+  #   y_beam_coord = 0
+  #   z_beam_coord = 0
+  #   use_displaced_mesh = true
+  # [../]
 
-  [./vapor_recoil_x]
-    type = VaporRecoilPressureMomentumFluxBC
+  # [./vapor_recoil_x]
+  #   type = VaporRecoilPressureMomentumFluxBC
+  #   variable = vel_x
+  #   boundary = 'front'
+  #   component = 0
+  #   use_displaced_mesh = true
+  # [../]
+
+  # [./vapor_recoil_y]
+  #   type = VaporRecoilPressureMomentumFluxBC
+  #   variable = vel_y
+  #   boundary = 'front'
+  #   component = 1
+  #   use_displaced_mesh = true
+  # [../]
+
+  # [./vapor_recoil_z]
+  #   type = VaporRecoilPressureMomentumFluxBC
+  #   variable = vel_z
+  #   boundary = 'front'
+  #   component = 2
+  #   use_displaced_mesh = true
+  # [../]
+
+  [./surface_x]
+    type = SurfaceTensionBC
     variable = vel_x
     boundary = 'front'
     component = 0
     use_displaced_mesh = true
   [../]
 
-  [./vapor_recoil_y]
-    type = VaporRecoilPressureMomentumFluxBC
+  [./surface_y]
+    type = SurfaceTensionBC
     variable = vel_y
     boundary = 'front'
     component = 1
     use_displaced_mesh = true
   [../]
 
-  [./vapor_recoil_z]
-    type = VaporRecoilPressureMomentumFluxBC
+  [./surface_z]
+    type = SurfaceTensionBC
     variable = vel_z
     boundary = 'front'
     component = 2
     use_displaced_mesh = true
   [../]
 
-  [./displace_x_top]
-    type = DisplaceBoundaryBC
-    boundary = 'front'
-    variable = 'disp_x'
-    velocity = 'vel_x'
-  [../]
-  [./displace_y_top]
-    type = DisplaceBoundaryBC
-    boundary = 'front'
-    variable = 'disp_y'
-    velocity = 'vel_y'
-  [../]
-  [./displace_z_top]
-    type = DisplaceBoundaryBC
-    boundary = 'front'
-    variable = 'disp_z'
-    velocity = 'vel_z'
-  [../]
+# [./displace_x_top]
+#     type = DisplaceBoundaryBC
+#     boundary = 'front'
+#     variable = 'disp_x'
+#     velocity = 'vel_x'
+#   [../]
+#   [./displace_y_top]
+#     type = DisplaceBoundaryBC
+#     boundary = 'front'
+#     variable = 'disp_y'
+#     velocity = 'vel_y'
+#   [../]
+#   [./displace_z_top]
+#     type = DisplaceBoundaryBC
+#     boundary = 'front'
+#     variable = 'disp_z'
+#     velocity = 'vel_z'
+#   [../]
 []
 
 [ADMaterials]
