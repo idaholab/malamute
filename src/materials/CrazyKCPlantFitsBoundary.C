@@ -31,6 +31,11 @@ defineADValidParams(
     params.addParam<Real>("alpha",
                           -4.3e-4,
                           "The derivative of the surface tension with respect to temperature");
+    params.addParam<Real>("sigma0", 1.943, "The surface tension at T0");
+    params.addParam<Real>("T0", 1809, "The reference temperature for the surface tension");
+    params.addParam<MaterialPropertyName>("surface_tension_name",
+                                          "surface_tension",
+                                          "The surface tension");
     params.addParam<MaterialPropertyName>("grad_surface_tension_name",
                                           "grad_surface_tension",
                                           "The gradient of the surface tension"););
@@ -54,6 +59,10 @@ CrazyKCPlantFitsBoundary<compute_stage>::CrazyKCPlantFitsBoundary(
     _grad_temperature(adCoupledGradient("temperature")),
     _rc_pressure(adDeclareADProperty<Real>(adGetParam<MaterialPropertyName>("rc_pressure_name"))),
     _alpha(adGetParam<Real>("alpha")),
+    _sigma0(adGetParam<Real>("sigma0")),
+    _T0(adGetParam<Real>("T0")),
+    _surface_tension(
+        adDeclareADProperty<Real>(adGetParam<MaterialPropertyName>("surface_tension_name"))),
     _grad_surface_tension(adDeclareADProperty<RealVectorValue>(
         adGetParam<MaterialPropertyName>("grad_surface_tension_name")))
 {
@@ -70,5 +79,7 @@ CrazyKCPlantFitsBoundary<compute_stage>::computeQpProperties()
     _rc_pressure[_qp] = _ap0 + _ap1 * theta + _ap2 * theta * theta + _ap3 * theta * theta * theta;
   else
     _rc_pressure[_qp] = _bp0 + _bp1 * theta + _bp2 * theta * theta + _bp3 * theta * theta * theta;
+
+  _surface_tension[_qp] = _sigma0 + _alpha * (_temperature[_qp] - _T0);
   _grad_surface_tension[_qp] = _alpha * _grad_temperature[_qp];
 }

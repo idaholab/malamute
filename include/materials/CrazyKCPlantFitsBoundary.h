@@ -46,6 +46,9 @@ protected:
   ADMaterialProperty(Real) & _rc_pressure;
 
   const Real _alpha;
+  const Real _sigma0;
+  const Real _T0;
+  ADMaterialProperty(Real) & _surface_tension;
   ADMaterialProperty(RealVectorValue) & _grad_surface_tension;
 
   usingMaterialMembers;
