@@ -25,7 +25,8 @@ pooldepth=.2e-3
   nx = 7
   ny = 2
   displacements = 'disp_x disp_y'
-  uniform_refine = 5
+  elem_type = QUAD9
+  uniform_refine = 2
 []
 
 [Problem]
@@ -35,6 +36,7 @@ pooldepth=.2e-3
 [Variables]
   [./vel_x]
     scaling = 1e3
+    order = SECOND
     [./InitialCondition]
       type = ConstantIC
       value = 1e-15
@@ -43,6 +45,7 @@ pooldepth=.2e-3
 
   [./vel_y]
     scaling = 1e3
+    order = SECOND
     [./InitialCondition]
       type = ConstantIC
       value = 1e-15
@@ -51,16 +54,20 @@ pooldepth=.2e-3
 
   [./T]
     scaling = 1e-4
+    order = SECOND
   [../]
 
   [./p]
     scaling = 1e8
+    order = SECOND
   [../]
   [./disp_x]
     scaling = 1e6
+    order = SECOND
   [../]
   [./disp_y]
     scaling = 1e6
+    order = SECOND
   [../]
 []
 
@@ -94,6 +101,13 @@ pooldepth=.2e-3
   [./mesh_y]
     type = INSConvectedMesh
     variable = vel_y
+    disp_x = disp_x
+    disp_y = disp_y
+    use_displaced_mesh = true
+  [../]
+  [./mesh_T]
+    type = INSTemperatureConvectedMesh
+    variable = T
     disp_x = disp_x
     disp_y = disp_y
     use_displaced_mesh = true
@@ -291,7 +305,7 @@ pooldepth=.2e-3
 
 [Preconditioning]
   [./SMP]
-    type = SMP
+    type = FDP
     full = true
     solve_type = 'NEWTON'
   [../]
@@ -323,7 +337,7 @@ pooldepth=.2e-3
   [./exodus]
     type = Exodus
     output_material_properties = true
-    show_material_properties = 'mu surface_tension grad_surface_tension'
+    show_material_properties = 'mu surface_term_curvature surface_term_gradient1 surface_term_gradient2'
   [../]
   [./dofmap]
     type = DOFMap
@@ -339,7 +353,7 @@ pooldepth=.2e-3
 
 [Adaptivity]
   marker = combo
-  max_h_level = 5
+  max_h_level = 3
 
   [./Indicators]
     [./error_x]
