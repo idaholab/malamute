@@ -8,6 +8,7 @@
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
 #include "CrazyKCPlantFitsBoundary.h"
+#include "Assembly.h"
 
 registerADMooseObject("ArticunoApp", CrazyKCPlantFitsBoundary);
 
@@ -64,7 +65,12 @@ CrazyKCPlantFitsBoundary<compute_stage>::CrazyKCPlantFitsBoundary(
     _surface_tension(
         adDeclareADProperty<Real>(adGetParam<MaterialPropertyName>("surface_tension_name"))),
     _grad_surface_tension(adDeclareADProperty<RealVectorValue>(
-        adGetParam<MaterialPropertyName>("grad_surface_tension_name")))
+        adGetParam<MaterialPropertyName>("grad_surface_tension_name"))),
+    _ad_normals(this->_assembly.template adNormals<compute_stage>()),
+    _ad_curvatures(this->_assembly.template adCurvatures<compute_stage>()),
+    _surface_term_curvature(adDeclareADProperty<RealVectorValue>("surface_term_curvature")),
+    _surface_term_gradient1(adDeclareADProperty<RealVectorValue>("surface_term_gradient1")),
+    _surface_term_gradient2(adDeclareADProperty<RealVectorValue>("surface_term_gradient2"))
 {
 }
 
@@ -82,4 +88,8 @@ CrazyKCPlantFitsBoundary<compute_stage>::computeQpProperties()
 
   _surface_tension[_qp] = _sigma0 + _alpha * (_temperature[_qp] - _T0);
   _grad_surface_tension[_qp] = _alpha * _grad_temperature[_qp];
+  _surface_term_curvature[_qp] =
+      -2. * _ad_curvatures[_qp] * _surface_tension[_qp] * _ad_normals[_qp];
+  _surface_term_gradient1[_qp] = -_grad_surface_tension[_qp];
+  _surface_term_gradient2[_qp] = _ad_normals[_qp] * (_ad_normals[_qp] * _grad_surface_tension[_qp]);
 }

@@ -50,6 +50,11 @@ protected:
   const Real _T0;
   ADMaterialProperty(Real) & _surface_tension;
   ADMaterialProperty(RealVectorValue) & _grad_surface_tension;
+  const typename PointType<compute_stage>::type & _ad_normals;
+  const ADVariableValue & _ad_curvatures;
+  ADMaterialProperty(RealVectorValue) & _surface_term_curvature;
+  ADMaterialProperty(RealVectorValue) & _surface_term_gradient1;
+  ADMaterialProperty(RealVectorValue) & _surface_term_gradient2;
 
   usingMaterialMembers;
 };
