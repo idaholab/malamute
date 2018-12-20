@@ -6,4 +6,12 @@
     difference_tol = 1e-4
     run_sim = True
   [../]
+  [./jacobian-2nd-order]
+    type = PetscJacobianTester
+    input = 2nd-order-jacobian-tester.i
+    ratio_tol = 1e-7
+    difference_tol = 1e-4
+    run_sim = True
+    min_parallel = 6
+  [../]
 []
