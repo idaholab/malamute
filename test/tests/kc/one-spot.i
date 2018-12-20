@@ -361,6 +361,7 @@ pooldepth=.2e-3
   [../]
   [./boundary]
     type = CrazyKCPlantFitsBoundary
+    use_displaced_mesh = true
     boundary = 'front'
     temperature = T
   [../]

@@ -347,6 +347,7 @@ timestep=4e-7
   [../]
   [./boundary]
     type = CrazyKCPlantFitsBoundary
+    use_displaced_mesh = true
     boundary = 'front'
     temperature = T
   [../]

@@ -351,6 +351,7 @@ surfacetemp=300
     type = CrazyKCPlantFitsBoundary
     boundary = 'front'
     temperature = T
+    use_displaced_mesh = true
   [../]
 []
 

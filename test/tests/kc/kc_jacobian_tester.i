@@ -346,6 +346,7 @@
   [../]
   [./boundary]
     type = CrazyKCPlantFitsBoundary
+    use_displaced_mesh = true
     boundary = 'front'
     temperature = T
     c_mu0 = 1
@@ -400,7 +401,7 @@
   [./exodus]
     type = Exodus
     output_material_properties = true
-    show_material_properties = 'mu rc_pressure'
+    show_material_properties = 'mu rc_pressure surface_term_curvature surface_term_gradient1 surface_term_gradient2'
   [../]
   [./dofmap]
     type = DOFMap
