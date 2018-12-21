@@ -82,9 +82,11 @@ CrazyKCPlantFitsBoundary<compute_stage>::computeQpProperties()
   if (theta < _Tbound1)
     _rc_pressure[_qp] = 0;
   else if (theta < _Tbound2)
-    _rc_pressure[_qp] = _ap0 + _ap1 * theta + _ap2 * theta * theta + _ap3 * theta * theta * theta;
+    _rc_pressure[_qp] =
+        1. / 1000 * (_ap0 + _ap1 * theta + _ap2 * theta * theta + _ap3 * theta * theta * theta);
   else
-    _rc_pressure[_qp] = _bp0 + _bp1 * theta + _bp2 * theta * theta + _bp3 * theta * theta * theta;
+    _rc_pressure[_qp] =
+        1. / 1000 * (_bp0 + _bp1 * theta + _bp2 * theta * theta + _bp3 * theta * theta * theta);
 
   _surface_tension[_qp] = _sigma0 + _alpha * (_temperature[_qp] - _T0);
   _grad_surface_tension[_qp] = _alpha * _grad_temperature[_qp];

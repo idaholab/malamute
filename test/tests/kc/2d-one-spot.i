@@ -2,7 +2,7 @@ period=5e-4
 endtime=5e-3
 timestep=5e-6
 surfacetemp=300
-pooldepth=.2e-3
+pooldepth=.2
 
 [GlobalParams]
   gravity = '0 0 0'
@@ -18,15 +18,15 @@ pooldepth=.2e-3
 [Mesh]
   type = GeneratedMesh
   dim = 2
-  xmin = -.35e-3
-  xmax = 0.35e-3
-  ymin = -.2e-3
+  xmin = -.35
+  xmax = 0.35
+  ymin = -.2
   ymax = 0
-  nx = 7
-  ny = 2
+  nx = 3
+  ny = 1
   displacements = 'disp_x disp_y'
-  # elem_type = QUAD9
-  uniform_refine = 5
+  elem_type = QUAD9
+  uniform_refine = 2
 []
 
 [Problem]
@@ -36,7 +36,7 @@ pooldepth=.2e-3
 [Variables]
   [./vel_x]
     scaling = 1e3
-    # order = SECOND
+    order = SECOND
     [./InitialCondition]
       type = ConstantIC
       value = 1e-15
@@ -45,7 +45,7 @@ pooldepth=.2e-3
 
   [./vel_y]
     scaling = 1e3
-    # order = SECOND
+    order = SECOND
     [./InitialCondition]
       type = ConstantIC
       value = 1e-15
@@ -53,8 +53,8 @@ pooldepth=.2e-3
   [../]
 
   [./T]
-    scaling = 1e-4
-    # order = SECOND
+    scaling = 1e-1
+    order = SECOND
   [../]
 
   [./p]
@@ -63,11 +63,11 @@ pooldepth=.2e-3
   [../]
   [./disp_x]
     scaling = 1e6
-    # order = SECOND
+    order = SECOND
   [../]
   [./disp_y]
     scaling = 1e6
-    # order = SECOND
+    order = SECOND
   [../]
 []
 
@@ -228,8 +228,8 @@ pooldepth=.2e-3
     variable = T
     boundary = 'top'
     reff = 0.6
-    F0 = 2.546e9
-    R = 1e-4
+    F0 = 2.546e3
+    R = 1e-1
     x_beam_coord = 0
     y_beam_coord = 0
     z_beam_coord = 0
@@ -300,7 +300,7 @@ pooldepth=.2e-3
   [./const]
     type = GenericConstantMaterial
     prop_names = 'abs sb_constant'
-    prop_values = '1 5.67e-8'
+    prop_values = '1 5.67e-14'
   [../]
 []
 
@@ -323,7 +323,7 @@ pooldepth=.2e-3
   line_search = 'none'
   nl_max_its = 12
   l_tol = 1e-3
-  nl_rel_tol = 1e-5
+  # nl_rel_tol = 1e-5
   [./TimeStepper]
     type = IterationAdaptiveDT
     optimal_iterations = 7
@@ -354,7 +354,7 @@ pooldepth=.2e-3
 
 [Adaptivity]
   marker = combo
-  max_h_level = 5
+  max_h_level = 2
 
   [./Indicators]
     [./error_x]
