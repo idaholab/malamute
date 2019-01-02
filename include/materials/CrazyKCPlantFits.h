@@ -49,6 +49,11 @@ protected:
   ADMaterialProperty(Real) & _rho;
   ADMaterialProperty(RealVectorValue) & _grad_k;
 
+  const Real _length_units_per_meter;
+  const Real _temperature_units_per_kelvin;
+  const Real _mass_units_per_kilogram;
+  const Real _time_units_per_second;
+
   usingMaterialMembers;
 };
 

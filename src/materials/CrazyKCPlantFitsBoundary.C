@@ -39,7 +39,24 @@ defineADValidParams(
                                           "The surface tension");
     params.addParam<MaterialPropertyName>("grad_surface_tension_name",
                                           "grad_surface_tension",
-                                          "The gradient of the surface tension"););
+                                          "The gradient of the surface tension");
+    params.addParam<int>("length_unit_exponent",
+                         0,
+                         "The exponent of the length unit. If working in milimeters for example, "
+                         "this number should be -3");
+    params.addParam<int>(
+        "temperature_unit_exponent",
+        0,
+        "The exponent of the temperature unit. If working in kili-Kelvin for example, "
+        "this number should be 3");
+    params.addParam<int>("mass_unit_exponent",
+                         0,
+                         "The exponent of the mass unit. If working in miligrams for example, "
+                         "this number should be -9");
+    params.addParam<int>("time_unit_exponent",
+                         0,
+                         "The exponent of the time unit. If working in micro-seconds for example, "
+                         "this number should be -6"););
 
 template <ComputeStage compute_stage>
 CrazyKCPlantFitsBoundary<compute_stage>::CrazyKCPlantFitsBoundary(
@@ -70,7 +87,11 @@ CrazyKCPlantFitsBoundary<compute_stage>::CrazyKCPlantFitsBoundary(
     _ad_curvatures(this->_assembly.template adCurvatures<compute_stage>()),
     _surface_term_curvature(adDeclareADProperty<RealVectorValue>("surface_term_curvature")),
     _surface_term_gradient1(adDeclareADProperty<RealVectorValue>("surface_term_gradient1")),
-    _surface_term_gradient2(adDeclareADProperty<RealVectorValue>("surface_term_gradient2"))
+    _surface_term_gradient2(adDeclareADProperty<RealVectorValue>("surface_term_gradient2")),
+    _length_units_per_meter(1. / std::pow(10, adGetParam<int>("length_unit_exponent"))),
+    _temperature_units_per_kelvin(1. / std::pow(10, adGetParam<int>("temperature_unit_exponent"))),
+    _mass_units_per_kilogram(1. / std::pow(10, adGetParam<int>("mass_unit_exponent"))),
+    _time_units_per_second(1. / std::pow(10, adGetParam<int>("time_unit_exponent")))
 {
 }
 
@@ -78,18 +99,27 @@ template <ComputeStage compute_stage>
 void
 CrazyKCPlantFitsBoundary<compute_stage>::computeQpProperties()
 {
-  auto && theta = _temperature[_qp] - _Tb;
+  auto && theta = _temperature[_qp] / _temperature_units_per_kelvin - _Tb;
   if (theta < _Tbound1)
     _rc_pressure[_qp] = 0;
   else if (theta < _Tbound2)
     _rc_pressure[_qp] =
-        1. / 1000 * (_ap0 + _ap1 * theta + _ap2 * theta * theta + _ap3 * theta * theta * theta);
+        _mass_units_per_kilogram /
+        (_length_units_per_meter * _time_units_per_second * _time_units_per_second) *
+        (_ap0 + _ap1 * theta + _ap2 * theta * theta + _ap3 * theta * theta * theta);
   else
     _rc_pressure[_qp] =
-        1. / 1000 * (_bp0 + _bp1 * theta + _bp2 * theta * theta + _bp3 * theta * theta * theta);
+        _mass_units_per_kilogram /
+        (_length_units_per_meter * _time_units_per_second * _time_units_per_second) *
+        (_bp0 + _bp1 * theta + _bp2 * theta * theta + _bp3 * theta * theta * theta);
 
-  _surface_tension[_qp] = _sigma0 + _alpha * (_temperature[_qp] - _T0);
-  _grad_surface_tension[_qp] = _alpha * _grad_temperature[_qp];
+  _surface_tension[_qp] =
+      _sigma0 * _mass_units_per_kilogram / (_time_units_per_second * _time_units_per_second) +
+      _alpha * _mass_units_per_kilogram / (_time_units_per_second * _time_units_per_second) *
+          (_temperature[_qp] / _temperature_units_per_kelvin - _T0);
+  _grad_surface_tension[_qp] = _alpha * _mass_units_per_kilogram /
+                               (_time_units_per_second * _time_units_per_second) /
+                               _temperature_units_per_kelvin * _grad_temperature[_qp];
   _surface_term_curvature[_qp] =
       -2. * _ad_curvatures[_qp] * _surface_tension[_qp] * _ad_normals[_qp];
   _surface_term_gradient1[_qp] = -_grad_surface_tension[_qp];

@@ -35,7 +35,24 @@ defineADValidParams(
     params.addParam<MaterialPropertyName>("cp_name", "cp", "The name of the thermal conductivity");
     params.addParam<MaterialPropertyName>("rho_name",
                                           "rho",
-                                          "The name of the thermal conductivity"););
+                                          "The name of the thermal conductivity");
+    params.addParam<int>("length_unit_exponent",
+                         0,
+                         "The exponent of the length unit. If working in milimeters for example, "
+                         "this number should be -3");
+    params.addParam<int>(
+        "temperature_unit_exponent",
+        0,
+        "The exponent of the temperature unit. If working in kili-Kelvin for example, "
+        "this number should be 3");
+    params.addParam<int>("mass_unit_exponent",
+                         0,
+                         "The exponent of the mass unit. If working in miligrams for example, "
+                         "this number should be -9");
+    params.addParam<int>("time_unit_exponent",
+                         0,
+                         "The exponent of the time unit. If working in micro-seconds for example, "
+                         "this number should be -6"););
 
 template <ComputeStage compute_stage>
 CrazyKCPlantFits<compute_stage>::CrazyKCPlantFits(const InputParameters & parameters)
@@ -60,7 +77,11 @@ CrazyKCPlantFits<compute_stage>::CrazyKCPlantFits(const InputParameters & parame
     _cp(adDeclareADProperty<Real>(adGetParam<MaterialPropertyName>("cp_name"))),
     _rho(adDeclareADProperty<Real>(adGetParam<MaterialPropertyName>("rho_name"))),
     _grad_k(
-        adDeclareADProperty<RealVectorValue>("grad_" + adGetParam<MaterialPropertyName>("k_name")))
+        adDeclareADProperty<RealVectorValue>("grad_" + adGetParam<MaterialPropertyName>("k_name"))),
+    _length_units_per_meter(1. / std::pow(10, adGetParam<int>("length_unit_exponent"))),
+    _temperature_units_per_kelvin(1. / std::pow(10, adGetParam<int>("temperature_unit_exponent"))),
+    _mass_units_per_kilogram(1. / std::pow(10, adGetParam<int>("mass_unit_exponent"))),
+    _time_units_per_second(1. / std::pow(10, adGetParam<int>("time_unit_exponent")))
 {
 }
 
@@ -68,19 +89,33 @@ template <ComputeStage compute_stage>
 void
 CrazyKCPlantFits<compute_stage>::computeQpProperties()
 {
-  if (_temperature[_qp] < _Tl)
-    _mu[_qp] = 1. / 1000 * (_c_mu0 + _c_mu1 * _Tl + _c_mu2 * _Tl * _Tl + _c_mu3 * _Tl * _Tl * _Tl) *
-               (_beta + (1 - _beta) * (_temperature[_qp] - _T90) / (_Tl - _T90));
+  if (_temperature[_qp] < _Tl * _temperature_units_per_kelvin)
+    _mu[_qp] = _mass_units_per_kilogram / (_length_units_per_meter * _time_units_per_second) *
+               (_c_mu0 + _c_mu1 * _Tl + _c_mu2 * _Tl * _Tl + _c_mu3 * _Tl * _Tl * _Tl) *
+               (_beta + (1 - _beta) * (_temperature[_qp] - _T90 * _temperature_units_per_kelvin) /
+                            ((_Tl - _T90) * _temperature_units_per_kelvin));
   else
   {
     typename std::remove_const<
         typename std::remove_reference<decltype(_temperature[_qp])>::type>::type That;
-    That = _temperature[_qp] > _Tmax ? _Tmax : _temperature[_qp];
-    _mu[_qp] =
-        1. / 1000 * (_c_mu0 + _c_mu1 * That + _c_mu2 * That * That + _c_mu3 * That * That * That);
+    That = _temperature[_qp] / _temperature_units_per_kelvin > _Tmax
+               ? _Tmax
+               : _temperature[_qp] / _temperature_units_per_kelvin;
+    _mu[_qp] = _mass_units_per_kilogram / (_length_units_per_meter * _time_units_per_second) *
+               (_c_mu0 + _c_mu1 * That + _c_mu2 * That * That + _c_mu3 * That * That * That);
   }
-  _k[_qp] = (_c_k0 + _c_k1 * _temperature[_qp]) / 1000.;
-  _grad_k[_qp] = _c_k1 * _grad_temperature[_qp] / 1000.;
-  _cp[_qp] = _c_cp0 + _c_cp1 * _temperature[_qp];
-  _rho[_qp] = _c_rho0 / (1000. * 1000. * 1000.);
+  _k[_qp] = (_c_k0 + _c_k1 / _temperature_units_per_kelvin * _temperature[_qp]) *
+            (_mass_units_per_kilogram * _length_units_per_meter /
+             (_temperature_units_per_kelvin * _time_units_per_second * _time_units_per_second *
+              _time_units_per_second));
+  _grad_k[_qp] = _c_k1 *
+                 (_mass_units_per_kilogram * _length_units_per_meter /
+                  (_temperature_units_per_kelvin * _temperature_units_per_kelvin *
+                   _time_units_per_second * _time_units_per_second * _time_units_per_second)) *
+                 _grad_temperature[_qp];
+  _cp[_qp] = (_c_cp0 + _c_cp1 / _temperature_units_per_kelvin * _temperature[_qp]) *
+             (_length_units_per_meter * _length_units_per_meter /
+              (_temperature_units_per_kelvin * _time_units_per_second * _time_units_per_second));
+  _rho[_qp] = _c_rho0 * _mass_units_per_kilogram /
+              (_length_units_per_meter * _length_units_per_meter * _length_units_per_meter);
 }
