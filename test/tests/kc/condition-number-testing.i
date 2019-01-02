@@ -1,8 +1,7 @@
-period=5e-4
-endtime=5e-3
-timestep=5e-6
-surfacetemp=300
-pooldepth=.2
+endtime=500
+timestep=.5
+surfacetemp=.3
+pooldepth=2
 
 [GlobalParams]
   gravity = '0 0 0'
@@ -18,24 +17,28 @@ pooldepth=.2
 [Mesh]
   type = GeneratedMesh
   dim = 2
-  xmin = -.35
-  xmax = 0.35
-  ymin = -.2
+  xmin = -4
+  xmax = 4
+  ymin = -2
   ymax = 0
-  nx = 3
+  nx = 4
   ny = 1
   displacements = 'disp_x disp_y'
   elem_type = QUAD9
-  uniform_refine = 2
+  uniform_refine = 1
 []
 
 [Problem]
   kernel_coverage_check = false
 []
 
+[AuxVariables]
+  [./random]
+  [../]
+[]
+
 [Variables]
   [./vel_x]
-    scaling = 1e3
     order = SECOND
     [./InitialCondition]
       type = ConstantIC
@@ -44,7 +47,6 @@ pooldepth=.2
   [../]
 
   [./vel_y]
-    scaling = 1e3
     order = SECOND
     [./InitialCondition]
       type = ConstantIC
@@ -53,20 +55,16 @@ pooldepth=.2
   [../]
 
   [./T]
-    scaling = 1e-1
     order = SECOND
   [../]
 
   [./p]
-    scaling = 1e8
     # order = SECOND
   [../]
   [./disp_x]
-    scaling = 1e6
     order = SECOND
   [../]
   [./disp_y]
-    scaling = 1e6
     order = SECOND
   [../]
 []
@@ -75,7 +73,11 @@ pooldepth=.2
   [./T]
     type = FunctionIC
     variable = T
-    function = '(${surfacetemp} - 300) / ${pooldepth} * z + ${surfacetemp}'
+    function = '(${surfacetemp} - .3) / ${pooldepth} * z + ${surfacetemp}'
+  [../]
+  [./random]
+    type = RandomIC
+    variable = random
   [../]
 []
 
@@ -208,7 +210,7 @@ pooldepth=.2
     type = DirichletBC
     variable = T
     boundary = 'bottom'
-    value = 300
+    value = .3
   [../]
 []
 
@@ -217,7 +219,7 @@ pooldepth=.2
     type = RadiationEnergyFluxBC
     variable = T
     boundary = 'top'
-    ff_temp = 300
+    ff_temp = .3
     sb_constant = 'sb_constant'
     absorptivity = 'abs'
     use_displaced_mesh = true
@@ -228,8 +230,8 @@ pooldepth=.2
     variable = T
     boundary = 'top'
     reff = 0.6
-    F0 = 2.546e3
-    R = 1e-1
+    F0 = 2.546e0
+    R = 1
     x_beam_coord = 0
     y_beam_coord = 0
     z_beam_coord = 0
@@ -268,7 +270,7 @@ pooldepth=.2
     use_displaced_mesh = true
   [../]
 
-[./displace_x_top]
+  [./displace_x_top]
     type = DisplaceBoundaryBC
     boundary = 'top'
     variable = 'disp_x'
@@ -287,12 +289,20 @@ pooldepth=.2
     type = CrazyKCPlantFits
     temperature = T
     beta = 1e7
+    length_unit_exponent = '-4'
+    temperature_unit_exponent = 3
+    mass_unit_exponent = '-6'
+    time_unit_exponent = '-5'
   [../]
   [./boundary]
     type = CrazyKCPlantFitsBoundary
     boundary = 'top'
     temperature = T
     use_displaced_mesh = true
+    length_unit_exponent = '-4'
+    temperature_unit_exponent = 3
+    mass_unit_exponent = '-6'
+    time_unit_exponent = '-5'
   [../]
 []
 
@@ -300,13 +310,13 @@ pooldepth=.2
   [./const]
     type = GenericConstantMaterial
     prop_names = 'abs sb_constant'
-    prop_values = '1 5.67e-14'
+    prop_values = '1 5.67e3'
   [../]
 []
 
 [Preconditioning]
   [./SMP]
-    type = SMP
+    type = FDP
     full = true
     solve_type = 'NEWTON'
   [../]
@@ -315,7 +325,8 @@ pooldepth=.2
 [Executioner]
   type = Transient
   end_time = ${endtime}
-  dtmin = 1e-8
+  dtmin = 1e-3
+  num_steps = 1
   petsc_options = '-snes_converged_reason -ksp_converged_reason -options_left -ksp_monitor_singular_value'
   petsc_options_iname = '-ksp_max_it -ksp_gmres_restart -pc_type -sub_pc_factor_levels'
   petsc_options_value = '1000	     200		asm	 1'
@@ -323,7 +334,6 @@ pooldepth=.2
   line_search = 'none'
   nl_max_its = 12
   l_tol = 1e-3
-  # nl_rel_tol = 1e-5
   [./TimeStepper]
     type = IterationAdaptiveDT
     optimal_iterations = 7
@@ -353,10 +363,14 @@ pooldepth=.2
 
 
 [Adaptivity]
-  marker = combo
-  max_h_level = 2
+  # marker = combo
+  marker = errorfrac_random
+  max_h_level = 1
+  initial_steps = 0
 
   [./Indicators]
+    # active = 'error_x error_y error_T error_dispx error_dispy'
+    active = 'random_indicator'
     [./error_x]
       type = GradientJumpIndicator
       variable = vel_x
@@ -381,9 +395,15 @@ pooldepth=.2
       type = GradientJumpIndicator
       variable = disp_y
     [../]
+    [./random_indicator]
+      type = ElementIntegralIndicator
+      variable = random
+    [../]
   [../]
 
   [./Markers]
+    # active = 'errorfrac_x errorfrac_y errorfrac_T errorfrac_dispx errorfrac_dispy combo'
+    active = 'errorfrac_random'
     [./errorfrac_x]
       type = ErrorFractionMarker
       refine = 0.4
@@ -423,6 +443,12 @@ pooldepth=.2
     [./combo]
       type = ComboMarker
       markers = 'errorfrac_x errorfrac_y  errorfrac_T errorfrac_dispx errorfrac_dispy'
+    [../]
+    [./errorfrac_random]
+      type = ErrorFractionMarker
+      refine = 0.4
+      coarsen = 0.2
+      indicator = random_indicator
     [../]
   [../]
 []
