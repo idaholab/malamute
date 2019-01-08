@@ -1,7 +1,8 @@
-endtime=500
-timestep=.5
-surfacetemp=.3
-pooldepth=2
+endtime=500e-5
+timestep=.5e-5
+surfacetemp=300
+bottomtemp=300
+pooldepth=2e-4
 
 [GlobalParams]
   gravity = '0 0 0'
@@ -12,14 +13,15 @@ pooldepth=2
   convective_term = true
   transient_term = true
   temperature = T
+  order = SECOND
 []
 
 [Mesh]
   type = GeneratedMesh
   dim = 2
-  xmin = -4
-  xmax = 4
-  ymin = -2
+  xmin = -4e-4
+  xmax = 4e-4
+  ymin = -2e-4
   ymax = 0
   nx = 4
   ny = 1
@@ -32,14 +34,8 @@ pooldepth=2
   kernel_coverage_check = false
 []
 
-[AuxVariables]
-  [./random]
-  [../]
-[]
-
 [Variables]
   [./vel_x]
-    order = SECOND
     [./InitialCondition]
       type = ConstantIC
       value = 1e-15
@@ -47,7 +43,6 @@ pooldepth=2
   [../]
 
   [./vel_y]
-    order = SECOND
     [./InitialCondition]
       type = ConstantIC
       value = 1e-15
@@ -55,17 +50,14 @@ pooldepth=2
   [../]
 
   [./T]
-    order = SECOND
   [../]
 
   [./p]
-    # order = SECOND
+    order = FIRST
   [../]
   [./disp_x]
-    order = SECOND
   [../]
   [./disp_y]
-    order = SECOND
   [../]
 []
 
@@ -73,11 +65,7 @@ pooldepth=2
   [./T]
     type = FunctionIC
     variable = T
-    function = '(${surfacetemp} - .3) / ${pooldepth} * z + ${surfacetemp}'
-  [../]
-  [./random]
-    type = RandomIC
-    variable = random
+    function = '(${surfacetemp} - ${bottomtemp}) / ${pooldepth} * z + ${surfacetemp}'
   [../]
 []
 
@@ -210,7 +198,7 @@ pooldepth=2
     type = DirichletBC
     variable = T
     boundary = 'bottom'
-    value = .3
+    value = ${bottomtemp}
   [../]
 []
 
@@ -219,7 +207,7 @@ pooldepth=2
     type = RadiationEnergyFluxBC
     variable = T
     boundary = 'top'
-    ff_temp = .3
+    ff_temp = ${bottomtemp}
     sb_constant = 'sb_constant'
     absorptivity = 'abs'
     use_displaced_mesh = true
@@ -230,8 +218,8 @@ pooldepth=2
     variable = T
     boundary = 'top'
     reff = 0.6
-    F0 = 2.546e0
-    R = 1
+    F0 = 2.546e9
+    R = 1e-4
     x_beam_coord = 0
     y_beam_coord = 0
     z_beam_coord = 0
@@ -289,20 +277,12 @@ pooldepth=2
     type = CrazyKCPlantFits
     temperature = T
     beta = 1e7
-    length_unit_exponent = '-4'
-    temperature_unit_exponent = 3
-    mass_unit_exponent = '-6'
-    time_unit_exponent = '-5'
   [../]
   [./boundary]
     type = CrazyKCPlantFitsBoundary
     boundary = 'top'
     temperature = T
     use_displaced_mesh = true
-    length_unit_exponent = '-4'
-    temperature_unit_exponent = 3
-    mass_unit_exponent = '-6'
-    time_unit_exponent = '-5'
   [../]
 []
 
@@ -310,13 +290,13 @@ pooldepth=2
   [./const]
     type = GenericConstantMaterial
     prop_names = 'abs sb_constant'
-    prop_values = '1 5.67e3'
+    prop_values = '1 5.67e-8'
   [../]
 []
 
 [Preconditioning]
   [./SMP]
-    type = FDP
+    type = SMP
     full = true
     solve_type = 'NEWTON'
   [../]
@@ -325,11 +305,11 @@ pooldepth=2
 [Executioner]
   type = Transient
   end_time = ${endtime}
-  dtmin = 1e-3
-  num_steps = 1
+  dtmin = 1e-8
+  num_steps = 3
   petsc_options = '-snes_converged_reason -ksp_converged_reason -options_left -ksp_monitor_singular_value'
-  petsc_options_iname = '-ksp_max_it -ksp_gmres_restart -pc_type -sub_pc_factor_levels'
-  petsc_options_value = '1000	     200		asm	 1'
+  petsc_options_iname = '-ksp_max_it -ksp_gmres_restart -pc_type'
+  petsc_options_value = '1000	     200	        asm'
 
   line_search = 'none'
   nl_max_its = 12
@@ -363,14 +343,11 @@ pooldepth=2
 
 
 [Adaptivity]
-  # marker = combo
-  marker = errorfrac_random
+  marker = combo
   max_h_level = 1
   initial_steps = 0
 
   [./Indicators]
-    # active = 'error_x error_y error_T error_dispx error_dispy'
-    active = 'random_indicator'
     [./error_x]
       type = GradientJumpIndicator
       variable = vel_x
@@ -395,15 +372,9 @@ pooldepth=2
       type = GradientJumpIndicator
       variable = disp_y
     [../]
-    [./random_indicator]
-      type = ElementIntegralIndicator
-      variable = random
-    [../]
   [../]
 
   [./Markers]
-    # active = 'errorfrac_x errorfrac_y errorfrac_T errorfrac_dispx errorfrac_dispy combo'
-    active = 'errorfrac_random'
     [./errorfrac_x]
       type = ErrorFractionMarker
       refine = 0.4
@@ -443,12 +414,6 @@ pooldepth=2
     [./combo]
       type = ComboMarker
       markers = 'errorfrac_x errorfrac_y  errorfrac_T errorfrac_dispx errorfrac_dispy'
-    [../]
-    [./errorfrac_random]
-      type = ErrorFractionMarker
-      refine = 0.4
-      coarsen = 0.2
-      indicator = random_indicator
     [../]
   [../]
 []
