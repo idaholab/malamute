@@ -1,8 +1,14 @@
-endtime=500
-timestep=.5
-surfacetemp=.3
-bottomtemp=.3
-pooldepth=2
+length_unit_exponent=-4
+temperature_unit_exponent=3
+mass_unit_exponent=-6
+time_unit_exponent=-5
+
+endtime=${fparse 500e-5 / 10^time_unit_exponent}
+timestep=${fparse .5e-5 / 10^time_unit_exponent}
+surfacetemp=${fparse 300 / 10^temperature_unit_exponent}
+bottomtemp=${fparse 300 / 10^temperature_unit_exponent}
+pooldepth=${fparse 2e-4 / 10^length_unit_exponent}
+half_width=${fparse 4e-4 / 10^length_unit_exponent}
 
 [GlobalParams]
   gravity = '0 0 0'
@@ -19,9 +25,9 @@ pooldepth=2
 [Mesh]
   type = GeneratedMesh
   dim = 2
-  xmin = -4
-  xmax = 4
-  ymin = -2
+  xmin = ${fparse -half_width}
+  xmax = ${half_width}
+  ymin = ${fparse -pooldepth}
   ymax = 0
   nx = 4
   ny = 1
@@ -217,8 +223,8 @@ pooldepth=2
     variable = T
     boundary = 'top'
     reff = 0.6
-    F0 = 2.546e0
-    R = 1
+    F0 = ${fparse 2.546e9 / 10^mass_unit_exponent * 10^(3 * time_unit_exponent)}
+    R = ${fparse 1e-4 / 10^length_unit_exponent}
     x_beam_coord = 0
     y_beam_coord = 0
     z_beam_coord = 0
@@ -276,20 +282,20 @@ pooldepth=2
     type = CrazyKCPlantFits
     temperature = T
     beta = 1e7
-    length_unit_exponent = '-4'
-    temperature_unit_exponent = 3
-    mass_unit_exponent = '-6'
-    time_unit_exponent = '-5'
+    length_unit_exponent = ${length_unit_exponent}
+    temperature_unit_exponent = ${temperature_unit_exponent}
+    mass_unit_exponent = ${mass_unit_exponent}
+    time_unit_exponent = ${time_unit_exponent}
   [../]
   [./boundary]
     type = CrazyKCPlantFitsBoundary
     boundary = 'top'
     temperature = T
     use_displaced_mesh = true
-    length_unit_exponent = '-4'
-    temperature_unit_exponent = 3
-    mass_unit_exponent = '-6'
-    time_unit_exponent = '-5'
+    length_unit_exponent = ${length_unit_exponent}
+    temperature_unit_exponent = ${temperature_unit_exponent}
+    mass_unit_exponent = ${mass_unit_exponent}
+    time_unit_exponent = ${time_unit_exponent}
   [../]
 []
 
@@ -297,7 +303,7 @@ pooldepth=2
   [./const]
     type = GenericConstantMaterial
     prop_names = 'abs sb_constant'
-    prop_values = '1 5.67e-5'
+    prop_values = '1 ${fparse 5.67e-8 / 10^mass_unit_exponent * 10^(4 * temperature_unit_exponent) * 10^(3 * time_unit_exponent)}'
   [../]
 []
 
@@ -312,7 +318,7 @@ pooldepth=2
 [Executioner]
   type = Transient
   end_time = ${endtime}
-  dtmin = 1e-3
+  dtmin = ${fparse 1e-8 / 10^time_unit_exponent}
   num_steps = 12
   petsc_options = '-snes_converged_reason -ksp_converged_reason -options_left -ksp_monitor_singular_value'
   petsc_options_iname = '-ksp_max_it -ksp_gmres_restart -pc_type'
