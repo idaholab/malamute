@@ -21,4 +21,18 @@
     difference_tol = 1e-4
     run_sim = True
   [../]
+  [./non-uniform-2d-jacobian-1st-order]
+    type = PetscJacobianTester
+    input = non-uniform-1st-order-2d-jacobian-tester.i
+    ratio_tol = 1e-7
+    difference_tol = 1e-4
+    run_sim = True
+  [../]
+  [./non-uniform-2d-jacobian-2nd-order]
+    type = PetscJacobianTester
+    input = non-uniform-2nd-order-2d-jacobian-tester.i
+    ratio_tol = 1e-7
+    difference_tol = 1e-4
+    run_sim = True
+  [../]
 []
