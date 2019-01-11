@@ -1,13 +1,19 @@
-endtime=500
-timestep=.5
-surfacetemp=.3
-bottomtemp=.3
-pooldepth=2
+length_unit_exponent=-4
+temperature_unit_exponent=3
+mass_unit_exponent=-6
+time_unit_exponent=-5
+
+endtime=${fparse 500e-5 / 10^time_unit_exponent}
+timestep=${fparse 5e-7 / 10^time_unit_exponent}
+surfacetemp=${fparse 300 / 10^temperature_unit_exponent}
+bottomtemp=${fparse 300 / 10^temperature_unit_exponent}
+pooldepth=${fparse 2e-4 / 10^length_unit_exponent}
+half_width=${fparse 4e-4 / 10^length_unit_exponent}
 
 [GlobalParams]
   gravity = '0 0 0'
   # pspg = true
-  # supg = true
+  supg = true
   laplace = true
   integrate_p_by_parts = true
   convective_term = true
@@ -19,15 +25,15 @@ pooldepth=2
 [Mesh]
   type = GeneratedMesh
   dim = 2
-  xmin = -4
-  xmax = 4
-  ymin = -2
+  xmin = ${fparse -half_width}
+  xmax = ${half_width}
+  ymin = ${fparse -pooldepth}
   ymax = 0
   nx = 4
   ny = 1
   displacements = 'disp_x disp_y'
   elem_type = QUAD9
-  uniform_refine = 2
+  uniform_refine = 4
 []
 
 [Problem]
@@ -40,6 +46,7 @@ pooldepth=2
       type = ConstantIC
       value = 1e-15
     [../]
+    scaling = 1e6
   [../]
 
   [./vel_y]
@@ -47,6 +54,7 @@ pooldepth=2
       type = ConstantIC
       value = 1e-15
     [../]
+    scaling = 1e6
   [../]
 
   [./T]
@@ -56,8 +64,10 @@ pooldepth=2
     order = FIRST
   [../]
   [./disp_x]
+    scaling = 1e-3
   [../]
   [./disp_y]
+    scaling = 1e-3
   [../]
 []
 
@@ -70,18 +80,21 @@ pooldepth=2
 []
 
 [Kernels]
-  [./disp_x]
-    type = Diffusion
-    variable = disp_x
-  [../]
-  [./disp_y]
-    type = Diffusion
-    variable = disp_y
-  [../]
 []
 
 [ADKernels]
-  [./mesh_x]
+  [./disp_x]
+    type = ADStressDivergence
+    variable = disp_x
+    component = 0
+  [../]
+  [./disp_y]
+    type = ADStressDivergence
+    variable = disp_y
+    component = 1
+  [../]
+
+[./mesh_x]
     type = INSConvectedMesh
     variable = vel_x
     disp_x = disp_x
@@ -170,27 +183,27 @@ pooldepth=2
   [./x_no_disp]
     type = DirichletBC
     variable = disp_x
-    boundary = 'bottom'
+    boundary = 'bottom left right'
     value = 0
   [../]
   [./y_no_disp]
     type = DirichletBC
     variable = disp_y
-    boundary = 'bottom'
+    boundary = 'bottom left right'
     value = 0
   [../]
 
   [./x_no_slip]
     type = DirichletBC
     variable = vel_x
-    boundary = 'bottom right left'
+    boundary = 'bottom left right'
     value = 0.0
   [../]
 
   [./y_no_slip]
     type = DirichletBC
     variable = vel_y
-    boundary = 'bottom right left'
+    boundary = 'bottom left right'
     value = 0.0
   [../]
 
@@ -218,8 +231,8 @@ pooldepth=2
     variable = T
     boundary = 'top'
     reff = 0.6
-    F0 = 2.546e0
-    R = 1
+    F0 = ${fparse 2.546e9 / 10^mass_unit_exponent * 10^(3 * time_unit_exponent)}
+    R = ${fparse 1e-4 / 10^length_unit_exponent}
     x_beam_coord = 0
     y_beam_coord = 0
     z_beam_coord = 0
@@ -242,33 +255,39 @@ pooldepth=2
     use_displaced_mesh = true
   [../]
 
-  # [./surface_x]
-  #   type = SurfaceTensionBC
-  #   variable = vel_x
-  #   boundary = 'top'
-  #   component = 0
-  #   use_displaced_mesh = true
-  # [../]
+  [./surface_x]
+    type = SurfaceTensionBC
+    variable = vel_x
+    boundary = 'top'
+    component = 0
+    use_displaced_mesh = true
+  [../]
 
-  # [./surface_y]
-  #   type = SurfaceTensionBC
-  #   variable = vel_y
-  #   boundary = 'top'
-  #   component = 1
-  #   use_displaced_mesh = true
-  # [../]
+  [./surface_y]
+    type = SurfaceTensionBC
+    variable = vel_y
+    boundary = 'top'
+    component = 1
+    use_displaced_mesh = true
+  [../]
 
   [./displace_x_top]
-    type = DisplaceBoundaryBC
+    type = PenaltyDisplaceBoundaryBC
     boundary = 'top'
     variable = 'disp_x'
-    velocity = 'vel_x'
+    vel_x = 'vel_x'
+    disp_x = 'disp_x'
+    vel_y = 'vel_y'
+    disp_y = 'disp_y'
   [../]
   [./displace_y_top]
-    type = DisplaceBoundaryBC
+    type = PenaltyDisplaceBoundaryBC
     boundary = 'top'
     variable = 'disp_y'
-    velocity = 'vel_y'
+    vel_x = 'vel_x'
+    disp_x = 'disp_x'
+    vel_y = 'vel_y'
+    disp_y = 'disp_y'
   [../]
 []
 
@@ -277,20 +296,27 @@ pooldepth=2
     type = CrazyKCPlantFits
     temperature = T
     beta = 1e7
-    length_unit_exponent = '-4'
-    temperature_unit_exponent = 3
-    mass_unit_exponent = '-6'
-    time_unit_exponent = '-5'
+    length_unit_exponent = ${length_unit_exponent}
+    temperature_unit_exponent = ${temperature_unit_exponent}
+    mass_unit_exponent = ${mass_unit_exponent}
+    time_unit_exponent = ${time_unit_exponent}
+    Tl = 500
+    T90 = 400
   [../]
   [./boundary]
     type = CrazyKCPlantFitsBoundary
     boundary = 'top'
     temperature = T
     use_displaced_mesh = true
-    length_unit_exponent = '-4'
-    temperature_unit_exponent = 3
-    mass_unit_exponent = '-6'
-    time_unit_exponent = '-5'
+    length_unit_exponent = ${length_unit_exponent}
+    temperature_unit_exponent = ${temperature_unit_exponent}
+    mass_unit_exponent = ${mass_unit_exponent}
+    time_unit_exponent = ${time_unit_exponent}
+  [../]
+  [./stress]
+    type = PseudoSolidStress
+    disp_x = disp_x
+    disp_y = disp_y
   [../]
 []
 
@@ -298,13 +324,13 @@ pooldepth=2
   [./const]
     type = GenericConstantMaterial
     prop_names = 'abs sb_constant'
-    prop_values = '1 5.67e-5'
+    prop_values = '1 ${fparse 5.67e-8 / 10^mass_unit_exponent * 10^(4 * temperature_unit_exponent) * 10^(3 * time_unit_exponent)}'
   [../]
 []
 
 [Preconditioning]
   [./SMP]
-    type = FDP
+    type = SMP
     full = true
     solve_type = 'NEWTON'
   [../]
@@ -313,18 +339,18 @@ pooldepth=2
 [Executioner]
   type = Transient
   end_time = ${endtime}
-  dtmin = 1e-3
-  num_steps = 12
+  dtmin = ${fparse 1e-8 / 10^time_unit_exponent}
+  num_steps = 300
   petsc_options = '-snes_converged_reason -ksp_converged_reason -options_left -ksp_monitor_singular_value'
-  petsc_options_iname = '-ksp_max_it -ksp_gmres_restart -pc_type'
-  petsc_options_value = '1000	     200	        asm'
+  petsc_options_iname = '-ksp_max_it -ksp_gmres_restart -pc_type -snes_max_funcs -sub_pc_factor_levels'
+  petsc_options_value = '100	     100	        asm      1000000         1'
 
   line_search = 'none'
   nl_max_its = 12
   l_tol = 1e-3
   [./TimeStepper]
     type = IterationAdaptiveDT
-    optimal_iterations = 7
+    optimal_iterations = 8
     dt = ${timestep}
     linear_iteration_ratio = 1e6
     growth_factor = 1.5
@@ -333,15 +359,16 @@ pooldepth=2
 
 [Outputs]
   print_linear_residuals = false
+  csv = true
   [./exodus]
     type = Exodus
     output_material_properties = true
     show_material_properties = 'mu surface_term_curvature surface_term_gradient1 surface_term_gradient2'
   [../]
-  [./dofmap]
-    type = DOFMap
-    execute_on = 'initial'
-  [../]
+  # [./dofmap]
+  #   type = DOFMap
+  #   execute_on = 'timestep_end'
+  # [../]
   checkpoint = true
 []
 
@@ -350,81 +377,82 @@ pooldepth=2
 []
 
 
-[Adaptivity]
-  marker = combo
-  max_h_level = 3
-  initial_steps = 0
+# [Adaptivity]
+#   marker = combo
+#   max_h_level = 6
+#   initial_steps = 0
 
-  [./Indicators]
-    [./error_x]
-      type = GradientJumpIndicator
-      variable = vel_x
-    [../]
-    [./error_y]
-      type = GradientJumpIndicator
-      variable = vel_y
-    [../]
-    # [./error_p]
-    #   type = GradientJumpIndicator
-    #   variable = p
-    # [../]
-    [./error_T]
-      type = GradientJumpIndicator
-      variable = T
-    [../]
-    [./error_dispx]
-      type = GradientJumpIndicator
-      variable = disp_x
-    [../]
-    [./error_dispy]
-      type = GradientJumpIndicator
-      variable = disp_y
-    [../]
-  [../]
+#   [./Indicators]
+#     [./error_x]
+#       type = GradientJumpIndicator
+#       variable = vel_x
+#     [../]
+#     [./error_y]
+#       type = GradientJumpIndicator
+#       variable = vel_y
+#     [../]
+#     # [./error_p]
+#     #   type = GradientJumpIndicator
+#     #   variable = p
+#     # [../]
+#     [./error_T]
+#       type = GradientJumpIndicator
+#       variable = T
+#     [../]
+#     [./error_dispx]
+#       type = GradientJumpIndicator
+#       variable = disp_x
+#     [../]
+#     [./error_dispy]
+#       type = GradientJumpIndicator
+#       variable = disp_y
+#     [../]
+#   [../]
 
-  [./Markers]
-    [./errorfrac_x]
-      type = ErrorFractionMarker
-      refine = 0.4
-      coarsen = 0.2
-      indicator = error_x
-    [../]
-    [./errorfrac_y]
-      type = ErrorFractionMarker
-      refine = 0.4
-      coarsen = 0.2
-      indicator = error_y
-    [../]
-    # [./errorfrac_p]
-    #   type = ErrorFractionMarker
-    #   refine = 0.7
-    #   coarsen = 0.3
-    #   indicator = error_p
-    # [../]
-    [./errorfrac_T]
-      type = ErrorFractionMarker
-      refine = 0.4
-      coarsen = 0.2
-      indicator = error_T
-    [../]
-    [./errorfrac_dispx]
-      type = ErrorFractionMarker
-      refine = 0.4
-      coarsen = 0.2
-      indicator = error_dispx
-    [../]
-    [./errorfrac_dispy]
-      type = ErrorFractionMarker
-      refine = 0.4
-      coarsen = 0.2
-      indicator = error_dispy
-    [../]
-    [./combo]
-      type = ComboMarker
-      markers = 'errorfrac_x errorfrac_y  errorfrac_T errorfrac_dispx errorfrac_dispy'
-    [../]
-  [../]
-[]
+#   [./Markers]
+#     [./errorfrac_x]
+#       type = ErrorFractionMarker
+#       refine = 0.8
+#       coarsen = 0.05
+#       indicator = error_x
+#     [../]
+#     [./errorfrac_y]
+#       type = ErrorFractionMarker
+#       refine = 0.8
+#       coarsen = 0.05
+#       indicator = error_y
+#     [../]
+#     # [./errorfrac_p]
+#     #   type = ErrorFractionMarker
+#     #   refine = 0.8
+#     #   coarsen = 0.05
+#     #   indicator = error_p
+#     # [../]
+#     [./errorfrac_T]
+#       type = ErrorFractionMarker
+#       refine = 0.8
+#       coarsen = 0.05
+#       indicator = error_T
+#     [../]
+#     [./errorfrac_dispx]
+#       type = ErrorFractionMarker
+#       refine = 0.8
+#       coarsen = 0.05
+#       indicator = error_dispx
+#     [../]
+#     [./errorfrac_dispy]
+#       type = ErrorFractionMarker
+#       refine = 0.8
+#       coarsen = 0.05
+#       indicator = error_dispy
+#     [../]
+#     [./combo]
+#       type = ComboMarker
+#       # markers = 'errorfrac_x errorfrac_y  errorfrac_T errorfrac_dispx errorfrac_dispy'
+#       markers = 'errorfrac_x'
+#     [../]
+#   [../]
+# []
 
 [Postprocessors]
   [./num_dofs]

@@ -4,16 +4,19 @@ mass_unit_exponent=-6
 time_unit_exponent=-5
 
 endtime=${fparse 500e-5 / 10^time_unit_exponent}
-timestep=${fparse .5e-5 / 10^time_unit_exponent}
+period=${fparse 5e-5 / 10^time_unit_exponent}
+timestep=${fparse period / 20}
+dtmax=${fparse period / 10}
 surfacetemp=${fparse 300 / 10^temperature_unit_exponent}
 bottomtemp=${fparse 300 / 10^temperature_unit_exponent}
-pooldepth=${fparse 2e-4 / 10^length_unit_exponent}
-half_width=${fparse 4e-4 / 10^length_unit_exponent}
+width=${fparse 8e-4 / 10^length_unit_exponent}
+half_width=${fparse width / 2}
+pooldepth=${width}
 
 [GlobalParams]
   gravity = '0 0 0'
   pspg = true
-  # supg = true
+  supg = true
   laplace = true
   integrate_p_by_parts = true
   convective_term = true
@@ -30,8 +33,9 @@ half_width=${fparse 4e-4 / 10^length_unit_exponent}
   ymin = ${fparse -pooldepth}
   ymax = 0
   nx = 4
-  ny = 1
+  ny = 4
   displacements = 'disp_x disp_y'
+  elem_type = QUAD4
   uniform_refine = 4
 []
 
@@ -45,6 +49,7 @@ half_width=${fparse 4e-4 / 10^length_unit_exponent}
       type = ConstantIC
       value = 1e-15
     [../]
+    scaling = 1e6
   [../]
 
   [./vel_y]
@@ -52,17 +57,22 @@ half_width=${fparse 4e-4 / 10^length_unit_exponent}
       type = ConstantIC
       value = 1e-15
     [../]
+    scaling = 1e6
   [../]
 
   [./T]
+    scaling = 1e1
   [../]
 
   [./p]
     order = FIRST
+    scaling = 1e4
   [../]
   [./disp_x]
+    scaling = 1e-3
   [../]
   [./disp_y]
+    scaling = 1e-3
   [../]
 []
 
@@ -75,18 +85,21 @@ half_width=${fparse 4e-4 / 10^length_unit_exponent}
 []
 
 [Kernels]
-  [./disp_x]
-    type = Diffusion
-    variable = disp_x
-  [../]
-  [./disp_y]
-    type = Diffusion
-    variable = disp_y
-  [../]
 []
 
 [ADKernels]
-  [./mesh_x]
+  [./disp_x]
+    type = ADStressDivergence
+    variable = disp_x
+    component = 0
+  [../]
+  [./disp_y]
+    type = ADStressDivergence
+    variable = disp_y
+    component = 1
+  [../]
+
+[./mesh_x]
     type = INSConvectedMesh
     variable = vel_x
     disp_x = disp_x
@@ -175,27 +188,27 @@ half_width=${fparse 4e-4 / 10^length_unit_exponent}
   [./x_no_disp]
     type = DirichletBC
     variable = disp_x
-    boundary = 'bottom'
+    boundary = 'bottom left right'
     value = 0
   [../]
   [./y_no_disp]
     type = DirichletBC
     variable = disp_y
-    boundary = 'bottom'
+    boundary = 'bottom left right'
     value = 0
   [../]
 
   [./x_no_slip]
     type = DirichletBC
     variable = vel_x
-    boundary = 'bottom right left'
+    boundary = 'bottom left right'
     value = 0.0
   [../]
 
   [./y_no_slip]
     type = DirichletBC
     variable = vel_y
-    boundary = 'bottom right left'
+    boundary = 'bottom left right'
     value = 0.0
   [../]
 
@@ -225,7 +238,7 @@ half_width=${fparse 4e-4 / 10^length_unit_exponent}
     reff = 0.6
     F0 = ${fparse 2.546e9 / 10^mass_unit_exponent * 10^(3 * time_unit_exponent)}
     R = ${fparse 1e-4 / 10^length_unit_exponent}
-    x_beam_coord = 0
+    x_beam_coord = '${fparse 2e-4 / 10^length_unit_exponent} * sin(2 * pi / (50 * ${timestep}) * t)'
     y_beam_coord = 0
     z_beam_coord = 0
     use_displaced_mesh = true
@@ -264,16 +277,22 @@ half_width=${fparse 4e-4 / 10^length_unit_exponent}
   [../]
 
   [./displace_x_top]
-    type = DisplaceBoundaryBC
+    type = PenaltyDisplaceBoundaryBC
     boundary = 'top'
     variable = 'disp_x'
-    velocity = 'vel_x'
+    vel_x = 'vel_x'
+    disp_x = 'disp_x'
+    vel_y = 'vel_y'
+    disp_y = 'disp_y'
   [../]
   [./displace_y_top]
-    type = DisplaceBoundaryBC
+    type = PenaltyDisplaceBoundaryBC
     boundary = 'top'
     variable = 'disp_y'
-    velocity = 'vel_y'
+    vel_x = 'vel_x'
+    disp_x = 'disp_x'
+    vel_y = 'vel_y'
+    disp_y = 'disp_y'
   [../]
 []
 
@@ -297,6 +316,11 @@ half_width=${fparse 4e-4 / 10^length_unit_exponent}
     mass_unit_exponent = ${mass_unit_exponent}
     time_unit_exponent = ${time_unit_exponent}
   [../]
+  [./stress]
+    type = PseudoSolidStress
+    disp_x = disp_x
+    disp_y = disp_y
+  [../]
 []
 
 [Materials]
@@ -309,7 +333,7 @@ half_width=${fparse 4e-4 / 10^length_unit_exponent}
 
 [Preconditioning]
   [./SMP]
-    type = FDP
+    type = SMP
     full = true
     solve_type = 'NEWTON'
   [../]
@@ -319,34 +343,35 @@ half_width=${fparse 4e-4 / 10^length_unit_exponent}
   type = Transient
   end_time = ${endtime}
   dtmin = ${fparse 1e-8 / 10^time_unit_exponent}
-  num_steps = 12
   petsc_options = '-snes_converged_reason -ksp_converged_reason -options_left -ksp_monitor_singular_value'
-  petsc_options_iname = '-ksp_max_it -ksp_gmres_restart -pc_type'
-  petsc_options_value = '1000	     200	        asm'
+  petsc_options_iname = '-ksp_max_it -ksp_gmres_restart -pc_type -snes_max_funcs -sub_pc_factor_levels'
+  petsc_options_value = '100	     100	        asm      1000000         1'
 
   line_search = 'none'
   nl_max_its = 12
   l_tol = 1e-3
+    dtmax = ${dtmax}
   [./TimeStepper]
     type = IterationAdaptiveDT
-    optimal_iterations = 7
+    optimal_iterations = 6
     dt = ${timestep}
     linear_iteration_ratio = 1e6
-    growth_factor = 1.5
+    growth_factor = 1.1
   [../]
 []
 
 [Outputs]
   print_linear_residuals = false
+  csv = true
   [./exodus]
     type = Exodus
     output_material_properties = true
     show_material_properties = 'mu surface_term_curvature surface_term_gradient1 surface_term_gradient2'
   [../]
-  [./dofmap]
-    type = DOFMap
-    execute_on = 'initial'
-  [../]
+  # [./dofmap]
+  #   type = DOFMap
+  #   execute_on = 'timestep_end'
+  # [../]
   checkpoint = true
 []
 
@@ -390,43 +415,44 @@ half_width=${fparse 4e-4 / 10^length_unit_exponent}
   [./Markers]
     [./errorfrac_x]
       type = ErrorFractionMarker
-      refine = 0.4
-      coarsen = 0.2
+      refine = 0.8
+      coarsen = 0.05
       indicator = error_x
     [../]
     [./errorfrac_y]
       type = ErrorFractionMarker
-      refine = 0.4
-      coarsen = 0.2
+      refine = 0.8
+      coarsen = 0.05
       indicator = error_y
     [../]
     # [./errorfrac_p]
     #   type = ErrorFractionMarker
-    #   refine = 0.7
-    #   coarsen = 0.3
+    #   refine = 0.8
+    #   coarsen = 0.05
     #   indicator = error_p
     # [../]
     [./errorfrac_T]
       type = ErrorFractionMarker
-      refine = 0.4
-      coarsen = 0.2
+      refine = 0.8
+      coarsen = 0.05
       indicator = error_T
     [../]
     [./errorfrac_dispx]
       type = ErrorFractionMarker
-      refine = 0.4
-      coarsen = 0.2
+      refine = 0.8
+      coarsen = 0.05
       indicator = error_dispx
     [../]
     [./errorfrac_dispy]
       type = ErrorFractionMarker
-      refine = 0.4
-      coarsen = 0.2
+      refine = 0.8
+      coarsen = 0.05
       indicator = error_dispy
     [../]
     [./combo]
       type = ComboMarker
       markers = 'errorfrac_x errorfrac_y  errorfrac_T errorfrac_dispx errorfrac_dispy'
+      # markers = 'errorfrac_x'
     [../]
   [../]
 []
