@@ -6,8 +6,8 @@
 //*
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
-#ifndef CRAZYKCPLANTFITSBOUNDARY_H_
-#define CRAZYKCPLANTFITSBOUNDARY_H_
+#ifndef CRAZYKCPLANTFITSBOUNDARY_H
+#define CRAZYKCPLANTFITSBOUNDARY_H
 
 #include "ADMaterial.h"
 

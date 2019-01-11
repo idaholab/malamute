@@ -6,8 +6,8 @@
 //*
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
-#ifndef CRAZYKCPLANTFITS_H_
-#define CRAZYKCPLANTFITS_H_
+#ifndef CRAZYKCPLANTFITS_H
+#define CRAZYKCPLANTFITS_H
 
 #include "ADMaterial.h"
 
