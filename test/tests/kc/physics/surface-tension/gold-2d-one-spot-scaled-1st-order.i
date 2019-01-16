@@ -6,7 +6,6 @@ time_unit_exponent=-5
 endtime=${fparse 500e-5 / 10^time_unit_exponent}
 period=${fparse 5e-5 / 10^time_unit_exponent}
 timestep=${fparse period / 20}
-dtmax=${fparse period / 10}
 surfacetemp=${fparse 300 / 10^temperature_unit_exponent}
 bottomtemp=${fparse 300 / 10^temperature_unit_exponent}
 width=${fparse 8e-4 / 10^length_unit_exponent}
@@ -188,13 +187,13 @@ pooldepth=${width}
   [./x_no_disp]
     type = DirichletBC
     variable = disp_x
-    boundary = 'bottom left right'
+    boundary = 'left right'
     value = 0
   [../]
   [./y_no_disp]
     type = DirichletBC
     variable = disp_y
-    boundary = 'bottom left right'
+    boundary = 'bottom'
     value = 0
   [../]
 
@@ -349,11 +348,10 @@ pooldepth=${width}
 
   line_search = 'none'
   nl_max_its = 12
-  l_tol = 1e-3
-    dtmax = ${dtmax}
+    l_tol = 1e-2
   [./TimeStepper]
     type = IterationAdaptiveDT
-    optimal_iterations = 6
+    optimal_iterations = 8
     dt = ${timestep}
     linear_iteration_ratio = 1e6
     growth_factor = 1.1
