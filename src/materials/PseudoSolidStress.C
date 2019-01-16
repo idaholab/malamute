@@ -35,14 +35,10 @@ PseudoSolidStress<compute_stage>::computeQpProperties()
 {
   typedef typename Moose::template ValueType<compute_stage, TensorValue<Real>>::type LocalTensor;
   LocalTensor def_gradient(_grad_disp_x[_qp], _grad_disp_y[_qp], _grad_disp_z[_qp]);
-  const auto E =
-      0.5 * (def_gradient + def_gradient.transpose() - def_gradient * def_gradient.transpose());
+  const auto E = 0.5 * (def_gradient + def_gradient.transpose());
   TensorValue<Real> identity(1., 0, 0, 0, 1., 0, 0, 0, 1.);
   const auto S = 2. * E + E.tr() * identity;
   _stress_x[_qp] = S.row(0);
   _stress_y[_qp] = S.row(1);
   _stress_z[_qp] = S.row(2);
-  // _stress_x[_qp] = def_gradient.row(0);
-  // _stress_y[_qp] = def_gradient.row(1);
-  // _stress_z[_qp] = def_gradient.row(2);
 }
