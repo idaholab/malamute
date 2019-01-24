@@ -33,11 +33,19 @@ pooldepth=${width}
   ymax = ${half_width}
   zmin = ${fparse -pooldepth}
   zmax = 0
-  nx = 1
-  ny = 1
-  nz = 1
+  nx = 2
+  ny = 2
+  nz = 2
   displacements = 'disp_x disp_y disp_z'
-  uniform_refine = 0
+  uniform_refine = 3
+[]
+
+[MeshModifiers]
+  [./corner_node]
+    type = AddExtraNodeset
+    new_boundary = 'pinned_node'
+    nodes = '0'
+  [../]
 []
 
 [Variables]
@@ -235,19 +243,19 @@ pooldepth=${width}
   [./x_no_disp]
     type = DirichletBC
     variable = disp_x
-    boundary = 'left right top bottom back'
+    boundary = 'left right'
     value = 0
   [../]
   [./y_no_disp]
     type = DirichletBC
     variable = disp_y
-    boundary = 'bottom top left right back'
+    boundary = 'bottom top'
     value = 0
   [../]
   [./z_no_disp]
     type = DirichletBC
     variable = disp_z
-    boundary = 'back bottom top left right'
+    boundary = 'back'
     value = 0
   [../]
 
@@ -277,6 +285,13 @@ pooldepth=${width}
     variable = T
     boundary = 'back'
     value = ${bottomtemp}
+  [../]
+
+  [./pressure_pin]
+    type = DirichletBC
+    variable = p
+    boundary = 'pinned_node'
+    value = 0
   [../]
 []
 
@@ -354,7 +369,7 @@ pooldepth=${width}
 
   [./displace_x_top]
     type = PenaltyDisplaceBoundaryBC
-    boundary = 'top'
+    boundary = 'front'
     variable = 'disp_x'
     vel_x = 'vel_x'
     disp_x = 'disp_x'
@@ -365,7 +380,7 @@ pooldepth=${width}
   [../]
   [./displace_y_top]
     type = PenaltyDisplaceBoundaryBC
-    boundary = 'top'
+    boundary = 'front'
     variable = 'disp_y'
     vel_x = 'vel_x'
     disp_x = 'disp_x'
@@ -376,7 +391,7 @@ pooldepth=${width}
   [../]
   [./displace_z_top]
     type = PenaltyDisplaceBoundaryBC
-    boundary = 'top'
+    boundary = 'front'
     variable = 'disp_z'
     vel_x = 'vel_x'
     disp_x = 'disp_x'
@@ -391,7 +406,7 @@ pooldepth=${width}
   [./kc_fits]
     type = CrazyKCPlantFits
     temperature = T
-    beta = 1
+    beta = 1e7
     length_unit_exponent = ${length_unit_exponent}
     temperature_unit_exponent = ${temperature_unit_exponent}
     mass_unit_exponent = ${mass_unit_exponent}
@@ -411,6 +426,7 @@ pooldepth=${width}
     type = PseudoSolidStress
     disp_x = disp_x
     disp_y = disp_y
+    disp_z = disp_z
   [../]
 []
 
