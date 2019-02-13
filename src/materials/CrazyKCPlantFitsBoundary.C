@@ -10,7 +10,7 @@
 #include "CrazyKCPlantFitsBoundary.h"
 #include "Assembly.h"
 
-registerADMooseObject("ArticunoApp", CrazyKCPlantFitsBoundary);
+registerADMooseObject("BaldrApp", CrazyKCPlantFitsBoundary);
 
 defineADValidParams(
     CrazyKCPlantFitsBoundary,

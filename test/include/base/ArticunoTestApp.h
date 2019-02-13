@@ -11,16 +11,16 @@
 
 #include "MooseApp.h"
 
-class ArticunoTestApp;
+class BaldrTestApp;
 
 template <>
-InputParameters validParams<ArticunoTestApp>();
+InputParameters validParams<BaldrTestApp>();
 
-class ArticunoTestApp : public MooseApp
+class BaldrTestApp : public MooseApp
 {
 public:
-  ArticunoTestApp(InputParameters parameters);
-  virtual ~ArticunoTestApp();
+  BaldrTestApp(InputParameters parameters);
+  virtual ~BaldrTestApp();
 
   static void registerApps();
   static void registerAll(Factory & f, ActionFactory & af, Syntax & s, bool use_test_objs = false);

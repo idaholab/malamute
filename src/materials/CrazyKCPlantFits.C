@@ -9,7 +9,7 @@
 
 #include "CrazyKCPlantFits.h"
 
-registerADMooseObject("ArticunoApp", CrazyKCPlantFits);
+registerADMooseObject("BaldrApp", CrazyKCPlantFits);
 
 defineADValidParams(
     CrazyKCPlantFits, ADMaterial, params.addParam<Real>("c_mu0", 0.15616, "mu0 coefficient");

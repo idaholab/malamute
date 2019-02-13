@@ -6,8 +6,8 @@
 //*
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
-#include "ArticunoTestApp.h"
-#include "ArticunoApp.h"
+#include "BaldrTestApp.h"
+#include "BaldrApp.h"
 #include "Moose.h"
 #include "AppFactory.h"
 #include "MooseSyntax.h"
@@ -15,36 +15,36 @@
 
 template <>
 InputParameters
-validParams<ArticunoTestApp>()
+validParams<BaldrTestApp>()
 {
-  InputParameters params = validParams<ArticunoApp>();
+  InputParameters params = validParams<BaldrApp>();
   return params;
 }
 
-ArticunoTestApp::ArticunoTestApp(InputParameters parameters) : MooseApp(parameters)
+BaldrTestApp::BaldrTestApp(InputParameters parameters) : MooseApp(parameters)
 {
-  ArticunoTestApp::registerAll(
+  BaldrTestApp::registerAll(
       _factory, _action_factory, _syntax, getParam<bool>("allow_test_objects"));
 }
 
-ArticunoTestApp::~ArticunoTestApp() {}
+BaldrTestApp::~BaldrTestApp() {}
 
 void
-ArticunoTestApp::registerAll(Factory & f, ActionFactory & af, Syntax & s, bool use_test_objs)
+BaldrTestApp::registerAll(Factory & f, ActionFactory & af, Syntax & s, bool use_test_objs)
 {
-  ArticunoApp::registerAll(f, af, s);
+  BaldrApp::registerAll(f, af, s);
   if (use_test_objs)
   {
-    Registry::registerObjectsTo(f, {"ArticunoTestApp"});
-    Registry::registerActionsTo(af, {"ArticunoTestApp"});
+    Registry::registerObjectsTo(f, {"BaldrTestApp"});
+    Registry::registerActionsTo(af, {"BaldrTestApp"});
   }
 }
 
 void
-ArticunoTestApp::registerApps()
+BaldrTestApp::registerApps()
 {
-  registerApp(ArticunoApp);
-  registerApp(ArticunoTestApp);
+  registerApp(BaldrApp);
+  registerApp(BaldrTestApp);
 }
 
 /***************************************************************************************************
@@ -52,12 +52,12 @@ ArticunoTestApp::registerApps()
  **************************************************************************************************/
 // External entry point for dynamic application loading
 extern "C" void
-ArticunoTestApp__registerAll(Factory & f, ActionFactory & af, Syntax & s)
+BaldrTestApp__registerAll(Factory & f, ActionFactory & af, Syntax & s)
 {
-  ArticunoTestApp::registerAll(f, af, s);
+  BaldrTestApp::registerAll(f, af, s);
 }
 extern "C" void
-ArticunoTestApp__registerApps()
+BaldrTestApp__registerApps()
 {
-  ArticunoTestApp::registerApps();
+  BaldrTestApp::registerApps();
 }
