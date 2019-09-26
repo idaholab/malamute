@@ -75,30 +75,6 @@
     type = Diffusion
     variable = disp_z
   [../]
-  [./mesh_x]
-    type = INSConvectedMesh
-    variable = vel_x
-    disp_x = disp_x
-    disp_y = disp_y
-    disp_z = disp_z
-    use_displaced_mesh = true
-  [../]
-  [./mesh_y]
-    type = INSConvectedMesh
-    variable = vel_x
-    disp_x = disp_x
-    disp_y = disp_y
-    disp_z = disp_z
-    use_displaced_mesh = true
-  [../]
-  [./mesh_z]
-    type = INSConvectedMesh
-    variable = vel_x
-    disp_x = disp_x
-    disp_y = disp_y
-    disp_z = disp_z
-    use_displaced_mesh = true
-  [../]
 []
 
 [ADKernels]
@@ -186,6 +162,31 @@
    p = p
    use_displaced_mesh = true
  [../]
+
+  [./mesh_x]
+    type = INSConvectedMesh
+    variable = vel_x
+    disp_x = disp_x
+    disp_y = disp_y
+    disp_z = disp_z
+    use_displaced_mesh = true
+  [../]
+  [./mesh_y]
+    type = INSConvectedMesh
+    variable = vel_x
+    disp_x = disp_x
+    disp_y = disp_y
+    disp_z = disp_z
+    use_displaced_mesh = true
+  [../]
+  [./mesh_z]
+    type = INSConvectedMesh
+    variable = vel_x
+    disp_x = disp_x
+    disp_y = disp_y
+    disp_z = disp_z
+    use_displaced_mesh = true
+  [../]
 []
 
 [BCs]

@@ -1,0 +1,19 @@
+[Tests]
+  [all]
+    type = RunApp
+    input = 'larry-2d-one-spot-scaled-1st-order.i'
+    check_input = True
+  []
+  [bottom]
+    type = RunApp
+    input = 'grain_growth_2D_bottom.i'
+    check_input = True
+    prereq = all
+  []
+  [middle]
+    type = RunApp
+    input = 'grain_growth_2D_middle.i'
+    check_input = True
+    prereq = all
+  []
+[]

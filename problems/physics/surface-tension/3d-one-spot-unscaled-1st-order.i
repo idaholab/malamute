@@ -1,4 +1,4 @@
-period=5e-4
+# period=5e-4
 endtime=5e-3
 timestep=5e-6
 surfacetemp=300

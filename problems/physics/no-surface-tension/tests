@@ -1,0 +1,12 @@
+[Tests]
+  [cold]
+    type = RunApp
+    input = cold-no-surface-tension.i
+    check_input = True
+  []
+  [hot]
+    type = RunApp
+    input = hot-no-surface-tension.i
+    check_input = True
+  []
+[]

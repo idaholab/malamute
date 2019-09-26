@@ -1,0 +1,7 @@
+[Tests]
+  [kc-profiling]
+    type = RunApp
+    input = kc-profiling.i
+    check_input = True
+  []
+[]
