@@ -28,7 +28,7 @@ PenaltyDisplaceBoundaryBC<compute_stage>::PenaltyDisplaceBoundaryBC(
   : ADIntegratedBC<compute_stage>(parameters),
     _vel_x(adCoupledValue("vel_x")),
     _vel_y(this->isCoupled("vel_y") ? adCoupledValue("vel_y") : adZeroValue()),
-    _vel_z(this->isCoupled("vel_z") ? adCoupledValue("vel_") : adZeroValue()),
+    _vel_z(this->isCoupled("vel_z") ? adCoupledValue("vel_z") : adZeroValue()),
     _disp_x_dot(adCoupledDot("disp_x")),
     _disp_y_dot(this->isCoupled("disp_y") ? adCoupledDot("disp_y") : adZeroValue()),
     _disp_z_dot(this->isCoupled("disp_z") ? adCoupledDot("disp_z") : adZeroValue()),
