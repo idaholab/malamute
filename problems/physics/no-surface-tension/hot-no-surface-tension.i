@@ -196,6 +196,14 @@ timestep=4e-7
    p = p
    use_displaced_mesh = true
  [../]
+ [mesh_T]
+   type = INSTemperatureConvectedMesh
+   variable = T
+   disp_x = disp_x
+   disp_y = disp_y
+   disp_z = disp_z
+   use_displaced_mesh = true
+ []
 []
 
 [BCs]

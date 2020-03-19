@@ -181,7 +181,7 @@ timestep=4e-7
   [../]
   [./mesh_y]
     type = INSConvectedMesh
-    variable = vel_x
+    variable = vel_y
     disp_x = disp_x
     disp_y = disp_y
     disp_z = disp_z
@@ -189,12 +189,20 @@ timestep=4e-7
   [../]
   [./mesh_z]
     type = INSConvectedMesh
-    variable = vel_x
+    variable = vel_z
     disp_x = disp_x
     disp_y = disp_y
     disp_z = disp_z
     use_displaced_mesh = true
   [../]
+  [mesh_T]
+    type = INSTemperatureConvectedMesh
+    variable = T
+    disp_x = disp_x
+    disp_y = disp_y
+    disp_z = disp_z
+    use_displaced_mesh = true
+  []
 []
 
 [BCs]
