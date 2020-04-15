@@ -1,0 +1,10 @@
+[Tests]
+  issues = '#2'
+  [./yittra_only_engineering_scale]
+    type = 'CSVDiff'
+    input = 'yittra_only_engineering_scale.i'
+    csvdiff = 'yittra_only_engineering_scale_out.csv'
+    design = 'source/kernels/HeatConduction.md source/kernels/HeatConductionTimeDerivative.md'
+    requirement = 'The system shall compute the temperature distribution using MOOSE heat conduction code capabilities at the engineering scale.'
+  [../]
+[]
