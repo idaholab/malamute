@@ -27,10 +27,10 @@
     diffusion_coefficient = yittra_thermal_conductivity
   [../]
   [./HeatTdot]
-    type = HeatConductionTimeDerivative
+    type = SpecificHeatConductionTimeDerivative
     variable = temperature
-    specific_heat = yittra_specific_heat
-    density_name = yittra_density
+    specific_heat = yittra_specific_heat_capacity
+    density = yittra_density
   [../]
 []
 
@@ -61,18 +61,18 @@
     output_properties = yittra_thermal_conductivity
     outputs = 'csv exodus'
   [../]
-  [./yittra_specific_heat]
+  [./yittra_specific_heat_capacity]
     type = DerivativeParsedMaterial
-    f_name = yittra_specific_heat
+    f_name = yittra_specific_heat_capacity
     args = 'temperature'
-    constant_names =        'molar_mass   density     gtokg'
-    constant_expressions =  '225.81       5.01        1e3' #
+    constant_names =        'molar_mass    gtokg'
+    constant_expressions =  '225.81         1.0e3' #
     function = 'if(temperature<1503.7, (3.0183710318246e-19 * temperature^7 - 2.03644357435399e-15 * temperature^6
                               + 5.75283959486472e-12 * temperature^5 - 8.8224198737065e-09 * temperature^4
                               + 7.96030446457309e-06  * temperature^3 - 0.00427362972278911 * temperature^2
-                              + 1.30756778141995 * temperature - 61.6301212149735) / molar_mass / density * gtokg,
-                  (0.0089*temperature + 119.59) / molar_mass / density * gtokg)' #in J/(K-kg)
-    output_properties = yittra_specific_heat
+                              + 1.30756778141995 * temperature - 61.6301212149735) / molar_mass * gtokg,
+                  (0.0089*temperature + 119.59) / molar_mass * gtokg)' #in J/(K-kg)
+    output_properties = yittra_specific_heat_capacity
     outputs = 'csv exodus'
   [../]
   [./yittra_density]
@@ -115,9 +115,9 @@
     type = ElementAverageValue
     variable = yittra_thermal_conductivity
   [../]
-  [./yittra_specific_heat]
+  [./yittra_specific_heat_capacity]
     type = ElementAverageValue
-    variable = yittra_specific_heat
+    variable = yittra_specific_heat_capacity
   [../]
 []
 
