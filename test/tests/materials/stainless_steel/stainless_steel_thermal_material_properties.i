@@ -1,5 +1,5 @@
-# This model includes only heat conduction on a solid block
-# of yittra at the engineering scale
+#This model includes only heat conduction on a solid block
+#of graphite at the engineering scale
 
 [Mesh]
   type = GeneratedMesh
@@ -7,7 +7,7 @@
   nx = 10
   ny = 5
   xmax = 0.01 #1cm
-  ymax = 0.01 #1cm
+  ymax = 0.02 #2cm
 []
 
 [Problem]
@@ -24,13 +24,13 @@
   [./HeatDiff]
     type = HeatConduction
     variable = temperature
-    diffusion_coefficient = yittra_thermal_conductivity
+    diffusion_coefficient = stainless_steel_thermal_conductivity
   [../]
   [./HeatTdot]
     type = SpecificHeatConductionTimeDerivative
     variable = temperature
-    specific_heat = yittra_specific_heat_capacity
-    density = yittra_density
+    specific_heat = stainless_steel_specific_heat_capacity
+    density = stainless_steel_density
   [../]
 []
 
@@ -48,37 +48,32 @@
     type = FunctionDirichletBC
     boundary = top
     variable = temperature
-    function = '293 + 100.0/60.*t' #stand-in for the 100C/min heating rate
+    function = '300 + 100.0/60.*t' #stand-in for the 100C/min heating rate
   [../]
 []
 
 [Materials]
-  [./yittra_thermal_conductivity]
+  [./stainless_steel_thermal_conductivity]
     type = ParsedMaterial
     args = 'temperature'
-    function = '3214.46 / (temperature - 147.73)' #in W/(m-K)
-    f_name = 'yittra_thermal_conductivity'
-    output_properties = yittra_thermal_conductivity
+    function = '0.0144 * temperature + 10.55' #in W/(m-K), from Cincotti et al (2007)
+    f_name = 'stainless_steel_thermal_conductivity'
+    output_properties = stainless_steel_thermal_conductivity
     outputs = 'csv exodus'
   [../]
-  [./yittra_specific_heat_capacity]
+  [./stainless_steel_specific_heat_capacity]
     type = DerivativeParsedMaterial
-    f_name = yittra_specific_heat_capacity
+    f_name = stainless_steel_specific_heat_capacity
     args = 'temperature'
-    constant_names =        'molar_mass    gtokg'
-    constant_expressions =  '225.81         1.0e3' #
-    function = 'if(temperature<1503.7, (3.0183710318246e-19 * temperature^7 - 2.03644357435399e-15 * temperature^6
-                              + 5.75283959486472e-12 * temperature^5 - 8.8224198737065e-09 * temperature^4
-                              + 7.96030446457309e-06  * temperature^3 - 0.00427362972278911 * temperature^2
-                              + 1.30756778141995 * temperature - 61.6301212149735) / molar_mass * gtokg,
-                  (0.0089*temperature + 119.59) / molar_mass * gtokg)' #in J/(K-kg)
-    output_properties = yittra_specific_heat_capacity
+    function = '2.484e-7 * temperature^3 - 7.321e-4 * temperature^2
+                + 0.840 * temperature + 253.7' #in J/(K-kg)
+    output_properties = stainless_steel_specific_heat_capacity
     outputs = 'csv exodus'
   [../]
-  [./yittra_density]
+  [./stainless_steel_density]
     type = GenericConstantMaterial
-    prop_names = 'yittra_density'
-    prop_values = 5.01e3 #in kg/m^3, 5.01 g/cm^3
+    prop_names = 'stainless_steel_density'
+    prop_values = 8.0e3 #in kg/m^3
   [../]
 []
 
@@ -103,7 +98,7 @@
   l_max_its = 50
   dt = 25
   dtmin = 1.0e-8
-  end_time = 1000
+  end_time = 1200
 []
 
 [Postprocessors]
@@ -111,13 +106,13 @@
     type = AverageNodalVariableValue
     variable = temperature
   [../]
-  [./yittra_thermal_conductivity]
+  [./stainless_steel_thermal_conductivity]
     type = ElementAverageValue
-    variable = yittra_thermal_conductivity
+    variable = stainless_steel_thermal_conductivity
   [../]
-  [./yittra_specific_heat_capacity]
+  [./stainless_steel_specific_heat_capacity]
     type = ElementAverageValue
-    variable = yittra_specific_heat_capacity
+    variable = stainless_steel_specific_heat_capacity
   [../]
 []
 
