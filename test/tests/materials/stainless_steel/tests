@@ -1,0 +1,54 @@
+[Tests]
+  issues = '#6'
+  [./thermal_material_properties]
+    type = 'CSVDiff'
+    input = 'stainless_steel_thermal_material_properties.i'
+    csvdiff = 'stainless_steel_thermal_material_properties_out.csv'
+    design = 'source/materials/StainlessSteelThermal.md'
+    requirement = 'The system shall compute the thermal conductivity and heat capacity of AISI 304 stainless steel as a function of temperature and the computed properties shall align with original figure data points.'
+  [../]
+  [./thermal_properties_lower_range_check]
+    type = RunException
+    input = 'stainless_steel_thermal_material_properties.i'
+    cli_args = 'Variables/temperature/initial_condition=250.0'
+    expect_err = 'The temperature in stainless_steel_thermal is below the calibration lower range limit at a value of 250'
+    design = 'source/materials/StainlessSteelThermal.md'
+    requirement = 'The system shall not allow the calculation of thermal material properties with a temperature below the curve calibration range'
+    prereq = thermal_material_properties
+  [../]
+  [./thermal_properties_upper_range_check]
+    type = RunException
+    input = 'stainless_steel_thermal_material_properties.i'
+    cli_args = 'Variables/temperature/initial_condition=1250.0'
+    expect_err = 'The temperature in stainless_steel_thermal is above the calibration upper range limit at a value of 1250'
+    design = 'source/materials/StainlessSteelThermal.md'
+    requirement = 'The system shall not allow the calculation of thermal material properties with a temperature above the curve calibration range'
+    prereq = thermal_properties_lower_range_check
+  [../]
+
+  [./electrical_resistivity_properties]
+    type = 'CSVDiff'
+    input = 'stainless_steel_electrical_material_properties.i'
+    csvdiff = 'stainless_steel_electrical_material_properties_out.csv'
+    design = 'source/materials/StainlessSteelElectricalResistivity.md'
+    requirement = 'The system shall compute the electrical resistivity of AISI 304 stainless steel as a function of temperature and the computed properties shall align with an original figure data point.'
+  [../]
+  [./electrical_resistivity_lower_range_check]
+    type = RunException
+    input = 'stainless_steel_electrical_material_properties.i'
+    cli_args = 'AuxVariables/temperature/initial_condition=250.0'
+    expect_err = 'The temperature in stainless_steel_electrical is below the calibration lower range limit at a value of 250'
+    design = 'source/materials/StainlessSteelElectricalResistivity.md'
+    requirement = 'The system shall not allow the calculation of electrical resistivity with a temperature below the curve calibration range'
+    prereq = electrical_resistivity_properties
+  [../]
+  [./electrical_resistivity_upper_range_check]
+    type = RunException
+    input = 'stainless_steel_electrical_material_properties.i'
+    cli_args = 'AuxVariables/temperature/initial_condition=1250.0'
+    expect_err = 'The temperature in stainless_steel_electrical is above the calibration upper range limit at a value of 1250'
+    design = 'source/materials/StainlessSteelElectricalResistivity.md'
+    requirement = 'The system shall not allow the calculation of electrical resistivity with a temperature above the curve calibration range'
+    prereq = electrical_resistivity_lower_range_check
+  [../]
+[]

@@ -1,11 +1,26 @@
-#This model includes only heat conduction on a solid block
-#of graphite at the engineering scale
+# This model includes only heat conduction on a two element block and is intended
+# verify the curve fits from Cincotti et al (2007) AIChE Journal, Vol 53 No 3,
+# page 711 Figures 8a and 8c.
+#
+# Experimental data points which nearly lie on the curve fit are compared to the
+# simulation outputs at similar temperatures, below, to verify both the curve
+# fits and the material model tested here:
+#
+# Thermal Conductivity (W/m-K):
+#        Experimental Data Point                Simulation Result
+#  Temperature(K)   Thermal Conductivity    Temperature(K)  Thermal Conductivity
+#      498.8            523.5                   516.7          523.4
+#
+# Heat Capacity (J/kg-K):
+#        Experimental Data Point                Simulation Result
+#  Temperature(K)   Heat Capacity           Temperature(K)  Heat Capacity
+#      643.4             19.84                  641.7           19.62
 
 [Mesh]
   type = GeneratedMesh
   dim = 2
-  nx = 10
-  ny = 5
+  nx = 1
+  ny = 2
   xmax = 0.01 #1cm
   ymax = 0.02 #2cm
 []
@@ -16,7 +31,7 @@
 
 [Variables]
   [./temperature]
-    initial_condition = 300.0
+    initial_condition = 350.0
   [../]
 []
 
@@ -24,63 +39,35 @@
   [./HeatDiff]
     type = HeatConduction
     variable = temperature
-    diffusion_coefficient = stainless_steel_thermal_conductivity
+    diffusion_coefficient = thermal_conductivity
   [../]
   [./HeatTdot]
     type = SpecificHeatConductionTimeDerivative
     variable = temperature
-    specific_heat = stainless_steel_specific_heat_capacity
+    specific_heat = heat_capacity
     density = stainless_steel_density
   [../]
 []
 
 [BCs]
-  [./external_surface]
-    type = InfiniteCylinderRadiativeBC
-    boundary = right
-    variable = temperature
-    Tinfinity = 300
-    boundary_radius = 0.01
-    cylinder_radius = 1
-    boundary_emissivity = 0.9
-  [../]
   [./top_surface]
     type = FunctionDirichletBC
     boundary = top
     variable = temperature
-    function = '300 + 100.0/60.*t' #stand-in for the 100C/min heating rate
+    function = '350 + 100.0/60.*t' #stand-in for the 100C/min heating rate
   [../]
 []
 
 [Materials]
-  [./stainless_steel_thermal_conductivity]
-    type = ParsedMaterial
-    args = 'temperature'
-    function = '0.0144 * temperature + 10.55' #in W/(m-K), from Cincotti et al (2007)
-    f_name = 'stainless_steel_thermal_conductivity'
-    output_properties = stainless_steel_thermal_conductivity
-    outputs = 'csv exodus'
-  [../]
-  [./stainless_steel_specific_heat_capacity]
-    type = DerivativeParsedMaterial
-    f_name = stainless_steel_specific_heat_capacity
-    args = 'temperature'
-    function = '2.484e-7 * temperature^3 - 7.321e-4 * temperature^2
-                + 0.840 * temperature + 253.7' #in J/(K-kg)
-    output_properties = stainless_steel_specific_heat_capacity
-    outputs = 'csv exodus'
+  [./stainless_steel_thermal]
+    type = StainlessSteelThermal
+    temperature = temperature
+    output_properties = all
   [../]
   [./stainless_steel_density]
     type = GenericConstantMaterial
     prop_names = 'stainless_steel_density'
-    prop_values = 8.0e3 #in kg/m^3
-  [../]
-[]
-
-[Preconditioning]
-  [./SMP]
-    type = SMP
-    full = true
+    prop_values = 8.0e3 #in kg/m^3 from Cincotti et al 2007, Table 2, doi:10.1002/aic
   [../]
 []
 
@@ -89,36 +76,35 @@
   solve_type = PJFNK
   automatic_scaling = true
 
-  petsc_options_iname = '-pc_type -ksp_grmres_restart -sub_ksp_type -sub_pc_type -pc_asm_overlap'
-  petsc_options_value = 'asm         101   preonly   ilu      1'
-  nl_rel_tol = 1e-8
-  nl_abs_tol = 1e-10
-  l_tol = 1e-4
+  petsc_options_iname = '-pc_type -sub_pc_type -pc_asm_overlap'
+  petsc_options_value = 'asm          ilu         1'
   nl_max_its = 20
   l_max_its = 50
   dt = 25
   dtmin = 1.0e-8
-  end_time = 1200
+  end_time = 400
 []
 
 [Postprocessors]
-  [./temperature]
-    type = AverageNodalVariableValue
+  [./max_temperature]
+    type = NodalExtremeValue
     variable = temperature
+    value_type = max
   [../]
-  [./stainless_steel_thermal_conductivity]
-    type = ElementAverageValue
-    variable = stainless_steel_thermal_conductivity
+  [./max_thermal_conductivity]
+    type = ElementExtremeMaterialProperty
+    mat_prop = thermal_conductivity
+    value_type = max
   [../]
-  [./stainless_steel_specific_heat_capacity]
-    type = ElementAverageValue
-    variable = stainless_steel_specific_heat_capacity
+  [./max_heat_capacity]
+    type = ElementExtremeMaterialProperty
+    mat_prop = heat_capacity
+    value_type = max
   [../]
 []
 
 
 [Outputs]
   csv = true
-  exodus = true
   perf_graph = true
 []

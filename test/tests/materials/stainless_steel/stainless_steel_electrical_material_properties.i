@@ -1,13 +1,23 @@
-# This model includes only electrical conduction on a solid block
-# of stainless_steel at the engineering scale
+# This model includes only heat conduction on a two element block and is intended
+# verify the curve fits from Cincotti et al (2007) AIChE Journal, Vol 53 No 3,
+# page 711 Figure 8b.
+#
+# Experimental data points which nearly lie on the curve fit are compared to the
+# simulation outputs at similar temperatures, below, to verify both the curve
+# fits and the material model tested here:
+#
+# Electrical Resistivity (Ohm/m):
+#        Experimental Data Point                Simulation Result
+#  Temperature(K)  Electrical Resistivity  Temperature(K)  Electrical Resistivity
+#      572.9            9.30e-7                   573.0          9.310e-07
 
 [Mesh]
   type = GeneratedMesh
   dim = 2
-  nx = 10
-  ny = 10
+  nx = 1
+  ny = 2
   xmax = 0.01 #1cm
-  ymax = 0.01 #1cm
+  ymax = 0.02 #2cm
 []
 
 [Problem]
@@ -21,7 +31,7 @@
 
 [AuxVariables]
   [./temperature]
-    initial_condition = 900.0
+    initial_condition = 573.0
   [../]
 []
 
@@ -29,7 +39,7 @@
   [./electric_stainless_steel]
     type = ConductivityLaplacian
     variable = stainless_steel_potential
-    conductivity_coefficient = stainless_steel_electrical_conductivity
+    conductivity_coefficient = electrical_resistivity
   [../]
 []
 
@@ -49,50 +59,36 @@
 []
 
 [Materials]
-  [./stainless_steel_electrical_conductivity]
-    type = DerivativeParsedMaterial
-    f_name = stainless_steel_electrical_conductivity
-    args = 'temperature'
-    function = '1.575e-15 * temperature^2 - 3.236e-12 * temperature^2
-                + 2.724e-9 * temperature + 1.364e-7' #in \Omega/(m)
-    output_properties = stainless_steel_electrical_conductivity
-    outputs = 'csv exodus'
-  [../]
-[]
-
-[Preconditioning]
-  [./SMP]
-    type = SMP
-    full = true
+  [./stainless_steel_electrical]
+    type = StainlessSteelElectricalResistivity
+    temperature = temperature
+    output_properties = electrical_resistivity
   [../]
 []
 
 [Executioner]
   type = Steady
   solve_type = PJFNK
-  petsc_options_iname = '-pc_type -ksp_grmres_restart -sub_ksp_type -sub_pc_type -pc_asm_overlap'
-  petsc_options_value = 'asm         101   preonly   ilu      1'
+  petsc_options_iname = '-pc_type -sub_pc_type -pc_asm_overlap'
+  petsc_options_value = 'asm          ilu         1'
   automatic_scaling = true
 []
 
 [Postprocessors]
-  [./temperature]
-    type = AverageNodalVariableValue
+  [./max_temperature]
+    type = NodalExtremeValue
     variable = temperature
+    value_type = max
   [../]
-  [./stainless_steel_electrical_conductivity]
-    type = ElementAverageValue
-    variable = stainless_steel_electrical_conductivity
-  [../]
-  [./stainless_steel_potential]
-    type = AverageNodalVariableValue
-    variable = stainless_steel_potential
+  [./max_electrical_resistivity]
+    type = ElementExtremeMaterialProperty
+    mat_prop = electrical_resistivity
+    value_type = max
   [../]
 []
 
 
 [Outputs]
   csv = true
-  exodus = true
   perf_graph = true
 []
