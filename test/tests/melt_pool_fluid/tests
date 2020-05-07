@@ -1,0 +1,10 @@
+[Tests]
+  issues = '#3'
+  [./fluid]
+    type = 'Exodiff'
+    input = 'fluid.i'
+    exodiff = 'fluid_out.e'
+    design = 'INSMeltPoolMaterial.md INSMeltPoolMomentumSource.md LevelSetFluidMaterial.md'
+    requirement = 'Valhalla shall solve momentum conservations of a melt pool.'
+  [../]
+[]

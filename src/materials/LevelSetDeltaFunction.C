@@ -23,5 +23,5 @@ void
 LevelSetDeltaFunction::computeQpProperties()
 {
   _delta_function[_qp] =
-      (ADRealVectorValue(libMesh::TOLERANCE * libMesh::TOLERANCE) + _grad_c[_qp]).norm();
+      (_grad_c[_qp] + RealVectorValue(libMesh::TOLERANCE * libMesh::TOLERANCE)).norm();
 }

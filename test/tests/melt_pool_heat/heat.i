@@ -22,9 +22,9 @@
   [temp]
     initial_condition = 300
   []
-  [./grad_ls]
+  [grad_ls]
     family = LAGRANGE_VEC
-  [../]
+  []
 []
 
 [AuxVariables/ls]
@@ -38,11 +38,11 @@
 []
 
 [Kernels]
-  [./grad_ls]
+  [grad_ls]
     type = VariableGradientRegularization
     regularized_var = ls
     variable = grad_ls
-  [../]
+  []
 
   [heat_time]
     type = ADHeatConductionTimeDerivative
