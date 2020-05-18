@@ -1,0 +1,32 @@
+[Tests]
+   issues = '#5'
+   design = 'source/bcs/CoupledSimpleRadiativeHeatFluxBC.md'
+  [./simple_radiation]
+    type = 'CSVDiff'
+    input = 'simple_radiation.i'
+    csvdiff = 'simple_radiation_out.csv'
+    requirement = 'The system shall compute the heat loss due to simple radiation heat transfer to an assumed surrounding blackbody in a thin body with a high thermal conductivity that matches the analytical solution.'
+  [../]
+  [./multiple_phases_simple_radiation]
+    type = 'CSVDiff'
+    input = 'multiple_phases_simple_radiation.i'
+    csvdiff = 'multiple_phases_simple_radiation_out.csv'
+    requirement = 'The system shall compute the heat loss due to simple radiation heat transfer to an assumed surrounding blackbody for a body composed of multiple phases.'
+  [../]
+  [./simple_radiation_extra_absolute_temperatures]
+    type = RunException
+    input = 'simple_radiation.i'
+    cli_args = 'BCs/heatloss/T_infinity="293 293"'
+    expect_err = 'The number of coupled components does not match the number of `T_infinity` components.'
+    requirement = 'The system shall not all the computation of the simple radiative heat transfer when an excessive number of absolute blackboady temperatures are supplied by the user.'
+    prereq = simple_radiation
+  [../]
+  [./multiple_phases_missing_emissivities]
+    type = RunException
+    input = 'multiple_phases_simple_radiation.i'
+    cli_args = 'BCs/heatloss/emissivity=0.9'
+    expect_err = 'The number of coupled components does not match the number of `T_infinity` components.'
+    requirement = 'The system shall not all the computation of the simple radiative heat transfer when an excessive number of absolute blackboady temperatures are supplied by the user.'
+    prereq = multiple_phases_simple_radiation
+  [../]
+[]
