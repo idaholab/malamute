@@ -11,7 +11,7 @@ CoupledSimpleRadiativeHeatFluxBC::validParams()
 {
   InputParameters params = IntegratedBC::validParams();
   params.addClassDescription(
-      "Radiative heat transfer boundary condition with the far field temperature, of an assummed "
+      "Radiative heat transfer boundary condition with the far field temperature, of an assumed "
       "black body, given by auxiliary variables and constant emissivity");
   params.addCoupledVar("alpha", 1., "Volume fraction of components");
   params.addRequiredCoupledVar("T_infinity",

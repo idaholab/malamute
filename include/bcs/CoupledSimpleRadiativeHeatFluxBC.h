@@ -8,7 +8,7 @@
 
 /**
  * Boundary condition for convective heat flux where temperature and heat transfer coefficient are
- * given by auxiliary variables.  Typically used in multi-app coupling scenario. It is possible to
+ * given by auxiliary variables.  Typically used in a multi-app coupling scenario. It is possible to
  * couple in a vector variable where each entry corresponds to a "phase".
  */
 class CoupledSimpleRadiativeHeatFluxBC : public IntegratedBC
@@ -22,10 +22,10 @@ protected:
   virtual Real computeQpResidual();
   virtual Real computeQpJacobian();
 
-  /// The number of components/ phases within the body which loses heat
+  /// The number of components / phases within the body which loses heat
   unsigned int _n_components;
 
-  /// Far-field temperatue fields for each component phase
+  /// Far-field temperature fields for each component phase
   std::vector<const VariableValue *> _T_infinity;
 
   /// Surface emissivity constant for each component phase

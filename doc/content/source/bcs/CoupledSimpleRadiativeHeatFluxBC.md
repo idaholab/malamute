@@ -4,7 +4,7 @@
 
 ## Description
 
-This boundary condition computes the radiative heat flux from the boundary specified
+This boundary condition computes the radiative heat flux from the specified
 boundary to an assumed surrounding blackbody:
 
 \begin{equation}
