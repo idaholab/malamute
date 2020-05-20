@@ -2,14 +2,14 @@
 /*           Will be part of Freya App           */
 /*************************************************/
 
-#include "CoupledSimpleRadiativeHeatFluxBC.h"
+#include "ADCoupledSimpleRadiativeHeatFluxBC.h"
 
-registerMooseObject("FreyaApp", CoupledSimpleRadiativeHeatFluxBC);
+registerMooseObject("FreyaApp", ADCoupledSimpleRadiativeHeatFluxBC);
 
 InputParameters
-CoupledSimpleRadiativeHeatFluxBC::validParams()
+ADCoupledSimpleRadiativeHeatFluxBC::validParams()
 {
-  InputParameters params = IntegratedBC::validParams();
+  InputParameters params = ADIntegratedBC::validParams();
   params.addClassDescription(
       "Radiative heat transfer boundary condition with the far field temperature, of an assumed "
       "black body, given by auxiliary variables and constant emissivity");
@@ -23,9 +23,9 @@ CoupledSimpleRadiativeHeatFluxBC::validParams()
   return params;
 }
 
-CoupledSimpleRadiativeHeatFluxBC::CoupledSimpleRadiativeHeatFluxBC(
+ADCoupledSimpleRadiativeHeatFluxBC::ADCoupledSimpleRadiativeHeatFluxBC(
     const InputParameters & parameters)
-  : IntegratedBC(parameters),
+  : ADIntegratedBC(parameters),
     _n_components(coupledComponents("T_infinity")),
     _emissivity(getParam<std::vector<Real>>("emissivity")),
     _sigma(getParam<Real>("sigma"))
@@ -49,23 +49,13 @@ CoupledSimpleRadiativeHeatFluxBC::CoupledSimpleRadiativeHeatFluxBC(
         "The number of coupled components does not match the number of `T_infinity` components.");
 }
 
-Real
-CoupledSimpleRadiativeHeatFluxBC::computeQpResidual()
+ADReal
+ADCoupledSimpleRadiativeHeatFluxBC::computeQpResidual()
 {
-  Real q = 0;
+  ADReal q = 0;
   for (std::size_t c = 0; c < _n_components; c++)
     q += (*_alpha[c])[_qp] * _emissivity[c] * _sigma *
          (Utility::pow<4>(_u[_qp]) - Utility::pow<4>((*_T_infinity[c])[_qp]));
 
   return _test[_i][_qp] * q;
-}
-
-Real
-CoupledSimpleRadiativeHeatFluxBC::computeQpJacobian()
-{
-  Real dq = 0;
-  for (std::size_t c = 0; c < _n_components; c++)
-    dq += (*_alpha[c])[_qp] * _emissivity[c] * _sigma * 4.0 * Utility::pow<3>(_u[_qp]) *
-          _phi[_j][_qp];
-  return _test[_i][_qp] * dq;
 }

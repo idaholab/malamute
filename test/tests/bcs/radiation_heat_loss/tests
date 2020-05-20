@@ -1,6 +1,6 @@
 [Tests]
    issues = '#5'
-   design = 'source/bcs/CoupledSimpleRadiativeHeatFluxBC.md'
+   design = 'source/bcs/ADCoupledSimpleRadiativeHeatFluxBC.md'
   [./simple_radiation]
     type = 'CSVDiff'
     input = 'simple_radiation.i'

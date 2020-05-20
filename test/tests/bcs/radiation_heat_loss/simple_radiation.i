@@ -38,7 +38,7 @@
 
 [BCs]
   [./heatloss]
-    type = CoupledSimpleRadiativeHeatFluxBC
+    type = ADCoupledSimpleRadiativeHeatFluxBC
     boundary = right
     variable = temperature
     T_infinity = 293
