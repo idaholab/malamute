@@ -4,6 +4,7 @@
     type = 'Exodiff'
     input = 'fluid.i'
     exodiff = 'fluid_out.e'
+    abs_zero = 1e-8
     design = 'INSMeltPoolMaterial.md INSMeltPoolMomentumSource.md LevelSetFluidMaterial.md'
     requirement = 'Valhalla shall solve momentum conservations of a melt pool.'
   [../]

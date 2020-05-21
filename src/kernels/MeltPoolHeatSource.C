@@ -22,6 +22,9 @@ MeltPoolHeatSource::validParams()
   params.addRequiredParam<Real>("StefanBoltzmann_constant", "Stefan Boltzmann constant.");
   params.addRequiredParam<Real>("material_emissivity", "Material emissivity.");
   params.addRequiredParam<Real>("ambient_temperature", "Ambient temperature.");
+  params.addRequiredParam<Real>("vaporization_latent_heat", "Latent heat of vaporization.");
+  params.addRequiredParam<Real>("rho_l", "Liquid density.");
+  params.addRequiredParam<Real>("rho_g", "Gas density.");
   return params;
 }
 
@@ -37,7 +40,13 @@ MeltPoolHeatSource::MeltPoolHeatSource(const InputParameters & parameters)
     _T0(getParam<Real>("ambient_temperature")),
     _laser_location_x(getFunction("laser_location_x")),
     _laser_location_y(getFunction("laser_location_y")),
-    _laser_location_z(getFunction("laser_location_z"))
+    _laser_location_z(getFunction("laser_location_z")),
+    _rho(getADMaterialProperty<Real>("rho")),
+    _melt_pool_mass_rate(getADMaterialProperty<Real>("melt_pool_mass_rate")),
+    _cp(getADMaterialProperty<Real>("specific_heat")),
+    _Lv(getParam<Real>("vaporization_latent_heat")),
+    _rho_l(getParam<Real>("rho_l")),
+    _rho_g(getParam<Real>("rho_g"))
 {
 }
 
@@ -59,6 +68,11 @@ MeltPoolHeatSource::precomputeQpResidual()
       -_stefan_boltzmann * _varepsilon * (Utility::pow<4>(_u[_qp]) - Utility::pow<4>(_T0));
 
   ADReal heat_source = (convection + radiation + laser_source) * _delta_function[_qp];
+
+  // Phase change
+  heat_source += _melt_pool_mass_rate[_qp] * _delta_function[_qp] * _rho[_qp] *
+                     (1.0 / _rho_g - 1.0 / _rho_l) * _cp[_qp] * _u[_qp] -
+                 _Lv * _melt_pool_mass_rate[_qp] * _delta_function[_qp];
 
   return -heat_source;
 }

@@ -69,14 +69,17 @@
     ambient_temperature = 300
     laser_location_x = '0.5 + t'
     laser_location_y = '0.5'
+    rho_l = 8000
+    rho_g = 1.184
+    vaporization_latent_heat = 6.1e6
   []
 []
 
 [Materials]
   [thermal]
     type = ADGenericConstantMaterial
-    prop_names  = 'rho thermal_conductivity specific_heat'
-    prop_values = '8000 50 500'
+    prop_names  = 'rho thermal_conductivity specific_heat melt_pool_mass_rate'
+    prop_values = '8000 50 500 0'
   []
   [delta]
     type = LevelSetDeltaFunction

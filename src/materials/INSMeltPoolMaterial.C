@@ -12,6 +12,8 @@ INSMeltPoolMaterial::validParams()
   params.addRequiredCoupledVar("curvature", "Regularized curvature variable");
   params.addRequiredParam<Real>("surface_tension", "Surface tension coefficient.");
   params.addRequiredParam<Real>("thermal_capillary", "Thermalcapillary coefficient.");
+  params.addRequiredParam<Real>("rho_l", "Liquid density.");
+  params.addRequiredParam<Real>("rho_g", "Gas density.");
   return params;
 }
 
@@ -26,7 +28,11 @@ INSMeltPoolMaterial::INSMeltPoolMaterial(const InputParameters & parameters)
     _sigmaT(getParam<Real>("thermal_capillary")),
     _delta_function(getADMaterialProperty<Real>("delta_function")),
     _heaviside_function(getADMaterialProperty<Real>("heaviside_function")),
-    _melt_pool_momentum_source(declareADProperty<RealVectorValue>("melt_pool_momentum_source"))
+    _melt_pool_momentum_source(declareADProperty<RealVectorValue>("melt_pool_momentum_source")),
+    _rho(getADMaterialProperty<Real>("rho")),
+    _rho_l(getParam<Real>("rho_l")),
+    _rho_g(getParam<Real>("rho_g")),
+    _melt_pool_mass_rate(getADMaterialProperty<Real>("melt_pool_mass_rate"))
 {
 }
 
@@ -34,6 +40,9 @@ void
 INSMeltPoolMaterial::computeQpProperties()
 {
   INSADTauMaterial::computeQpProperties();
+
+  _mass_strong_residual[_qp] +=
+      _melt_pool_mass_rate[_qp] * _delta_function[_qp] * (1.0 / _rho_g - 1.0 / _rho_l);
 
   ADRealVectorValue normal =
       _grad_c[_qp] /
@@ -51,6 +60,10 @@ INSMeltPoolMaterial::computeQpProperties()
       -proj * _grad_temp[_qp] * _sigmaT * _delta_function[_qp];
 
   _melt_pool_momentum_source[_qp] = -thermalcapillary_term + surface_tension_term + darcy_term;
+
+  // Phase change
+  _melt_pool_momentum_source[_qp] -= _melt_pool_mass_rate[_qp] * _delta_function[_qp] * _rho[_qp] *
+                                     (1.0 / _rho_g - 1.0 / _rho_l) * _velocity[_qp];
 
   _momentum_strong_residual[_qp] -= _melt_pool_momentum_source[_qp];
 }

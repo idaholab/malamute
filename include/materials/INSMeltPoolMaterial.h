@@ -44,4 +44,16 @@ protected:
 
   /// Melt pool momentum source
   ADMaterialProperty<RealVectorValue> & _melt_pool_momentum_source;
+
+  /// Density
+  const ADMaterialProperty<Real> & _rho;
+
+  /// Liquid density
+  const Real _rho_l;
+
+  /// Gas density
+  const Real _rho_g;
+
+  /// Mass transfer rate
+  const ADMaterialProperty<Real> & _melt_pool_mass_rate;
 };

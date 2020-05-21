@@ -26,13 +26,15 @@
   []
   [velocity]
     type = VectorConstantIC
-    x_value = 1e-15
-    y_value = 1e-15
+    x_value = 1e-10
+    y_value = 1e-10
     variable = velocity
   []
 []
 
 [Variables]
+  [ls]
+  []
   [temp]
     initial_condition = 300
   []
@@ -46,9 +48,6 @@
   []
   [curvature]
   []
-[]
-
-[AuxVariables/ls]
 []
 
 [Functions/ls_exact]
@@ -91,6 +90,44 @@
     type = VariableGradientRegularization
     regularized_var = ls
     variable = grad_ls
+  []
+
+  [level_set_time]
+    type = ADTimeDerivative
+    variable = ls
+  []
+
+  [level_set_advection_supg]
+    type = LevelSetAdvectionSUPG
+    velocity = velocity
+    variable = ls
+  []
+
+  [level_set_time_supg]
+    type = LevelSetTimeDerivativeSUPG
+    velocity = velocity
+    variable = ls
+  []
+
+  [level_set_advection]
+    type = LevelSetAdvection
+    velocity = velocity
+    variable = ls
+  []
+
+  [level_set_phase_change]
+    type = LevelSetPhaseChange
+    variable = ls
+    rho_l = 8000
+    rho_g = 1.184
+  []
+
+  [level_set_phase_change_supg]
+    type = LevelSetPhaseChangeSUPG
+    variable = ls
+    velocity = velocity
+    rho_l = 8000
+    rho_g = 1.184
   []
 
   [heat_time]
@@ -246,6 +283,43 @@
   []
 []
 
+[MultiApps]
+  [reinit]
+    type = LevelSetReinitializationMultiApp
+    input_files = 'reinit.i'
+    execute_on = TIMESTEP_END
+  []
+[]
+
+[Transfers]
+  [to_sub]
+    type = MultiAppCopyTransfer
+    source_variable = ls
+    variable = ls
+    direction = to_multiapp
+    multi_app = reinit
+    execute_on = 'timestep_end'
+  []
+
+  [to_sub_init]
+    type = MultiAppCopyTransfer
+    source_variable = ls
+    variable = ls_0
+    direction = to_multiapp
+    multi_app = reinit
+    execute_on = 'timestep_end'
+  []
+
+  [from_sub]
+    type = MultiAppCopyTransfer
+    source_variable = ls
+    variable = ls
+    direction = from_multiapp
+    multi_app = reinit
+    execute_on = 'timestep_end'
+  []
+[]
+
 [Preconditioning]
   [SMP]
     type = SMP
@@ -262,8 +336,8 @@
   nl_rel_tol = 1e-12
   num_steps = 2
   line_search = 'none'
-  petsc_options_iname = '-pc_type -pc_factor_mat_solver_type -ksp_type'
-  petsc_options_value = 'lu superlu_dist preonly'
+  petsc_options_iname = '-pc_type -pc_factor_shift_type -pc_factor_mat_solver_package -ksp_type'
+  petsc_options_value = 'lu NONZERO superlu_dist preonly'
   nl_div_tol = 1e20
   automatic_scaling = true
 []

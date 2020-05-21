@@ -43,7 +43,7 @@
    type = LevelSetCurvatureRegularization
    level_set_regularized_gradient = grad_ls
    variable = curvature
-   epsilon = 0.04
+   varepsilon = 0.04
  []
  [grad_ls]
    type = VariableGradientRegularization

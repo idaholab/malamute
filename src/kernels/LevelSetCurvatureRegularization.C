@@ -10,14 +10,14 @@ LevelSetCurvatureRegularization::validParams()
                              "level set function (Elin Olsson et.al, JCP 225 (2007) 785–807).");
   params.addRequiredCoupledVar("level_set_regularized_gradient",
                                "Vector variable of level set's regularized gradient.");
-  params.addRequiredParam<Real>("epsilon", "Regulizatione parameter.");
+  params.addRequiredParam<Real>("varepsilon", "Regulizatione parameter.");
   return params;
 }
 
 LevelSetCurvatureRegularization::LevelSetCurvatureRegularization(const InputParameters & parameters)
   : ADKernel(parameters),
     _grad_c(adCoupledVectorValue("level_set_regularized_gradient")),
-    _epsilon(getParam<Real>("epsilon"))
+    _varepsilon(getParam<Real>("varepsilon"))
 {
 }
 
@@ -27,5 +27,5 @@ LevelSetCurvatureRegularization::computeQpResidual()
   ADReal s = (_grad_c[_qp] + RealVectorValue(libMesh::TOLERANCE)).norm();
   ADRealVectorValue n = _grad_c[_qp] / s;
 
-  return _test[_i][_qp] * _u[_qp] - _grad_test[_i][_qp] * (n - _epsilon * _grad_u[_qp]);
+  return _test[_i][_qp] * _u[_qp] - _grad_test[_i][_qp] * (n - _varepsilon * _grad_u[_qp]);
 }

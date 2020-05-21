@@ -20,5 +20,5 @@ protected:
   const ADVectorVariableValue & _grad_c;
 
   /// regulization parameter
-  const Real _epsilon;
+  const Real _varepsilon;
 };

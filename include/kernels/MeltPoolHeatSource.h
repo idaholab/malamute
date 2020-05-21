@@ -47,4 +47,22 @@ protected:
 
   /// Function of laser location in x coordinate
   const Function & _laser_location_z;
+
+  /// Density
+  const ADMaterialProperty<Real> & _rho;
+
+  /// Mass transfer rate
+  const ADMaterialProperty<Real> & _melt_pool_mass_rate;
+
+  /// Specific heat
+  const ADMaterialProperty<Real> & _cp;
+
+  /// Latent heat of vaporization
+  const Real _Lv;
+
+  /// Liquid density
+  const Real _rho_l;
+
+  /// Gas density
+  const Real _rho_g;
 };

@@ -1,0 +1,12 @@
+[Tests]
+  issues = '#4'
+  [./level_set]
+    type = 'Exodiff'
+    input = 'level_set.i'
+    exodiff = 'level_set_out.e'
+    abs_zero = 5e-4
+    method = opt
+    design = 'LevelSetGradientRegularizationReinitialization.md INSMeltPoolMassTransferMaterial.md LevelSetPhaseChange.md LevelSetADAdvection.md LevelSetADTimeDerivativeSUPG.md LevelSetADAdvectionSUPG.md'
+    requirement = 'Valhalla shall solve level set evolution equations of a melt pool.'
+  [../]
+[]

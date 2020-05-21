@@ -1,4 +1,4 @@
-# Melt pool INS momentum residual material
+# Melt pool INS residual material
 
 !syntax description /Materials/INSMeltPoolMaterial
 
@@ -20,6 +20,12 @@ The second and third terms represent surface tension and Marangoni forces at the
 \begin{equation}
 \nabla_s\gamma = \gamma_T\nabla_sT = \gamma_T (\mathbf{I}-\overrightarrow n \otimes \overrightarrow n)\nabla T.
 \end{equation}
+
+The mass conservation equation[!citep](ShaoyiWen2010, ESMAEELI2004) is modified to account for the phase change from liquid to vapor:
+\begin{equation}
+\nabla\cdot \overrightarrow {u} = \dot{m}\delta(\phi)\left(\frac{1}{\rho_g}-\frac{1}{\rho_l}\right),
+\end{equation}
+where $\dot{m}$ is mass transfer rate ([INSMeltPoolMassTransferMaterial](/INSMeltPoolMassTransferMaterial.md)) and $\rho_g$ and $\rho_l$ are gas density and liquid density, respectively. 
 
 ## Example Input Syntax
 
