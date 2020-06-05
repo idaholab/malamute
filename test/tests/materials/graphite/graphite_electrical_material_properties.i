@@ -1,13 +1,23 @@
-# This model includes only electrical conduction on a solid block
-# of graphite at the engineering scale
+# This model includes only heat conduction on a two element block and is intended
+# verify the curve fits from Cincotti et al (2007) AIChE Journal, Vol 53 No 3,
+# page 710 Figure 7b.
+#
+# Experimental data points which nearly lie on the curve fit are compared to the
+# simulation outputs at similar temperatures, below, to verify both the curve
+# fits and the material model tested here:
+#
+# Electrical Resistivity (Ohm/m):
+#        Experimental Data Point                Simulation Result
+#  Temperature(K)  Electrical Resistivity  Temperature(K)  Electrical Resistivity
+#      713.0            1.05e-5                   713.0          1.048e-05
 
 [Mesh]
   type = GeneratedMesh
   dim = 2
-  nx = 10
-  ny = 10
+  nx = 1
+  ny = 2
   xmax = 0.01 #1cm
-  ymax = 0.01 #1cm
+  ymax = 0.02 #2cm
 []
 
 [Problem]
@@ -21,7 +31,7 @@
 
 [AuxVariables]
   [./temperature]
-    initial_condition = 1200.0
+    initial_condition = 713.0
   [../]
 []
 
@@ -29,7 +39,7 @@
   [./electric_graphite]
     type = ConductivityLaplacian
     variable = graphite_potential
-    conductivity_coefficient = graphite_electrical_conductivity
+    conductivity_coefficient = electrical_resistivity
   [../]
 []
 
@@ -49,50 +59,36 @@
 []
 
 [Materials]
-  [./graphite_electrical_conductivity]
-    type = DerivativeParsedMaterial
-    f_name = graphite_electrical_conductivity
-    args = 'temperature'
-    function = '-2.705e-15 * temperature^2 + 1.263e-11 * temperature^2
-                - 1.836e-8 * temperature + 1.813e-5' #in \Omega/(m)
-    output_properties = graphite_electrical_conductivity
-    outputs = 'csv exodus'
-  [../]
-[]
-
-[Preconditioning]
-  [./SMP]
-    type = SMP
-    full = true
+  [./graphite_electrical]
+    type = GraphiteElectricalResistivity
+    temperature = temperature
+    output_properties = electrical_resistivity
   [../]
 []
 
 [Executioner]
   type = Steady
   solve_type = PJFNK
-  petsc_options_iname = '-pc_type -ksp_grmres_restart -sub_ksp_type -sub_pc_type -pc_asm_overlap'
-  petsc_options_value = 'asm         101   preonly   ilu      1'
+  petsc_options_iname = '-pc_type -sub_pc_type -pc_asm_overlap'
+  petsc_options_value = 'asm          ilu         1'
   automatic_scaling = true
 []
 
 [Postprocessors]
-  [./temperature]
-    type = AverageNodalVariableValue
+  [./max_temperature]
+    type = NodalExtremeValue
     variable = temperature
+    value_type = max
   [../]
-  [./graphite_electrical_conductivity]
-    type = ElementAverageValue
-    variable = graphite_electrical_conductivity
-  [../]
-  [./graphite_potential]
-    type = AverageNodalVariableValue
-    variable = graphite_potential
+  [./max_electrical_resistivity]
+    type = ElementExtremeMaterialProperty
+    mat_prop = electrical_resistivity
+    value_type = max
   [../]
 []
 
 
 [Outputs]
   csv = true
-  exodus = true
   perf_graph = true
 []
