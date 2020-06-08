@@ -6,7 +6,7 @@
 
 This material computes the thermal conductivity, in W/(m-K), and the specific
 heat capacity, in J/(k-kg), for AT 101 graphite based on the material properties
-given for an spark plasma sintering die in [!citep](cincotti2007sps). These
+given for a spark plasma sintering die in [!citep](cincotti2007sps). These
 thermal material properties are computed only as a function of temperature, T.
 The thermal conductivity is calculated as
 \begin{equation}
