@@ -5,7 +5,7 @@
 ## Description
 
 This material computes the electrical resistivity, in $\Omega$/m, for AISI 304
-stainless steel based on the material properties given for an spark plasma
+stainless steel based on the material properties given for a spark plasma
 sintering die in [!citep](cincotti2007sps). This electrical material property is
 computed solely as a function of temperature, T:
 \begin{equation}
