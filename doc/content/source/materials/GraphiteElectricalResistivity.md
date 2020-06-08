@@ -5,7 +5,7 @@
 ## Description
 
 This material computes the electrical resistivity, in $\Omega$/m, for AT 101
-graphite based on the material properties given for an spark plasma sintering
+graphite based on the material properties given for a spark plasma sintering
 die in [!citep](cincotti2007sps). This electrical material property is computed
 solely as a function of temperature, T:
 \begin{equation}
