@@ -26,11 +26,10 @@ given as a piecewise function:
 \end{equation}
 The most conservative calibration limits are enforced within the code.
 
-The computation of these properties occurs only once at the start of each
-timestep. This design decision significantly improves the computational
-efficiency of the class; however, the value of the temperature from the previous
-converged timestep is used to compute the thermal conductivity and heat capacity
-values for the current timestep.
+The local temperature is checked against the calibration range limits only once
+at the start of each timestep, using the value of the temperature from the
+previous converged timestep. The values of thermal conductivity and heat capacity
+are, however, calculated with the current value of the temperature.
 
 The relationships for these thermal material properties were determined through
 curve fits to the experimental data points shown in [!citep](cincotti2007sps)

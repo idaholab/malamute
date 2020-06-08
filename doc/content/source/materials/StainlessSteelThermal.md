@@ -39,12 +39,10 @@ curve fits used in this class are shown in [fig:steel_thermal_conductivity] and 
     caption=Polynomial relationship for the heat capacity of AISI 304 stainless steel, shown with the coefficient of determination and the experimental data points.
     style=display:block;margin-left:auto;margin-right:auto;width:70%
 
-
-The computation of these properties occurs only once at the start of each
-timestep. This design decision significantly improves the computational
-efficiency of the class; however, the value of the temperature from the previous
-converged timestep is used to compute the thermal conductivity and heat capacity
-values for the current timestep.
+The local temperature is checked against the calibration range limits only once
+at the start of each timestep, using the value of the temperature from the
+previous converged timestep. The values of thermal conductivity and heat capacity
+are, however, calculated with the current value of the temperature.
 
 ## Example Input File Syntax
 

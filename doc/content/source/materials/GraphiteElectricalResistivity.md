@@ -25,12 +25,10 @@ is shown in [fig:graphite_electrical_resistivity].
     caption=Polynomial relationship for the electrical resistivity of AT 101 graphite, shown with the coefficient of determination and the experimental data points.
     style=display:block;margin-left:auto;margin-right:auto;width:70%
 
-
-The computation of these properties occurs only once at the start of each
-timestep. This design decision significantly improves the computational
-efficiency of the class; however, the value of the temperature from the previous
-converged timestep is used to compute the electrical resistivity value for the
-current timestep.
+The local temperature is checked against the calibration range limits only once
+at the start of each timestep, using the value of the temperature from the
+previous converged timestep. The electrical resistivity value is, however,
+calculated with the current value of the temperature.
 
 ## Example Input File Syntax
 
