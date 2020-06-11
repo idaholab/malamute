@@ -1,12 +1,12 @@
-#include "ThermalContactConductance.h"
+#include "ThermalContactCondition.h"
 
 // MOOSE includes
 #include "Assembly.h"
 
-registerMooseObject("FreyaApp", ThermalContactConductance);
+registerMooseObject("FreyaApp", ThermalContactCondition);
 
 InputParameters
-ThermalContactConductance::validParams()
+ThermalContactCondition::validParams()
 {
   InputParameters params = InterfaceKernel::validParams();
   params.addRequiredParam<Real>("thermal_contact_conductance",
@@ -26,7 +26,7 @@ ThermalContactConductance::validParams()
   return params;
 }
 
-ThermalContactConductance::ThermalContactConductance(const InputParameters & parameters)
+ThermalContactCondition::ThermalContactCondition(const InputParameters & parameters)
   : InterfaceKernel(parameters),
     _thermal_contact_conductance(getParam<Real>("thermal_contact_conductance")),
     _electrical_contact_conductance(getParam<Real>("electrical_contact_conductance")),
@@ -43,7 +43,7 @@ ThermalContactConductance::ThermalContactConductance(const InputParameters & par
 }
 
 Real
-ThermalContactConductance::computeQpResidual(Moose::DGResidualType type)
+ThermalContactCondition::computeQpResidual(Moose::DGResidualType type)
 {
   Real q_electric = _electrical_contact_conductance *
                     std::pow((_potential_master[_qp] - _potential_neighbor[_qp]), 2);
@@ -64,7 +64,7 @@ ThermalContactConductance::computeQpResidual(Moose::DGResidualType type)
 }
 
 Real
-ThermalContactConductance::computeQpJacobian(Moose::DGJacobianType type)
+ThermalContactCondition::computeQpJacobian(Moose::DGJacobianType type)
 {
   switch (type)
   {
@@ -90,7 +90,7 @@ ThermalContactConductance::computeQpJacobian(Moose::DGJacobianType type)
 }
 
 Real
-ThermalContactConductance::computeQpOffDiagJacobian(Moose::DGJacobianType type, unsigned int jvar)
+ThermalContactCondition::computeQpOffDiagJacobian(Moose::DGJacobianType type, unsigned int jvar)
 {
   switch (type)
   {

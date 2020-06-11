@@ -157,7 +157,7 @@
 
 [InterfaceKernels]
   [./thermal_contact_conductance]
-    type = ThermalContactConductance
+    type = ThermalContactCondition
     variable = temperature_stainless_steel
     neighbor_var = temperature_graphite
     master_potential = potential_stainless_steel

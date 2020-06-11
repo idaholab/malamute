@@ -8,12 +8,12 @@
  * discontinuity) under the influence of an electrostatic potential.
  */
 
-class ThermalContactConductance : public InterfaceKernel
+class ThermalContactCondition : public InterfaceKernel
 {
 public:
   static InputParameters validParams();
 
-  ThermalContactConductance(const InputParameters & parameters);
+  ThermalContactCondition(const InputParameters & parameters);
 
 protected:
   virtual Real computeQpResidual(Moose::DGResidualType type) override;

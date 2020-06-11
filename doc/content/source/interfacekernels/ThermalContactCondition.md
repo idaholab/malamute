@@ -1,6 +1,6 @@
-# ThermalContactConductance
+# ThermalContactCondition
 
-!syntax description /InterfaceKernels/ThermalContactConductance
+!syntax description /InterfaceKernels/ThermalContactCondition
 
 ## Description
 
@@ -33,8 +33,8 @@ where
 !listing thermal_interface.i block=InterfaceKernels/thermal_contact_conductance
 
 
-!syntax parameters /InterfaceKernels/ThermalContactConductance
+!syntax parameters /InterfaceKernels/ThermalContactCondition
 
-!syntax inputs /InterfaceKernels/ThermalContactConductance
+!syntax inputs /InterfaceKernels/ThermalContactCondition
 
-!syntax children /InterfaceKernels/ThermalContactConductance
+!syntax children /InterfaceKernels/ThermalContactCondition
