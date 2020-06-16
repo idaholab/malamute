@@ -1,0 +1,10 @@
+[Tests]
+  [./harmonic_mean]
+    type = 'Exodiff'
+    input = 'mean_hardness.i'
+    exodiff = 'mean_hardness_out.e'
+    design = 'source/materials/GraphiteStainlessMeanHardness.md'
+    requirement = 'The system shall compute the harmonic mean of AT 101 graphite and AISI 304 stainless steel as a material property, and the computed property shall align with the published value.'
+    issues = '#7'
+  []
+[]
