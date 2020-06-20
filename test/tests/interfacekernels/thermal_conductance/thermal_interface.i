@@ -118,8 +118,8 @@
     neighbor_potential = potential_graphite
     master_conductivity = thermal_conductivity
     neighbor_conductivity = thermal_conductivity
-    electrical_contact_conductance = 2.5e5 # as described in Cincotti et al (DOI: 10.1002/aic.11102)
-    thermal_contact_conductance = 7 # also from Cincotti et al
+    user_electrical_contact_conductance = 2.5e5 # as described in Cincotti et al (DOI: 10.1002/aic.11102)
+    user_thermal_contact_conductance = 7 # also from Cincotti et al
     boundary = ssg_interface
   [../]
   [./electric_contact_resistance]
