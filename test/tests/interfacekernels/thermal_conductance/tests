@@ -1,33 +1,45 @@
 [Tests]
-  issues = '#4'
   design = 'ThermalContactConductance.md'
-  requirement = 'The system shall support the calculation of heat transfer across an interface due to thermal conductivity and electrostatic joule heating for the cases of '
   [./low_low]
     type = Exodiff
     input = 'thermal_interface.i'
     exodiff = 'thermal_interface_low_low_out.e'
     cli_args = 'Executioner/end_time=0.2 Outputs/file_base=thermal_interface_low_low_out'
-    detail = 'low thermal contact conductance and low electrical contact conductance, '
+    requirement = 'The system shall support the calculation of heat transfer across an interface due to thermal conductivity and electrostatic joule heating for the case of low thermal contact conductance and low electrical contact conductance.'
+    issues = '#4'
   [../]
   [./low_high]
     type = Exodiff
     input = 'thermal_interface.i'
     exodiff = 'thermal_interface_low_high_out.e'
     cli_args = 'Executioner/end_time=0.2 Outputs/file_base=thermal_interface_low_high_out InterfaceKernels/thermal_contact_conductance/electrical_contact_conductance=1.7e6 InterfaceKernels/electric_contact_resistance/electrical_contact_resistance=1.7e6'
-    detail = 'low thermal contact conductance and high electrical contact conductance, '
+    requirement = 'The system shall support the calculation of heat transfer across an interface due to thermal conductivity and electrostatic joule heating for the case of low thermal contact conductance and high electrical contact conductance.'
+    issues = '#4'
   [../]
   [./high_low]
     type = Exodiff
     input = 'thermal_interface.i'
     exodiff = 'thermal_interface_high_low_out.e'
     cli_args = 'Executioner/end_time=0.2 Outputs/file_base=thermal_interface_high_low_out InterfaceKernels/thermal_contact_conductance/thermal_contact_conductance=2000'
-    detail = 'high thermal contact conductance and low electrical contact conductance, and '
+    requirement = 'The system shall support the calculation of heat transfer across an interface due to thermal conductivity and electrostatic joule heating for the case of high thermal contact conductance and low electrical contact conductance.'
+    issues = '#4'
   [../]
   [./high_high]
     type = Exodiff
     input = 'thermal_interface.i'
     exodiff = 'thermal_interface_high_high_out.e'
     cli_args = 'Executioner/end_time=0.2 Outputs/file_base=thermal_interface_high_high_out InterfaceKernels/thermal_contact_conductance/electrical_contact_conductance=1.7e6 InterfaceKernels/thermal_contact_conductance/thermal_contact_conductance=2000 InterfaceKernels/electric_contact_resistance/electrical_contact_resistance=1.7e6'
-    detail = 'high thermal contact conductance and high electrical contact conductance.'
+    requirement = 'The system shall support the calculation of heat transfer across an interface due to thermal conductivity and electrostatic joule heating for the case of high thermal contact conductance and high electrical contact conductance.'
+    issues = '#4'
+  [../]
+  [./jacobian]
+    type = PetscJacobianTester
+    input = 'thermal_interface.i'
+    run_sim = false
+    difference_tol = 1.3  #cannot currently eliminate possible source of error from non-AD objects. difference = 1.27304
+    ratio_tol = 3e-7    #ratio = 2.80685e-7
+    cli_args = 'Mesh/file=thermal_interface_jacobian_mesh.e Executioner/end_time=0.1'
+    prereq = 'low_low low_high high_low high_high'
+    issues = '#7 #10'
   [../]
 []
