@@ -122,12 +122,12 @@
     user_thermal_contact_conductance = 7 # also from Cincotti et al
     boundary = ssg_interface
   [../]
-  [./electric_contact_resistance]
-    type = ElectrostaticContactResistance
+  [./electric_contact_conductance]
+    type = ElectrostaticContactCondition
     variable = potential_stainless_steel
     neighbor_var = potential_graphite
     boundary = ssg_interface
-    electrical_contact_resistance = 2.5e5 # as described in Cincotti et al (DOI: 10.1002/aic.11102)
+    user_electrical_contact_conductance = 2.5e5 # as described in Cincotti et al (DOI: 10.1002/aic.11102)
   [../]
 []
 

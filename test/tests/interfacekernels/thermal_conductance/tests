@@ -12,7 +12,7 @@
     type = Exodiff
     input = 'thermal_interface.i'
     exodiff = 'thermal_interface_low_high_out.e'
-    cli_args = 'Executioner/end_time=0.2 Outputs/file_base=thermal_interface_low_high_out InterfaceKernels/thermal_contact_conductance/user_electrical_contact_conductance=1.7e6 InterfaceKernels/electric_contact_resistance/electrical_contact_resistance=1.7e6'
+    cli_args = 'Executioner/end_time=0.2 Outputs/file_base=thermal_interface_low_high_out InterfaceKernels/thermal_contact_conductance/user_electrical_contact_conductance=1.7e6 InterfaceKernels/electric_contact_conductance/user_electrical_contact_conductance=1.7e6'
     requirement = 'The system shall support the calculation of heat transfer across an interface due to thermal conductivity and electrostatic joule heating for the case of low thermal contact conductance and high electrical contact conductance.'
     issues = '#4'
   [../]
@@ -28,7 +28,7 @@
     type = Exodiff
     input = 'thermal_interface.i'
     exodiff = 'thermal_interface_high_high_out.e'
-    cli_args = 'Executioner/end_time=0.2 Outputs/file_base=thermal_interface_high_high_out InterfaceKernels/thermal_contact_conductance/user_electrical_contact_conductance=1.7e6 InterfaceKernels/thermal_contact_conductance/user_thermal_contact_conductance=2000 InterfaceKernels/electric_contact_resistance/electrical_contact_resistance=1.7e6'
+    cli_args = 'Executioner/end_time=0.2 Outputs/file_base=thermal_interface_high_high_out InterfaceKernels/thermal_contact_conductance/user_electrical_contact_conductance=1.7e6 InterfaceKernels/thermal_contact_conductance/user_thermal_contact_conductance=2000 InterfaceKernels/electric_contact_conductance/user_electrical_contact_conductance=1.7e6'
     requirement = 'The system shall support the calculation of heat transfer across an interface due to thermal conductivity and electrostatic joule heating for the case of high thermal contact conductance and high electrical contact conductance.'
     issues = '#4'
   [../]
