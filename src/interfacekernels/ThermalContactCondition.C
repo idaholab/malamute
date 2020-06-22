@@ -117,8 +117,9 @@ ThermalContactCondition::computeQpResidual(Moose::DGResidualType type)
         "other!");
   }
 
-  ADReal q_electric = electrical_contact_conductance *
-                      std::pow((_potential_master[_qp] - _potential_neighbor[_qp]), 2);
+  ADReal potential_diff = _potential_master[_qp] - _potential_neighbor[_qp];
+
+  ADReal q_electric = electrical_contact_conductance * potential_diff * potential_diff;
 
   ADReal q_temperature = thermal_contact_conductance * (_u[_qp] - _neighbor_value[_qp]);
 
