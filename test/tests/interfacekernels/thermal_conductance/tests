@@ -40,6 +40,24 @@
     ratio_tol = 3e-7    #ratio = 2.80685e-7
     cli_args = 'Mesh/file=thermal_interface_jacobian_mesh.e Executioner/end_time=0.1'
     prereq = 'low_low low_high high_low high_high'
+    requirement = 'The system shall support the calculation of heat transfer across an interface due to thermal conductivity and electrostatic joule heating with the correct jacobian.'
     issues = '#7 #10'
+  [../]
+  [./conductance_error]
+    type = RunException
+    input = 'thermal_interface.i'
+    cli_args = 'InterfaceKernels/thermal_contact_conductance/mean_hardness=1.0'
+    expect_err = "In thermal_contact_conductance, both user-supplied thermal/electrical conductances"
+    prereq = 'low_low low_high high_low high_high'
+    requirement = 'The system shall support error-generation when the user supplies both conductances and mean hardness values (to calculate a conductance) to calculate thermal conductivity across an interface.'
+    issues = '#7'
+  [../]
+  [./conductance_calculated]
+    type = Exodiff
+    input = 'thermal_interface.i'
+    exodiff = 'thermal_interface_calculated_out.e'
+    cli_args = 'Executioner/end_time=0.2 Outputs/file_base=thermal_interface_calculated_out InterfaceKernels/active="thermal_contact_conductance_calculated electric_contact_conductance" Materials/active="heat_conductor_graphite rho_graphite sigma_graphite heat_conductor_stainless_steel rho_stainless_steel sigma_stainless_steel mean_hardness"'
+    requirement = 'The system shall support the calculation of thermal and electrical conductances when determining the heat transfer across an interface due to thermal conductivity and electrostatic joule heating.'
+    issues = '#7'
   [../]
 []

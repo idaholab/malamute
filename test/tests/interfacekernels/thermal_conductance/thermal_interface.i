@@ -1,3 +1,4 @@
+# Input file block to generate this mesh can be found in thermal_interface_mesh.i
 [Mesh]
   file = thermal_interface_regular_mesh.e
 []
@@ -110,14 +111,18 @@
 []
 
 [InterfaceKernels]
+  active = 'thermal_contact_conductance electric_contact_conductance'
+
   [./thermal_contact_conductance]
     type = ThermalContactCondition
     variable = temperature_stainless_steel
     neighbor_var = temperature_graphite
     master_potential = potential_stainless_steel
     neighbor_potential = potential_graphite
-    master_conductivity = thermal_conductivity
-    neighbor_conductivity = thermal_conductivity
+    master_thermal_conductivity = thermal_conductivity
+    neighbor_thermal_conductivity = thermal_conductivity
+    master_electrical_conductivity = electrical_conductivity
+    neighbor_electrical_conductivity = electrical_conductivity
     user_electrical_contact_conductance = 2.5e5 # as described in Cincotti et al (DOI: 10.1002/aic.11102)
     user_thermal_contact_conductance = 7 # also from Cincotti et al
     boundary = ssg_interface
@@ -129,9 +134,26 @@
     boundary = ssg_interface
     user_electrical_contact_conductance = 2.5e5 # as described in Cincotti et al (DOI: 10.1002/aic.11102)
   [../]
+
+  [./thermal_contact_conductance_calculated]
+    type = ThermalContactCondition
+    variable = temperature_stainless_steel
+    neighbor_var = temperature_graphite
+    master_potential = potential_stainless_steel
+    neighbor_potential = potential_graphite
+    master_thermal_conductivity = thermal_conductivity
+    neighbor_thermal_conductivity = thermal_conductivity
+    master_electrical_conductivity = electrical_conductivity
+    neighbor_electrical_conductivity = electrical_conductivity
+    mean_hardness = graphite_stainless_mean_hardness
+    mechanical_pressure = 8.52842e10 # resulting in electrical contact conductance = ~1.4715e5, thermal contact conductance = ~3.44689e7
+    boundary = ssg_interface
+  [../]
 []
 
 [Materials]
+  active = 'heat_conductor_graphite rho_graphite sigma_graphite heat_conductor_stainless_steel rho_stainless_steel sigma_stainless_steel'
+
   #graphite
   [./heat_conductor_graphite]
     type = HeatConductionMaterial
@@ -174,6 +196,11 @@
     reference_resistivity = 7e-7
     temperature_coefficient = 0 # makes conductivity constant
     block = stainless_steel
+  [../]
+
+  # harmonic mean of graphite and stainless steel hardness
+  [./mean_hardness]
+    type = GraphiteStainlessMeanHardness
   [../]
 []
 
