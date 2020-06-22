@@ -42,7 +42,7 @@ protected:
   /// The electrostatic potential value associated with the secondary side of the interface
   const ADVariableValue & _potential_secondary;
 
-  /// Splitting factor for joule heating source between primary and secondary sides
+  /// Splitting factor for joule heating source between primary and secondary sides (sets fraction of heat flux going into the primary side of the boundary, with the rest doing into the secondary side)
   const Real & _splitting_factor;
 
   /// Geometric mean of the hardness from both sides of the boundary, taken in as a material property
