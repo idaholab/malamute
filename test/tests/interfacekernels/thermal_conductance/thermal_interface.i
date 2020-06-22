@@ -117,12 +117,12 @@
     type = ThermalContactCondition
     variable = temperature_stainless_steel
     neighbor_var = temperature_graphite
-    master_potential = potential_stainless_steel
-    neighbor_potential = potential_graphite
-    master_thermal_conductivity = thermal_conductivity
-    neighbor_thermal_conductivity = thermal_conductivity
-    master_electrical_conductivity = electrical_conductivity
-    neighbor_electrical_conductivity = electrical_conductivity
+    primary_potential = potential_stainless_steel
+    secondary_potential = potential_graphite
+    primary_thermal_conductivity = thermal_conductivity
+    secondary_thermal_conductivity = thermal_conductivity
+    primary_electrical_conductivity = electrical_conductivity
+    secondary_electrical_conductivity = electrical_conductivity
     user_electrical_contact_conductance = 2.5e5 # as described in Cincotti et al (DOI: 10.1002/aic.11102)
     user_thermal_contact_conductance = 7 # also from Cincotti et al
     boundary = ssg_interface
@@ -139,12 +139,12 @@
     type = ThermalContactCondition
     variable = temperature_stainless_steel
     neighbor_var = temperature_graphite
-    master_potential = potential_stainless_steel
-    neighbor_potential = potential_graphite
-    master_thermal_conductivity = thermal_conductivity
-    neighbor_thermal_conductivity = thermal_conductivity
-    master_electrical_conductivity = electrical_conductivity
-    neighbor_electrical_conductivity = electrical_conductivity
+    primary_potential = potential_stainless_steel
+    secondary_potential = potential_graphite
+    primary_thermal_conductivity = thermal_conductivity
+    secondary_thermal_conductivity = thermal_conductivity
+    primary_electrical_conductivity = electrical_conductivity
+    secondary_electrical_conductivity = electrical_conductivity
     mean_hardness = graphite_stainless_mean_hardness
     mechanical_pressure = 8.52842e10 # resulting in electrical contact conductance = ~1.4715e5, thermal contact conductance = ~3.44689e7
     boundary = ssg_interface
