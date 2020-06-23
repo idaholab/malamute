@@ -7,11 +7,12 @@
  * stainless steel, AISI 304: the thermal conductivity in W/(m-K) and the
  * heat capacity in J/(kg-K)
  */
-class StainlessSteelThermal : public Material
+template <bool is_ad>
+class StainlessSteelThermalTempl : public Material
 {
 public:
   static InputParameters validParams();
-  StainlessSteelThermal(const InputParameters & parameters);
+  StainlessSteelThermalTempl(const InputParameters & parameters);
 
 protected:
   virtual void jacobianSetup();
@@ -40,13 +41,13 @@ private:
   const VariableValue & _temperature;
 
   ///@{Thermal conductivity (W/(m-K) and associated derivative
-  MaterialProperty<Real> & _thermal_conductivity;
-  MaterialProperty<Real> & _thermal_conductivity_dT;
+  GenericMaterialProperty<Real, is_ad> & _thermal_conductivity;
+  GenericMaterialProperty<Real, is_ad> & _thermal_conductivity_dT;
   ///@}
 
   ///@{Heat Capacity (J/(kg-K) and associated derivative
-  MaterialProperty<Real> & _heat_capacity;
-  MaterialProperty<Real> & _heat_capacity_dT;
+  GenericMaterialProperty<Real, is_ad> & _heat_capacity;
+  GenericMaterialProperty<Real, is_ad> & _heat_capacity_dT;
   ///@}
 
   ///@{Scaling factors applied to the thermal properties for a sensitivity study
@@ -57,3 +58,6 @@ private:
   /// Check the temperature only at the start of each timestep
   bool _check_temperature_now;
 };
+
+typedef StainlessSteelThermalTempl<false> StainlessSteelThermal;
+typedef StainlessSteelThermalTempl<true> ADStainlessSteelThermal;

@@ -37,21 +37,21 @@
 
 [Kernels]
   [./HeatDiff]
-    type = HeatConduction
+    type = ADHeatConduction
     variable = temperature
     diffusion_coefficient = thermal_conductivity
   [../]
   [./HeatTdot]
-    type = SpecificHeatConductionTimeDerivative
+    type = ADHeatConductionTimeDerivative
     variable = temperature
     specific_heat = heat_capacity
-    density = stainless_steel_density
+     density_name = stainless_steel_density
   [../]
 []
 
 [BCs]
   [./top_surface]
-    type = FunctionDirichletBC
+    type = ADFunctionDirichletBC
     boundary = top
     variable = temperature
     function = '350 + 100.0/60.*t' #stand-in for the 100C/min heating rate
@@ -60,12 +60,12 @@
 
 [Materials]
   [./stainless_steel_thermal]
-    type = StainlessSteelThermal
+    type = ADStainlessSteelThermal
     temperature = temperature
     output_properties = all
   [../]
   [./stainless_steel_density]
-    type = GenericConstantMaterial
+    type = ADGenericConstantMaterial
     prop_names = 'stainless_steel_density'
     prop_values = 8.0e3 #in kg/m^3 from Cincotti et al 2007, Table 2, doi:10.1002/aic
   [../]
@@ -92,12 +92,12 @@
     value_type = max
   [../]
   [./max_thermal_conductivity]
-    type = ElementExtremeMaterialProperty
+    type = ADElementExtremeMaterialProperty
     mat_prop = thermal_conductivity
     value_type = max
   [../]
   [./max_heat_capacity]
-    type = ElementExtremeMaterialProperty
+    type = ADElementExtremeMaterialProperty
     mat_prop = heat_capacity
     value_type = max
   [../]

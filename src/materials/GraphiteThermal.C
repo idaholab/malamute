@@ -5,9 +5,11 @@
 #include "TimeIntegrator.h"
 
 registerMooseObject("FreyaApp", GraphiteThermal);
+registerMooseObject("FreyaApp", ADGraphiteThermal);
 
+template <bool is_ad>
 InputParameters
-GraphiteThermal::validParams()
+GraphiteThermalTempl<is_ad>::validParams()
 {
   InputParameters params = Material::validParams();
   params.addClassDescription(
@@ -22,20 +24,22 @@ GraphiteThermal::validParams()
   return params;
 }
 
-GraphiteThermal::GraphiteThermal(const InputParameters & parameters)
+template <bool is_ad>
+GraphiteThermalTempl<is_ad>::GraphiteThermalTempl(const InputParameters & parameters)
   : Material(parameters),
     _temperature(coupledValue("temperature")),
-    _thermal_conductivity(declareProperty<Real>("thermal_conductivity")),
-    _thermal_conductivity_dT(declareProperty<Real>("thermal_conductivity_dT")),
-    _heat_capacity(declareProperty<Real>("heat_capacity")),
-    _heat_capacity_dT(declareProperty<Real>("heat_capacity_dT")),
+    _thermal_conductivity(declareGenericProperty<Real, is_ad>("thermal_conductivity")),
+    _thermal_conductivity_dT(declareGenericProperty<Real, is_ad>("thermal_conductivity_dT")),
+    _heat_capacity(declareGenericProperty<Real, is_ad>("heat_capacity")),
+    _heat_capacity_dT(declareGenericProperty<Real, is_ad>("heat_capacity_dT")),
     _thermal_conductivity_scale_factor(getParam<Real>("thermal_conductivity_scale_factor")),
     _heat_capacity_scale_factor(getParam<Real>("heat_capacity_scale_factor"))
 {
 }
 
+template <bool is_ad>
 void
-GraphiteThermal::jacobianSetup()
+GraphiteThermalTempl<is_ad>::jacobianSetup()
 {
   _check_temperature_now = false;
   int number_nonlinear_it =
@@ -44,8 +48,9 @@ GraphiteThermal::jacobianSetup()
     _check_temperature_now = true;
 }
 
+template <bool is_ad>
 void
-GraphiteThermal::computeQpProperties()
+GraphiteThermalTempl<is_ad>::computeQpProperties()
 {
   // select the most conservative calibation range limits to check against:
   if (_check_temperature_now)
@@ -66,16 +71,18 @@ GraphiteThermal::computeQpProperties()
   computeHeatCapacity();
 }
 
+template <bool is_ad>
 void
-GraphiteThermal::computeThermalConductivity()
+GraphiteThermalTempl<is_ad>::computeThermalConductivity()
 {
   _thermal_conductivity[_qp] = 1.519e-5 * Utility::pow<2>(_temperature[_qp]) -
                                8.007e-2 * _temperature[_qp] + 130.2; // in W/(m-K)
   _thermal_conductivity_dT[_qp] *= _thermal_conductivity_scale_factor;
 }
 
+template <bool is_ad>
 void
-GraphiteThermal::computeHeatCapacity()
+GraphiteThermalTempl<is_ad>::computeHeatCapacity()
 {
   Real heat_capacity, heat_capacity_dT = 0.0;
   if (_temperature[_qp] < 2004)
@@ -95,3 +102,6 @@ GraphiteThermal::computeHeatCapacity()
   _heat_capacity[_qp] = heat_capacity * _heat_capacity_scale_factor;
   _heat_capacity_dT[_qp] = heat_capacity_dT * _heat_capacity_scale_factor;
 }
+
+template class GraphiteThermalTempl<false>;
+template class GraphiteThermalTempl<true>;

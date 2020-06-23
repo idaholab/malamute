@@ -6,11 +6,12 @@
  * This class calculates the temperature dependent electrical resistivity of
  * stainless steel, AISI 304, in units of $\Omega$/m
  */
-class StainlessSteelElectricalResistivity : public Material
+template <bool is_ad>
+class StainlessSteelElectricalResistivityTempl : public Material
 {
 public:
   static InputParameters validParams();
-  StainlessSteelElectricalResistivity(const InputParameters & parameters);
+  StainlessSteelElectricalResistivityTempl(const InputParameters & parameters);
 
 protected:
   virtual void jacobianSetup();
@@ -29,9 +30,9 @@ private:
   /// Coupled temperature variable
   const VariableValue & _temperature;
 
-  ///@{Thermal conductivity (W/(m-K) and associated derivative
-  MaterialProperty<Real> & _electrical_resistivity;
-  MaterialProperty<Real> & _electrical_resistivity_dT;
+  ///@{Electrical resistivity ($\Omega$/m) and associated derivative
+  GenericMaterialProperty<Real, is_ad> & _electrical_resistivity;
+  GenericMaterialProperty<Real, is_ad> & _electrical_resistivity_dT;
   ///@}
 
   ///Scaling factor applied to the electrial resistivity for a sensitivity study
@@ -40,3 +41,6 @@ private:
   /// Check the temperature only at the start of each timestep
   bool _check_temperature_now;
 };
+
+typedef StainlessSteelElectricalResistivityTempl<false> StainlessSteelElectricalResistivity;
+typedef StainlessSteelElectricalResistivityTempl<true> ADStainlessSteelElectricalResistivity;

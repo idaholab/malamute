@@ -5,9 +5,11 @@
 #include "TimeIntegrator.h"
 
 registerMooseObject("FreyaApp", GraphiteElectricalResistivity);
+registerMooseObject("FreyaApp", ADGraphiteElectricalResistivity);
 
+template <bool is_ad>
 InputParameters
-GraphiteElectricalResistivity::validParams()
+GraphiteElectricalResistivityTempl<is_ad>::validParams()
 {
   InputParameters params = Material::validParams();
   params.addClassDescription(
@@ -20,17 +22,20 @@ GraphiteElectricalResistivity::validParams()
   return params;
 }
 
-GraphiteElectricalResistivity::GraphiteElectricalResistivity(const InputParameters & parameters)
+template <bool is_ad>
+GraphiteElectricalResistivityTempl<is_ad>::GraphiteElectricalResistivityTempl(
+    const InputParameters & parameters)
   : Material(parameters),
     _temperature(coupledValue("temperature")),
-    _electrical_resistivity(declareProperty<Real>("electrical_resistivity")),
-    _electrical_resistivity_dT(declareProperty<Real>("electrical_resistivity_dT")),
+    _electrical_resistivity(declareGenericProperty<Real, is_ad>("electrical_resistivity")),
+    _electrical_resistivity_dT(declareGenericProperty<Real, is_ad>("electrical_resistivity_dT")),
     _electrical_resistivity_scale_factor(getParam<Real>("electrical_resistivity_scale_factor"))
 {
 }
 
+template <bool is_ad>
 void
-GraphiteElectricalResistivity::jacobianSetup()
+GraphiteElectricalResistivityTempl<is_ad>::jacobianSetup()
 {
   _check_temperature_now = false;
   int number_nonlinear_it =
@@ -39,8 +44,9 @@ GraphiteElectricalResistivity::jacobianSetup()
     _check_temperature_now = true;
 }
 
+template <bool is_ad>
 void
-GraphiteElectricalResistivity::computeQpProperties()
+GraphiteElectricalResistivityTempl<is_ad>::computeQpProperties()
 {
   if (_check_temperature_now)
   {
@@ -59,8 +65,9 @@ GraphiteElectricalResistivity::computeQpProperties()
   computeElectricalResistivity();
 }
 
+template <bool is_ad>
 void
-GraphiteElectricalResistivity::computeElectricalResistivity()
+GraphiteElectricalResistivityTempl<is_ad>::computeElectricalResistivity()
 {
   const Real electrical_resistivity = -2.705e-15 * Utility::pow<3>(_temperature[_qp]) +
                                       1.263e-11 * Utility::pow<2>(_temperature[_qp]) -
@@ -73,3 +80,6 @@ GraphiteElectricalResistivity::computeElectricalResistivity()
   _electrical_resistivity_dT[_qp] =
       electrical_resistivity_dT * _electrical_resistivity_scale_factor;
 }
+
+template class GraphiteElectricalResistivityTempl<false>;
+template class GraphiteElectricalResistivityTempl<true>;

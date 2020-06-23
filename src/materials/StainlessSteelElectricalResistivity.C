@@ -5,9 +5,11 @@
 #include "TimeIntegrator.h"
 
 registerMooseObject("FreyaApp", StainlessSteelElectricalResistivity);
+registerMooseObject("FreyaApp", ADStainlessSteelElectricalResistivity);
 
+template <bool is_ad>
 InputParameters
-StainlessSteelElectricalResistivity::validParams()
+StainlessSteelElectricalResistivityTempl<is_ad>::validParams()
 {
   InputParameters params = Material::validParams();
   params.addClassDescription(
@@ -20,18 +22,20 @@ StainlessSteelElectricalResistivity::validParams()
   return params;
 }
 
-StainlessSteelElectricalResistivity::StainlessSteelElectricalResistivity(
+template <bool is_ad>
+StainlessSteelElectricalResistivityTempl<is_ad>::StainlessSteelElectricalResistivityTempl(
     const InputParameters & parameters)
   : Material(parameters),
     _temperature(coupledValue("temperature")),
-    _electrical_resistivity(declareProperty<Real>("electrical_resistivity")),
-    _electrical_resistivity_dT(declareProperty<Real>("electrical_resistivity_dT")),
+    _electrical_resistivity(declareGenericProperty<Real, is_ad>("electrical_resistivity")),
+    _electrical_resistivity_dT(declareGenericProperty<Real, is_ad>("electrical_resistivity_dT")),
     _electrical_resistivity_scale_factor(getParam<Real>("electrical_resistivity_scale_factor"))
 {
 }
 
+template <bool is_ad>
 void
-StainlessSteelElectricalResistivity::jacobianSetup()
+StainlessSteelElectricalResistivityTempl<is_ad>::jacobianSetup()
 {
   _check_temperature_now = false;
   int number_nonlinear_it =
@@ -40,8 +44,9 @@ StainlessSteelElectricalResistivity::jacobianSetup()
     _check_temperature_now = true;
 }
 
+template <bool is_ad>
 void
-StainlessSteelElectricalResistivity::computeQpProperties()
+StainlessSteelElectricalResistivityTempl<is_ad>::computeQpProperties()
 {
   if (_check_temperature_now)
   {
@@ -60,8 +65,9 @@ StainlessSteelElectricalResistivity::computeQpProperties()
   computeElectricalResistivity();
 }
 
+template <bool is_ad>
 void
-StainlessSteelElectricalResistivity::computeElectricalResistivity()
+StainlessSteelElectricalResistivityTempl<is_ad>::computeElectricalResistivity()
 {
   const Real electrical_resistivity = 1.575e-15 * Utility::pow<3>(_temperature[_qp]) -
                                       3.236e-12 * Utility::pow<2>(_temperature[_qp]) +
@@ -72,3 +78,6 @@ StainlessSteelElectricalResistivity::computeElectricalResistivity()
   _electrical_resistivity_dT[_qp] =
       electrical_resistivity_dT * _electrical_resistivity_scale_factor;
 }
+
+template class StainlessSteelElectricalResistivityTempl<false>;
+template class StainlessSteelElectricalResistivityTempl<true>;
