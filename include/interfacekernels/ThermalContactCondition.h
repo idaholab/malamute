@@ -19,16 +19,16 @@ protected:
   virtual ADReal computeQpResidual(Moose::DGResidualType type) override;
 
   /// Thermal conductivity property for the primary side
-  const MaterialProperty<Real> & _thermal_conductivity_primary;
+  const ADMaterialProperty<Real> & _thermal_conductivity_primary;
 
   /// Thermal conductivity property for the secondary side
-  const MaterialProperty<Real> & _thermal_conductivity_secondary;
+  const ADMaterialProperty<Real> & _thermal_conductivity_secondary;
 
   /// Electrical conductivity property for the primary side
-  const MaterialProperty<Real> & _electrical_conductivity_primary;
+  const ADMaterialProperty<Real> & _electrical_conductivity_primary;
 
   /// Electrical conductivity property for the secondary side
-  const MaterialProperty<Real> & _electrical_conductivity_secondary;
+  const ADMaterialProperty<Real> & _electrical_conductivity_secondary;
 
   /// User-provided thermal contact conductance coefficient (indicates ability to conduct heat across interface)
   const Real & _user_thermal_contact_conductance;

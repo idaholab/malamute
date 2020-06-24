@@ -119,10 +119,10 @@
     neighbor_var = temperature_graphite
     primary_potential = potential_stainless_steel
     secondary_potential = potential_graphite
-    primary_thermal_conductivity = thermal_conductivity
-    secondary_thermal_conductivity = thermal_conductivity
-    primary_electrical_conductivity = electrical_conductivity
-    secondary_electrical_conductivity = electrical_conductivity
+    primary_thermal_conductivity = ad_thermal_conductivity
+    secondary_thermal_conductivity = ad_thermal_conductivity
+    primary_electrical_conductivity = ad_electrical_conductivity
+    secondary_electrical_conductivity = ad_electrical_conductivity
     user_electrical_contact_conductance = 2.5e5 # as described in Cincotti et al (DOI: 10.1002/aic.11102)
     user_thermal_contact_conductance = 7 # also from Cincotti et al
     boundary = ssg_interface
@@ -131,6 +131,8 @@
     type = ElectrostaticContactCondition
     variable = potential_stainless_steel
     neighbor_var = potential_graphite
+    primary_conductivity = ad_electrical_conductivity
+    secondary_conductivity = ad_electrical_conductivity
     boundary = ssg_interface
     user_electrical_contact_conductance = 2.5e5 # as described in Cincotti et al (DOI: 10.1002/aic.11102)
   [../]
@@ -141,10 +143,10 @@
     neighbor_var = temperature_graphite
     primary_potential = potential_stainless_steel
     secondary_potential = potential_graphite
-    primary_thermal_conductivity = thermal_conductivity
-    secondary_thermal_conductivity = thermal_conductivity
-    primary_electrical_conductivity = electrical_conductivity
-    secondary_electrical_conductivity = electrical_conductivity
+    primary_thermal_conductivity = ad_thermal_conductivity
+    secondary_thermal_conductivity = ad_thermal_conductivity
+    primary_electrical_conductivity = ad_electrical_conductivity
+    secondary_electrical_conductivity = ad_electrical_conductivity
     mean_hardness = graphite_stainless_mean_hardness
     mechanical_pressure = 8.52842e10 # resulting in electrical contact conductance = ~1.4715e5, thermal contact conductance = ~3.44689e7
     boundary = ssg_interface
@@ -152,13 +154,19 @@
 []
 
 [Materials]
-  active = 'heat_conductor_graphite rho_graphite sigma_graphite heat_conductor_stainless_steel rho_stainless_steel sigma_stainless_steel'
+  active = 'heat_conductor_graphite thermal_ad_conversion_graphite rho_graphite sigma_graphite electrical_ad_conversion_graphite heat_conductor_stainless_steel thermal_ad_conversion_stainless_steel rho_stainless_steel sigma_stainless_steel electrical_ad_conversion_stainless_steel'
 
   #graphite
   [./heat_conductor_graphite]
     type = HeatConductionMaterial
     thermal_conductivity = 630
     specific_heat = 60
+    block = graphite
+  [../]
+  [./thermal_ad_conversion_graphite]
+    type = MaterialConverter
+    reg_props_in = 'thermal_conductivity'
+    ad_props_out = 'ad_thermal_conductivity'
     block = graphite
   [../]
   [./rho_graphite]
@@ -175,12 +183,24 @@
     temperature_coefficient = 0 # makes conductivity constant
     block = graphite
   [../]
+  [./electrical_ad_conversion_graphite]
+    type = MaterialConverter
+    reg_props_in = 'electrical_conductivity'
+    ad_props_out = 'ad_electrical_conductivity'
+    block = graphite
+  [../]
 
   #stainless_steel
   [./heat_conductor_stainless_steel]
     type = HeatConductionMaterial
     thermal_conductivity = 17
     specific_heat = 502
+    block = stainless_steel
+  [../]
+  [./thermal_ad_conversion_stainless_steel]
+    type = MaterialConverter
+    reg_props_in = 'thermal_conductivity'
+    ad_props_out = 'ad_thermal_conductivity'
     block = stainless_steel
   [../]
   [./rho_stainless_steel]
@@ -195,6 +215,12 @@
     reference_temperature = 293.0
     reference_resistivity = 7e-7
     temperature_coefficient = 0 # makes conductivity constant
+    block = stainless_steel
+  [../]
+  [./electrical_ad_conversion_stainless_steel]
+    type = MaterialConverter
+    reg_props_in = 'electrical_conductivity'
+    ad_props_out = 'ad_electrical_conductivity'
     block = stainless_steel
   [../]
 

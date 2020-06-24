@@ -56,7 +56,7 @@
     type = Exodiff
     input = 'thermal_interface.i'
     exodiff = 'thermal_interface_calculated_out.e'
-    cli_args = 'Executioner/end_time=0.2 Outputs/file_base=thermal_interface_calculated_out InterfaceKernels/active="thermal_contact_conductance_calculated electric_contact_conductance" Materials/active="heat_conductor_graphite rho_graphite sigma_graphite heat_conductor_stainless_steel rho_stainless_steel sigma_stainless_steel mean_hardness"'
+    cli_args = 'Executioner/end_time=0.2 Outputs/file_base=thermal_interface_calculated_out InterfaceKernels/active="thermal_contact_conductance_calculated electric_contact_conductance" Materials/active="heat_conductor_graphite thermal_ad_conversion_graphite rho_graphite sigma_graphite electrical_ad_conversion_graphite heat_conductor_stainless_steel thermal_ad_conversion_stainless_steel rho_stainless_steel sigma_stainless_steel electrical_ad_conversion_stainless_steel mean_hardness"'
     requirement = 'The system shall support the calculation of thermal and electrical conductances when determining the heat transfer across an interface due to thermal conductivity and electrostatic joule heating.'
     issues = '#7'
   [../]

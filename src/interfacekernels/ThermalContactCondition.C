@@ -44,12 +44,12 @@ ThermalContactCondition::validParams()
 
 ThermalContactCondition::ThermalContactCondition(const InputParameters & parameters)
   : ADInterfaceKernel(parameters),
-    _thermal_conductivity_primary(getMaterialProperty<Real>("primary_thermal_conductivity")),
+    _thermal_conductivity_primary(getADMaterialProperty<Real>("primary_thermal_conductivity")),
     _thermal_conductivity_secondary(
-        getNeighborMaterialProperty<Real>("secondary_thermal_conductivity")),
-    _electrical_conductivity_primary(getMaterialProperty<Real>("primary_electrical_conductivity")),
+        getNeighborADMaterialProperty<Real>("secondary_thermal_conductivity")),
+    _electrical_conductivity_primary(getADMaterialProperty<Real>("primary_electrical_conductivity")),
     _electrical_conductivity_secondary(
-        getNeighborMaterialProperty<Real>("secondary_electrical_conductivity")),
+        getNeighborADMaterialProperty<Real>("secondary_electrical_conductivity")),
     _user_thermal_contact_conductance(isParamValid("user_thermal_contact_conductance")
                                           ? getParam<Real>("user_thermal_contact_conductance")
                                           : _real_zero),
