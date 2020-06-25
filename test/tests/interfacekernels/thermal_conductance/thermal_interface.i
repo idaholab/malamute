@@ -70,13 +70,13 @@
   [./electric_graphite]
     type = ConductivityLaplacian
     variable = potential_graphite
-    conductivity_coefficient = electrical_conductivity
+    conductivity_coefficient = ad_electrical_conductivity
     block = graphite
   [../]
   [./electric_stainless_steel]
     type = ConductivityLaplacian
     variable = potential_stainless_steel
-    conductivity_coefficient = electrical_conductivity
+    conductivity_coefficient = ad_electrical_conductivity
     block = stainless_steel
   [../]
 []
