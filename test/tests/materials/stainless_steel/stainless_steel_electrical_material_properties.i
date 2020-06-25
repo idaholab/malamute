@@ -39,7 +39,7 @@
   [./electric_stainless_steel]
     type = ConductivityLaplacian
     variable = stainless_steel_potential
-    conductivity_coefficient = electrical_resistivity
+    conductivity_coefficient = electrical_conductivity
   [../]
 []
 
@@ -63,6 +63,17 @@
     type = StainlessSteelElectricalResistivity
     temperature = temperature
     output_properties = electrical_resistivity
+  [../]
+  [./converter]
+    type = MaterialConverter
+    reg_props_in = electrical_resistivity
+    ad_props_out = ad_electrical_resistivity
+  [../]
+  [./stainless_steel_electrical_conductivity]
+    type = ADParsedMaterial
+    f_name = electrical_conductivity
+    material_property_names = ad_electrical_resistivity
+    function = '1 / ad_electrical_resistivity'
   [../]
 []
 
