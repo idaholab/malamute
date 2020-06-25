@@ -32,12 +32,12 @@
 
 [Kernels]
   [./HeatDiff_graphite]
-    type = HeatConduction
+    type = ADHeatConduction
     variable = temperature_graphite
     block = graphite
   [../]
   [./HeatTdot_graphite]
-    type = HeatConductionTimeDerivative
+    type = ADHeatConductionTimeDerivative
     variable = temperature_graphite
     block = graphite
   [../]
@@ -50,12 +50,12 @@
   [../]
 
   [./HeatDiff_stainless_steel]
-    type = HeatConduction
+    type = ADHeatConduction
     variable = temperature_stainless_steel
     block = stainless_steel
   [../]
   [./HeatTdot_stainless_steel]
-    type = HeatConductionTimeDerivative
+    type = ADHeatConductionTimeDerivative
     variable = temperature_stainless_steel
     block = stainless_steel
   [../]
@@ -119,8 +119,8 @@
     neighbor_var = temperature_graphite
     primary_potential = potential_stainless_steel
     secondary_potential = potential_graphite
-    primary_thermal_conductivity = ad_thermal_conductivity
-    secondary_thermal_conductivity = ad_thermal_conductivity
+    primary_thermal_conductivity = thermal_conductivity
+    secondary_thermal_conductivity = thermal_conductivity
     primary_electrical_conductivity = ad_electrical_conductivity
     secondary_electrical_conductivity = ad_electrical_conductivity
     user_electrical_contact_conductance = 2.5e5 # as described in Cincotti et al (DOI: 10.1002/aic.11102)
@@ -143,8 +143,8 @@
     neighbor_var = temperature_graphite
     primary_potential = potential_stainless_steel
     secondary_potential = potential_graphite
-    primary_thermal_conductivity = ad_thermal_conductivity
-    secondary_thermal_conductivity = ad_thermal_conductivity
+    primary_thermal_conductivity = thermal_conductivity
+    secondary_thermal_conductivity = thermal_conductivity
     primary_electrical_conductivity = ad_electrical_conductivity
     secondary_electrical_conductivity = ad_electrical_conductivity
     mean_hardness = graphite_stainless_mean_hardness
@@ -154,23 +154,17 @@
 []
 
 [Materials]
-  active = 'heat_conductor_graphite thermal_ad_conversion_graphite rho_graphite sigma_graphite electrical_ad_conversion_graphite heat_conductor_stainless_steel thermal_ad_conversion_stainless_steel rho_stainless_steel sigma_stainless_steel electrical_ad_conversion_stainless_steel'
+  active = 'heat_conductor_graphite rho_graphite sigma_graphite electrical_ad_conversion_graphite heat_conductor_stainless_steel rho_stainless_steel sigma_stainless_steel electrical_ad_conversion_stainless_steel'
 
   #graphite
   [./heat_conductor_graphite]
-    type = HeatConductionMaterial
+    type = ADHeatConductionMaterial
     thermal_conductivity = 630
     specific_heat = 60
     block = graphite
   [../]
-  [./thermal_ad_conversion_graphite]
-    type = MaterialConverter
-    reg_props_in = 'thermal_conductivity'
-    ad_props_out = 'ad_thermal_conductivity'
-    block = graphite
-  [../]
   [./rho_graphite]
-    type = GenericConstantMaterial
+    type = ADGenericConstantMaterial
     prop_names = 'density'
     prop_values = 1.75e3
     block = graphite
@@ -192,19 +186,13 @@
 
   #stainless_steel
   [./heat_conductor_stainless_steel]
-    type = HeatConductionMaterial
+    type = ADHeatConductionMaterial
     thermal_conductivity = 17
     specific_heat = 502
     block = stainless_steel
   [../]
-  [./thermal_ad_conversion_stainless_steel]
-    type = MaterialConverter
-    reg_props_in = 'thermal_conductivity'
-    ad_props_out = 'ad_thermal_conductivity'
-    block = stainless_steel
-  [../]
   [./rho_stainless_steel]
-    type = GenericConstantMaterial
+    type = ADGenericConstantMaterial
     prop_names = 'density'
     prop_values = 8e3
     block = stainless_steel
