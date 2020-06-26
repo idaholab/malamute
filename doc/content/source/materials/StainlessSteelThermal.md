@@ -46,7 +46,7 @@ are, however, calculated with the current value of the temperature.
 
 ## Example Input File Syntax
 
-!listing test/tests/materials/stainless_steel/stainless_steel_thermal_material_properties.i block=Materials/stainless_steel_thermal
+!listing test/tests/materials/stainless_steel/thermal/ad_stainless_steel_thermal_material_properties.i block=Materials/stainless_steel_thermal
 
 
 !syntax parameters /Materials/StainlessSteelThermal

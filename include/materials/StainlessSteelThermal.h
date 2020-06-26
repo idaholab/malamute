@@ -18,6 +18,7 @@ protected:
   virtual void jacobianSetup();
   virtual void computeQpProperties();
 
+private:
   /**
    * Calculates the thermal conductivity and its derivative with resepect to
    * temperature for AISI 304 stainless steel based on a curve fit to data from
@@ -36,9 +37,8 @@ protected:
    */
   void computeHeatCapacity();
 
-private:
   /// Coupled temperature variable
-  const VariableValue & _temperature;
+  const GenericVariableValue<is_ad> & _temperature;
 
   ///@{Thermal conductivity (W/(m-K) and associated derivative
   GenericMaterialProperty<Real, is_ad> & _thermal_conductivity;

@@ -56,7 +56,7 @@ curve fits used in this class are shown in [fig:graphite_thermal_conductivity],
 
 ## Example Input File Syntax
 
-!listing test/tests/materials/graphite/graphite_thermal_material_properties.i block=Materials/graphite_thermal
+!listing test/tests/materials/graphite/thermal/graphite_thermal_material_properties.i block=Materials/graphite_thermal
 
 
 !syntax parameters /Materials/GraphiteThermal

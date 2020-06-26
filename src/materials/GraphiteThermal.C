@@ -4,6 +4,8 @@
 #include "NonlinearSystemBase.h"
 #include "TimeIntegrator.h"
 
+#include "metaphysicl/raw_type.h"
+
 registerMooseObject("FreyaApp", GraphiteThermal);
 registerMooseObject("FreyaApp", ADGraphiteThermal);
 
@@ -27,7 +29,7 @@ GraphiteThermalTempl<is_ad>::validParams()
 template <bool is_ad>
 GraphiteThermalTempl<is_ad>::GraphiteThermalTempl(const InputParameters & parameters)
   : Material(parameters),
-    _temperature(coupledValue("temperature")),
+    _temperature(coupledGenericValue<is_ad>("temperature")),
     _thermal_conductivity(declareGenericProperty<Real, is_ad>("thermal_conductivity")),
     _thermal_conductivity_dT(declareGenericProperty<Real, is_ad>("thermal_conductivity_dT")),
     _heat_capacity(declareGenericProperty<Real, is_ad>("heat_capacity")),
@@ -59,12 +61,14 @@ GraphiteThermalTempl<is_ad>::computeQpProperties()
       mooseError("The temperature in ",
                  _name,
                  " is below the calibration lower range limit at a value of ",
-                 _temperature[_qp]);
+                 MetaPhysicL::raw_value(_temperature[_qp]));
     else if (_temperature[_qp] > 3312.0) // thermal conductivity calibration range
       mooseError("The temperature in ",
                  _name,
                  " is above the calibration upper range limit at a value of ",
-                 _temperature[_qp]);
+                 MetaPhysicL::raw_value(_temperature[_qp]));
+
+    _check_temperature_now = false;
   }
   // Allow fall through to calculate the thermal material properties
   computeThermalConductivity();
@@ -84,23 +88,22 @@ template <bool is_ad>
 void
 GraphiteThermalTempl<is_ad>::computeHeatCapacity()
 {
-  Real heat_capacity, heat_capacity_dT = 0.0;
   if (_temperature[_qp] < 2004)
   {
-    heat_capacity = 3.852e-7 * Utility::pow<3>(_temperature[_qp]) -
-                    1.921e-3 * Utility::pow<2>(_temperature[_qp]) + 3.318 * _temperature[_qp] +
-                    16.282; // in J/(K-kg)
-    heat_capacity_dT = 3.852e-7 * 3.0 * Utility::pow<2>(_temperature[_qp]) -
-                       1.921e-3 * 2.0 * _temperature[_qp] + 3.318;
+    _heat_capacity[_qp] = 3.852e-7 * Utility::pow<3>(_temperature[_qp]) -
+                          1.921e-3 * Utility::pow<2>(_temperature[_qp]) +
+                          3.318 * _temperature[_qp] + 16.282; // in J/(K-kg)
+    _heat_capacity_dT[_qp] = 3.852e-7 * 3.0 * Utility::pow<2>(_temperature[_qp]) -
+                             1.921e-3 * 2.0 * _temperature[_qp] + 3.318;
   }
   else
   {
-    heat_capacity = 5.878e-2 * _temperature[_qp] + 1931.166; // in J/(K-kg)
-    heat_capacity_dT = 5.878e-2;
+    _heat_capacity[_qp] = 5.878e-2 * _temperature[_qp] + 1931.166; // in J/(K-kg)
+    _heat_capacity_dT[_qp] = 5.878e-2;
   }
 
-  _heat_capacity[_qp] = heat_capacity * _heat_capacity_scale_factor;
-  _heat_capacity_dT[_qp] = heat_capacity_dT * _heat_capacity_scale_factor;
+  _heat_capacity[_qp] *= _heat_capacity_scale_factor;
+  _heat_capacity_dT[_qp] *= _heat_capacity_scale_factor;
 }
 
 template class GraphiteThermalTempl<false>;
