@@ -1,6 +1,6 @@
-# This model includes only heat conduction on a two element block and is intended
-# verify the curve fits from Cincotti et al (2007) AIChE Journal, Vol 53 No 3,
-# page 711 Figure 8b.
+# This model includes only electrical conducation on a two element block and is
+# intended verify the curve fits from Cincotti et al (2007) AIChE Journal,
+#  Vol 53 No 3, page 711 Figure 8b.
 #
 # Experimental data points which nearly lie on the curve fit are compared to the
 # simulation outputs at similar temperatures, below, to verify both the curve
@@ -45,13 +45,13 @@
 
 [BCs]
   [./elec_top]
-    type = DirichletBC
+    type = ADDirichletBC
     variable = stainless_steel_potential
     boundary = top
     value = 10
   [../]
   [./elec_bottom]
-    type = DirichletBC
+    type = ADDirichletBC
     variable = stainless_steel_potential
     boundary = bottom
     value = 0
@@ -60,26 +60,21 @@
 
 [Materials]
   [./stainless_steel_electrical]
-    type = StainlessSteelElectricalResistivity
+    type = ADStainlessSteelElectricalResistivity
     temperature = temperature
     output_properties = electrical_resistivity
-  [../]
-  [./converter]
-    type = MaterialConverter
-    reg_props_in = electrical_resistivity
-    ad_props_out = ad_electrical_resistivity
   [../]
   [./stainless_steel_electrical_conductivity]
     type = ADParsedMaterial
     f_name = electrical_conductivity
-    material_property_names = ad_electrical_resistivity
-    function = '1 / ad_electrical_resistivity'
+    material_property_names = electrical_resistivity
+    function = '1 / electrical_resistivity'
   [../]
 []
 
 [Executioner]
   type = Steady
-  solve_type = PJFNK
+  solve_type = NEWTON
   petsc_options_iname = '-pc_type -sub_pc_type -pc_asm_overlap'
   petsc_options_value = 'asm          ilu         1'
   automatic_scaling = true
@@ -92,7 +87,7 @@
     value_type = max
   [../]
   [./max_electrical_resistivity]
-    type = ElementExtremeMaterialProperty
+    type = ADElementExtremeMaterialProperty
     mat_prop = electrical_resistivity
     value_type = max
   [../]
@@ -102,4 +97,5 @@
 [Outputs]
   csv = true
   perf_graph = true
+  file_base = stainless_steel_electrical_material_properties_out
 []

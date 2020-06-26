@@ -39,12 +39,7 @@
   [./electric_graphite]
     type = ConductivityLaplacian
     variable = graphite_potential
-<<<<<<< HEAD
-    conductivity_coefficient = electrical_conductivity
-=======
     conductivity_coefficient = electrical_resistivity
-
->>>>>>> Add template <is_ad> capability to existing temperature dep material properties, Refs #6
   [../]
 []
 

@@ -32,7 +32,7 @@ calculated with the current value of the temperature.
 
 ## Example Input File Syntax
 
-!listing test/tests/materials/graphite/graphite_electrical_material_properties.i block=Materials/graphite_electrical
+!listing test/tests/materials/graphite/electrical/graphite_electrical_material_properties.i block=Materials/graphite_electrical
 
 
 !syntax parameters /Materials/GraphiteElectricalResistivity

@@ -33,7 +33,7 @@ however, calculated with the current value of the temperature.
 
 ## Example Input File Syntax
 
-!listing test/tests/materials/stainless_steel/stainless_steel_electrical_material_properties.i block=Materials/stainless_steel_electrical
+!listing test/tests/materials/stainless_steel/electrical/stainless_steel_electrical_material_properties.i block=Materials/stainless_steel_electrical
 
 
 !syntax parameters /Materials/StainlessSteelElectricalResistivity

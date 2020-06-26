@@ -17,6 +17,7 @@ protected:
   virtual void jacobianSetup();
   virtual void computeQpProperties();
 
+private:
   /**
    * Calculates the electrical resistivity and its derivative with resepect to
    * temperature for AISI 304 stainless steel based on a curve fit to data from
@@ -26,9 +27,8 @@ protected:
    */
   void computeElectricalResistivity();
 
-private:
   /// Coupled temperature variable
-  const VariableValue & _temperature;
+  const GenericVariableValue<is_ad> & _temperature;
 
   ///@{Electrical resistivity ($\Omega$/m) and associated derivative
   GenericMaterialProperty<Real, is_ad> & _electrical_resistivity;
