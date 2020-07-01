@@ -51,7 +51,8 @@ template <>
 void
 StainlessSteelElectricalConductivityTempl<false>::setDerivatives(Real &, Real, const ADReal &)
 {
-  mooseError("Mistaken call of setDerivatives in a non-AD StainlessSteelThermal version");
+  mooseError(
+      "Mistaken call of setDerivatives in a non-AD StainlessSteelElectricalConductivity version");
 }
 
 template <bool is_ad>

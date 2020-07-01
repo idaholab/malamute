@@ -37,17 +37,22 @@ private:
    */
   void computeHeatCapacity();
 
+  /**
+   * Handles derivatives for the AD version
+   */
+  void setDerivatives(GenericReal<is_ad> & prop, Real dprop_dT, const ADReal & ad_T);
+
   /// Coupled temperature variable
   const GenericVariableValue<is_ad> & _temperature;
 
   ///@{Thermal conductivity (W/(m-K) and associated derivative
   GenericMaterialProperty<Real, is_ad> & _thermal_conductivity;
-  GenericMaterialProperty<Real, is_ad> & _thermal_conductivity_dT;
+  MaterialProperty<Real> & _thermal_conductivity_dT;
   ///@}
 
   ///@{Heat Capacity (J/(kg-K) and associated derivative
   GenericMaterialProperty<Real, is_ad> & _heat_capacity;
-  GenericMaterialProperty<Real, is_ad> & _heat_capacity_dT;
+  MaterialProperty<Real> & _heat_capacity_dT;
   ///@}
 
   ///@{Scaling factors applied to the thermal properties for a sensitivity study

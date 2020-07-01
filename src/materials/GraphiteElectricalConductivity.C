@@ -51,7 +51,7 @@ template <>
 void
 GraphiteElectricalConductivityTempl<false>::setDerivatives(Real &, Real, const ADReal &)
 {
-  mooseError("Mistaken call of setDerivatives in a non-AD StainlessSteelThermal version");
+  mooseError("Mistaken call of setDerivatives in a non-AD GraphiteElectricalConductivity version");
 }
 
 template <bool is_ad>

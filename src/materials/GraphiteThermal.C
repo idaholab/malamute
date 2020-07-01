@@ -31,12 +31,31 @@ GraphiteThermalTempl<is_ad>::GraphiteThermalTempl(const InputParameters & parame
   : Material(parameters),
     _temperature(coupledGenericValue<is_ad>("temperature")),
     _thermal_conductivity(declareGenericProperty<Real, is_ad>("thermal_conductivity")),
-    _thermal_conductivity_dT(declareGenericProperty<Real, is_ad>("thermal_conductivity_dT")),
+    _thermal_conductivity_dT(declareProperty<Real>("thermal_conductivity_dT")),
     _heat_capacity(declareGenericProperty<Real, is_ad>("heat_capacity")),
-    _heat_capacity_dT(declareGenericProperty<Real, is_ad>("heat_capacity_dT")),
+    _heat_capacity_dT(declareProperty<Real>("heat_capacity_dT")),
     _thermal_conductivity_scale_factor(getParam<Real>("thermal_conductivity_scale_factor")),
     _heat_capacity_scale_factor(getParam<Real>("heat_capacity_scale_factor"))
 {
+}
+
+template <bool is_ad>
+void
+GraphiteThermalTempl<is_ad>::setDerivatives(GenericReal<is_ad> & prop,
+                                            Real dprop_dT,
+                                            const ADReal & ad_T)
+{
+  if (ad_T < 0)
+    prop.derivatives() = 0;
+  else
+    prop.derivatives() = dprop_dT * ad_T.derivatives();
+}
+
+template <>
+void
+GraphiteThermalTempl<false>::setDerivatives(Real &, Real, const ADReal &)
+{
+  mooseError("Mistaken call of setDerivatives in a non-AD GraphiteThermal version");
 }
 
 template <bool is_ad>
@@ -81,20 +100,29 @@ GraphiteThermalTempl<is_ad>::computeThermalConductivity()
 {
   _thermal_conductivity[_qp] = 1.519e-5 * Utility::pow<2>(_temperature[_qp]) -
                                8.007e-2 * _temperature[_qp] + 130.2; // in W/(m-K)
+  _thermal_conductivity_dT[_qp] =
+      2.0 * 1.519e-5 * MetaPhysicL::raw_value(_temperature[_qp]) - 8.007e-2; // in W/(m-K)
+
+  _thermal_conductivity[_qp] *= _thermal_conductivity_scale_factor;
   _thermal_conductivity_dT[_qp] *= _thermal_conductivity_scale_factor;
+
+  if (is_ad)
+    setDerivatives(_thermal_conductivity[_qp], _thermal_conductivity_dT[_qp], _temperature[_qp]);
 }
 
 template <bool is_ad>
 void
 GraphiteThermalTempl<is_ad>::computeHeatCapacity()
 {
-  if (_temperature[_qp] < 2004)
+  const Real nonad_temperature = MetaPhysicL::raw_value(_temperature[_qp]);
+
+  if (nonad_temperature < 2004)
   {
     _heat_capacity[_qp] = 3.852e-7 * Utility::pow<3>(_temperature[_qp]) -
                           1.921e-3 * Utility::pow<2>(_temperature[_qp]) +
                           3.318 * _temperature[_qp] + 16.282; // in J/(K-kg)
-    _heat_capacity_dT[_qp] = 3.852e-7 * 3.0 * Utility::pow<2>(_temperature[_qp]) -
-                             1.921e-3 * 2.0 * _temperature[_qp] + 3.318;
+    _heat_capacity_dT[_qp] = 3.852e-7 * 3.0 * Utility::pow<2>(nonad_temperature) -
+                             1.921e-3 * 2.0 * nonad_temperature + 3.318;
   }
   else
   {
@@ -104,6 +132,9 @@ GraphiteThermalTempl<is_ad>::computeHeatCapacity()
 
   _heat_capacity[_qp] *= _heat_capacity_scale_factor;
   _heat_capacity_dT[_qp] *= _heat_capacity_scale_factor;
+
+  if (is_ad)
+    setDerivatives(_heat_capacity[_qp], _heat_capacity_dT[_qp], _temperature[_qp]);
 }
 
 template class GraphiteThermalTempl<false>;
