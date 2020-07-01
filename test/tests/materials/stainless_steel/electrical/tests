@@ -5,14 +5,14 @@
     type = 'CSVDiff'
     input = 'stainless_steel_electrical_material_properties.i'
     csvdiff = 'stainless_steel_electrical_material_properties_out.csv'
-    requirement = 'The system shall compute the electrical resistivity of AISI 304 stainless steel as a function of temperature and the computed properties shall align with an original figure data point.'
+    requirement = 'The system shall compute the electrical conductivity of AISI 304 stainless steel as a function of temperature and the computed properties shall align with an original figure data point.'
   [../]
   [./electrical_resistivity_lower_range_check]
     type = RunException
     input = 'stainless_steel_electrical_material_properties.i'
     cli_args = 'AuxVariables/temperature/initial_condition=250.0'
     expect_err = 'The temperature in stainless_steel_electrical is below the calibration lower range limit at a value of 250'
-    requirement = 'The system shall not allow the calculation of electrical resistivity with a temperature below the curve calibration range.'
+    requirement = 'The system shall not allow the calculation of electrical conductivity with a temperature below the curve calibration range.'
     prereq = electrical_properties
   [../]
   [./electrical_resistivity_upper_range_check]
@@ -20,7 +20,7 @@
     input = 'stainless_steel_electrical_material_properties.i'
     cli_args = 'AuxVariables/temperature/initial_condition=1250.0'
     expect_err = 'The temperature in stainless_steel_electrical is above the calibration upper range limit at a value of 1250'
-    requirement = 'The system shall not allow the calculation of electrical resistivity with a temperature above the curve calibration range.'
+    requirement = 'The system shall not allow the calculation of electrical conductivity with a temperature above the curve calibration range.'
     prereq = electrical_resistivity_lower_range_check
   [../]
 
@@ -29,7 +29,7 @@
     input = 'ad_stainless_steel_electrical_material_properties.i'
     csvdiff = 'stainless_steel_electrical_material_properties_out.csv'
     issues = '#6 #10'
-    requirement = 'The system shall compute the electrical resistivity of AISI 304 stainless steel as a function of temperature and the computed properties shall align with an original figure data point while using the automatic differentiation capabilties.'
+    requirement = 'The system shall compute the electrical conductivity of AISI 304 stainless steel as a function of temperature and the computed properties shall align with an original figure data point while using the automatic differentiation capabilties.'
     prereq = electrical_properties
   [../]
   [./ad_electrical_resistivity_lower_range_check]
@@ -38,7 +38,7 @@
     cli_args = 'AuxVariables/temperature/initial_condition=250.0'
     expect_err = 'The temperature in stainless_steel_electrical is below the calibration lower range limit at a value of 250'
     issues = '#6 #10'
-    requirement = 'The system shall not allow the calculation of electrical resistivity with a temperature below the curve calibration range with automatic differentiation.'
+    requirement = 'The system shall not allow the calculation of electrical conductivity with a temperature below the curve calibration range with automatic differentiation.'
     prereq = electrical_properties
   [../]
   [./ad_electrical_resistivity_upper_range_check]
@@ -47,7 +47,7 @@
     cli_args = 'AuxVariables/temperature/initial_condition=1250.0'
     expect_err = 'The temperature in stainless_steel_electrical is above the calibration upper range limit at a value of 1250'
     issues = '#6 #10'
-    requirement = 'The system shall not allow the calculation of electrical resistivity with a temperature above the curve calibration range using automatic differentiation.'
+    requirement = 'The system shall not allow the calculation of electrical conductivity with a temperature above the curve calibration range using automatic differentiation.'
     prereq = electrical_resistivity_lower_range_check
   [../]
   [./jacobian_ad_electrical_properties]
@@ -56,7 +56,7 @@
     run_sim = false
     difference_tol = 2e-8  #difference = 1.87604e-08
     issues = '#6 #10'
-    requirement = 'The system shall support the calculation of the temperature dependent electrical resistivity for AT 101 graphite with the correct jacobian.'
+    requirement = 'The system shall support the calculation of the temperature dependent electrical conductivity for AT 101 graphite with the correct jacobian.'
     prereq = ad_electrical_properties
   [../]
 []

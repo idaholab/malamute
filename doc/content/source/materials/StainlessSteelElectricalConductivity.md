@@ -1,13 +1,14 @@
-# StainlessSteelElectricalResistivity
+# StainlessSteelElectricalConductivity
 
-!syntax description /Materials/StainlessSteelElectricalResistivity
+!syntax description /Materials/StainlessSteelElectricalConductivity
 
 ## Description
 
-This material computes the electrical resistivity, in $\Omega$/m, for AISI 304
-stainless steel based on the material properties given for a spark plasma
-sintering die in [!citep](cincotti2007sps). This electrical material property is
-computed solely as a function of temperature, T:
+This material computes the electrical conductivity, in m/$\Omega$, as the
+inverse of the electrical resistivity, in $\Omega$/m, for AISI 304 stainless
+steel based on the material properties given for a spark plasma sintering die in
+[!citep](cincotti2007sps). This electrical material property is computed solely
+as a function of temperature, T:
 \begin{equation}
   \label{eqn:electrical_resistivity}
   k = 1.575 \times 10^{-15} T^3 - 3.236 \times 10^{-12} T^2 + 2.724 \times 10^{-9} T + 1.364 \times 10^{-7}
@@ -36,8 +37,8 @@ however, calculated with the current value of the temperature.
 !listing test/tests/materials/stainless_steel/electrical/stainless_steel_electrical_material_properties.i block=Materials/stainless_steel_electrical
 
 
-!syntax parameters /Materials/StainlessSteelElectricalResistivity
+!syntax parameters /Materials/StainlessSteelElectricalConductivity
 
-!syntax inputs /Materials/StainlessSteelElectricalResistivity
+!syntax inputs /Materials/StainlessSteelElectricalConductivity
 
-!syntax children /Materials/StainlessSteelElectricalResistivity
+!syntax children /Materials/StainlessSteelElectricalConductivity

@@ -60,15 +60,14 @@
 
 [Materials]
   [./stainless_steel_electrical]
-    type = ADStainlessSteelElectricalResistivity
+    type = ADStainlessSteelElectricalConductivity
     temperature = temperature
-    output_properties = electrical_resistivity
   [../]
-  [./stainless_steel_electrical_conductivity]
+  [./stainless_steel_electrical_resistivity]
     type = ADParsedMaterial
-    f_name = electrical_conductivity
-    material_property_names = electrical_resistivity
-    function = '1 / electrical_resistivity'
+    f_name = electrical_resistivity
+    material_property_names = electrical_conductivity
+    function = '1 / electrical_conductivity'
   [../]
 []
 
