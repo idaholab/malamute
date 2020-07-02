@@ -1,11 +1,11 @@
 #pragma once
 
-#include "INSADTauMaterial.h"
+#include "INSADStabilized3Eqn.h"
 
 /**
  * This class computes extra residuals from melt pool for the INS equations.
  */
-class INSMeltPoolMaterial : public INSADTauMaterial
+class INSMeltPoolMaterial : public INSADStabilized3Eqn
 {
 public:
   static InputParameters validParams();
