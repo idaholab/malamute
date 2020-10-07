@@ -77,10 +77,10 @@ GraphiteThermalTempl<is_ad>::computeQpProperties()
   if (_check_temperature_now)
   {
     if (_temperature[_qp] < 495.4) // heat capacity calibration
-      mooseError("The temperature in ",
-                 _name,
-                 " is below the calibration lower range limit at a value of ",
-                 MetaPhysicL::raw_value(_temperature[_qp]));
+      mooseDoOnce(mooseWarning("The temperature in ",
+                               _name,
+                               " is below the calibration lower range limit at a value of ",
+                               MetaPhysicL::raw_value(_temperature[_qp])));
     else if (_temperature[_qp] > 3312.0) // thermal conductivity calibration range
       mooseError("The temperature in ",
                  _name,
@@ -98,10 +98,14 @@ template <bool is_ad>
 void
 GraphiteThermalTempl<is_ad>::computeThermalConductivity()
 {
-  _thermal_conductivity[_qp] = 1.519e-5 * Utility::pow<2>(_temperature[_qp]) -
-                               8.007e-2 * _temperature[_qp] + 130.2; // in W/(m-K)
+  _thermal_conductivity[_qp] = -4.418e-12 * Utility::pow<4>(_temperature[_qp]) +
+                               2.904e-8 * Utility::pow<3>(_temperature[_qp]) -
+                               4.688e-5 * Utility::pow<2>(_temperature[_qp]) -
+                               0.0316 * _temperature[_qp] + 119.659; // in W/(m-K)
   _thermal_conductivity_dT[_qp] =
-      2.0 * 1.519e-5 * MetaPhysicL::raw_value(_temperature[_qp]) - 8.007e-2; // in W/(m-K)
+      4.0 * -4.418e-12 * Utility::pow<3>(MetaPhysicL::raw_value(_temperature[_qp])) +
+      3.0 * 2.904e-8 * Utility::pow<2>(MetaPhysicL::raw_value(_temperature[_qp])) -
+      2.0 * 4.688e-5 * MetaPhysicL::raw_value(_temperature[_qp]) - 0.0316; // in W/(m-K)
 
   _thermal_conductivity[_qp] *= _thermal_conductivity_scale_factor;
   _thermal_conductivity_dT[_qp] *= _thermal_conductivity_scale_factor;

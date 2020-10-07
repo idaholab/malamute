@@ -73,10 +73,10 @@ StainlessSteelElectricalConductivityTempl<is_ad>::computeQpProperties()
   if (_check_temperature_now)
   {
     if (_temperature[_qp] < 296.8)
-      mooseError("The temperature in ",
-                 _name,
-                 " is below the calibration lower range limit at a value of ",
-                 MetaPhysicL::raw_value(_temperature[_qp]));
+      mooseDoOnce(mooseWarning("The temperature in ",
+                               _name,
+                               " is below the calibration lower range limit at a value of ",
+                               MetaPhysicL::raw_value(_temperature[_qp])));
     else if (_temperature[_qp] > 1029.0)
       mooseError("The temperature in ",
                  _name,
