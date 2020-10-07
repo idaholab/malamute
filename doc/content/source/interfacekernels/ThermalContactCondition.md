@@ -38,14 +38,14 @@ The temperature- and mechanical-pressure-dependent thermal contact conductance,
 given by [!citep](madhusadana1996), is calculated using:
 
 \begin{equation}
-  C_T(T, P) = \alpha_T k_{el,Harm} \bigg( \frac{P}{H_{Harm}} \bigg)^{\beta_T}
+  C_T(T, P) = \alpha_T k_{Harm} \bigg( \frac{P}{H_{Harm}} \bigg)^{\beta_T}
 \end{equation}
 
 where
 
 - $\alpha_T$ is an experimentally-derived proportional fit parameter (set to be
   $22,810$, from [!citep](cincotti2007sps)),
-- $k_{el,Harm}$ is the harmonic mean of the temperature-dependent thermal
+- $k_{Harm}$ is the harmonic mean of the temperature-dependent thermal
   conductivities on either side of the boundary,
 - $P$ ($=F/S$) is the uniform mechanical pressure applied at the contact surface
   area (S) between the two materials,
