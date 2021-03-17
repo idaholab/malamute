@@ -20,7 +20,7 @@ function with constant values based on the experimental data points
 
 !media media/systems/materials/Graphite_thermalExpansion_curvefit.png
     id=fig:graphite_coefficient_thermal_expansion
-    caption=Shown against the experimental data points, the coefficient of thermal expansion for AT 101 graphite is fit as a a logarithmic function.
+    caption=Shown against the experimental data points, the coefficient of thermal expansion for AT 101 graphite is fit as a logarithmic function.
     style=display:block;margin-left:auto;margin-right:auto;width:70%
 
 

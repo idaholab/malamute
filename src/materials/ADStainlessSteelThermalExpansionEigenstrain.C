@@ -41,12 +41,12 @@ ADStainlessSteelThermalExpansionEigenstrain::computeThermalStrain(ADReal & therm
 {
   if (_check_temperature_now)
   {
-    const Real temperature = MetaPhysicL::raw_value(_temperature[_qp]);
+    const Real temperature = raw_value(_temperature[_qp]);
     if (temperature < 273.3)
-      mooseError("The temperature in ",
+      mooseDoOnce(mooseWarning("The temperature in ",
                  _name,
                  " is below the calibration lower range limit at a value of ",
-                 temperature);
+                 temperature));
     else if (temperature > 810.5)
       mooseError("The temperature in ",
                  _name,

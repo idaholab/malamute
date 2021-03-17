@@ -42,10 +42,10 @@ StainlessSteelThermalExpansionEigenstrain::computeThermalStrain(Real & thermal_s
   if (_check_temperature_now)
   {
     if (_temperature[_qp] < 273.3)
-      mooseError("The temperature in ",
+      mooseDoOnce(mooseWarning("The temperature in ",
                  _name,
                  " is below the calibration lower range limit at a value of ",
-                 _temperature[_qp]);
+                 _temperature[_qp]));
     else if (_temperature[_qp] > 810.5)
       mooseError("The temperature in ",
                  _name,

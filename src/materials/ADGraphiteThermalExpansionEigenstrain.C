@@ -39,14 +39,14 @@ ADGraphiteThermalExpansionEigenstrain::jacobianSetup()
 void
 ADGraphiteThermalExpansionEigenstrain::computeThermalStrain(ADReal & thermal_strain)
 {
-  const Real temperature = MetaPhysicL::raw_value(_temperature[_qp]);
+  const Real temperature = raw_value(_temperature[_qp]);
   if (_check_temperature_now)
   {
     if (temperature < 290.9)
-      mooseError("The temperature in ",
+      mooseDoOnce(mooseWarning("The temperature in ",
                  _name,
                  " is below the calibration lower range limit at a value of ",
-                 temperature);
+                 temperature));
     else if (temperature > 2383.0)
       mooseError("The temperature in ",
                  _name,

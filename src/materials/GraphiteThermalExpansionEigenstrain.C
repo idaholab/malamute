@@ -42,10 +42,10 @@ GraphiteThermalExpansionEigenstrain::computeThermalStrain(Real & thermal_strain,
   if (_check_temperature_now)
   {
     if (_temperature[_qp] < 290.9)
-      mooseError("The temperature in ",
+      mooseDoOnce(mooseWarning("The temperature in ",
                  _name,
                  " is below the calibration lower range limit at a value of ",
-                 _temperature[_qp]);
+                 _temperature[_qp]));
     else if (_temperature[_qp] > 2383.0)
       mooseError("The temperature in ",
                  _name,
