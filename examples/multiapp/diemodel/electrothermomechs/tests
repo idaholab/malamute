@@ -1,0 +1,8 @@
+[Tests]
+  [./electrothermomechanics_nodalcontact_die_powder]
+  type = RunApp
+  input = 'electrothermomechanical_plunger_powder_bothends_pressurebc.i'
+  check_input = True
+  method = opt
+  [../]
+[]

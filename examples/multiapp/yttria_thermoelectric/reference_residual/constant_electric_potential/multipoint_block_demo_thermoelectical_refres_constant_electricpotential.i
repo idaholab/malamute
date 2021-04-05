@@ -74,13 +74,13 @@ initial_temperature=1350
     density_name = yttria_density
     extra_vector_tags = 'ref'
   []
-  [./HeatSource_JouleHeating]
+  [HeatSource_JouleHeating]
     type = ADJouleHeatingSource
     variable = temperature
     elec = yttria_potential
     electrical_conductivity = yttria_electrical_conductivity
     extra_vector_tags = 'ref'
-  [../]
+  []
   [electric_yttria]
     type = ConductivityLaplacian
     variable = yttria_potential
