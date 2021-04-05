@@ -1,0 +1,14 @@
+[Tests]
+  [./electrothermomechanics_singleblock_elastic_powder]
+  type = RunApp
+  input = 'isotropic_electrothermomechanical_singleblock.i'
+  check_input = True
+  method = opt
+  [../]
+  [./electrothermomechanics_singleblock_creep_powder]
+  type = RunApp
+  input = 'powerlawcreep_singleblock.i'
+  check_input = True
+  method = opt
+  [../]
+[]

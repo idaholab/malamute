@@ -3,7 +3,7 @@ title 'First Pass Stepped Plunger Die and Powder Model'
 
 ######### user-defined variables ############
 
-{#mesh_size = 0.5}
+{#mesh_size = 0.2}
 {#mesh_size_coarsing_factor = 1.5}
 {#die_wall_mesh_factor = 1.1}
 {#unit_conversion = 0.001} #meter in 1 mm
@@ -170,9 +170,22 @@ sideset 501 add curve 16 21
 sideset 501 name 'outer_plunger_surfaces'
 
 block all element type QUAD8
-body all scale {unit_conversion}
+
+#Nodeset for the centerline centerpoint node
+nodeset 606 add node with y_coord > {0.5*total_model_height - 0.5*mesh_size} AND y_coord < {0.5*total_model_height + 0.5*mesh_size}  AND x_coord = 0.0
+nodeset 606 name 'axial_centerpoint'
+
+#Nodeset for the centerline points on the die wall
+nodeset 607 add node with y_coord > {0.5*total_model_height - 0.5*mesh_size} AND y_coord < {0.5*total_model_height + 0.5*mesh_size}  AND x_coord = {powder_compact_radius}
+nodeset 607 name 'centerpoint_inner_die_wall'
+
+nodeset 608 add node with y_coord > {0.5*total_model_height - 0.5*mesh_size} AND y_coord < {0.5*total_model_height + 0.5*mesh_size}  AND x_coord = {powder_compact_radius + die_wall_thickness}
+nodeset 608 name 'centerpoint_outer_die_wall'
+
+
+
 
 ######### Save off the mesh ######
 
+body all scale {unit_conversion}
 export mesh "stepped_plunger_powder_2d.e" dimension 2 block all overwrite
-
