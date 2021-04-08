@@ -39,6 +39,9 @@ protected:
   /// The electrostatic potential value associated with the primary side of the interface
   const ADVariableValue & _potential_primary;
 
+  // The electrostatic potential variable associated with the secondary side of the interface
+  const MooseVariable * _secondary_potential_var;
+
   /// The electrostatic potential value associated with the secondary side of the interface
   const ADVariableValue & _potential_secondary;
 
