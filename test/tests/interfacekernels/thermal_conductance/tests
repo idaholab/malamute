@@ -60,4 +60,12 @@
     requirement = 'The system shall support the calculation of thermal and electrical conductances when determining the heat transfer across an interface due to thermal conductivity and electrostatic joule heating.'
     issues = '#7'
   [../]
+  [./analytic_solution_test]
+    type = Exodiff
+    input = 'thermal_interface_analytic_solution_two_block.i'
+    exodiff = 'thermal_interface_analytic_solution_two_block_out.e'
+    allow_test_objects = True
+    requirement = 'The system shall calculate the correct thermal contact temperature solution when compared to an analytic result, given a one-dimensional, two-material-block scenario.'
+    issues = '#7'
+  [../]
 []
