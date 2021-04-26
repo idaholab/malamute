@@ -55,11 +55,11 @@ ThermalContactPotentialTestFunc::twoBlockFunction(const Point & p) const
 
   Real stainless_steel_func = stainless_steel_coefficient * p(0) + 1;
 
-  if (_domain == STAINLESS_STEEL)
+  if (_domain == DomainEnum::STAINLESS_STEEL)
   {
     return stainless_steel_func;
   }
-  else if (_domain == GRAPHITE)
+  else if (_domain == DomainEnum::GRAPHITE)
   {
     return graphite_func;
   }

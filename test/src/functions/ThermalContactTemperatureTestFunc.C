@@ -66,8 +66,12 @@ ThermalContactTemperatureTestFunc::twoBlockFunction(const Point & p) const
   Real stainless_steel_gradient =
       -_electrical_contact_conductance * _electrical_conductivity_graphite / denominator_potential;
 
+  // Value of the analytic temperature function in graphite at the interface (x = 1).
+  // Far right constant value prescribed by problem conditions (see thermal_contact_verification.md)
   Real graphite_func_interface = graphite_gradient * (1. - 2.);
 
+  // Value of the analytic temperature function in stainless steel at the interface (x = 1)
+  // Far right constant value prescribed by problem conditions (see thermal_contact_verification.md)
   Real stainless_steel_func_interface = stainless_steel_gradient + 1.;
 
   // Analytic Temperature Function
@@ -105,11 +109,11 @@ ThermalContactTemperatureTestFunc::twoBlockFunction(const Point & p) const
 
   Real d_G = 300. - 4. * a_G - 2. * b_G;
 
-  if (_domain == STAINLESS_STEEL)
+  if (_domain == DomainEnum::STAINLESS_STEEL)
   {
     return a_SS * p(0) * p(0) + b_SS * p(0) + d_SS;
   }
-  else if (_domain == GRAPHITE)
+  else if (_domain == DomainEnum::GRAPHITE)
   {
     return a_G * p(0) * p(0) + b_G * p(0) + d_G;
   }

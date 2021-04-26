@@ -1,16 +1,13 @@
-# Freya Thermal Contact Media Folder How-To
+# Freya Thermal Contact Media Folder README
 
-NOTE: ALL commands below must be run in the `freya/doc/content/media/thermal_contact`
-directory! A working LaTeX distribution (with TikZ) is also required!
+NOTE: A working LaTeX distribution (with the TikZ package) and ImageMagick is
+required for these instructions.
 
-To make a PDF image of Freya thermal contact verification test summary, simply
-run `make`.
+To update the `thermal_two_block.png` file based on changes in the image source
+file, run the following two commands in your Terminal in
+`freya/doc/content/media/thermal_contact`:
 
-To make PNG images of Freya thermal contact media (and update the current version
-based on changes in the image source files) run `make png`. This requires an
-ImageMagick installation! Note that metadata in all generated PNG files will
-change, showing git diffs. Only commit those PNG files whose visual content
-*actually* changed due to code changes!
-
-To clean the directory of the generated PDF, log files, and intermediate LaTeX
-files, run `make clean`.
+```
+% pdflatex thermal_two_block.tex
+% convert -density 300 thermal_two_block.pdf -quality 90 thermal_two_block.png
+```

@@ -27,7 +27,7 @@ It is important to note that in [thermal-two-block-summary]:
 See the [ThermalContactCondition.md] documentation for more information about
 the particular definition of $C_T$ and $C_E$. In order to simplify for the
 analytic solution derivation, the scenario was assumed to be steady state in
-order to remove the time derivative term of the Heat Conduction Equation. The
+order to remove the time derivative term of the heat conduction equation. The
 heating source term is electrothermal (or Joule) heating. This leads to
 
 !equation id=steady-heat-conduction
@@ -58,12 +58,13 @@ V_{Harm} = \frac{2 V_a V_b}{V_a + V_b}
 
 The harmonic mean of hardness for stainless steel and graphite was calculated and
 set to be $2.4797 \times 10^9$ Pa. Harmonic mean values for the conductivities of
-stainless steel and graphite were also calculated in this way, and used to
-determine $C_E$ and $C_T$ (more information on this calculation in
-[ThermalContactCondition.md] documentation). Pressure (also needed in these
-calculations) was set to be $3000$ $kN/m^2$. The calculated contact conductances
-were hard-coded in the input file shown near the bottom of this page, and are
-summarized below in [input-conductance-values].
+stainless steel and graphite were also calculated in this way. Applied mechanical
+pressure was set to be $3000$ $kN/m^2$. The mean hardness, mean conductivities,
+and applied mechanical pressure are all used to determine $C_E$ and $C_T$ (see
+the [ThermalContactCondition.md] documentation, [!citep](cincotti2007sps), and
+[!citep](madhusadana1996) for more information). The resulting calculated
+contact conductances were hard-coded in the input file shown near the bottom
+of this page, and are summarized below in [input-conductance-values].
 
 !table id=input-conductance-values caption=Thermal and electrical conductance values used in the thermal contact verification input file.
 | Conductance (units) | Value |
@@ -102,7 +103,7 @@ an auxiliary coupled variable). Both of these can be found in `freya/test/src`.
 !style halign=left
 In 1-D, [!eqref](steady-heat-conduction) becomes
 
-!equation
+!equation id=derivation-differential-equation
 -k_i \frac{\text{d}^2 T_i}{\text{d} x^2} = \sigma_{el, i} \left( \frac{\text{d} \phi_i}{\text{d} x} \right)^2
 
 since $k_i$ is constant in both domains. Given that the gradient of the potential
@@ -115,11 +116,11 @@ T_i (x) = A_i x^2 + B_i x + D_i
 
 where $A_i$, $B_i$, and $D_i$ are to-be-determined constant coefficients.
 
-### Apply PDE
+### Apply differential equation
 
 !style halign=left
-Using the PDE, we can determine $A$ for both the stainless steel and graphite
-domains:
+Using [!eqref](derivation-differential-equation) and [!eqref](general-form), we can determine $A$ for both
+the stainless steel and graphite domains:
 
 !row!
 !col! small=12 medium=6 large=6
