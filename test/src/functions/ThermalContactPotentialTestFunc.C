@@ -6,17 +6,20 @@ InputParameters
 ThermalContactPotentialTestFunc::validParams()
 {
   InputParameters params = Function::validParams();
-  params.addClassDescription(
-      "Function used in ThermalContactCondition analytic solution testing.");
+  params.addClassDescription("Function used in ThermalContactCondition analytic solution testing.");
   params.addParam<Real>(
-      "graphite_conductivity", 73069.2, "Conductivity in graphite (default at 300 K).");
+      "graphite_conductivity",
+      73069.2,
+      "Conductivity in graphite (from Cincotti et al DOI:10.1002/aic.11102, default at 300 K).");
   params.addParam<Real>("stainless_steel_conductivity",
                         1.41867e6,
-                        "Conductivity in stainless steel (default at 300 K).");
-  params.addParam<Real>("contact_conductance",
-                        75524.,
-                        "Electrical contact conductance at the interface (default is at 300 K with "
-                        "3 kN/m^2 applied pressure).");
+                        "Conductivity in stainless steel (from Cincotti et al "
+                        "DOI:10.1002/aic.11102, default at 300 K).");
+  params.addParam<Real>(
+      "contact_conductance",
+      75524.,
+      "Electrical contact conductance at the interface (from Cincotti et al "
+      "DOI:10.1002/aic.11102, default is at 300 K with 3 kN/m^2 applied pressure).");
   MooseEnum domain("stainless_steel graphite");
   params.addParam<MooseEnum>(
       "domain", domain, "Material domain / block of interest (stainless_steel, graphite).");
@@ -35,7 +38,7 @@ ThermalContactPotentialTestFunc::ThermalContactPotentialTestFunc(const InputPara
 Real
 ThermalContactPotentialTestFunc::value(Real /*t*/, const Point & p) const
 {
-    return twoBlockFunction(p);
+  return twoBlockFunction(p);
 }
 
 Real

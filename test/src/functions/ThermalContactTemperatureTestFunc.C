@@ -9,24 +9,30 @@ ThermalContactTemperatureTestFunc::validParams()
   params.addClassDescription("Function used in ThermalContactCondition analytic solution testing.");
   params.addParam<Real>("graphite_electrical_conductivity",
                         73069.2,
-                        "Electrical conductivity in graphite (default at 300 K).");
+                        "Electrical conductivity in graphite (from Cincotti et al "
+                        "DOI:10.1002/aic.11102, default at 300 K).");
   params.addParam<Real>("stainless_steel_electrical_conductivity",
                         1.41867e6,
-                        "Electrical conductivity in stainless steel (default at 300 K).");
+                        "Electrical conductivity in stainless steel (from Cincotti et al "
+                        "DOI:10.1002/aic.11102, default at 300 K).");
   params.addParam<Real>("graphite_thermal_conductivity",
                         100.,
-                        "Thermal conductivity in graphite (default at 300 K).");
+                        "Thermal conductivity in graphite (from Cincotti et al "
+                        "DOI:10.1002/aic.11102, default at 300 K).");
   params.addParam<Real>("stainless_steel_thermal_conductivity",
                         15.,
-                        "Thermal conductivity in stainless steel (default at 300 K).");
-  params.addParam<Real>("electrical_contact_conductance",
-                        75524.,
-                        "Electrical contact conductance at the stainless-graphite interface "
-                        "(default is at 300 K with 3 kN/m^2 applied pressure).");
-  params.addParam<Real>("thermal_contact_conductance",
-                        0.242,
-                        "Thermal contact conductance at the stainless-graphite interface (default "
-                        "is at 300 K with 3 kN/m^2 applied pressure).");
+                        "Thermal conductivity in stainless steel (from Cincotti et al "
+                        "DOI:10.1002/aic.11102, default at 300 K).");
+  params.addParam<Real>(
+      "electrical_contact_conductance",
+      75524.,
+      "Electrical contact conductance at the stainless-graphite interface (from Cincotti et al "
+      "DOI:10.1002/aic.11102, default is at 300 K with 3 kN/m^2 applied pressure).");
+  params.addParam<Real>(
+      "thermal_contact_conductance",
+      0.242,
+      "Thermal contact conductance at the stainless-graphite interface (from Cincotti et al "
+      "DOI:10.1002/aic.11102, default is at 300 K with 3 kN/m^2 applied pressure).");
   MooseEnum domain("stainless_steel graphite");
   params.addParam<MooseEnum>(
       "domain", domain, "Material domain / block of interest (stainless_steel, graphite).");
