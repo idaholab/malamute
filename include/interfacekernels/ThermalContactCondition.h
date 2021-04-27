@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ADInterfaceKernel.h"
+#include "Function.h"
 
 /**
  * This interfacekernel implements the thermal contact conductance across a
@@ -30,11 +31,11 @@ protected:
   /// Electrical conductivity property for the secondary side
   const ADMaterialProperty<Real> & _electrical_conductivity_secondary;
 
-  /// User-provided thermal contact conductance coefficient (indicates ability to conduct heat across interface)
-  const Real & _user_thermal_contact_conductance;
+  /// User-provided thermal contact conductance coefficient function (indicates ability to conduct heat across interface)
+  const Function & _user_thermal_contact_conductance;
 
-  /// User-provided electrical contact conductance coefficient (indicates ability to conduct heat as a result of electrostatic joule heating across interface)
-  const Real & _user_electrical_contact_conductance;
+  /// User-provided electrical contact conductance coefficient function (indicates ability to conduct heat as a result of electrostatic joule heating across interface)
+  const Function & _user_electrical_contact_conductance;
 
   /// The electrostatic potential value associated with the primary side of the interface
   const ADVariableValue & _potential_primary;
@@ -51,8 +52,8 @@ protected:
   /// Geometric mean of the hardness from both sides of the boundary, taken in as a material property
   const ADMaterialProperty<Real> & _mean_hardness;
 
-  /// Mechanical pressure uniformly applied at the contact surface area (user-supplied for now)
-  const Real & _mechanical_pressure;
+  /// Mechanical pressure uniformly applied at the contact surface area (user-supplied function for now)
+  const Function & _mechanical_pressure;
 
   /// Experimental proportional fit parameter for thermal contact conductance parameter (set using Cincotti et al DOI:10.1002/aic.11102)
   const Real _alpha_thermal;

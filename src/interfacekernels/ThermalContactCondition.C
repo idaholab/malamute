@@ -18,9 +18,9 @@ ThermalContactCondition::validParams()
   params.addParam<MaterialPropertyName>("secondary_electrical_conductivity",
                                         "electrical_conductivity",
                                         "Electrical conductivity on the secondary block.");
-  params.addParam<Real>("user_thermal_contact_conductance",
+  params.addParam<FunctionName>("user_thermal_contact_conductance", 0.0,
                         "User-provided thermal contact conductance coefficient.");
-  params.addParam<Real>("user_electrical_contact_conductance",
+  params.addParam<FunctionName>("user_electrical_contact_conductance", 0.0,
                         "User-provided electrical contact conductance coefficient.");
   params.addRequiredCoupledVar("primary_potential",
                                "Electrostatic potential on the primary block.");
@@ -31,7 +31,7 @@ ThermalContactCondition::validParams()
       "mean_hardness",
       "mean_hardness",
       "Geometric mean of the hardness of each contacting material.");
-  params.addParam<Real>("mechanical_pressure",
+  params.addParam<FunctionName>("mechanical_pressure", 0.0,
                         "Mechanical pressure uniformly applied at the contact surface area "
                         "(Pressure = Force / Surface Area).");
   params.addClassDescription(
@@ -52,12 +52,8 @@ ThermalContactCondition::ThermalContactCondition(const InputParameters & paramet
         getADMaterialProperty<Real>("primary_electrical_conductivity")),
     _electrical_conductivity_secondary(
         getNeighborADMaterialProperty<Real>("secondary_electrical_conductivity")),
-    _user_thermal_contact_conductance(isParamValid("user_thermal_contact_conductance")
-                                          ? getParam<Real>("user_thermal_contact_conductance")
-                                          : _real_zero),
-    _user_electrical_contact_conductance(isParamValid("user_electrical_contact_conductance")
-                                             ? getParam<Real>("user_electrical_contact_conductance")
-                                             : _real_zero),
+    _user_thermal_contact_conductance(getFunction("user_thermal_contact_conductance")),
+    _user_electrical_contact_conductance(getFunction("user_electrical_contact_conductance")),
     _potential_primary(adCoupledValue("primary_potential")),
     _secondary_potential_var(getVar("secondary_potential", 0)),
     _potential_secondary(_secondary_potential_var->adSlnNeighbor()),
@@ -67,8 +63,7 @@ ThermalContactCondition::ThermalContactCondition(const InputParameters & paramet
                        : isParamValid("user_electrical_contact_conductance")
                              ? getGenericZeroMaterialProperty<Real, true>("mean_hardness")
                              : getADMaterialProperty<Real>("mean_hardness")),
-    _mechanical_pressure(isParamValid("mechanical_pressure") ? getParam<Real>("mechanical_pressure")
-                                                             : _real_zero),
+    _mechanical_pressure(getFunction("mechanical_pressure")),
     _alpha_thermal(22810.0),
     _beta_thermal(1.08),
     _alpha_electric(64.0),
@@ -88,8 +83,8 @@ ThermalContactCondition::computeQpResidual(Moose::DGResidualType type)
 
   if (_electrical_conductance_was_set && _thermal_conductance_was_set && !_mean_hardness_was_set)
   {
-    thermal_contact_conductance = _user_thermal_contact_conductance;
-    electrical_contact_conductance = _user_electrical_contact_conductance;
+    thermal_contact_conductance = _user_thermal_contact_conductance.value(_t, _q_point[_qp]);
+    electrical_contact_conductance = _user_electrical_contact_conductance.value(_t, _q_point[_qp]);
   }
   else if (_mean_hardness_was_set && !_thermal_conductance_was_set &&
            !_electrical_conductance_was_set)
@@ -104,11 +99,11 @@ ThermalContactCondition::computeQpResidual(Moose::DGResidualType type)
 
     thermal_contact_conductance =
         _alpha_thermal * mean_thermal_conductivity *
-        std::pow((_mechanical_pressure / _mean_hardness[_qp]), _beta_thermal);
+        std::pow((_mechanical_pressure.value(_t, _q_point[_qp]) / _mean_hardness[_qp]), _beta_thermal);
 
     electrical_contact_conductance =
         _alpha_electric * mean_electrical_conductivity *
-        std::pow((_mechanical_pressure / _mean_hardness[_qp]), _beta_electric);
+        std::pow((_mechanical_pressure.value(_t, _q_point[_qp]) / _mean_hardness[_qp]), _beta_electric);
   }
   else
   {
