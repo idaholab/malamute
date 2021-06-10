@@ -11,8 +11,8 @@
     type = PetscJacobianTester
     input = sample_one.i
     cli_args = "Mesh/import_mesh/file=sps_jacobian.e Executioner/end_time=2"
-    ratio_tol = 5.5e-7 # t=1 ratio is 5.19982e-07 and end ratio is 7.15246e-08
-    difference_tol = 13 # t=1 ratio is 5.2809 and end difference is 12.7265
+    ratio_tol = 5.5e-7 # t=1 ratio is 5.1126e-07 and end ratio is 4.768e-07
+    difference_tol = 6 # t=1 ratio is 5.25598 and end difference is 5.25574
     issues = '#2 #6'
     requirement = 'The system shall duplicate the results of Cincotti et al, Sample One, with a perfect jacobian using the automatic differentiation system.'
   [../]

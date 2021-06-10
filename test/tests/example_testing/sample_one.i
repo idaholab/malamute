@@ -5,21 +5,25 @@
 #
 # BCs:
 #    Potential:
-#       V (top electrode, top surface) --> Neumann condition specifiying potential based on applied RMS Current and cross-sectional electrode area (see elec_top BC below)
+#       V (top electrode, top surface) --> Neumann condition specifiying potential
+#                                          based on applied RMS Current and cross-sectional
+#                                          electrode area (see elec_top BC below). Current
+#                                          turned off at 1200 s.
 #       V (bottom electrode, bottom surface) = 0 V
 #       V (elsewhere) --> natural boundary conditions (no current external to circuit)
 #    Temperature:
-#       T (top electrode, top surface) = 300 K
-#       T (bottom electrode, bottom surface) = 300 K
-#       T (right side) --> simple radiative BC into black body at 300 K
-#       T (water channel) --> simple convective BC into "water" with heat transfer coefficient parameter from Cincotti and temperature of 293 K
+#       T (top electrode, top surface) = 293 K
+#       T (bottom electrode, bottom surface) = 293 K
+#       T (right side) --> simple radiative BC into black body at 293 K
+#       T (water channel) --> simple convective BC into "water" with heat transfer
+#                             coefficient parameter from Cincotti and temperature of 293 K
 #       T (elsewhere) --> natural boundary conditions
 # Interface Conditions:
 #       V (SS-G upper and G-SS lower interface) --> ElectrostaticContactCondition
 #       T (SS-G upper and G-SS lower interface) --> ThermalContactCondition
 # Initial Conditions:
 #       V = default (0 V)
-#       T = 300 K
+#       T = 293 K
 # Applied Mechanical Load: 50 kN
 #
 # Reference: Cincotti et al, DOI 10.1002/aic.11102
@@ -37,11 +41,11 @@
 
 [Variables]
   [./temperature_graphite]
-    initial_condition = 300.0
+    initial_condition = 293.0
     block = graphite
   [../]
   [./temperature_stainless_steel]
-    initial_condition = 300.0
+    initial_condition = 293.0
     block = stainless_steel
   [../]
   [./potential_graphite]
@@ -66,7 +70,27 @@
     order = FIRST
   [../]
   [./T_infinity]
-    initial_condition = 300.0
+    initial_condition = 293.0
+  [../]
+  [./heatflux_graphite_r]
+    family = MONOMIAL
+    order = CONSTANT
+    block = graphite
+  [../]
+  [./heatflux_graphite_z]
+    family = MONOMIAL
+    order = CONSTANT
+    block = graphite
+  [../]
+  [./heatflux_stainless_steel_r]
+    family = MONOMIAL
+    order = CONSTANT
+    block = stainless_steel
+  [../]
+  [./heatflux_stainless_steel_z]
+    family = MONOMIAL
+    order = CONSTANT
+    block = stainless_steel
   [../]
 []
 
@@ -166,6 +190,38 @@
     potential = potential_stainless_steel
     block = stainless_steel
   [../]
+  [./heat_flux_graphite_r]
+    type = DiffusionFluxAux
+    diffusivity = nonad_thermal_conductivity
+    diffusion_variable = temperature_graphite
+    variable = heatflux_graphite_r
+    component = x
+    block = graphite
+  [../]
+  [./heat_flux_graphite_z]
+    type = DiffusionFluxAux
+    diffusivity = nonad_thermal_conductivity
+    diffusion_variable = temperature_graphite
+    variable = heatflux_graphite_z
+    component = y
+    block = graphite
+  [../]
+  [./heat_flux_stainless_r]
+    type = DiffusionFluxAux
+    diffusivity = nonad_thermal_conductivity
+    diffusion_variable = temperature_stainless_steel
+    variable = heatflux_stainless_steel_r
+    block = stainless_steel
+    component = x
+  [../]
+  [./heat_flux_stainless_z]
+    type = DiffusionFluxAux
+    diffusivity = nonad_thermal_conductivity
+    diffusion_variable = temperature_stainless_steel
+    variable = heatflux_stainless_steel_z
+    block = stainless_steel
+    component = y
+  [../]
 []
 
 [BCs]
@@ -190,11 +246,23 @@
     T_infinity = 293
     htc = 4725
   [../]
+  [./temp_top]
+    type = ADDirichletBC
+    variable = temperature_stainless_steel
+    boundary = top_die
+    value = 293
+  [../]
+  [./temp_bottom]
+    type = ADDirichletBC
+    variable = temperature_stainless_steel
+    boundary = bottom_die
+    value = 293
+  [../]
   [./elec_top]
     type = ADFunctionNeumannBC
     variable = potential_stainless_steel
     boundary = top_die
-    function = '1200 / (pi * 0.00155)' # RMS Current / Cross-sectional Area. Approximately reflects Cincotti et al (DOI: 10.1002/aic.11102) Figure 19
+    function = 'if(t < 31, (1200 / (pi * 0.00155))*(sqrt(2)/(10*4.3625)*t), if(t > 1200, 0, 1200 / (pi * 0.00155)))' # RMS Current / Cross-sectional Area. Ramping for t < 31s approximately reflects Cincotti et al (DOI: 10.1002/aic.11102) Figure 18(b)
   [../]
   [./elec_bottom]
     type = ADDirichletBC
@@ -211,7 +279,7 @@
     neighbor_var = potential_graphite
     boundary = ssg_interface
     mean_hardness = graphite_stainless_mean_hardness
-    mechanical_pressure = 9947183.943243457 # = 5e4 / (pi * 0.04 * 0.04) (N / m^2)
+    mechanical_pressure = mechanical_pressure_func
   [../]
   [./thermal_contact_conductance_calculated_ssg]
     type = ThermalContactCondition
@@ -224,7 +292,7 @@
     primary_electrical_conductivity = electrical_conductivity
     secondary_electrical_conductivity = electrical_conductivity
     mean_hardness = graphite_stainless_mean_hardness
-    mechanical_pressure = 9947183.943243457 # = 5e4 / (pi * 0.04 * 0.04) (N / m^2)
+    mechanical_pressure = mechanical_pressure_func
     boundary = ssg_interface
   [../]
   [./electric_contact_conductance_gss]
@@ -233,7 +301,7 @@
     neighbor_var = potential_stainless_steel
     boundary = gss_interface
     mean_hardness = graphite_stainless_mean_hardness
-    mechanical_pressure = 9947183.943243457 # = 5e4 / (pi * 0.04 * 0.04) (N / m^2)
+    mechanical_pressure = mechanical_pressure_func
   [../]
   [./thermal_contact_conductance_calculated_gss]
     type = ThermalContactCondition
@@ -246,7 +314,7 @@
     primary_electrical_conductivity = electrical_conductivity
     secondary_electrical_conductivity = electrical_conductivity
     mean_hardness = graphite_stainless_mean_hardness
-    mechanical_pressure = 9947183.943243457 # = 5e4 / (pi * 0.04 * 0.04) (N / m^2)
+    mechanical_pressure = mechanical_pressure_func
     boundary = gss_interface
   [../]
 []
@@ -292,6 +360,22 @@
   [./mean_hardness]
     type = GraphiteStainlessMeanHardness
   [../]
+
+  # Material property converter for DiffusionFluxAux object
+  [./converter]
+    type = MaterialConverter
+    ad_props_in = thermal_conductivity
+    reg_props_out = nonad_thermal_conductivity
+  [../]
+[]
+
+[Functions]
+  [./mechanical_pressure_func]
+    type = ParsedFunction
+    vars = 'radius force'
+    vals = '0.04 50' # 'm kN'
+    value = 'force * 1e3 / (pi * radius^2)' # (N / m^2)
+  [../]
 []
 
 [Preconditioning]
@@ -306,7 +390,7 @@
   scheme = bdf2
   solve_type = NEWTON
   dt = 1
-  end_time = 1200
+  end_time = 3600
   petsc_options_iname = '-pc_type'
   petsc_options_value = 'lu'
 []
