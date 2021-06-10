@@ -6,9 +6,10 @@
 # BCs:
 #    Potential:
 #       V (top electrode, top surface) --> Neumann condition specifiying potential
-#                                          based on applied RMS Current and cross-sectional
-#                                          electrode area (see elec_top BC below). Current
-#                                          turned off at 1200 s.
+#                                          based on applied RMS Current (1200 A)
+#                                          and cross-sectional electrode area (see
+#                                          elec_top BC below). Current turned off
+#                                          at 1200 s.
 #       V (bottom electrode, bottom surface) = 0 V
 #       V (elsewhere) --> natural boundary conditions (no current external to circuit)
 #    Temperature:
@@ -262,7 +263,7 @@
     type = ADFunctionNeumannBC
     variable = potential_stainless_steel
     boundary = top_die
-    function = 'if(t < 31, (1200 / (pi * 0.00155))*(sqrt(2)/(10*4.3625)*t), if(t > 1200, 0, 1200 / (pi * 0.00155)))' # RMS Current / Cross-sectional Area. Ramping for t < 31s approximately reflects Cincotti et al (DOI: 10.1002/aic.11102) Figure 18(b)
+    function = 'if(t < 43, (1200 / (pi * 0.00155))*((0.017703/0.75549)*t), if(t > 1200, 0, 1200 / (pi * 0.00155)))' # RMS Current / Cross-sectional Area. Ramping for t < 43s approximately reflects Cincotti et al (DOI: 10.1002/aic.11102) Figure 18(b)
   [../]
   [./elec_bottom]
     type = ADDirichletBC
@@ -377,6 +378,20 @@
     value = 'force * 1e3 / (pi * radius^2)' # (N / m^2)
   [../]
 []
+
+# Tracking data locations specified in Cincotti paper
+# [Postprocessors]
+#   [./temp_tracking]
+#     type = PointValue
+#     variable = temperature_graphite
+#     point = '0 0.28 0'
+#   [../]
+#   [./potential_tracking]
+#     type = PointValue
+#     variable = potential_stainless_steel
+#     point = '0.027 0.504 0'
+#   [../]
+# []
 
 [Preconditioning]
   [./SMP]
