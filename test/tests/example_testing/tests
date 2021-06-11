@@ -3,7 +3,7 @@
     type = Exodiff
     input = sample_one.i
     exodiff = sample_one_out.e
-    cli_args = "Executioner/end_time=5"
+    cli_args = "Executioner/end_time=5 Outputs/active=testing_out"
     issues = '#2 #6'
     requirement = 'The system shall duplicate the results of Cincotti et al, Sample One.'
   [../]
@@ -11,7 +11,7 @@
     type = Exodiff
     input = sample_three.i
     exodiff = sample_three_out.e
-    cli_args = "Executioner/end_time=5"
+    cli_args = "Executioner/end_time=5 Outputs/active=testing_out"
     issues = '#2 #6'
     requirement = 'The system shall duplicate the results of Cincotti et al, Sample Three.'
   [../]
@@ -19,7 +19,7 @@
     type = Exodiff
     input = sample_four.i
     exodiff = sample_four_out.e
-    cli_args = "Executioner/end_time=5"
+    cli_args = "Executioner/end_time=5 Outputs/active=testing_out"
     issues = '#2 #6'
     requirement = 'The system shall duplicate the results of Cincotti et al, Sample Four.'
   [../]

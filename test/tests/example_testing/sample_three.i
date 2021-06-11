@@ -421,6 +421,14 @@
 []
 
 [Outputs]
-  exodus = true
   perf_graph = true
+  file_base = sample_three_out
+  active = 'normal_out'
+  [./normal_out]
+    type = Exodus
+  [../]
+  [./testing_out] # Due to platform diffs in *really* small auxvariable values
+    type = Exodus
+    show = 'temperature_graphite temperature_stainless_steel potential_graphite potential_stainless_steel'
+  [../]
 []
