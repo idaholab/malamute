@@ -1,0 +1,14 @@
+[Tests]
+  [./oneway_coupling_yttria_coupling]
+    type = RunApp
+    input = 'oneway_coupling_demo_fcn_electricpotential.i'
+    check_input = True
+    method = opt
+  [../]
+  [./yttria_thermoelectrical_microapp]
+    type = RunApp
+    input = 'micro_yttria_thermoelectrical_aehproperties_refres.i'
+    check_input = True
+    method = opt
+  [../]
+[]
