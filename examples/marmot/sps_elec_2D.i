@@ -1,3 +1,8 @@
+#This input file uses the phase-field model originally described by Greenquist et al.,
+#Computational Materials Science, 172, 109288 (2020).
+#It considers only Y-site vacancies and does not consider the effect of electric potential
+#on defect motion.
+
 [Mesh]
   type = GeneratedMesh
   dim = 2
