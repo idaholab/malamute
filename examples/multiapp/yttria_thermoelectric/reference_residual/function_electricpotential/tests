@@ -5,6 +5,18 @@
     check_input = True
     method = opt
   [../]
+  [./fullphysics_oneway_coupling_elasticmechanices_yttria_macroblock]
+    type = RunApp
+    input = 'oneway_coupling_demo_electrothermomechanics_elastic.i'
+    check_input = true
+    method = opt
+  [../]
+  [./fullphysics_oneway_coupling_yttria_macroblock]
+    type = RunApp
+    input = 'oneway_coupling_demo_electrothermomechanics.i'
+    check_input = true
+    method = opt
+  [../]
   [./yttria_thermoelectrical_microapp]
     type = RunApp
     input = 'micro_yttria_thermoelectrical_aehproperties_refres.i'

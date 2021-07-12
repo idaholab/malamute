@@ -1,6 +1,8 @@
 initial_temperature=1350
 
 [GlobalParams]
+  displacements = 'disp_x disp_y'
+  volumetric_locking_correction = false
   order = SECOND
 []
 
@@ -14,6 +16,13 @@ initial_temperature=1350
     ymax = 0.008 #8mm
     elem_type = QUAD8
     second_order = true
+  []
+  [centerpoint_node]
+    type = BoundingBoxNodeSetGenerator
+    bottom_left = '0.0 0.0039 0.0'
+    top_right = '0.0001 0.0041 0.0'
+    new_boundary = centerpoint_block
+    input = yttria_block
   []
 []
 
@@ -34,6 +43,11 @@ initial_temperature=1350
 []
 
 [AuxVariables]
+  [vonmises_stress]
+    family = MONOMIAL
+    order = FIRST
+  []
+
   [specific_heat_capacity_va]
     initial_condition = 842.2 # at 1500K #568.73 at 1000K #447.281 # at 293K
   []
@@ -63,6 +77,19 @@ initial_temperature=1350
   [microapp_current_density]
     order = FIRST
     family = MONOMIAL
+  []
+[]
+
+[Modules]
+  [TensorMechanics/Master]
+    [yttria]
+      strain = FINITE
+      add_variables = true
+      use_automatic_differentiation = true
+      generate_output = 'strain_xx strain_xy strain_yy strain_zz stress_xx stress_xy stress_yy stress_zz'
+      extra_vector_tags = 'ref'
+      eigenstrain_names = 'yttria_thermal_expansion'
+    []
   []
 []
 
@@ -98,6 +125,13 @@ initial_temperature=1350
 []
 
 [AuxKernels]
+  [vonmises_stress]
+    type = ADRankTwoScalarAux
+    variable = vonmises_stress
+    rank_two_tensor = stress
+    scalar_type = VonMisesStress
+  []
+
   [heat_transfer_radiation]
     type = ParsedAux
     variable = heat_transfer_radiation
@@ -139,6 +173,35 @@ initial_temperature=1350
 []
 
 [BCs]
+  [centerline_no_dispx]
+    type = ADDirichletBC
+    preset = true
+    variable = disp_x
+    value = 0
+    boundary = 'left'
+  []
+  [fixed_in_y]
+    type = ADDirichletBC
+    preset = true
+    variable = disp_y
+    value = 0
+    boundary = 'centerpoint_block' #centerpoint_inner_die_wall
+  []
+  [bottom_pressure_ydirection]
+    type = ADPressure
+    variable = disp_y
+    boundary = 'bottom'
+    function = 'if(t<1.0, (20.7e6/1.0)*t, 20.7e6)'
+    component = 1
+  []
+  [top_pressure_ydirection]
+    type = ADPressure
+    variable = disp_y
+    boundary = 'top'
+    function = 'if(t<1.0, (20.7e6/1.0)*t, 20.7e6)'
+    component = 1
+  []
+
   [external_surface]
     type = CoupledVarNeumannBC
     boundary = right
@@ -157,7 +220,7 @@ initial_temperature=1350
     type = ADFunctionDirichletBC
     variable = electric_potential
     boundary = top
-    function = 'if(t<20.0, 4.0e-3*t, 0.08)'  #rate roughly from Cincotti, per discussion with Casey
+    function = 'if(t<1.0,0.0, if(t<20.0, 4.0e-3*t, 0.08))'  #rate roughly from Cincotti, per discussion with Casey
   []
   [electric_bottom]
     type = ADDirichletBC
@@ -168,6 +231,32 @@ initial_temperature=1350
 []
 
 [Materials]
+  [yttria_elasticity_tensor]
+    type = ADComputeIsotropicElasticityTensor
+    # youngs_modulus = 1.16e11 #in Pa for fully dense part
+    youngs_modulus = 1.38e10 #in Pa assuming 62% initial density and theoretical coeff. from Phani and Niyogi (1987)
+    poissons_ratio = 0.36
+  []
+  [yttria_stress]
+    type = ADComputeMultipleInelasticStress
+    inelastic_models = yttria_creep_model
+  []
+  [yttria_creep_model]
+    type = ADPowerLawCreepStressUpdate
+    coefficient = 3.75e-7 # from Al's work
+    n_exponent = 0.714 # from Al's work
+    activation_energy = 0.0
+    use_substep = true
+    absolute_tolerance = 5e-9
+  []
+  [yttria_thermal_expansion]
+    type = ADComputeThermalExpansionEigenstrain
+    thermal_expansion_coeff = 9.3e-6  # from https://doi.org/10.1111/j.1151-2916.1957.tb12619.x
+    eigenstrain_name = yttria_thermal_expansion
+    stress_free_temperature = 300
+    temperature = temperature
+  []
+
   [yttria_thermal_conductivity]
     type = ADParsedMaterial
     args = 'temperature'
