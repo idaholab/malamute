@@ -392,10 +392,10 @@ initial_temperature=293 #roughly 600C where the pyrometer kicks in
     type = ParsedAux
     variable = heat_transfer_radiation
     boundary = 'outer_radiative_stainless_steel'
-    args = 'temperature_stainless_steel'
+    args = 'temperature'
     constant_names = 'boltzmann epsilon temperature_farfield'  #published emissivity for graphite is 0.85
     constant_expressions = '5.67e-8 0.4 293.0' #roughly room temperature, which is probably too cold
-    function = '-boltzmann*epsilon*(temperature_stainless_steel^4-temperature_farfield^4)'
+    function = '-boltzmann*epsilon*(temperature^4-temperature_farfield^4)'
   []
   [thermal_conductivity_graphite]
     type = ADMaterialRealAux
@@ -592,6 +592,21 @@ initial_temperature=293 #roughly 600C where the pyrometer kicks in
     gap_conductivity_function_variable = temperature
     normal_smoothing_distance = 0.1
   []
+  [combined_plungers_die_electric] #to reproduce a more symmetric temperature profile, move this block to the bottom of this ThermalContact section
+    type = GapHeatTransfer
+    primary = inner_die_wall
+    secondary = combined_outer_plungers
+    variable = electric_potential
+    quadrature = true
+    emissivity_primary = 0.0 #not applicable for electric potential
+    emissivity_secondary = 0.0 #not applicable for electric potential
+    # gap_geometry_type = PLATE # Not for vertical surfaces
+    # gap_conductivity = 8.5e4 #graphite, at 500K
+    gap_conductivity_function = 'graphite_electrical_conductivity_fcn'
+    gap_conductivity_function_variable = temperature
+    normal_smoothing_distance = 0.1
+    # appended_property_name = plungers
+  []
   [powder_die_electric]
     type = GapHeatTransfer
     primary = inner_die_wall
@@ -605,161 +620,158 @@ initial_temperature=293 #roughly 600C where the pyrometer kicks in
     gap_conductivity_function = 'harmonic_mean_electrical_conductivity'
     gap_conductivity_function_variable = temperature
     normal_smoothing_distance = 0.1
-  []
-  [combined_plungers_die_electric]
-    type = GapHeatTransfer
-    primary = inner_die_wall
-    secondary = combined_outer_plungers
-    variable = electric_potential
-    quadrature = true
-    emissivity_primary = 0.0 #not applicable for electric potential
-    emissivity_secondary = 0.0 #not applicable for electric potential
-    # gap_geometry_type = PLATE # Not for vertical surfaces
-    # gap_conductivity = 8.5e4 #graphite, at 500K
-    gap_conductivity_function = 'graphite_electrical_conductivity_fcn'
-    gap_conductivity_function_variable = temperature
-    normal_smoothing_distance = 0.1
+    # appended_property_name = powder
   []
 []
 
-##Thermal Contact between gapped graphite die components
-[ThermalContact]
-  [upper_plunger_spacer_gap_thermal]
-    type = GapHeatTransfer
-    primary = spacer_facing_upper_plunger
-    secondary = plunger_facing_upper_spacer
-    variable = temperature
-    quadrature = true
-    emissivity_primary = 0.85 #cincotti 2007, table 2
-    emissivity_secondary = 0.85
-    gap_geometry_type = PLATE
-    gap_conductivity_function = 'graphite_thermal_conductivity_fcn'
-    gap_conductivity_function_variable = temperature
-    normal_smoothing_distance = 0.1
-  []
-  [upper_diewall_spacer_gap_thermal]
-    type = GapHeatTransfer
-    primary = top_die_wall
-    secondary = bottom_upper_spacer
-    variable = temperature
-    quadrature = true
-    emissivity_primary = 0.85 #cincotti 2007, table 2
-    emissivity_secondary = 0.85
-    gap_geometry_type = PLATE
-    gap_conductivity_function = 'graphite_thermal_conductivity_fcn'
-    gap_conductivity_function_variable = temperature
-    normal_smoothing_distance = 0.1
-  []
-  [lower_plunger_spacer_gap_thermal]
-    type = GapHeatTransfer
-    primary = spacer_facing_lower_plunger
-    secondary = plunger_facing_lower_spacer
-    variable = temperature
-    quadrature = true
-    emissivity_primary = 0.85 #cincotti 2007, table 2
-    emissivity_secondary = 0.85
-    gap_geometry_type = PLATE
-    gap_conductivity_function = 'graphite_thermal_conductivity_fcn'
-    gap_conductivity_function_variable = temperature
-    normal_smoothing_distance = 0.1
-  []
-  [lower_diewall_spacer_gap_thermal]
-    type = GapHeatTransfer
-    primary = bottom_die_wall
-    secondary = top_lower_spacer
-    variable = temperature
-    quadrature = true
-    emissivity_primary = 0.85 #cincotti 2007, table 2
-    emissivity_secondary = 0.85
-    gap_geometry_type = PLATE
-    gap_conductivity_function = 'graphite_thermal_conductivity_fcn'
-    gap_conductivity_function_variable = temperature
-    normal_smoothing_distance = 0.1
-  []
-  [upper_plunger_diewall_gap_thermal]
-    type = GapHeatTransfer
-    primary = inner_die_wall  ### paired temperature doesn't show on inner die wall, but temperature profile looks reasonable
-    secondary = die_wall_facing_upper_plunger
-    variable = temperature
-    quadrature = true
-    emissivity_primary = 0.85 #cincotti 2007, table 2
-    emissivity_secondary = 0.85
-    # gap_geometry_type = PLATE # Not for vertical surfaces
-    gap_conductivity_function = 'graphite_thermal_conductivity_fcn'
-    gap_conductivity_function_variable = temperature
-    normal_smoothing_distance = 0.1
-  []
-  [lower_plunger_diewall_gap_thermal]
-    type = GapHeatTransfer
-    primary = inner_die_wall  ### paired temperature doesn't show on inner die wall, but temperature profile looks reasonable
-    secondary = die_wall_facing_lower_plunger
-    variable = temperature
-    quadrature = true
-    emissivity_primary = 0.85 #cincotti 2007, table 2
-    emissivity_secondary = 0.85
-    # gap_geometry_type = PLATE # Not for vertical surfaces
-    gap_conductivity_function = 'graphite_thermal_conductivity_fcn'
-    gap_conductivity_function_variable = temperature
-    normal_smoothing_distance = 0.1
-  []
-[]
+  # ## Thermal Contact between touching components of powder and die
+# [ThermalContact]
+  # [lower_plunger_die_thermal]
+  #   type = GapHeatTransfer
+  #   primary = inner_die_wall
+  #   secondary = outer_lower_plunger
+  #   variable = temperature
+  #   quadrature = true
+  #   emissivity_primary = 0.85 #cincotti 2007, table 2
+  #   emissivity_secondary = 0.85
+  #   # gap_geometry_type = PLATE # Not for vertical surfaces
+  #   gap_conductivity_function = 'graphite_thermal_conductivity_fcn'
+  #   gap_conductivity_function_variable = temperature
+  #   normal_smoothing_distance = 0.1
+  # []
+  # [top_plunger_die_thermal]
+  #   type = GapHeatTransfer
+  #   primary = inner_die_wall
+  #   secondary = outer_upper_plunger
+  #   variable = temperature
+  #   quadrature = true
+  #   emissivity_primary = 0.85 #cincotti 2007, table 2
+  #   emissivity_secondary = 0.85
+  #   # gap_geometry_type = PLATE # Not for vertical surfaces
+  #   gap_conductivity_function = 'graphite_thermal_conductivity_fcn'
+  #   gap_conductivity_function_variable = temperature
+  #   normal_smoothing_distance = 0.1
+  # []
+  # [upper_plunger_powder_thermal]
+  #   type = GapHeatTransfer
+  #   primary = bottom_upper_plunger
+  #   secondary = top_powder_compact
+  #   variable = temperature
+  #   quadrature = true
+  #   emissivity_primary = 0.85 #cincotti 2007, table 2
+  #   emissivity_secondary = 0.85
+  #   gap_geometry_type = PLATE
+  #   gap_conductivity_function = 'harmonic_mean_thermal_conductivity'
+  #   gap_conductivity_function_variable = temperature
+  #   normal_smoothing_distance = 0.1
+  # []
+  # [powder_die_thermal]
+  #   type = GapHeatTransfer
+  #   primary = inner_die_wall
+  #   secondary = outer_powder_compact
+  #   variable = temperature
+  #   quadrature = true
+  #   emissivity_primary = 0.85 #cincotti 2007, table 2
+  #   emissivity_secondary = 0.3 #estimated from McMahon and Wilder, High Temperature Spectral Emissivity of Yttrium, Samarium, Gadolinium, Ebrium and Lutetium Oxides (1963) Atomic Energy Commission, IS-578, Figure 12
+  #   # gap_geometry_type = PLATE # Not for vertical surfaces
+  #   gap_conductivity_function = 'harmonic_mean_thermal_conductivity'
+  #   gap_conductivity_function_variable = temperature
+  #   normal_smoothing_distance = 0.1
+  # []
+  # [powder_bottom_plunger_thermal]
+  #   type = GapHeatTransfer
+  #   primary = top_lower_plunger
+  #   secondary = bottom_powder_compact #expect more heat transfer from the die to the powder
+  #   variable = temperature
+  #   quadrature = true
+  #   emissivity_primary = 0.85 #cincotti 2007, table 2
+  #   emissivity_secondary = 0.3 #estimated from McMahon and Wilder, High Temperature Spectral Emissivity of Yttrium, Samarium, Gadolinium, Ebrium and Lutetium Oxides (1963) Atomic Energy Commission, IS-578, Figure 12
+  #   gap_geometry_type = PLATE
+  #   gap_conductivity_function = 'harmonic_mean_thermal_conductivity'
+  #   gap_conductivity_function_variable = temperature
+  #   normal_smoothing_distance = 0.1
+  # []
 
-  ## Thermal Contact between touching components of powder and die
-[ThermalContact]
-  [upper_plunger_powder_thermal]
-    type = GapHeatTransfer
-    primary = bottom_upper_plunger
-    secondary = top_powder_compact
-    variable = temperature
-    quadrature = true
-    emissivity_primary = 0.85 #cincotti 2007, table 2
-    emissivity_secondary = 0.3 #estimated from McMahon and Wilder, High Temperature Spectral Emissivity of Yttrium, Samarium, Gadolinium, Ebrium and Lutetium Oxides (1963) Atomic Energy Commission, IS-578, Figure 12
-    gap_geometry_type = PLATE
-    gap_conductivity_function = 'harmonic_mean_thermal_conductivity'
-    gap_conductivity_function_variable = temperature
-    normal_smoothing_distance = 0.1
-  []
-  [powder_bottom_plunger_thermal]
-    type = GapHeatTransfer
-    primary = top_lower_plunger
-    secondary = bottom_powder_compact #expect more heat transfer from the die to the powder
-    variable = temperature
-    quadrature = true
-    emissivity_primary = 0.85 #cincotti 2007, table 2
-    emissivity_secondary = 0.3 #estimated from McMahon and Wilder, High Temperature Spectral Emissivity of Yttrium, Samarium, Gadolinium, Ebrium and Lutetium Oxides (1963) Atomic Energy Commission, IS-578, Figure 12
-    gap_geometry_type = PLATE
-    gap_conductivity_function = 'harmonic_mean_thermal_conductivity'
-    gap_conductivity_function_variable = temperature
-    normal_smoothing_distance = 0.1
-  []
-  [powder_die_thermal]
-    type = GapHeatTransfer
-    primary = inner_die_wall
-    secondary = outer_powder_compact
-    variable = temperature
-    quadrature = true
-    emissivity_primary = 0.85 #cincotti 2007, table 2
-    emissivity_secondary = 0.3 #estimated from McMahon and Wilder, High Temperature Spectral Emissivity of Yttrium, Samarium, Gadolinium, Ebrium and Lutetium Oxides (1963) Atomic Energy Commission, IS-578, Figure 12
-    # gap_geometry_type = PLATE # Not for vertical surfaces
-    gap_conductivity_function = 'harmonic_mean_thermal_conductivity'
-    gap_conductivity_function_variable = temperature
-    normal_smoothing_distance = 0.1
-  []
-  [combined_plungers_die_thermal]
-    type = GapHeatTransfer
-    primary = inner_die_wall
-    secondary = combined_outer_plungers
-    variable = temperature
-    quadrature = true
-    emissivity_primary = 0.85 #cincotti 2007, table 2
-    emissivity_secondary = 0.85
-    # gap_geometry_type = PLATE # Not for vertical surfaces
-    gap_conductivity_function = 'graphite_thermal_conductivity_fcn'
-    gap_conductivity_function_variable = temperature
-    normal_smoothing_distance = 0.1
-  []
-[]
-
+  # ##Thermal Contact between gapped graphite die components
+  # [lower_plunger_spacer_gap_thermal]
+  #   type = GapHeatTransfer
+  #   primary = spacer_facing_lower_plunger
+  #   secondary = plunger_facing_lower_spacer
+  #   variable = temperature
+  #   quadrature = true
+  #   emissivity_primary = 0.85 #cincotti 2007, table 2
+  #   emissivity_secondary = 0.85
+  #   gap_geometry_type = PLATE
+  #   gap_conductivity_function = 'graphite_thermal_conductivity_fcn'
+  #   gap_conductivity_function_variable = temperature
+  #   normal_smoothing_distance = 0.1
+  # []
+  # [lower_plunger_diewall_gap_thermal]
+  #   type = GapHeatTransfer
+  #   primary = die_wall_facing_lower_plunger
+  #   secondary = inner_die_wall
+  #   variable = temperature
+  #   quadrature = true
+  #   emissivity_primary = 0.85 #cincotti 2007, table 2
+  #   emissivity_secondary = 0.85
+  #   # gap_geometry_type = PLATE # Not for vertical surfaces
+  #   gap_conductivity_function = 'graphite_thermal_conductivity_fcn'
+  #   gap_conductivity_function_variable = temperature
+  #   normal_smoothing_distance = 0.1
+  # []
+  # [lower_diewall_spacer_gap_thermal]
+  #   type = GapHeatTransfer
+  #   primary = bottom_die_wall
+  #   secondary = top_lower_spacer
+  #   variable = temperature
+  #   quadrature = true
+  #   emissivity_primary = 0.85 #cincotti 2007, table 2
+  #   emissivity_secondary = 0.85
+  #   gap_geometry_type = PLATE
+  #   gap_conductivity_function = 'graphite_thermal_conductivity_fcn'
+  #   gap_conductivity_function_variable = temperature
+  #   normal_smoothing_distance = 0.1
+  # []
+  # [upper_plunger_spacer_gap_thermal]
+  #   type = GapHeatTransfer
+  #   primary = spacer_facing_upper_plunger
+  #   secondary = plunger_facing_upper_spacer
+  #   variable = temperature
+  #   quadrature = true
+  #   emissivity_primary = 0.85 #cincotti 2007, table 2
+  #   emissivity_secondary = 0.85
+  #   gap_geometry_type = PLATE
+  #   gap_conductivity_function = 'graphite_thermal_conductivity_fcn'
+  #   gap_conductivity_function_variable = temperature
+  #   normal_smoothing_distance = 0.1
+  # []
+  # [upper_plunger_diewall_gap_thermal]
+  #   type = GapHeatTransfer
+  #   primary = die_wall_facing_upper_plunger
+  #   secondary = inner_die_wall
+  #   variable = temperature
+  #   quadrature = true
+  #   emissivity_primary = 0.85 #cincotti 2007, table 2
+  #   emissivity_secondary = 0.85
+  #   # gap_geometry_type = PLATE # Not for vertical surfaces
+  #   gap_conductivity_function = 'graphite_thermal_conductivity_fcn'
+  #   gap_conductivity_function_variable = temperature
+  #   normal_smoothing_distance = 0.1
+  # []
+  # [upper_diewall_spacer_gap_thermal]
+  #   type = GapHeatTransfer
+  #   primary = top_die_wall
+  #   secondary = bottom_upper_spacer
+  #   variable = temperature
+  #   quadrature = true
+  #   emissivity_primary = 0.85 #cincotti 2007, table 2
+  #   emissivity_secondary = 0.85
+  #   gap_geometry_type = PLATE
+  #   gap_conductivity_function = 'graphite_thermal_conductivity_fcn'
+  #   gap_conductivity_function_variable = temperature
+  #   normal_smoothing_distance = 0.1
+  # []
+# []
 
 [Materials]
   ## graphite blocks
@@ -882,7 +894,8 @@ initial_temperature=293 #roughly 600C where the pyrometer kicks in
   l_max_its = 50
   dtmin = 1.0e-4
 
-  end_time = 900 #600 #900 #15 minutes, rule of thumb from Dennis is 10 minutes
+  # num_steps = 1
+  end_time = 50 #600 #900 #15 minutes, rule of thumb from Dennis is 10 minutes
   [Quadrature]
     order = FIFTH #required for thermal and mechanical node-face contact
     side_order = SEVENTH
