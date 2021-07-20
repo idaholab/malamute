@@ -1,10 +1,98 @@
 #!/usr/bin/env python
 
+# A script to process experimental data produced using the Dr. Sinter machine.
+
+### Example Usage #########################################
+
+# Run the script in the `freya/scripts` directory:
+#
+#   % cd ~/projects/freya/scripts
+#   % python drsinter_data_extraction.py
+#
+# The script will query for extraction settings:
+#
+#   Dr. Sinter data file name (or complete file path): drsinter_example_data.csv
+#   Smooth displacement data? (Y or N, Press ENTER/RETURN for Y):
+#   How many data points should the smoothing window contain? (Press ENTER/RETURN for default = 100):
+#   Plot extracted data? (Y or N, Press ENTER/RETURN for Y):
+#   Exported plot format? (PNG or PDF, Press ENTER/RETURN for PDF):
+#
+# Blanks after the questions mean RETURN was pressed, and the default was used.
+# The file can be provided as a local file name or a complete file path. `~` is
+# expanded in the file path. For `drsinter_example_data.csv`, the following output
+# is then provided on-screen:
+#
+#   Initial Dr. Sinter data file ( drsinter_example_data.csv ) import complete...
+#
+#
+#   ####################
+#   DATA SAMPLING INFORMATION
+#   ####################
+#   Data Sampling Rate (s) = 0.5
+#   ####################
+#   DATA UNITS
+#   ####################
+#   Units for VOLTAGE = V
+#   Units for CURRENT = A
+#   Units for TEMP. = deg C
+#   Units for PRESSURE = kN
+#   Units for Z-AXIS = mm
+#   Units for VACUUM = Pa
+#   Units for HIGH VACUUM = Pa
+#   ####################
+#   SMOOTHING INFORMATION
+#   ####################
+#   Smoothing for VOLTAGE = ON
+#        Smoothing Points = 11
+#   Smoothing for CURRENT = ON
+#        Smoothing Points = 11
+#   Smoothing for TEMP. = OFF
+#   Smoothing for PRESSURE = OFF
+#   Smoothing for Z-AXIS = OFF
+#   Smoothing for VACUUM = OFF
+#   Smoothing for HIGH VACUUM = OFF
+#   ####################
+#   DATA INFORMATION
+#   ####################
+#   Number of data points = 2959
+#   Displacement smoothing (postprocess) = ON
+#     Displacement smoothing window size = 100
+#
+#
+#   Experimental data isolated. Processing time axis...
+#   Time axis processed. END TIME = 1479.0 s
+#   Checking for extra experimental data columns (to remove unintentional NaN values from initial import of ragged rows)...
+#   Extraneous data columns removed. Setting sensible column values and row indices...
+#   Experimental displacement data smoothed with 100 data points per averaging window...
+#   Experimental data fully formatted. Exporting data file...
+#   Data exported to drsinter_example_data_processed.csv
+#   Metadata exported to drsinter_example_data_metadata.csv
+#   Exported VOLTAGE.pdf
+#   Exported CURRENT.pdf
+#   Exported TEMP..pdf
+#   Exported PRESSURE.pdf
+#   Exported Z-AXIS.pdf
+#   Exported VACUUM.pdf
+#   Exported HIGH VACUUM.pdf
+#
+#
+# Two CSV files are produced as output: (1) `drsinter_example_data_processed.csv`: contains
+# the complete processed data for all data fields mentioned in the on-screen console output,
+# and (2) `drsinter_example_data_metadata.csv`: contains a copy of the on-screen metadata.
+# Then, depending on the options for plot export, PDF or PNG files will be produced for
+# monitoring, usage in documents, etc.
+
+##########################################################
+
+### Python packages ######################################
+
 import sys
 import os
 import pandas as pd
 import re
 import matplotlib.pyplot as plt
+
+##########################################################
 
 ### Useful helper functions ##############################
 
@@ -32,6 +120,24 @@ def isNaN(string):
 data_file_path = input('Dr. Sinter data file name (or complete file path): ')
 data_file_path = os.path.expanduser(data_file_path) # Expands tilde character if used
 data_file_base = os.path.basename(data_file_path)
+
+smooth_disp_query = input('Smooth displacement data? (Y or N, Press ENTER/RETURN for Y): ')
+if smooth_disp_query == 'Y' or smooth_disp_query == 'Yes' or smooth_disp_query == 1 or smooth_disp_query == 'True':
+    smooth_disp = True
+elif smooth_disp_query == '':
+    smooth_disp = True
+elif smooth_disp_query == 'N' or smooth_disp_query == 'No' or smooth_disp_query == 0 or smooth_disp_query == 'False':
+    smooth_disp = False
+else:
+    print('ERROR: Please input Yes or No for displacement data smoothing!')
+    sys.exit(1)
+
+if smooth_disp:
+    smoothing_window = input('How many data points should the smoothing window contain? (Press ENTER/RETURN for default = 100):')
+    if smoothing_window == '':
+        smoothing_window = 100
+    else:
+        smoothing_window = int(smoothing_window)
 
 plot_query = input('Plot extracted data? (Y or N, Press ENTER/RETURN for Y): ')
 if plot_query == 'Y' or plot_query == 'Yes' or plot_query == 1 or plot_query == 'True':
@@ -150,6 +256,13 @@ print('Number of data points =', len(exp_data))
 
 metadata.loc[len(units_row.columns)+len(smoothing_row.columns)+j+1] = ['Number of data points (#)', len(exp_data)]
 
+# If displacement smoothing was selected (default is True)
+if smooth_disp:
+    print('Displacement smoothing (postprocess) = ON')
+    print('  Displacement smoothing window size =', smoothing_window)
+    metadata.loc[len(units_row.columns)+len(smoothing_row.columns)+j+2] = ['Displacement smoothing (postprocess)', 'ON']
+    metadata.loc[len(units_row.columns)+len(smoothing_row.columns)+j+3] = ['Displacement smoothing window size', smoothing_window]
+
 vertical_space(2)
 print('Experimental data isolated. Processing time axis...')
 
@@ -197,6 +310,10 @@ for i in range(0, len(exp_data.index)):
 reindex_dict = {exp_data.index[i]: new_row_indices[i] for i in range(len(new_row_indices))}
 exp_data = exp_data.rename(reindex_dict)
 
+### Smooth displacement data
+if smooth_disp:
+    exp_data['Z-AXIS'] = exp_data['Z-AXIS'].rolling(window=smoothing_window, min_periods=1, center=True).mean()
+    print('Experimental displacement data smoothed with', smoothing_window, 'data points per averaging window...')
 #########################################################
 
 ### DATA EXPORT #########################################
