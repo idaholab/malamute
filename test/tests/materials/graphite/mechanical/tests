@@ -10,7 +10,7 @@
   [./thermal_expansion_lower_range_check]
     type = RunException
     input = 'graphite_thermal_expansion.i'
-    cli_args = 'Functions/temp_ramp/value=250.0'
+    cli_args = '--error Functions/temp_ramp/value=250.0'
     expect_err = 'The temperature in graphite_thermal_expansion is below the calibration lower range limit at a value of 250'
     design = 'source/materials/GraphiteThermalExpansion.md'
     requirement = 'The system shall not allow the calculation of the AT 101 graphite coefficient of thermal expansion with a temperature below the curve calibration range.'
@@ -38,7 +38,7 @@
   [./ad_thermal_expansion_lower_range_check]
     type = RunException
     input = 'ad_graphite_thermal_expansion.i'
-    cli_args = 'Functions/temp_ramp/value=250.0'
+    cli_args = '--error Functions/temp_ramp/value=250.0'
     expect_err = 'The temperature in graphite_thermal_expansion is below the calibration lower range limit at a value of 250'
     design = 'source/materials/ADGraphiteThermalExpansion.md'
     issues = '#6, #10'

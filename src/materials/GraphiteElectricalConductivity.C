@@ -77,10 +77,10 @@ GraphiteElectricalConductivityTempl<is_ad>::computeQpProperties()
                                " is below the calibration lower range limit at a value of ",
                                MetaPhysicL::raw_value(_temperature[_qp])));
     else if (_temperature[_qp] > 1873.6)
-      mooseError("The temperature in ",
+      mooseDoOnce(mooseWarning("The temperature in ",
                  _name,
                  " is above the calibration upper range limit at a value of ",
-                 MetaPhysicL::raw_value(_temperature[_qp]));
+                 MetaPhysicL::raw_value(_temperature[_qp])));
 
     _check_temperature_now = false;
   }

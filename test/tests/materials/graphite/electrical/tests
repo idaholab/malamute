@@ -18,7 +18,7 @@
   [./electrical_conductivity_upper_range_check]
     type = RunException
     input = 'graphite_electrical_material_properties.i'
-    cli_args = 'AuxVariables/temperature/initial_condition=1900.0'
+    cli_args = '--error AuxVariables/temperature/initial_condition=1900.0'
     expect_err = 'The temperature in graphite_electrical is above the calibration upper range limit at a value of 1900'
     requirement = 'The system shall not allow the calculation of graphite electrical conductivity with a temperature above the curve calibration range.'
     prereq = electrical_conductivity_lower_range_check
@@ -44,7 +44,7 @@
   [./ad_electrical_conductivity_upper_range_check]
     type = RunException
     input = 'ad_graphite_electrical_material_properties.i'
-    cli_args = 'AuxVariables/temperature/initial_condition=1900.0'
+    cli_args = '--error AuxVariables/temperature/initial_condition=1900.0'
     expect_err = 'The temperature in graphite_electrical is above the calibration upper range limit at a value of 1900'
     issues = '#6 #10'
     requirement = 'The system shall not allow the calculation of graphite electrical conductivity with a temperature above the curve calibration range while using automatic differentiation.'

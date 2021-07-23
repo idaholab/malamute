@@ -48,10 +48,10 @@ ADGraphiteThermalExpansionEigenstrain::computeThermalStrain(ADReal & thermal_str
                  " is below the calibration lower range limit at a value of ",
                  temperature));
     else if (temperature > 2383.0)
-      mooseError("The temperature in ",
+      mooseDoOnce(mooseWarning("The temperature in ",
                  _name,
                  " is above the calibration upper range limit at a value of ",
-                 temperature);
+                 temperature));
 
     _check_temperature_now = false;
   }
