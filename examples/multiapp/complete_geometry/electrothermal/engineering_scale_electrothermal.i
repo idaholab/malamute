@@ -510,9 +510,9 @@ initial_temperature=293 #roughly 600C where the pyrometer kicks in
   []
   [mechanical_pressure_func]
     type = ParsedFunction
-    vars = 'radius force'
-    vals = '0.04 6.5' # 'm kN'
-    value = 'force * 1e3 / (pi * radius^2)' # (N / m^2)
+    vars = 'radius coolant_radius force'
+    vals = '0.04 7.071e-3 6.5' # 'm kN'
+    value = 'force * 1e3 / (pi * (radius^2 - coolant_radius^2))' # (N / m^2)
   []
 []
 
