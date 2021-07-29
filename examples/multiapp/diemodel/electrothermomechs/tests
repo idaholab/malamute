@@ -11,4 +11,10 @@
   check_input = True
   method = opt
   [../]
+  [./mechanics_contact_plastic]
+  type = RunApp
+  input = 'mechanical_plunger_powder_plastic.i'
+  check_input = True
+  method = opt
+  [../]
 []
