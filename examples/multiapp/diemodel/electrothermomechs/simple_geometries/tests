@@ -11,4 +11,11 @@
   check_input = True
   method = opt
   [../]
+  [./electrothermomechanics_singleblock_plstic_powder]
+  type = RunApp
+  input = 'isoPlastic_singleblock.i'
+  cli_args = 'initial_temperature=500 Outputs/file_base=t500'
+  check_input = True
+  method = opt
+  [../]
 []

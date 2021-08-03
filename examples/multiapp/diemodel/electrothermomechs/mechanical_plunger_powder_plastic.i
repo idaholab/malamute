@@ -56,7 +56,7 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
       use_automatic_differentiation = true
       generate_output = 'strain_xx strain_xy strain_yy strain_zz stress_xx stress_xy stress_yy stress_zz'
       extra_vector_tags = 'ref'
-      # eigenstrain_names = 'graphite_thermal_expansion'
+      eigenstrain_names = 'graphite_thermal_expansion'
       block = 'upper_plunger lower_plunger die_wall'
     []
     [yttria]
@@ -65,7 +65,7 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
       use_automatic_differentiation = true
       generate_output = 'plastic_strain_yy strain_xx strain_xy strain_yy strain_zz stress_xx stress_xy stress_yy stress_zz'
       extra_vector_tags = 'ref'
-      # eigenstrain_names = 'yttria_thermal_expansion'
+      eigenstrain_names = 'yttria_thermal_expansion'
       block = 'powder_compact'
     []
   []
@@ -93,31 +93,37 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
     value = 0
     boundary = 'centerline_powder_compact centerline_upper_plunger centerline_lower_plunger'
   []
-  [bottom_no_disp]
+  [die_no_disp]
     type = ADDirichletBC
     preset = true
     variable = disp_y
     value = 0
-    boundary = 'bottom_lower_plunger centerpoint_outer_die_wall'
+    boundary = 'centerpoint_outer_die_wall'
+  []
+  [bottom_disp]
+    type = ADFunctionDirichletBC
+    variable = disp_y
+    boundary = 'bottom_lower_plunger'
+    function = 'if(t<5.0, (125.0e-6/5.0)*t, 125.0e-6)'
   []
   [top_disp]
     type = ADFunctionDirichletBC
     variable = disp_y
     boundary = 'top_upper_plunger'
-    function = 'if(t<5.0, (-250.0e-6/5.0)*t, -250.0e-6)'
+    function = 'if(t<5.0, (-125.0e-6/5.0)*t, -125.0e-6)'
   []
 []
 
 [Functions]
   [./yield]
     type = PiecewiseLinear
-    x = '100  300  400  500  600  5000'  #temperature
+    x = '100  600  700  800  900  5000'  #temperature
     y = '15e6 15e6 14e6 13e6 10e6 10e6'  #yield stress
   [../]
   [temp_hist]
     type = PiecewiseLinear
     x = '0   5   10' #time
-    y = '300 300 600' #temperature
+    y = '300 600 900' #temperature
   []
 []
 
@@ -131,15 +137,15 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
     normal_smoothing_distance = 0.1 #was 0.1 in mm-MPa system
     normalize_penalty = true
   []
-  # [upper_plunger_die_mechanical]
-  #   secondary = outer_upper_plunger
-  #   primary = inner_die_wall
-  #   formulation = kinematic
-  #   model = frictionless
-  #   penalty = 1e8#14 #isotropic yttria block takes 1e12
-  #   normal_smoothing_distance = 0.1
-  #   normalize_penalty = true
-  # []
+  [upper_plunger_die_mechanical]
+    secondary = outer_upper_plunger
+    primary = inner_die_wall
+    formulation = penalty
+    model = frictionless
+    penalty = 1e14 #isotropic yttria block takes 1e12
+    normal_smoothing_distance = 0.1
+    normalize_penalty = true
+  []
   [powder_die_mechanical]
     primary = inner_die_wall
     secondary = outer_powder_compact
@@ -149,15 +155,15 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
     normal_smoothing_distance = 0.1
     normalize_penalty = true
   []
-  # [lower_plunger_die_mechanical]
-  #   primary = inner_die_wall
-  #   secondary = outer_lower_plunger
-  #   formulation = kinematic
-  #   model = frictionless
-  #   penalty = 1e8#14 #isotropic yttria block takes 1e12
-  #   normal_smoothing_distance = 0.1
-  #   normalize_penalty = true
-  # []
+  [lower_plunger_die_mechanical]
+    primary = inner_die_wall
+    secondary = outer_lower_plunger
+    formulation = penalty
+    model = frictionless
+    penalty = 1e14 #isotropic yttria block takes 1e12
+    normal_smoothing_distance = 0.1
+    normalize_penalty = true
+  []
   [powder_bottom_plunger_mechanical]
     secondary = bottom_powder_compact
     primary = top_lower_plunger
@@ -180,13 +186,13 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
     type = ADComputeFiniteStrainElasticStress
     block = 'upper_plunger lower_plunger die_wall'
   []
-  # [graphite_thermal_expansion]
-  #   type = ADGraphiteThermalExpansionEigenstrain
-  #   eigenstrain_name = graphite_thermal_expansion
-  #   stress_free_temperature = ${initial_temperature}
-  #   temperature = temperature
-  #   block = 'upper_plunger lower_plunger die_wall'
-  # []
+  [graphite_thermal_expansion]
+    type = ADGraphiteThermalExpansionEigenstrain
+    eigenstrain_name = graphite_thermal_expansion
+    stress_free_temperature = 300
+    temperature = temperature
+    block = 'upper_plunger lower_plunger die_wall'
+  []
   [graphite_density]
     type = ADGenericConstantMaterial
     prop_names = 'graphite_density'
@@ -209,7 +215,7 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
   [yttria_plastic_model]
     type = ADIsotropicPlasticityStressUpdate
     block = powder_compact
-    hardening_constant = 0.5e10
+    hardening_constant = 0.1e10
     # yield_stress = 15e6
     yield_stress_function = yield
     temperature = temperature
@@ -218,6 +224,13 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
     # absolute_tolerance = 1e-8
     # max_inelastic_increment = 0.000001
 
+  []
+  [yttria_thermal_expansion]
+    type = ADComputeThermalExpansionEigenstrain
+    thermal_expansion_coeff = 9.3e-6  # from https://doi.org/10.1111/j.1151-2916.1957.tb12619.x
+    eigenstrain_name = yttria_thermal_expansion
+    stress_free_temperature = 300
+    temperature = temperature
   []
   [yttria_density]
     type = ADParsedMaterial
@@ -261,8 +274,8 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
   nl_max_its = 20
   l_max_its = 50
   dtmin = 1.0e-4
-  dtmax = .05
-  dt=0.05
+  dtmax = .4
+  dt=0.4
 
   end_time = 10 #900 #15 minutes, rule of thumb from Dennis is 10 minutes
   [Quadrature]
