@@ -47,4 +47,16 @@
     check_input = true
     method = opt
   [../]
+  [./twoway_coupling_demo_new_phasefield]
+    type = RunApp
+    input = 'twoway_coupling_demo_new_phasefield.i'
+    check_input = true
+    method = opt
+  [../]
+  [./micro_yttria_thermoelectric_twoway]
+    type = RunApp
+    input = 'micro_yttria_thermoelectric_twoway.i'
+    check_input = true
+    method = opt
+  [../]
 []
