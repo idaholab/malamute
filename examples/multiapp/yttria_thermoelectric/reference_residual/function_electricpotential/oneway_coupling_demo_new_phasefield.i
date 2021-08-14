@@ -48,8 +48,8 @@ initial_temperature=300
 
   [sigma_aeh]
     initial_condition = 2.0e-10 #in units eV/((nV)^2-s-nm)
-  []
-  [microapp_potential] #converted to microapp electronVolts units
+    order = FIRST
+    family = LAGRANGE
   []
   [E_x]
     order = FIRST
@@ -63,17 +63,13 @@ initial_temperature=300
     family = NEDELEC_ONE
     order = FIRST
   []
-  [microapp_current_density]
-    order = FIRST
-    family = MONOMIAL
-  []
 []
 
 [Kernels]
   [HeatDiff_yttria]
     type = ADHeatConduction
     variable = temperature
-    thermal_conductivity = yttria_thermal_conductivity #use parsed material property, hope it works
+    thermal_conductivity = yttria_thermal_conductivity #use parsed material property
     extra_vector_tags = 'ref'
   []
   [HeatTdot_yttria]
@@ -110,12 +106,6 @@ initial_temperature=300
     constant_expressions = '5.67e-8 0.1 1600.0' #estimated farfield temperature, to stand in for graphite, in a manner
     function = '-boltzmann*epsilon*(temperature^4-temperature_farfield^4)'
   []
-  [microapp_potential]
-    type = ParsedAux
-    variable = microapp_potential
-    args = electric_potential
-    function = 'electric_potential*1e9' #convert from V to nV
-  []
   [E_x]
     type = VariableGradientComponent
     variable = E_x
@@ -133,12 +123,6 @@ initial_temperature=300
     variable = current_density_J
     potential = electric_potential
   []
-  [microapp_current_density]
-    type = ParsedAux
-    variable = microapp_current_density
-    args = 'sigma_aeh E_y'  ## Probably needs to be updated to use the current_density_J
-    function = '-1.0*sigma_aeh*E_y'
-  []
 []
 
 [BCs]
@@ -154,8 +138,6 @@ initial_temperature=300
   #   variable = temperature
   #   function = '${initial_temperature} + 50.0/60.0*t' #stand-in for a 50C/min heating rate
   # []
-
-
   [electric_top]
     type = ADFunctionDirichletBC
     variable = electric_potential
@@ -200,7 +182,7 @@ initial_temperature=300
   [electrical_conductivity]
     type = ADParsedMaterial
   #   args = 'sigma_aeh'
-  #   function = 'sigma_aeh*1.602e8' #converts to units of J/(V^2-m-s)
+  #   function = 'sigma_aeh*1.602e-10' #converts to units of J/(V^2-m-s)
     f_name = 'electrical_conductivity'
     output_properties = electrical_conductivity
     outputs = 'exodus csv'
@@ -220,8 +202,6 @@ initial_temperature=300
   line_search = 'none'
   compute_scaling_once = false
 
-  # #mechanical contact options
-  # petsc_options = '-snes_ksp_ew'
   petsc_options_iname = '-pc_type -pc_factor_mat_solver_package'
   petsc_options_value = ' lu       superlu_dist'
   petsc_options = '-snes_converged_reason -ksp_converged_reason'
@@ -263,44 +243,6 @@ initial_temperature=300
   [yttria_sigma]
     type = ElementAverageValue
     variable = electrical_conductivity
-  []
-
-
-### The following are useful for debugging, but are mesh dependent via the elementid
-  [temperature_368]
-    type = ElementalVariableValue
-    variable = temperature
-    elementid = 368
-  []
-  [yttria_thermal_conductivity_368]
-    type = ElementalVariableValue
-    elementid = 368
-    variable = yttria_thermal_conductivity
-  []
-  [yttria_specific_heat_capacity_368]
-    type = ElementalVariableValue
-    elementid = 368
-    variable = yttria_specific_heat_capacity
-  []
-  [yttria_electrical_conductivity_368]
-    type = ElementalVariableValue
-    elementid = 368
-    variable = electrical_conductivity
-  []
-  [yttria_microapp_potential]
-    type = ElementalVariableValue
-    elementid = 368
-    variable = microapp_potential
-  []
-  [yttria_grad_potential]
-    type = ElementalVariableValue
-    variable = E_y
-    elementid = 368
-  []
-  [microapp_current_density]
-    type = ElementalVariableValue
-    variable = microapp_current_density
-    elementid = 368
   []
 []
 
