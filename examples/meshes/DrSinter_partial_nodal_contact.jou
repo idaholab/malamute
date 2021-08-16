@@ -216,7 +216,7 @@ sideset 206 name 'radiative_upper_plunger'
 sideset 207 add curve 28
 sideset 207 name 'die_wall_facing_upper_plunger'
 sideset 208 add curve 16 23
-sideset 208 name 'combined_electrical_outer_plungers'
+sideset 208 name 'combined_outer_plungers'
 
 
 #Set names for the die wall block
