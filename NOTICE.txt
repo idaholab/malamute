@@ -1,0 +1,23 @@
+This project contains code from Idaho National Laboratory's MALAMUTE
+https://hpcgitlab.hpc.inl.gov/idaholab/malamute
+
+Copyright 2021, Battelle Energy Alliance, LLC
+ALL RIGHTS RESERVED
+
+Notice: These data were produced by BATTELLE ENERGY ALLIANCE, LLC under Contract
+No. DE-AC07-05ID14517 with the Department of Energy. For ten(10) years from
+July 8, 2021, the Government is granted for itself and others acting on its behalf
+a nonexclusive, paid-up, irrevocable worldwide license in this data to reproduce,
+prepare derivative works, and perform publicly and display publicly, by or on
+behalf of the Government. There is provision for the possible extension of the
+term of this license. Subsequent to that period or any extension granted, the
+Government is granted for itself and others acting on its behalf a nonexclusive,
+paid-up, irrevocable worldwide license in this data to reproduce, prepare
+derivative works, distribute copies to the public, perform publicly and display
+publicly, and to permit others to do so. The specific term of the license can be
+identified by inquiry made to Contractor or DOE. NEITHER THE UNITED STATES NOR
+THE UNITED STATES DEPARTMENT OF ENERGY, NOR ANY OF THEIR EMPLOYEES, MAKES ANY
+WARRANTY, EXPRESS OR IMPLIED, OR ASSUMES ANY LEGAL LIABILITY OR RESPONSIBILITY
+FOR THE ACCURACY, COMPLETENESS, OR USEFULNESS OF ANY DATA, APPARATUS, PRODUCT,
+OR PROCESS DISCLOSED, OR REPRESENTS THAT ITS USE WOULD NOT INFRINGE PRIVATELY
+OWNED RIGHTS.
