@@ -1,10 +1,8 @@
 Content:
-  - ${ROOT_DIR}/doc/content
-  - ${MOOSE_DIR}/framework/doc/content
-
+    - ${ROOT_DIR}/doc/content
+    - ${MOOSE_DIR}/framework/doc/content
 Renderer:
     type: MooseDocs.base.MaterializeRenderer
-
 Extensions:
     MooseDocs.extensions.navigation:
         name: Malamute
@@ -12,10 +10,17 @@ Extensions:
     MooseDocs.extensions.appsyntax:
         executable: ${ROOT_DIR}
         remove:
-          framework: !include ${MOOSE_DIR}/framework/doc/remove.yml
+            framework: !include ${MOOSE_DIR}/framework/doc/remove.yml
     MooseDocs.extensions.common:
-      shortcuts: !include ${MOOSE_DIR}/framework/doc/globals.yml
-
+        shortcuts: !include ${MOOSE_DIR}/framework/doc/globals.yml
     MooseDocs.extensions.acronym:
-      acronyms:
-        framework: !include ${MOOSE_DIR}/framework/doc/acronyms.yml
+        acronyms:
+            framework: !include ${MOOSE_DIR}/framework/doc/acronyms.yml
+    MooseDocs.extensions.sqa:
+        active: true
+        categories:
+            framework: !include ${MOOSE_DIR}/framework/doc/sqa_framework.yml
+            malamute: !include ${ROOT_DIR}/doc/sqa_malamute.yml
+        reports: !include ${ROOT_DIR}/doc/sqa_reports.yml
+    MooseDocs.extensions.template:
+        active: true

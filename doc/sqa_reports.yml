@@ -1,0 +1,27 @@
+Applications:
+    malamute:
+        app_types:
+            - MalamuteApp
+        content_directory: ${ROOT_DIR}/doc/content
+        remove:
+            - ${MOOSE_DIR}/framework/doc/remove.yml
+        log_default: WARNING
+        show_warning: false
+
+Documents:
+    software_requirements_specification: sqa/malamute_srs.md
+    software_design_description: sqa/malamute_sdd.md
+    software_test_plan: sqa/malamute_stp.md
+    requirements_traceablity_matrix: sqa/malamute_rtm.md
+    verification_validation_report: sqa/malamute_vvr.md
+    failure_analysis_report: sqa/malamute_far.md
+    software_library_list: sqa/malamute_sll.md
+    log_default: WARNING
+    show_warning: false
+
+Requirements:
+    malamute:
+        directories:
+            - ${ROOT_DIR}/test
+        log_default: WARNING
+        show_warning: false
