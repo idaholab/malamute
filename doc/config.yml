@@ -1,13 +1,6 @@
 Content:
-    Malamute:
-        root_dir: ${ROOT_DIR}/doc/content
-    moose:
-        root_dir: ${MOOSE_DIR}/framework/doc/content
-        content:
-            - js/*
-            - css/*
-            - contrib/**
-            - media/**
+  - ${ROOT_DIR}/doc/content
+  - ${MOOSE_DIR}/framework/doc/content
 
 Renderer:
     type: MooseDocs.base.MaterializeRenderer
@@ -15,8 +8,14 @@ Renderer:
 Extensions:
     MooseDocs.extensions.navigation:
         name: Malamute
+        repo: https://hpcgitlab.hpc.inl.gov/idaholab/malamute
     MooseDocs.extensions.appsyntax:
         executable: ${ROOT_DIR}
-        remove: !include ${MOOSE_DIR}/framework/doc/remove.yml
-        includes:
-            - include
+        remove:
+          framework: !include ${MOOSE_DIR}/framework/doc/remove.yml
+    MooseDocs.extensions.common:
+      shortcuts: !include ${MOOSE_DIR}/framework/doc/globals.yml
+
+    MooseDocs.extensions.acronym:
+      acronyms:
+        framework: !include ${MOOSE_DIR}/framework/doc/acronyms.yml
