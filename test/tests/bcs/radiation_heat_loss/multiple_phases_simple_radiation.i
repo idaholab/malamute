@@ -74,7 +74,7 @@
     boundary = right
   [../]
   [./right_heatflux]
-    type = SideFluxIntegral
+    type = SideDiffusiveFluxIntegral
     variable = temperature
     boundary = right
     diffusivity = thermal_conductivity
