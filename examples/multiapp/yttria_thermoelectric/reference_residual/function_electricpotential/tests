@@ -59,4 +59,20 @@
     check_input = true
     method = opt
   [../]
+  [./twoway_coupling_demo_new_phasefield_lots_controls]
+    type = RunApp
+    input = 'twoway_coupling_demo_new_phasefield_lots_controls.i'
+    min_parallel = 5
+    check_input = true
+    method = opt
+    issues = '#21'
+  [../]
+  [./micro_yttria_thermoelectric_twoway_lots_controls]
+    type = RunApp
+    input = 'micro_yttria_thermoelectric_twoway_lots_controls.i'
+    check_input = true
+    cli_args = 'Mesh/gen/nx=50 Mesh/gen/ny=54'
+    method = opt
+    issues = '#21'
+  [../]
 []
