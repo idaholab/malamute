@@ -1,4 +1,7 @@
-initial_temperature=1350
+#This example uses updated electrochemical phase-field model, which includes
+#Y and O vacancies as defect species (intrinsic defects)
+#Two-way coupling from engineering scale to phase-field
+initial_temperature=300
 
 [GlobalParams]
   order = SECOND
@@ -45,8 +48,8 @@ initial_temperature=1350
 
   [sigma_aeh]
     initial_condition = 2.0e-10 #in units eV/((nV)^2-s-nm)
-  []
-  [microapp_potential] #converted to microapp electronVolts units
+    order = FIRST
+    family = LAGRANGE
   []
   [E_x]
     order = FIRST
@@ -60,9 +63,14 @@ initial_temperature=1350
     family = NEDELEC_ONE
     order = FIRST
   []
-  [microapp_current_density]
+  [thermal_conductivity_aeh]
+    initial_condition = 3.0
     order = FIRST
-    family = MONOMIAL
+    family = LAGRANGE
+  []
+  [Q_from_sub] #this will be in eV/m/s, will need unit conversion to J/m^3/s based on phase-field domain size
+    order = FIRST
+    family = LAGRANGE
   []
 []
 
@@ -70,7 +78,7 @@ initial_temperature=1350
   [HeatDiff_yttria]
     type = ADHeatConduction
     variable = temperature
-    thermal_conductivity = yttria_thermal_conductivity #use parsed material property, hope it works
+    thermal_conductivity = yttria_thermal_conductivity #use parsed material property
     extra_vector_tags = 'ref'
   []
   [HeatTdot_yttria]
@@ -80,20 +88,17 @@ initial_temperature=1350
     density_name = yttria_density
     extra_vector_tags = 'ref'
   []
-  [JouleHeating_yttria]
-    type = ADJouleHeatingSource
-    variable = temperature
-    elec = electric_potential
-    electrical_conductivity = electrical_conductivity
-    use_displaced_mesh = true
-    extra_vector_tags = 'ref'
-  []
   [electric_yttria]
     type = ConductivityLaplacian
     variable = electric_potential
     conductivity_coefficient = electrical_conductivity
     use_displaced_mesh = true
     extra_vector_tags = 'ref'
+  []
+  [heat_source]
+    type = MaskedBodyForce
+    mask = Q_SI
+    variable = temperature
   []
 []
 
@@ -104,14 +109,8 @@ initial_temperature=1350
     boundary = right
     args = 'temperature'
     constant_names = 'boltzmann epsilon temperature_farfield'  #published emissivity for graphite is 0.85, but use 0.1 to prevent too much heat loss
-    constant_expressions = '5.67e-8 0.1 1000.0' #estimated farfield temperature, to stand in for graphite, in a manner
+    constant_expressions = '5.67e-8 0.1 1600.0' #estimated farfield temperature, to stand in for graphite, in a manner
     function = '-boltzmann*epsilon*(temperature^4-temperature_farfield^4)'
-  []
-  [microapp_potential]
-    type = ParsedAux
-    variable = microapp_potential
-    args = electric_potential
-    function = 'electric_potential*1e9' #convert from V to nV
   []
   [E_x]
     type = VariableGradientComponent
@@ -130,12 +129,6 @@ initial_temperature=1350
     variable = current_density_J
     potential = electric_potential
   []
-  [microapp_current_density]
-    type = ParsedAux
-    variable = microapp_current_density
-    args = 'sigma_aeh E_y'  ## Probably needs to be updated to use the current_density_J
-    function = '-1.0*sigma_aeh*E_y'
-  []
 []
 
 [BCs]
@@ -151,8 +144,6 @@ initial_temperature=1350
   #   variable = temperature
   #   function = '${initial_temperature} + 50.0/60.0*t' #stand-in for a 50C/min heating rate
   # []
-
-
   [electric_top]
     type = ADFunctionDirichletBC
     variable = electric_potential
@@ -170,10 +161,10 @@ initial_temperature=1350
 [Materials]
   [yttria_thermal_conductivity]
     type = ADParsedMaterial
-    args = 'temperature'
-    function = '3214.46 / (temperature - 147.73)' #in W/(m-K) #Given from Larry's curve fitting, data from Klein and Croft, JAP, v. 38, p. 1603 and UC report "For Computer Heat Conduction Calculations - A compilation of thermal properties data" by A.L. Edwards, UCRL-50589 (1969)
-    # args = 'thermal_conductivity_aeh'
-    # function = 'thermal_conductivity_aeh' #in W/(m-K) directly, for now
+    # args = 'temperature'
+    # function = '3214.46 / (temperature - 147.73)' #in W/(m-K) #Given from Larry's curve fitting, data from Klein and Croft, JAP, v. 38, p. 1603 and UC report "For Computer Heat Conduction Calculations - A compilation of thermal properties data" by A.L. Edwards, UCRL-50589 (1969)
+    args = 'thermal_conductivity_aeh'
+    function = 'thermal_conductivity_aeh' #in W/(m-K) directly, for now
     f_name = 'yttria_thermal_conductivity'
     output_properties = yttria_thermal_conductivity
     outputs = 'csv exodus'
@@ -196,17 +187,24 @@ initial_temperature=1350
   []
   [electrical_conductivity]
     type = ADParsedMaterial
-  #   args = 'sigma_aeh'
-  #   function = 'sigma_aeh*1.602e8' #converts to units of J/(V^2-m-s)
+    args = 'sigma_aeh'
+    function = 'sigma_aeh*1.602e-10' #converts to units of J/(V^2-m-s)
     f_name = 'electrical_conductivity'
     output_properties = electrical_conductivity
     outputs = 'exodus csv'
     # type = ADDerivativeParsedMaterial
     # f_name = electrical_conductivity
-    args = 'temperature'
-    constant_names =       'Q_elec  kB            prefactor_solid  initial_porosity'
-    constant_expressions = '1.61    8.617343e-5        1.25e-4           0.38'
-    function = '(1-initial_porosity) * prefactor_solid * exp(-Q_elec/kB/temperature) * 1.602e8' # in eV/(nV^2 s nm) per chat with Larry, last term converts to units of J/(V^2-m-s)
+    # args = 'temperature'
+    # constant_names =       'Q_elec  kB            prefactor_solid  initial_porosity'
+    # constant_expressions = '1.61    8.617343e-5        1.25e-4           0.38'
+    # function = '(1-initial_porosity) * prefactor_solid * exp(-Q_elec/kB/temperature) * 1.602e8' # in eV/(nV^2 s nm) per chat with Larry, last term converts to units of J/(V^2-m-s)
+  []
+  [Q_SI]
+    type = ParsedMaterial
+    f_name = Q_SI
+    args = 'Q_from_sub'
+    function = 'Q_from_sub / 80 / 40 * 0.1602' #divide by domain size and unit conversion to go from eV/S to J/m^3/s
+    outputs = 'exodus'
   []
 []
 
@@ -217,8 +215,6 @@ initial_temperature=1350
   line_search = 'none'
   compute_scaling_once = false
 
-  # #mechanical contact options
-  # petsc_options = '-snes_ksp_ew'
   petsc_options_iname = '-pc_type -pc_factor_mat_solver_package'
   petsc_options_value = ' lu       superlu_dist'
   petsc_options = '-snes_converged_reason -ksp_converged_reason'
@@ -230,7 +226,7 @@ initial_temperature=1350
   l_max_its = 50
   dtmin = 1.0e-4
 
-  end_time = 360 #6 minutes, enough to ramp BC to 1600K #1200 #represents 20 minutes
+  end_time = 2400
   [TimeStepper]
     type = IterationAdaptiveDT
     dt = 0.05
@@ -261,44 +257,6 @@ initial_temperature=1350
     type = ElementAverageValue
     variable = electrical_conductivity
   []
-
-
-### The following are useful for debugging, but are mesh dependent via the elementid
-  [temperature_368]
-    type = ElementalVariableValue
-    variable = temperature
-    elementid = 368
-  []
-  [yttria_thermal_conductivity_368]
-    type = ElementalVariableValue
-    elementid = 368
-    variable = yttria_thermal_conductivity
-  []
-  [yttria_specific_heat_capacity_368]
-    type = ElementalVariableValue
-    elementid = 368
-    variable = yttria_specific_heat_capacity
-  []
-  [yttria_electrical_conductivity_368]
-    type = ElementalVariableValue
-    elementid = 368
-    variable = electrical_conductivity
-  []
-  [yttria_microapp_potential]
-    type = ElementalVariableValue
-    elementid = 368
-    variable = microapp_potential
-  []
-  [yttria_grad_potential]
-    type = ElementalVariableValue
-    variable = E_y
-    elementid = 368
-  []
-  [microapp_current_density]
-    type = ElementalVariableValue
-    variable = microapp_current_density
-    elementid = 368
-  []
 []
 
 [MultiApps]
@@ -309,41 +267,64 @@ initial_temperature=1350
     max_procs_per_app = 1 #paolo recommends starting here
     app_type = FreyaApp
     positions = '0.0074 0.0058 0' #roughly the center of element 368 in this mesh
-    input_files = micro_yttria_thermoelectrical_aehproperties_refres.i
+    input_files = fourparticle_micro_yttria_thermoelectric_twoway.i
     catch_up = true
     execute_on = TIMESTEP_BEGIN #the default
   []
 []
 
 [Transfers]
+  [keff_from_sub]
+    type = MultiAppPostprocessorInterpolationTransfer
+    direction = from_multiapp
+    multi_app = micro
+    variable = thermal_conductivity_aeh
+    power = 2 #2 is the default value, tutorial uses 1
+    postprocessor = k_AEH_average
+  []
+  [sigma_aeh_eff_from_sub]
+    type = MultiAppPostprocessorInterpolationTransfer
+    direction = from_multiapp
+    multi_app = micro
+    variable = sigma_aeh
+    power = 2 #2 is the default value, tutorial uses 1
+    postprocessor = sigma_y_AEH
+  []
+  [Q_from_sub]
+    type = MultiAppPostprocessorInterpolationTransfer
+    direction = from_multiapp
+    multi_app = micro
+    variable = Q_from_sub #This is the integrated heat produced in the phase-field simulation in eV/m/s
+    power = 2 #2 is the default value, tutorial uses 1
+    postprocessor = Q_joule_total
+  []
   [temperature_to_sub]
     type = MultiAppVariableValueSampleTransfer
     direction = to_multiapp
     multi_app = micro
     source_variable = temperature
-    variable = temperature_in
+    variable = T
   []
-  [temperaturepp_to_sub]
+  [temperature_to_sub_postproc]
    type = MultiAppVariableValueSamplePostprocessorTransfer
     direction = to_multiapp
     multi_app = micro
     source_variable = temperature
-    postprocessor = center_temperature
+    postprocessor = T_postproc
   []
-
-  [micro_potential_pp_to_sub]
+  [potential_to_sub_postproc]
    type = MultiAppVariableValueSamplePostprocessorTransfer
     direction = to_multiapp
     multi_app = micro
-    source_variable = microapp_potential
-    postprocessor = potential_in
+    source_variable = electric_potential
+    postprocessor = V_postproc
   []
-  [micro_current_density_pp_to_sub]
+  [micro_field_pp_to_sub]
    type = MultiAppVariableValueSamplePostprocessorTransfer
     direction = to_multiapp
     multi_app = micro
-    source_variable = microapp_current_density
-    postprocessor = current_density_in
+    source_variable = E_y
+    postprocessor = Ey_in
   []
 []
 

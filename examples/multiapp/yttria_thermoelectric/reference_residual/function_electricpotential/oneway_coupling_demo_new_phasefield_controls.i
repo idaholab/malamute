@@ -256,7 +256,7 @@ initial_temperature=300
     app_type = FreyaApp
     positions = '0.0074 0.0058 0' #roughly the center of element 368 in this mesh
     input_files = micro_yttria_thermoelectric_oneway_controls.i
-    sub_cycling = true
+    catch_up = true
     execute_on = TIMESTEP_BEGIN #the default
   []
 []

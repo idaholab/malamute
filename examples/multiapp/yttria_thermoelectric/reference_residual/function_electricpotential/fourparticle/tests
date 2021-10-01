@@ -1,0 +1,15 @@
+[Tests]
+  issues = '#2'
+  [./twoway_coupling_demo_new_phasefield]
+    type = RunApp
+    input = 'twoway_coupling_demo_new_phasefield.i'
+    check_input = True
+    method = opt
+  [../]
+  [./fourparticle_micro_yttria_thermoelectric_twoway]
+    type = RunApp
+    input = 'fourparticle_micro_yttria_thermoelectric_twoway.i'
+    check_input = true
+    method = opt
+  [../]
+[]
