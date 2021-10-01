@@ -1,0 +1,18 @@
+[Tests]
+  [./engineering_scale_electrothermal_twoway_lots_prototype]
+    type = RunApp
+    input = 'engineering_scale_electrothermal_twoway_lots_prototype.i'
+    min_parallel = 5
+    check_input = True
+    method = opt
+    issues = '#21'
+  [../]
+  [./micro_yttria_thermoelectric_twoway_lots_controls]
+    type = RunApp
+    input = 'micro_yttria_thermoelectric_twoway_lots_controls.i'
+    check_input = true
+    cli_args = 'Mesh/gen/nx=50 Mesh/gen/ny=54'
+    method = opt
+    issues = '#21'
+  [../]
+[]
