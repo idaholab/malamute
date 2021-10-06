@@ -6,7 +6,7 @@
     exodiff = 'level_set_out.e'
     abs_zero = 5e-4
     method = opt
-    design = 'LevelSetGradientRegularizationReinitialization.md INSMeltPoolMassTransferMaterial.md LevelSetPhaseChange.md LevelSetADAdvection.md LevelSetADTimeDerivativeSUPG.md LevelSetADAdvectionSUPG.md'
+    design = 'LevelSetGradientRegularizationReinitialization.md INSMeltPoolMassTransferMaterial.md LevelSetPhaseChange.md LevelSetAdvection.md LevelSetTimeDerivativeSUPG.md LevelSetAdvectionSUPG.md'
     requirement = 'MALAMUTE shall solve level set evolution equations of a melt pool.'
   [../]
 []
