@@ -5,6 +5,6 @@
     input = 'curvature_regularization.i'
     exodiff = 'curvature_regularization_out.e'
     design = 'LevelSetCurvatureRegularization.md'
-    requirement = 'Valhalla shall compute the regularized curvature of an interface defined by a level set.'
+    requirement = 'MALAMUTE shall compute the regularized curvature of an interface defined by a level set.'
   [../]
 []

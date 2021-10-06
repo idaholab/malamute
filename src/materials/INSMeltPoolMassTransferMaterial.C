@@ -1,6 +1,6 @@
 #include "INSMeltPoolMassTransferMaterial.h"
 
-registerADMooseObject("ValhallaApp", INSMeltPoolMassTransferMaterial);
+registerADMooseObject("MalamuteApp", INSMeltPoolMassTransferMaterial);
 
 InputParameters
 INSMeltPoolMassTransferMaterial::validParams()

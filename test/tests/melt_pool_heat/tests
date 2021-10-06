@@ -5,13 +5,13 @@
     input = 'heat.i'
     exodiff = 'heat_out.e'
     design = 'MeltPoolHeatSource.md'
-    requirement = 'Valhalla shall compute laser heat source and heat loss due to convection and radiation at the level set interface.'
+    requirement = 'MALAMUTE shall compute laser heat source and heat loss due to convection and radiation at the level set interface.'
   [../]
   [./thermal_material]
     type = 'Exodiff'
     input = 'thermal_material.i'
     exodiff = 'thermal_material_out.e'
     design = 'LevelSetThermalMaterial.md MushyZoneMaterial.md'
-    requirement = 'Valhalla shall compute thermal properties in gas and mushy zone phases.'
+    requirement = 'MALAMUTE shall compute thermal properties in gas and mushy zone phases.'
   [../]
 []

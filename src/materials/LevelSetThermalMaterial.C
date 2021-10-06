@@ -1,6 +1,6 @@
 #include "LevelSetThermalMaterial.h"
 
-registerMooseObject("ValhallaApp", LevelSetThermalMaterial);
+registerMooseObject("MalamuteApp", LevelSetThermalMaterial);
 
 InputParameters
 LevelSetThermalMaterial::validParams()

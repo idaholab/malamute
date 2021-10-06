@@ -1,6 +1,6 @@
 #include "LevelSetHeavisideFunction.h"
 
-registerMooseObject("ValhallaApp", LevelSetHeavisideFunction);
+registerMooseObject("MalamuteApp", LevelSetHeavisideFunction);
 
 InputParameters
 LevelSetHeavisideFunction::validParams()

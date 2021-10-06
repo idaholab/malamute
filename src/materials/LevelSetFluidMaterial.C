@@ -1,6 +1,6 @@
 #include "LevelSetFluidMaterial.h"
 
-registerADMooseObject("ValhallaApp", LevelSetFluidMaterial);
+registerADMooseObject("MalamuteApp", LevelSetFluidMaterial);
 
 InputParameters
 LevelSetFluidMaterial::validParams()

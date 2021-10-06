@@ -1,6 +1,6 @@
 #include "INSMeltPoolMomentumSource.h"
 
-registerMooseObject("ValhallaApp", INSMeltPoolMomentumSource);
+registerMooseObject("MalamuteApp", INSMeltPoolMomentumSource);
 
 InputParameters
 INSMeltPoolMomentumSource::validParams()

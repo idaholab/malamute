@@ -1,7 +1,7 @@
 #include "MeltPoolHeatSource.h"
 #include "Function.h"
 
-registerMooseObject("ValhallaApp", MeltPoolHeatSource);
+registerMooseObject("MalamuteApp", MeltPoolHeatSource);
 
 InputParameters
 MeltPoolHeatSource::validParams()

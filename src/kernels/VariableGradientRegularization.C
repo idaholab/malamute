@@ -1,6 +1,6 @@
 #include "VariableGradientRegularization.h"
 
-registerMooseObject("ValhallaApp", VariableGradientRegularization);
+registerMooseObject("MalamuteApp", VariableGradientRegularization);
 
 InputParameters
 VariableGradientRegularization::validParams()

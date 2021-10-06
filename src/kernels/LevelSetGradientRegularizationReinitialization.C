@@ -1,6 +1,6 @@
 #include "LevelSetGradientRegularizationReinitialization.h"
 
-registerMooseObject("ValhallaApp", LevelSetGradientRegularizationReinitialization);
+registerMooseObject("MalamuteApp", LevelSetGradientRegularizationReinitialization);
 
 InputParameters
 LevelSetGradientRegularizationReinitialization::validParams()

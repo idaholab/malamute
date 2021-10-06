@@ -1,6 +1,6 @@
 #include "LevelSetPhaseChangeSUPG.h"
 
-registerMooseObject("ValhallaApp", LevelSetPhaseChangeSUPG);
+registerMooseObject("MalamuteApp", LevelSetPhaseChangeSUPG);
 
 InputParameters
 LevelSetPhaseChangeSUPG::validParams()

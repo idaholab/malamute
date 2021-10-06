@@ -1,6 +1,6 @@
 #include "MushyZoneMaterial.h"
 
-registerMooseObject("ValhallaApp", MushyZoneMaterial);
+registerMooseObject("MalamuteApp", MushyZoneMaterial);
 
 InputParameters
 MushyZoneMaterial::validParams()

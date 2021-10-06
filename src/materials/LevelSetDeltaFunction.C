@@ -1,6 +1,6 @@
 #include "LevelSetDeltaFunction.h"
 
-registerMooseObject("ValhallaApp", LevelSetDeltaFunction);
+registerMooseObject("MalamuteApp", LevelSetDeltaFunction);
 
 InputParameters
 LevelSetDeltaFunction::validParams()

@@ -1,6 +1,6 @@
 #include "LevelSetPhaseChange.h"
 
-registerMooseObject("ValhallaApp", LevelSetPhaseChange);
+registerMooseObject("MalamuteApp", LevelSetPhaseChange);
 
 InputParameters
 LevelSetPhaseChange::validParams()

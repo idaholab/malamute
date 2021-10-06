@@ -1,6 +1,6 @@
 #include "LevelSetCurvatureRegularization.h"
 
-registerMooseObject("ValhallaApp", LevelSetCurvatureRegularization);
+registerMooseObject("MalamuteApp", LevelSetCurvatureRegularization);
 
 InputParameters
 LevelSetCurvatureRegularization::validParams()
