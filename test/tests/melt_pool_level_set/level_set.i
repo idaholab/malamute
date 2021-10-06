@@ -68,7 +68,7 @@
     variable = velocity
     viscous_form = 'traction'
     boundary = 'top'
-    p = p
+    pressure = p
   []
   [pressure_pin]
     type = DirichletBC
@@ -194,7 +194,7 @@
   [momentum_pressure]
     type = INSADMomentumPressure
     variable = velocity
-    p = p
+    pressure = p
     integrate_p_by_parts = true
   []
 
