@@ -1,6 +1,12 @@
 Content:
     - ${ROOT_DIR}/doc/content
     - ${MOOSE_DIR}/framework/doc/content
+    - ${MOOSE_DIR}/modules/heat_conduction/doc/content
+    - ${MOOSE_DIR}/modules/ray_tracing/doc/content  # pulled in by heat_conduction
+    - ${MOOSE_DIR}/modules/level_set/doc/content
+    - ${MOOSE_DIR}/modules/navier_stokes/doc/content
+    - ${MOOSE_DIR}/modules/fluid_properties/doc/content # pulled in by navier_stokes
+    - ${MOOSE_DIR}/modules/rdg/doc/content  # pulled in by navier_stokes
 Renderer:
     type: MooseDocs.base.MaterializeRenderer
 Extensions:
@@ -10,7 +16,7 @@ Extensions:
         menu:
           Documentation:
             Complete Code Manual: syntax/index.md
-            Software Quality Assurance (SQA): sqa/index.md
+            Software Quality Assurance (SQA): /sqa/index.md
     MooseDocs.extensions.appsyntax:
         executable: ${ROOT_DIR}
         remove:
@@ -25,8 +31,17 @@ Extensions:
         categories:
             framework: !include ${MOOSE_DIR}/framework/doc/sqa_framework.yml
             malamute: !include ${ROOT_DIR}/doc/sqa_malamute.yml
+            heat_conduction: !include ${MOOSE_DIR}/modules/heat_conduction/doc/sqa_heat_conduction.yml
+            ray_tracing: !include ${MOOSE_DIR}/modules/ray_tracing/doc/sqa_ray_tracing.yml
+            navier_stokes: !include ${MOOSE_DIR}/modules/navier_stokes/doc/sqa_navier_stokes.yml
+            fluid_properties: !include ${MOOSE_DIR}/modules/fluid_properties/doc/sqa_fluid_properties.yml
+            rdg: !include ${MOOSE_DIR}/modules/rdg/doc/sqa_rdg.yml
         reports: !include ${ROOT_DIR}/doc/sqa_reports.yml
         repos:
             default: https://hpcgitlab.hpc.inl.gov/idaholab/malamute
     MooseDocs.extensions.template:
         active: true
+    MooseDocs.extensions.bibtex:
+        duplicates:
+          - greenshields2010implementation
+          - batten1997average

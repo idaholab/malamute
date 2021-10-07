@@ -1,0 +1,12 @@
+[Tests]
+  issues = '#3'
+  [./fluid]
+    type = 'Exodiff'
+    input = 'fluid.i'
+    exodiff = 'fluid_out.e'
+    abs_zero = 1e-8
+    max_time = 450
+    design = 'INSMeltPoolMaterial.md INSMeltPoolMomentumSource.md LevelSetFluidMaterial.md'
+    requirement = 'MALAMUTE shall solve momentum conservations of a melt pool.'
+  [../]
+[]
