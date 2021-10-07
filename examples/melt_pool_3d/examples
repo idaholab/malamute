@@ -1,0 +1,6 @@
+[Tests]
+  [./melt_pool_3d]
+    type = 'RunApp'
+    input = 'melt_pool.i'
+  [../]
+[]
