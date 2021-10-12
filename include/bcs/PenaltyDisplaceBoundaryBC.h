@@ -7,26 +7,19 @@
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
-#ifndef PENALTYDISPLACEBOUNDARYBC_H
-#define PENALTYDISPLACEBOUNDARYBC_H
+#pragma once
 
 #include "ADIntegratedBC.h"
 
-template <ComputeStage compute_stage>
-class PenaltyDisplaceBoundaryBC;
-
-declareADValidParams(PenaltyDisplaceBoundaryBC);
-
-template <ComputeStage compute_stage>
-class PenaltyDisplaceBoundaryBC : public ADIntegratedBC<compute_stage>
+class PenaltyDisplaceBoundaryBC : public ADIntegratedBC
 {
 public:
+  static InputParameters validParams();
+
   PenaltyDisplaceBoundaryBC(const InputParameters & parameters);
 
 protected:
-  virtual typename Moose::RealType<compute_stage>::type computeQpResidual() override;
-
-  usingIntegratedBCMembers;
+  virtual ADReal computeQpResidual() override;
 
   const ADVariableValue & _vel_x;
   const ADVariableValue & _vel_y;
@@ -36,5 +29,3 @@ protected:
   const ADVariableValue & _disp_z_dot;
   const Real _penalty;
 };
-
-#endif /* PENALTYDISPLACEBOUNDARYBC_H */

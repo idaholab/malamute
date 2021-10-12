@@ -9,34 +9,35 @@
 
 #include "PseudoSolidStress.h"
 
-registerADMooseObject("LaserWeldingApp", PseudoSolidStress);
+registerMooseObject("LaserWeldingApp", PseudoSolidStress);
 
-defineADValidParams(PseudoSolidStress,
-                    ADMaterial,
-                    params.addRequiredCoupledVar("disp_x", "The x displacement");
-                    params.addCoupledVar("disp_y", "The y displacement");
-                    params.addCoupledVar("disp_z", "The z displacement"););
+InputParameters
+PseudoSolidStress::validParams()
+{
+  InputParameters params = ADMaterial::validParams();
+  params.addRequiredCoupledVar("disp_x", "The x displacement");
+  params.addCoupledVar("disp_y", "The y displacement");
+  params.addCoupledVar("disp_z", "The z displacement");
+  return params;
+}
 
-template <ComputeStage compute_stage>
-PseudoSolidStress<compute_stage>::PseudoSolidStress(const InputParameters & parameters)
-  : ADMaterial<compute_stage>(parameters),
-    _stress_x(adDeclareADProperty<RealVectorValue>("stress_x")),
-    _stress_y(adDeclareADProperty<RealVectorValue>("stress_y")),
-    _stress_z(adDeclareADProperty<RealVectorValue>("stress_z")),
+PseudoSolidStress::PseudoSolidStress(const InputParameters & parameters)
+  : ADMaterial(parameters),
+    _stress_x(declareADProperty<RealVectorValue>("stress_x")),
+    _stress_y(declareADProperty<RealVectorValue>("stress_y")),
+    _stress_z(declareADProperty<RealVectorValue>("stress_z")),
     _grad_disp_x(adCoupledGradient("disp_x")),
     _grad_disp_y(this->isCoupled("disp_y") ? adCoupledGradient("disp_y") : adZeroGradient()),
     _grad_disp_z(this->isCoupled("disp_z") ? adCoupledGradient("disp_z") : adZeroGradient())
 {
 }
 
-template <ComputeStage compute_stage>
 void
-PseudoSolidStress<compute_stage>::computeQpProperties()
+PseudoSolidStress::computeQpProperties()
 {
-  typedef typename Moose::template ValueType<compute_stage, TensorValue<Real>>::type LocalTensor;
-  LocalTensor def_gradient(_grad_disp_x[_qp], _grad_disp_y[_qp], _grad_disp_z[_qp]);
+  ADRealTensorValue def_gradient(_grad_disp_x[_qp], _grad_disp_y[_qp], _grad_disp_z[_qp]);
   const auto E = 0.5 * (def_gradient + def_gradient.transpose());
-  TensorValue<Real> identity(1., 0, 0, 0, 1., 0, 0, 0, 1.);
+  RealTensorValue identity(1., 0, 0, 0, 1., 0, 0, 0, 1.);
   const auto S = 2. * E + E.tr() * identity;
   _stress_x[_qp] = S.row(0);
   _stress_y[_qp] = S.row(1);

@@ -10,26 +10,29 @@
 #include "SurfaceTensionBC.h"
 #include "Assembly.h"
 
-registerADMooseObject("LaserWeldingApp", SurfaceTensionBC);
+registerMooseObject("LaserWeldingApp", SurfaceTensionBC);
 
-defineADValidParams(
-    SurfaceTensionBC, ADIntegratedBC, params.addClassDescription("Surface tension stresses.");
-    params.addRequiredParam<unsigned>("component", "The velocity component");
-    params.addCoupledVar("temperature", "The temperature for dependence of surface tension"););
+InputParameters
+SurfaceTensionBC::validParams()
+{
+  InputParameters params = ADIntegratedBC::validParams();
+  params.addClassDescription("Surface tension stresses.");
+  params.addRequiredParam<unsigned>("component", "The velocity component");
+  params.addCoupledVar("temperature", "The temperature for dependence of surface tension");
+  return params;
+}
 
-template <ComputeStage compute_stage>
-SurfaceTensionBC<compute_stage>::SurfaceTensionBC(const InputParameters & parameters)
-  : ADIntegratedBC<compute_stage>(parameters),
-    _component(adGetParam<unsigned>("component")),
-    _surface_term_curvature(adGetADMaterialProperty<RealVectorValue>("surface_term_curvature")),
-    _surface_term_gradient1(adGetADMaterialProperty<RealVectorValue>("surface_term_gradient1")),
-    _surface_term_gradient2(adGetADMaterialProperty<RealVectorValue>("surface_term_gradient2"))
+SurfaceTensionBC::SurfaceTensionBC(const InputParameters & parameters)
+  : ADIntegratedBC(parameters),
+    _component(getParam<unsigned>("component")),
+    _surface_term_curvature(getADMaterialProperty<RealVectorValue>("surface_term_curvature")),
+    _surface_term_gradient1(getADMaterialProperty<RealVectorValue>("surface_term_gradient1")),
+    _surface_term_gradient2(getADMaterialProperty<RealVectorValue>("surface_term_gradient2"))
 {
 }
 
-template <ComputeStage compute_stage>
-ADResidual
-SurfaceTensionBC<compute_stage>::computeQpResidual()
+ADReal
+SurfaceTensionBC::computeQpResidual()
 {
   return _test[_i][_qp] *
          (_surface_term_curvature[_qp](_component) + _surface_term_gradient1[_qp](_component) +

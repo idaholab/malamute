@@ -6,30 +6,21 @@
 //*
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
-#ifndef ADSTRESSDIVERGENCE_H
-#define ADSTRESSDIVERGENCE_H
+
+#pragma once
 
 #include "ADKernel.h"
 #include "MaterialProperty.h"
 
-// Forward Declaration
-template <ComputeStage compute_stage>
-class ADStressDivergence;
-
-declareADValidParams(ADStressDivergence);
-
-template <ComputeStage compute_stage>
-class ADStressDivergence : public ADKernel<compute_stage>
+class ADStressDivergence : public ADKernel
 {
 public:
+  static InputParameters validParams();
+
   ADStressDivergence(const InputParameters & parameters);
 
 protected:
-  virtual ADResidual computeQpResidual();
+  virtual ADReal computeQpResidual();
 
-  ADMaterialProperty(RealVectorValue) const * _stress;
-
-  usingKernelMembers;
+  ADMaterialProperty<RealVectorValue> const * _stress;
 };
-
-#endif // ADSTRESSDIVERGENCE_H

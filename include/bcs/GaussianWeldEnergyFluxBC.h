@@ -7,33 +7,24 @@
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
-#ifndef GAUSSIANWELDENERGYFLUXBC_H
-#define GAUSSIANWELDENERGYFLUXBC_H
+#pragma once
 
 #include "ADIntegratedBC.h"
 
-template <ComputeStage>
-class GaussianWeldEnergyFluxBC;
-
-declareADValidParams(GaussianWeldEnergyFluxBC);
-
-template <ComputeStage compute_stage>
-class GaussianWeldEnergyFluxBC : public ADIntegratedBC<compute_stage>
+class GaussianWeldEnergyFluxBC : public ADIntegratedBC
 {
 public:
+  static InputParameters validParams();
+
   GaussianWeldEnergyFluxBC(const InputParameters & params);
 
 protected:
-  virtual ADResidual computeQpResidual() override;
+  virtual ADReal computeQpResidual() override;
 
   const Real _reff;
   const Real _F0;
   const Real _R;
-  Function & _x_beam_coord;
-  Function & _y_beam_coord;
-  Function & _z_beam_coord;
-
-  usingIntegratedBCMembers;
+  const Function & _x_beam_coord;
+  const Function & _y_beam_coord;
+  const Function & _z_beam_coord;
 };
-
-#endif /* GAUSSIANWELDENERGYFLUXBC_H */

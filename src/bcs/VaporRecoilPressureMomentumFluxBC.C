@@ -9,28 +9,29 @@
 
 #include "VaporRecoilPressureMomentumFluxBC.h"
 
-registerADMooseObject("LaserWeldingApp", VaporRecoilPressureMomentumFluxBC);
+registerMooseObject("LaserWeldingApp", VaporRecoilPressureMomentumFluxBC);
 
-defineADValidParams(
-    VaporRecoilPressureMomentumFluxBC,
-    ADIntegratedBC,
-    params.addClassDescription("Vapor recoil pressure momentum flux");
-    params.addRequiredParam<unsigned>("component", "The velocity component");
-    params.addParam<MaterialPropertyName>("rc_pressure_name", "rc_pressure", "The recoil pressure");
-    params.addCoupledVar("temperature", "The temperature on which the recoil pressure depends"););
+InputParameters
+VaporRecoilPressureMomentumFluxBC::validParams()
+{
+  InputParameters params = ADIntegratedBC::validParams();
+  params.addClassDescription("Vapor recoil pressure momentum flux");
+  params.addRequiredParam<unsigned>("component", "The velocity component");
+  params.addParam<MaterialPropertyName>("rc_pressure_name", "rc_pressure", "The recoil pressure");
+  params.addCoupledVar("temperature", "The temperature on which the recoil pressure depends");
+  return params;
+}
 
-template <ComputeStage compute_stage>
-VaporRecoilPressureMomentumFluxBC<compute_stage>::VaporRecoilPressureMomentumFluxBC(
+VaporRecoilPressureMomentumFluxBC::VaporRecoilPressureMomentumFluxBC(
     const InputParameters & parameters)
-  : ADIntegratedBC<compute_stage>(parameters),
-    _component(adGetParam<unsigned>("component")),
-    _rc_pressure(adGetADMaterialProperty<Real>("rc_pressure_name"))
+  : ADIntegratedBC(parameters),
+    _component(getParam<unsigned>("component")),
+    _rc_pressure(getADMaterialProperty<Real>("rc_pressure_name"))
 {
 }
 
-template <ComputeStage compute_stage>
-ADResidual
-VaporRecoilPressureMomentumFluxBC<compute_stage>::computeQpResidual()
+ADReal
+VaporRecoilPressureMomentumFluxBC::computeQpResidual()
 {
   return _test[_i][_qp] * std::abs(_normals[_qp](_component)) * _rc_pressure[_qp];
 }

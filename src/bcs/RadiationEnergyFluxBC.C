@@ -9,31 +9,30 @@
 
 #include "RadiationEnergyFluxBC.h"
 
-registerADMooseObject("LaserWeldingApp", RadiationEnergyFluxBC);
+registerMooseObject("LaserWeldingApp", RadiationEnergyFluxBC);
 
-defineADValidParams(RadiationEnergyFluxBC,
-                    ADIntegratedBC,
-                    params.addClassDescription("Computes heat flux due to radiation");
-                    params.addParam<MaterialPropertyName>("sb_constant",
-                                                          "sb_constant",
-                                                          "The stefan-boltzmann constant");
-                    params.addParam<MaterialPropertyName>("absorptivity",
-                                                          "abs",
-                                                          "The absorptivity of the material");
-                    params.addRequiredParam<Real>("ff_temp", "The far field temperature"););
+InputParameters
+RadiationEnergyFluxBC::validParams()
+{
+  InputParameters params = ADIntegratedBC::validParams();
+  params.addClassDescription("Computes heat flux due to radiation");
+  params.addParam<MaterialPropertyName>(
+      "sb_constant", "sb_constant", "The stefan-boltzmann constant");
+  params.addParam<MaterialPropertyName>("absorptivity", "abs", "The absorptivity of the material");
+  params.addRequiredParam<Real>("ff_temp", "The far field temperature");
+  return params;
+}
 
-template <ComputeStage compute_stage>
-RadiationEnergyFluxBC<compute_stage>::RadiationEnergyFluxBC(const InputParameters & parameters)
-  : ADIntegratedBC<compute_stage>(parameters),
-    _sb_constant(adGetADMaterialProperty<Real>("sb_constant")),
-    _absorptivity(adGetADMaterialProperty<Real>("absorptivity")),
-    _ff_temp(adGetParam<Real>("ff_temp"))
+RadiationEnergyFluxBC::RadiationEnergyFluxBC(const InputParameters & parameters)
+  : ADIntegratedBC(parameters),
+    _sb_constant(getADMaterialProperty<Real>("sb_constant")),
+    _absorptivity(getADMaterialProperty<Real>("absorptivity")),
+    _ff_temp(getParam<Real>("ff_temp"))
 {
 }
 
-template <ComputeStage compute_stage>
-ADResidual
-RadiationEnergyFluxBC<compute_stage>::computeQpResidual()
+ADReal
+RadiationEnergyFluxBC::computeQpResidual()
 {
   auto u2 = _u[_qp] * _u[_qp];
   auto u4 = u2 * u2;

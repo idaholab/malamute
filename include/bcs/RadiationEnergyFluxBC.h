@@ -7,30 +7,21 @@
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
-#ifndef RADIATIONENERGYFLUXBC_H
-#define RADIATIONENERGYFLUXBC_H
+#pragma once
 
 #include "ADIntegratedBC.h"
 
-template <ComputeStage compute_stage>
-class RadiationEnergyFluxBC;
-
-declareADValidParams(RadiationEnergyFluxBC);
-
-template <ComputeStage compute_stage>
-class RadiationEnergyFluxBC : public ADIntegratedBC<compute_stage>
+class RadiationEnergyFluxBC : public ADIntegratedBC
 {
 public:
+  static InputParameters validParams();
+
   RadiationEnergyFluxBC(const InputParameters & parameters);
 
 protected:
-  virtual ADResidual computeQpResidual() override;
+  virtual ADReal computeQpResidual() override;
 
-  const ADMaterialProperty(Real) & _sb_constant;
-  const ADMaterialProperty(Real) & _absorptivity;
+  const ADMaterialProperty<Real> & _sb_constant;
+  const ADMaterialProperty<Real> & _absorptivity;
   const Real _ff_temp;
-
-  usingIntegratedBCMembers;
 };
-
-#endif /* RADIATIONENERGYFLUXBC_H */

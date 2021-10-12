@@ -10,37 +10,36 @@
 #include "GaussianWeldEnergyFluxBC.h"
 #include "Function.h"
 
-registerADMooseObject("LaserWeldingApp", GaussianWeldEnergyFluxBC);
+registerMooseObject("LaserWeldingApp", GaussianWeldEnergyFluxBC);
 
-defineADValidParams(
-    GaussianWeldEnergyFluxBC,
-    ADIntegratedBC,
-    params.addRequiredParam<Real>("reff",
-                                  "The effective radius describing the radial distribution of the "
-                                  "beam energy. This should be non-dimensional.");
-    params.addRequiredParam<Real>("F0", "The average heat flux of the laser");
-    params.addRequiredParam<Real>("R", "The beam radius");
-    params.addParam<FunctionName>("x_beam_coord", 0, "The x coordinate of the center of the beam");
-    params.addParam<FunctionName>("y_beam_coord", 0, "The y coordinate of the center of the beam");
-    params.addParam<FunctionName>("z_beam_coord",
-                                  0,
-                                  "The z coordinate of the center of the beam"););
+InputParameters
+GaussianWeldEnergyFluxBC::validParams()
+{
+  InputParameters params = ADIntegratedBC::validParams();
+  params.addRequiredParam<Real>("reff",
+                                "The effective radius describing the radial distribution of the "
+                                "beam energy. This should be non-dimensional.");
+  params.addRequiredParam<Real>("F0", "The average heat flux of the laser");
+  params.addRequiredParam<Real>("R", "The beam radius");
+  params.addParam<FunctionName>("x_beam_coord", 0, "The x coordinate of the center of the beam");
+  params.addParam<FunctionName>("y_beam_coord", 0, "The y coordinate of the center of the beam");
+  params.addParam<FunctionName>("z_beam_coord", 0, "The z coordinate of the center of the beam");
+  return params;
+}
 
-template <ComputeStage compute_stage>
-GaussianWeldEnergyFluxBC<compute_stage>::GaussianWeldEnergyFluxBC(const InputParameters & params)
-  : ADIntegratedBC<compute_stage>(params),
-    _reff(adGetParam<Real>("reff")),
-    _F0(adGetParam<Real>("F0")),
-    _R(adGetParam<Real>("R")),
+GaussianWeldEnergyFluxBC::GaussianWeldEnergyFluxBC(const InputParameters & params)
+  : ADIntegratedBC(params),
+    _reff(getParam<Real>("reff")),
+    _F0(getParam<Real>("F0")),
+    _R(getParam<Real>("R")),
     _x_beam_coord(getFunction("x_beam_coord")),
     _y_beam_coord(getFunction("y_beam_coord")),
     _z_beam_coord(getFunction("z_beam_coord"))
 {
 }
 
-template <ComputeStage compute_stage>
-ADResidual
-GaussianWeldEnergyFluxBC<compute_stage>::computeQpResidual()
+ADReal
+GaussianWeldEnergyFluxBC::computeQpResidual()
 {
   RealVectorValue beam_coords{_x_beam_coord.value(_t, _q_point[_qp]),
                               _y_beam_coord.value(_t, _q_point[_qp]),

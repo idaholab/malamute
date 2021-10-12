@@ -7,29 +7,20 @@
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
-#ifndef VAPORRECOILPRESSUREMOMENTUMFLUXBC_H
-#define VAPORRECOILPRESSUREMOMENTUMFLUXBC_H
+#pragma once
 
 #include "ADIntegratedBC.h"
 
-template <ComputeStage compute_stage>
-class VaporRecoilPressureMomentumFluxBC;
-
-declareADValidParams(VaporRecoilPressureMomentumFluxBC);
-
-template <ComputeStage compute_stage>
-class VaporRecoilPressureMomentumFluxBC : public ADIntegratedBC<compute_stage>
+class VaporRecoilPressureMomentumFluxBC : public ADIntegratedBC
 {
 public:
+  static InputParameters validParams();
+
   VaporRecoilPressureMomentumFluxBC(const InputParameters & parameters);
 
 protected:
-  virtual ADResidual computeQpResidual() override;
-
-  usingIntegratedBCMembers;
+  virtual ADReal computeQpResidual() override;
 
   const unsigned _component;
-  const ADMaterialProperty(Real) & _rc_pressure;
+  const ADMaterialProperty<Real> & _rc_pressure;
 };
-
-#endif /* VAPORRECOILPRESSUREMOMENTUMFLUXBC_H */

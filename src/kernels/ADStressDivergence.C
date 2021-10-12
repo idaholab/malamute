@@ -6,32 +6,34 @@
 //*
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
+
 #include "ADStressDivergence.h"
 
-registerADMooseObject("LaserWeldingApp", ADStressDivergence);
+registerMooseObject("LaserWeldingApp", ADStressDivergence);
 
-defineADValidParams(ADStressDivergence,
-                    ADKernel,
-                    params.addRequiredParam<int>("component", "The displacement component"););
-
-template <ComputeStage compute_stage>
-ADStressDivergence<compute_stage>::ADStressDivergence(const InputParameters & parameters)
-  : ADKernel<compute_stage>(parameters)
+InputParameters
+ADStressDivergence::validParams()
 {
-  const auto component = adGetParam<int>("component");
+  InputParameters params = ADKernel::validParams();
+  params.addRequiredParam<int>("component", "The displacement component");
+  return params;
+}
+
+ADStressDivergence::ADStressDivergence(const InputParameters & parameters) : ADKernel(parameters)
+{
+  const auto component = getParam<int>("component");
   if (component == 0)
-    _stress = &adGetADMaterialProperty<RealVectorValue>("stress_x");
+    _stress = &getADMaterialProperty<RealVectorValue>("stress_x");
   else if (component == 1)
-    _stress = &adGetADMaterialProperty<RealVectorValue>("stress_y");
+    _stress = &getADMaterialProperty<RealVectorValue>("stress_y");
   else if (component == 2)
-    _stress = &adGetADMaterialProperty<RealVectorValue>("stress_z");
+    _stress = &getADMaterialProperty<RealVectorValue>("stress_z");
   else
     mooseError("component must be either 0, 1, or 2");
 }
 
-template <ComputeStage compute_stage>
-ADResidual
-ADStressDivergence<compute_stage>::computeQpResidual()
+ADReal
+ADStressDivergence::computeQpResidual()
 {
   return _grad_test[_i][_qp] * (*_stress)[_qp];
 }

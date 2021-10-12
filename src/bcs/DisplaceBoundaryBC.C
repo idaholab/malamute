@@ -9,24 +9,26 @@
 
 #include "DisplaceBoundaryBC.h"
 
-registerADMooseObject("LaserWeldingApp", DisplaceBoundaryBC);
+registerMooseObject("LaserWeldingApp", DisplaceBoundaryBC);
 
-defineADValidParams(DisplaceBoundaryBC,
-                    ADNodalBC,
-                    params.addClassDescription("For displacing a boundary");
-                    params.addRequiredCoupledVar("velocity", "The velocity at which to displace"););
+InputParameters
+DisplaceBoundaryBC::validParams()
+{
+  InputParameters params = ADNodalBC::validParams();
+  params.addClassDescription("For displacing a boundary");
+  params.addRequiredCoupledVar("velocity", "The velocity at which to displace");
+  return params;
+}
 
-template <ComputeStage compute_stage>
-DisplaceBoundaryBC<compute_stage>::DisplaceBoundaryBC(const InputParameters & parameters)
-  : ADNodalBC<compute_stage>(parameters),
-    _velocity(adCoupledNodalValue("velocity")),
+DisplaceBoundaryBC::DisplaceBoundaryBC(const InputParameters & parameters)
+  : ADNodalBC(parameters),
+    _velocity(adCoupledNodalValue<Real>("velocity")),
     _u_old(_var.nodalValueOld())
 {
 }
 
-template <ComputeStage compute_stage>
-typename Moose::RealType<compute_stage>::type
-DisplaceBoundaryBC<compute_stage>::computeQpResidual()
+ADReal
+DisplaceBoundaryBC::computeQpResidual()
 {
   return _u - (_u_old + this->_dt * _velocity);
 }

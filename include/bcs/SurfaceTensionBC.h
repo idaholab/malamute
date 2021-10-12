@@ -7,31 +7,22 @@
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
-#ifndef SURFACETENSIONBC_H
-#define SURFACETENSIONBC_H
+#pragma once
 
 #include "ADIntegratedBC.h"
 
-template <ComputeStage compute_stage>
-class SurfaceTensionBC;
-
-declareADValidParams(SurfaceTensionBC);
-
-template <ComputeStage compute_stage>
-class SurfaceTensionBC : public ADIntegratedBC<compute_stage>
+class SurfaceTensionBC : public ADIntegratedBC
 {
 public:
+  static InputParameters validParams();
+
   SurfaceTensionBC(const InputParameters & parameters);
 
 protected:
-  virtual ADResidual computeQpResidual() override;
-
-  usingIntegratedBCMembers;
+  virtual ADReal computeQpResidual() override;
 
   const unsigned _component;
-  const ADMaterialProperty(RealVectorValue) & _surface_term_curvature;
-  const ADMaterialProperty(RealVectorValue) & _surface_term_gradient1;
-  const ADMaterialProperty(RealVectorValue) & _surface_term_gradient2;
+  const ADMaterialProperty<RealVectorValue> & _surface_term_curvature;
+  const ADMaterialProperty<RealVectorValue> & _surface_term_gradient1;
+  const ADMaterialProperty<RealVectorValue> & _surface_term_gradient2;
 };
-
-#endif /* SURFACETENSIONBC_H */
