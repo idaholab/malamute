@@ -3,11 +3,10 @@
 
 registerMooseObject("BaldrApp", AbsoluteValueIndicator);
 
-template <>
 InputParameters
-validParams<AbsoluteValueIndicator>()
+AbsoluteValueIndicator::validParams()
 {
-  InputParameters params = validParams<ElementIntegralIndicator>();
+  InputParameters params = ElementIntegralIndicator::validParams();
   return params;
 }
 

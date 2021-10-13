@@ -1,20 +1,15 @@
-#ifndef CRAZYKCPLANTFITSBOUNDARY_H
-#define CRAZYKCPLANTFITSBOUNDARY_H
+#pragma once
 
 #include "ADMaterial.h"
-
-template <ComputeStage>
-class CrazyKCPlantFitsBoundary;
-
-declareADValidParams(CrazyKCPlantFitsBoundary);
 
 /**
  * A material that couples a material property
  */
-template <ComputeStage compute_stage>
-class CrazyKCPlantFitsBoundary : public ADMaterial<compute_stage>
+class CrazyKCPlantFitsBoundary : public ADMaterial
 {
 public:
+  static InputParameters validParams();
+
   CrazyKCPlantFitsBoundary(const InputParameters & parameters);
 
 protected:
@@ -35,25 +30,21 @@ protected:
   const ADVariableValue & _temperature;
   const ADVariableGradient & _grad_temperature;
 
-  ADMaterialProperty(Real) & _rc_pressure;
+  ADMaterialProperty<Real> & _rc_pressure;
 
   const Real _alpha;
   const Real _sigma0;
   const Real _T0;
-  ADMaterialProperty(Real) & _surface_tension;
-  ADMaterialProperty(RealVectorValue) & _grad_surface_tension;
-  const typename PointType<compute_stage>::type & _ad_normals;
-  const ADVariableValue & _ad_curvatures;
-  ADMaterialProperty(RealVectorValue) & _surface_term_curvature;
-  ADMaterialProperty(RealVectorValue) & _surface_term_gradient1;
-  ADMaterialProperty(RealVectorValue) & _surface_term_gradient2;
+  ADMaterialProperty<Real> & _surface_tension;
+  ADMaterialProperty<RealVectorValue> & _grad_surface_tension;
+  const MooseArray<ADPoint> & _ad_normals;
+  const MooseArray<ADReal> & _ad_curvatures;
+  ADMaterialProperty<RealVectorValue> & _surface_term_curvature;
+  ADMaterialProperty<RealVectorValue> & _surface_term_gradient1;
+  ADMaterialProperty<RealVectorValue> & _surface_term_gradient2;
 
   const Real _length_units_per_meter;
   const Real _temperature_units_per_kelvin;
   const Real _mass_units_per_kilogram;
   const Real _time_units_per_second;
-
-  usingMaterialMembers;
 };
-
-#endif // CRAZYKCPLANTFITSBOUNDARY_H

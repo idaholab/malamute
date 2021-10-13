@@ -1,20 +1,14 @@
-#ifndef ABSOLUTEVALUEINDICATOR_H
-#define ABSOLUTEVALUEINDICATOR_H
+#pragma once
 
 #include "ElementIntegralIndicator.h"
-
-class AbsoluteValueIndicator;
-
-template <>
-InputParameters validParams<AbsoluteValueIndicator>();
 
 class AbsoluteValueIndicator : public ElementIntegralIndicator
 {
 public:
+  static InputParameters validParams();
+
   AbsoluteValueIndicator(const InputParameters & parameters);
 
 protected:
   virtual Real computeQpIntegral() override;
 };
-
-#endif /* ABSOLUTEVALUEINDICATOR_H */

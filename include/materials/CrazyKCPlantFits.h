@@ -1,20 +1,15 @@
-#ifndef CRAZYKCPLANTFITS_H
-#define CRAZYKCPLANTFITS_H
+#pragma once
 
 #include "ADMaterial.h"
-
-template <ComputeStage>
-class CrazyKCPlantFits;
-
-declareADValidParams(CrazyKCPlantFits);
 
 /**
  * A material that couples a material property
  */
-template <ComputeStage compute_stage>
-class CrazyKCPlantFits : public ADMaterial<compute_stage>
+class CrazyKCPlantFits : public ADMaterial
 {
 public:
+  static InputParameters validParams();
+
   CrazyKCPlantFits(const InputParameters & parameters);
 
 protected:
@@ -35,18 +30,14 @@ protected:
   const Real _c_rho0;
   const ADVariableValue & _temperature;
   const ADVariableGradient & _grad_temperature;
-  ADMaterialProperty(Real) & _mu;
-  ADMaterialProperty(Real) & _k;
-  ADMaterialProperty(Real) & _cp;
-  ADMaterialProperty(Real) & _rho;
-  ADMaterialProperty(RealVectorValue) & _grad_k;
+  ADMaterialProperty<Real> & _mu;
+  ADMaterialProperty<Real> & _k;
+  ADMaterialProperty<Real> & _cp;
+  ADMaterialProperty<Real> & _rho;
+  ADMaterialProperty<RealVectorValue> & _grad_k;
 
   const Real _length_units_per_meter;
   const Real _temperature_units_per_kelvin;
   const Real _mass_units_per_kilogram;
   const Real _time_units_per_second;
-
-  usingMaterialMembers;
 };
-
-#endif // CRAZYKCPLANTFITS_H
