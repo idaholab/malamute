@@ -1,7 +1,7 @@
 #include "SurfaceTensionBC.h"
 #include "Assembly.h"
 
-registerMooseObject("LaserWeldingApp", SurfaceTensionBC);
+registerMooseObject("BaldrApp", SurfaceTensionBC);
 
 InputParameters
 SurfaceTensionBC::validParams()

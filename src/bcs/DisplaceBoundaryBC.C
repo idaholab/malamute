@@ -1,6 +1,6 @@
 #include "DisplaceBoundaryBC.h"
 
-registerMooseObject("LaserWeldingApp", DisplaceBoundaryBC);
+registerMooseObject("BaldrApp", DisplaceBoundaryBC);
 
 InputParameters
 DisplaceBoundaryBC::validParams()

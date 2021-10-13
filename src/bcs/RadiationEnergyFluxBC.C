@@ -1,6 +1,6 @@
 #include "RadiationEnergyFluxBC.h"
 
-registerMooseObject("LaserWeldingApp", RadiationEnergyFluxBC);
+registerMooseObject("BaldrApp", RadiationEnergyFluxBC);
 
 InputParameters
 RadiationEnergyFluxBC::validParams()

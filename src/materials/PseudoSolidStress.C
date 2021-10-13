@@ -1,6 +1,6 @@
 #include "PseudoSolidStress.h"
 
-registerMooseObject("LaserWeldingApp", PseudoSolidStress);
+registerMooseObject("BaldrApp", PseudoSolidStress);
 
 InputParameters
 PseudoSolidStress::validParams()

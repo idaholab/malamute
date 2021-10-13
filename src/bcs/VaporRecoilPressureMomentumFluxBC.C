@@ -1,6 +1,6 @@
 #include "VaporRecoilPressureMomentumFluxBC.h"
 
-registerMooseObject("LaserWeldingApp", VaporRecoilPressureMomentumFluxBC);
+registerMooseObject("BaldrApp", VaporRecoilPressureMomentumFluxBC);
 
 InputParameters
 VaporRecoilPressureMomentumFluxBC::validParams()

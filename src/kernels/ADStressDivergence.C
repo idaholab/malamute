@@ -1,6 +1,6 @@
 #include "ADStressDivergence.h"
 
-registerMooseObject("LaserWeldingApp", ADStressDivergence);
+registerMooseObject("BaldrApp", ADStressDivergence);
 
 InputParameters
 ADStressDivergence::validParams()

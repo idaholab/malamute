@@ -1,7 +1,7 @@
 #include "AbsoluteValueIndicator.h"
 #include "Function.h"
 
-registerMooseObject("MooseApp", AbsoluteValueIndicator);
+registerMooseObject("BaldrApp", AbsoluteValueIndicator);
 
 template <>
 InputParameters
