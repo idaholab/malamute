@@ -1,8 +1,8 @@
 #pragma once
 
-#include "ADIntegratedBC.h"
+#include "ADVectorIntegratedBC.h"
 
-class VaporRecoilPressureMomentumFluxBC : public ADIntegratedBC
+class VaporRecoilPressureMomentumFluxBC : public ADVectorIntegratedBC
 {
 public:
   static InputParameters validParams();
@@ -12,6 +12,5 @@ public:
 protected:
   virtual ADReal computeQpResidual() override;
 
-  const unsigned _component;
   const ADMaterialProperty<Real> & _rc_pressure;
 };

@@ -3,15 +3,15 @@ endtime=2.5e-3
 timestep=1.25e-5
 surfacetemp=300
 
-[GlobalParams]
-  gravity = '0 0 0'
-  pspg = true
-  # supg = true
-  laplace = true
-  integrate_p_by_parts = true
-  convective_term = true
-  transient_term = true
-[]
+# [GlobalParams]
+#   gravity = '0 0 0'
+#   pspg = true
+#   # supg = true
+#   laplace = true
+#   integrate_p_by_parts = true
+#   convective_term = true
+#   transient_term = true
+# []
 
 [Mesh]
   type = GeneratedMesh
@@ -30,24 +30,14 @@ surfacetemp=300
 []
 
 [Variables]
-  [./vel_x]
+  [./velocity]
+    order = FIRST
+    family = LAGRANGE_VEC
     [./InitialCondition]
-      type = ConstantIC
-      value = 1e-15
-    [../]
-  [../]
-
-  [./vel_y]
-    [./InitialCondition]
-      type = ConstantIC
-      value = 1e-15
-    [../]
-  [../]
-
-  [./vel_z]
-    [./InitialCondition]
-      type = ConstantIC
-      value = 1e-15
+      type = VectorConstantIC
+      x_value = 1e-15
+      y_value = 1e-15
+      z_value = 1e-15
     [../]
   [../]
 
@@ -56,11 +46,33 @@ surfacetemp=300
 
   [./p]
   [../]
+
   [./disp_x]
   [../]
   [./disp_y]
   [../]
   [./disp_z]
+  [../]
+[]
+
+[AuxVariables]
+  [./vel_x_aux]
+    [./InitialCondition]
+      type = ConstantIC
+      value = 1e-15
+    [../]
+  [../]
+  [./vel_y_aux]
+    [./InitialCondition]
+      type = ConstantIC
+      value = 1e-15
+    [../]
+  [../]
+  [./vel_z_aux]
+    [./InitialCondition]
+      type = ConstantIC
+      value = 1e-15
+    [../]
   [../]
 []
 
@@ -85,126 +97,95 @@ surfacetemp=300
     type = Diffusion
     variable = disp_z
   [../]
-[]
 
-[ADKernels]
   # mass
-  [./mass]
-    type = INSADMass
+  [./mass_pspg]
+    type = INSADMassPSPG
     variable = p
-    u = vel_x
-    v = vel_y
-    w = vel_z
-    p = p
     use_displaced_mesh = true
   [../]
 
-  # x-momentum, time
-  [./x_momentum_time]
+  # momentum
+  [./momentum_time]
     type = INSADMomentumTimeDerivative
-    variable = vel_x
+    variable = velocity
+    use_displaced_mesh = true
+  [../]
+  [./momentum_advection]
+    type = INSADMomentumAdvection
+    variable = velocity
+    use_displaced_mesh = true
+  [../]
+  [./momentum_viscous]
+    type = INSADMomentumViscous
+    variable = velocity
+    viscous_form = laplace
+    use_displaced_mesh = true
+  [../]
+  [./momentum_pressure]
+    type = INSADMomentumPressure
+    variable = velocity
+    integrate_p_by_parts = true
+    pressure = p
     use_displaced_mesh = true
   [../]
 
-  # x-momentum, space
-  [./x_momentum_space]
-    type = INSADMomentumBase
-    variable = vel_x
-    u = vel_x
-    v = vel_y
-    w = vel_z
-    p = p
-    component = 0
+  # temperature
+  [./temperature_time]
+    type = INSADHeatConductionTimeDerivative
+    variable = T
+    use_displaced_mesh = true
+  [../]
+  [./temperature_advection]
+    type = INSADEnergyAdvection
+    variable = T
+    use_displaced_mesh = true
+  [../]
+  [./temperature_conduction]
+    type = ADHeatConduction
+    variable = T
+    thermal_conductivity = k
     use_displaced_mesh = true
   [../]
 
-  # y-momentum, time
-  [./y_momentum_time]
-    type = INSADMomentumTimeDerivative
-    variable = vel_y
-    use_displaced_mesh = true
-  [../]
-
-  # y-momentum, space
-  [./y_momentum_space]
-    type = INSADMomentumBase
-    variable = vel_y
-    u = vel_x
-    v = vel_y
-    w = vel_z
-    p = p
-    component = 1
-    use_displaced_mesh = true
-  [../]
-
-  # z-momentum, time
-  [./z_momentum_time]
-    type = INSADMomentumTimeDerivative
-    variable = vel_z
-    use_displaced_mesh = true
-  [../]
-
-  # z-momentum, space
-  [./z_momentum_space]
-    type = INSADMomentumBase
-    variable = vel_z
-    u = vel_x
-    v = vel_y
-    w = vel_z
-    p = p
-    component = 2
-    use_displaced_mesh = true
-  [../]
-
- # temperature
- [./temperature_time]
-   type = INSADTemperatureTimeDerivative
-   variable = T
-   use_displaced_mesh = true
- [../]
-
- [./temperature_space]
-   type = INSADTemperature
-   variable = T
-   u = vel_x
-   v = vel_y
-   w = vel_z
-   p = p
-   use_displaced_mesh = true
- [../]
-
-  [./mesh_x]
-    type = INSConvectedMesh
-    variable = vel_x
-    disp_x = disp_x
-    disp_y = disp_y
-    disp_z = disp_z
-    use_displaced_mesh = true
-  [../]
-  [./mesh_y]
-    type = INSConvectedMesh
-    variable = vel_y
-    disp_x = disp_x
-    disp_y = disp_y
-    disp_z = disp_z
-    use_displaced_mesh = true
-  [../]
-  [./mesh_z]
-    type = INSConvectedMesh
-    variable = vel_z
+  # mesh
+  [./mesh_velocity]
+    type = BaldrConvectedMesh
+    variable = velocity
     disp_x = disp_x
     disp_y = disp_y
     disp_z = disp_z
     use_displaced_mesh = true
   [../]
   [mesh_T]
-    type = INSTemperatureConvectedMesh
+    type = BaldrTemperatureConvectedMesh
     variable = T
     disp_x = disp_x
     disp_y = disp_y
     disp_z = disp_z
     use_displaced_mesh = true
   []
+[]
+
+[AuxKernels]
+  [./vel_x_value]
+    type = VectorVariableComponentAux
+    variable = vel_x_aux
+    vector_variable = velocity
+    component = x
+  [../]
+  [./vel_y_value]
+    type = VectorVariableComponentAux
+    variable = vel_y_aux
+    vector_variable = velocity
+    component = y
+  [../]
+  [./vel_z_value]
+    type = VectorVariableComponentAux
+    variable = vel_z_aux
+    vector_variable = velocity
+    component = z
+  [../]
 []
 
 [BCs]
@@ -227,25 +208,11 @@ surfacetemp=300
     value = 0
   [../]
 
-  [./x_no_slip]
-    type = DirichletBC
-    variable = vel_x
+  [./velocity_no_slip]
+    type = VectorDirichletBC
+    variable = velocity
     boundary = 'bottom right left top back'
-    value = 0.0
-  [../]
-
-  [./y_no_slip]
-    type = DirichletBC
-    variable = vel_y
-    boundary = 'bottom right left top back'
-    value = 0.0
-  [../]
-
-  [./z_no_slip]
-    type = DirichletBC
-    variable = vel_z
-    boundary = 'bottom right left top back'
-    value = 0.0
+    values = '0 0 0'
   [../]
 
   [./T_cold]
@@ -254,9 +221,7 @@ surfacetemp=300
     boundary = 'back'
     value = 300
   [../]
-[]
 
-[ADBCs]
   [./radiation_flux]
     type = RadiationEnergyFluxBC
     variable = T
@@ -280,27 +245,10 @@ surfacetemp=300
     use_displaced_mesh = true
   [../]
 
-  [./vapor_recoil_x]
+  [./vapor_recoil]
     type = VaporRecoilPressureMomentumFluxBC
-    variable = vel_x
+    variable = velocity
     boundary = 'front'
-    component = 0
-    use_displaced_mesh = true
-  [../]
-
-  [./vapor_recoil_y]
-    type = VaporRecoilPressureMomentumFluxBC
-    variable = vel_y
-    boundary = 'front'
-    component = 1
-    use_displaced_mesh = true
-  [../]
-
-  [./vapor_recoil_z]
-    type = VaporRecoilPressureMomentumFluxBC
-    variable = vel_z
-    boundary = 'front'
-    component = 2
     use_displaced_mesh = true
   [../]
 
@@ -308,23 +256,23 @@ surfacetemp=300
     type = DisplaceBoundaryBC
     boundary = 'front'
     variable = 'disp_x'
-    velocity = 'vel_x'
+    velocity = 'vel_x_aux'
   [../]
   [./displace_y_top]
     type = DisplaceBoundaryBC
     boundary = 'front'
     variable = 'disp_y'
-    velocity = 'vel_y'
+    velocity = 'vel_y_aux'
   [../]
   [./displace_z_top]
     type = DisplaceBoundaryBC
     boundary = 'front'
     variable = 'disp_z'
-    velocity = 'vel_z'
+    velocity = 'vel_z_aux'
   [../]
 []
 
-[ADMaterials]
+[Materials]
   [./kc_fits]
     type = CrazyKCPlantFits
     temperature = T
@@ -335,14 +283,17 @@ surfacetemp=300
     boundary = 'front'
     temperature = T
   [../]
-[]
-
-[Materials]
   [./const]
-    type = GenericConstantMaterial
+    type = ADGenericConstantMaterial
     prop_names = 'abs sb_constant'
     prop_values = '1 5.67e-8'
   [../]
+  [ins_mat]
+    type = INSADStabilized3Eqn
+    velocity = velocity
+    pressure = p
+    temperature = T
+  []
 []
 
 [Preconditioning]
