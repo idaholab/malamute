@@ -75,6 +75,12 @@ make -j8
 ./run_tests -j8
 ```
 
+!alert! note
+The `-j8` flag in the above commands signifies the number of processor cores used to 
+build the code and run the tests. The number in that flag can be changed to the 
+number of physical and virtual cores on the workstation being used to build MALAMUTE.
+!alert-end!
+
 If MALAMUTE is working correctly, all active tests will pass. This indicates that
 MALAMUTE is ready to be used and further developed.
 
