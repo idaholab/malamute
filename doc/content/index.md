@@ -2,7 +2,7 @@
 
 # MALAMUTE class=center style=font-weight:600;font-size:350%;
 
-# Modeling and Simulation of Additive Manufacturing Processes class=center style=font-weight:200;font-size:200%
+# Modeling and Simulation of Advanced Manufacturing Processes class=center style=font-weight:200;font-size:200%
 
 !style halign=center
 MALAMUTE (MOOSE Application Library for Advanced Manufacturing UTilitiEs) is an
@@ -13,7 +13,7 @@ for many of its core capabilities.
 
 !row!
 !col! small=12 medium=4 large=4 icon=get_app
-## [Getting Started](getting_started/Placeholder.md) class=center style=font-weight:200;font-size:150%;
+## [Getting Started](getting_started/installation.md) class=center style=font-weight:200;font-size:150%;
 
 !style halign=center
 Quickly learn how to obtain the MALAMUTE source code, compile an executable, and
