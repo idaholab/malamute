@@ -78,7 +78,7 @@ of this page, and are summarized below in [input-conductance-values].
 The electrostatic potential function used in this test was determined based on
 the following scenario
 
-!media two_block.png
+!media large_media/electromagnetics/two_block.png
        style=width:100%;
        id=two-block-summary
        caption=Visual summary of the two block electrostatic verification test with boundary and interface conditions.
