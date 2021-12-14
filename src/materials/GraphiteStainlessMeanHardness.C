@@ -1,6 +1,6 @@
 #include "GraphiteStainlessMeanHardness.h"
 
-registerMooseObject("FreyaApp", GraphiteStainlessMeanHardness);
+registerMooseObject("MalamuteApp", GraphiteStainlessMeanHardness);
 
 InputParameters
 GraphiteStainlessMeanHardness::validParams()

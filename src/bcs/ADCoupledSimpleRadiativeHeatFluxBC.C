@@ -4,7 +4,7 @@
 
 #include "ADCoupledSimpleRadiativeHeatFluxBC.h"
 
-registerMooseObject("FreyaApp", ADCoupledSimpleRadiativeHeatFluxBC);
+registerMooseObject("MalamuteApp", ADCoupledSimpleRadiativeHeatFluxBC);
 
 InputParameters
 ADCoupledSimpleRadiativeHeatFluxBC::validParams()

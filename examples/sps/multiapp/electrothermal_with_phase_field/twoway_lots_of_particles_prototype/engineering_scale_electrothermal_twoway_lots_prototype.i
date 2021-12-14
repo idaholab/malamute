@@ -962,7 +962,7 @@ initial_temperature=873 #roughly 600C where the pyrometer kicks in
     # type = CentroidMultiApp # lauches one in the middle of each element so don't need to give positions
       #can specify the number of procs
     max_procs_per_app = 10
-    app_type = FreyaApp
+    app_type = MalamuteApp
     positions = '0.00125 0.034 0' #roughly the center of element 117 in this mesh
     input_files = micro_yttria_thermoelectric_twoway_lots_controls.i
     catch_up = true

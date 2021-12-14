@@ -316,7 +316,7 @@ initial_temperature=1350
     # type = CentroidMultiApp # lauches one in the middle of each element so don't need to give positions
       #can specify the number of procs
     max_procs_per_app = 1 #paolo recommends starting here
-    app_type = FreyaApp
+    app_type = MalamuteApp
     positions = '0.00805 0.00295 0
                  0.00805 0.001   0
                  0.0075  0.003   0

@@ -1,6 +1,6 @@
 #include "ThermalContactCondition.h"
 
-registerMooseObject("FreyaApp", ThermalContactCondition);
+registerMooseObject("MalamuteApp", ThermalContactCondition);
 
 InputParameters
 ThermalContactCondition::validParams()

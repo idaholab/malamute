@@ -3,7 +3,7 @@
 #include "TimeIntegrator.h"
 #include "metaphysicl/raw_type.h"
 
-registerMooseObject("FreyaApp", ADGraphiteThermalExpansionEigenstrain);
+registerMooseObject("MalamuteApp", ADGraphiteThermalExpansionEigenstrain);
 
 InputParameters
 ADGraphiteThermalExpansionEigenstrain::validParams()

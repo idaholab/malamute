@@ -3,7 +3,7 @@
 #include "TimeIntegrator.h"
 #include "metaphysicl/raw_type.h"
 
-registerMooseObject("FreyaApp", ADStainlessSteelThermalExpansionEigenstrain);
+registerMooseObject("MalamuteApp", ADStainlessSteelThermalExpansionEigenstrain);
 
 InputParameters
 ADStainlessSteelThermalExpansionEigenstrain::validParams()

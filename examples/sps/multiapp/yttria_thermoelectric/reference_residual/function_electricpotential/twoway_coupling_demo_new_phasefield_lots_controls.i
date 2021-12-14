@@ -264,7 +264,7 @@ initial_temperature=300
     type = TransientMultiApp
     # type = CentroidMultiApp # lauches one in the middle of each element so don't need to give positions
       #can specify the number of procs
-    app_type = FreyaApp
+    app_type = MalamuteApp
     positions = '0.0074 0.0058 0' #roughly the center of element 368 in this mesh
     input_files = micro_yttria_thermoelectric_twoway_lots_controls.i
     sub_cycling = true

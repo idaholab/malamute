@@ -269,7 +269,7 @@ initial_temperature=1350
     type = CentroidMultiApp # lauches one in the middle of each element so don't need to give positions
       #can specify the number of procs
     max_procs_per_app = 1 #paolo recommends starting here
-    app_type = FreyaApp
+    app_type = MalamuteApp
     input_files = micro_yttria_thermoelectrical_demo.i
     sub_cycling = true
     execute_on = TIMESTEP_BEGIN

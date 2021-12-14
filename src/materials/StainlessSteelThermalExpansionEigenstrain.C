@@ -2,7 +2,7 @@
 #include "NonlinearSystemBase.h"
 #include "TimeIntegrator.h"
 
-registerMooseObject("FreyaApp", StainlessSteelThermalExpansionEigenstrain);
+registerMooseObject("MalamuteApp", StainlessSteelThermalExpansionEigenstrain);
 
 InputParameters
 StainlessSteelThermalExpansionEigenstrain::validParams()

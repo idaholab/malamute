@@ -6,8 +6,8 @@
 
 #include "metaphysicl/raw_type.h"
 
-registerMooseObject("FreyaApp", StainlessSteelElectricalConductivity);
-registerMooseObject("FreyaApp", ADStainlessSteelElectricalConductivity);
+registerMooseObject("MalamuteApp", StainlessSteelElectricalConductivity);
+registerMooseObject("MalamuteApp", ADStainlessSteelElectricalConductivity);
 
 template <bool is_ad>
 InputParameters

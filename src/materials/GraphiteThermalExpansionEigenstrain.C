@@ -2,7 +2,7 @@
 #include "NonlinearSystemBase.h"
 #include "TimeIntegrator.h"
 
-registerMooseObject("FreyaApp", GraphiteThermalExpansionEigenstrain);
+registerMooseObject("MalamuteApp", GraphiteThermalExpansionEigenstrain);
 
 InputParameters
 GraphiteThermalExpansionEigenstrain::validParams()
