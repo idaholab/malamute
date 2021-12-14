@@ -27,7 +27,8 @@ include $(FRAMEWORK_DIR)/moose.mk
 ALL_MODULES                 := no
 
 CHEMICAL_REACTIONS          := no
-CONTACT                     := no
+CONTACT                     := yes
+ELECTROMAGNETICS            := yes
 EXTERNAL_PETSC_SOLVER       := no
 FLUID_PROPERTIES            := no
 FSI                         := no
@@ -53,7 +54,7 @@ include $(MOOSE_DIR)/modules/modules.mk
 APPLICATION_DIR    := $(CURDIR)
 APPLICATION_NAME   := malamute
 BUILD_EXEC         := yes
-GEN_REVISION       := no
+GEN_REVISION       := yes
 include            $(FRAMEWORK_DIR)/app.mk
 
 ###############################################################################
