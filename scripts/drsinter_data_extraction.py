@@ -1,5 +1,14 @@
 #!/usr/bin/env python
 
+# /****************************************************************************/
+# /*                        DO NOT MODIFY THIS HEADER                         */
+# /*                                                                          */
+# /* MALAMUTE: MOOSE Application Library for Advanced Manufacturing UTilitiEs */
+# /*                                                                          */
+# /*               Copyright 2021, Battelle Energy Alliance, LLC              */
+# /*                           ALL RIGHTS RESERVED                            */
+# /****************************************************************************/
+
 # A script to process experimental data produced using the Dr. Sinter machine.
 
 ### Example Usage #########################################
