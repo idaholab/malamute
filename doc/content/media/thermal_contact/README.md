@@ -1,11 +1,11 @@
-# Freya Thermal Contact Media Folder README
+# MALAMUTE Thermal Contact Media Folder README
 
 NOTE: A working LaTeX distribution (with the TikZ package) and ImageMagick is
 required for these instructions.
 
 To update the `thermal_two_block.png` file based on changes in the image source
 file, run the following two commands in your Terminal in
-`freya/doc/content/media/thermal_contact`:
+`malamute/doc/content/media/thermal_contact`:
 
 ```
 % pdflatex thermal_two_block.tex

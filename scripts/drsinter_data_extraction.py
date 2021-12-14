@@ -13,9 +13,9 @@
 
 ### Example Usage #########################################
 
-# Run the script in the `freya/scripts` directory:
+# Run the script in the `malamute/scripts` directory:
 #
-#   % cd ~/projects/freya/scripts
+#   % cd ~/projects/malamute/scripts
 #   % python drsinter_data_extraction.py
 #
 # The script will query for extraction settings:

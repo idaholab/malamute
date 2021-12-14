@@ -96,7 +96,7 @@ parameters outlined for this verification test) results in
 This result was implemented in source code in both `ThermalContactTemperatureTestFunc`
 (for use in the final analytic result presented below) and in
 `ThermalContactPotentialTestFunc` (for use in the input file as the value of
-an auxiliary coupled variable). Both of these can be found in `freya/test/src`.
+an auxiliary coupled variable). Both of these can be found in `malamute/test/src`.
 
 ## Analytic Solution Derivation
 
@@ -319,7 +319,7 @@ q_e &= \frac{C_E}{2} \left( \phi_S (1) - \phi_G(1) \right)^2
 \end{equation}
 
 This is implemented in source code as `ThermalContactTemperatureTestFunc`. It
-can be found in the test source code directory located at `freya/test/src`.
+can be found in the test source code directory located at `malamute/test/src`.
 
 ## Input File
 

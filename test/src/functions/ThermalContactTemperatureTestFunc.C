@@ -1,6 +1,6 @@
 #include "ThermalContactTemperatureTestFunc.h"
 
-registerMooseObject("FreyaTestApp", ThermalContactTemperatureTestFunc);
+registerMooseObject("MalamuteTestApp", ThermalContactTemperatureTestFunc);
 
 InputParameters
 ThermalContactTemperatureTestFunc::validParams()
