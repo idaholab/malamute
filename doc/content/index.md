@@ -7,9 +7,9 @@
 !style halign=center
 MALAMUTE (MOOSE Application Library for Advanced Manufacturing UTilitiEs) is an
 application for modeling advanced manufacturing processes. It is based on the
-finite element method and models interactions between various coupled physics domains.
-MALAMUTE is based on the MOOSE framework, and builds on the framework and modules
-for many of its core capabilities.
+finite element and finite volume methods and models interactions between various
+coupled physics domains. MALAMUTE is based on the MOOSE framework, and builds on
+the framework and modules for many of its core capabilities.
 
 !row!
 !col! small=12 medium=4 large=4 icon=get_app
@@ -46,7 +46,7 @@ the solution of coupled physics problems of varying size and dimensionality. The
 can be solved using computer hardware appropriate for the model size, ranging from
 laptops and workstations to large high performance computers.
 
-!media media/inl_blue.png style=float:right;width:30%;margin-left:30px;
+!media large_media/framework/inl_blue.png style=float:right;width:30%;margin-left:30px;
 
 Code reliability is a central principle in code development, and this project
 employs a well-defined development and testing strategy.  Code changes are only

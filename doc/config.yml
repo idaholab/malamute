@@ -1,13 +1,15 @@
 Content:
     - ${ROOT_DIR}/doc/content
     - ${MOOSE_DIR}/framework/doc/content
+    - ${MOOSE_DIR}/modules/contact/doc/content
+    - ${MOOSE_DIR}/modules/electromagnetics/doc/content
+    - ${MOOSE_DIR}/modules/fluid_properties/doc/content # pulled in by navier_stokes
     - ${MOOSE_DIR}/modules/heat_conduction/doc/content
-    - ${MOOSE_DIR}/modules/ray_tracing/doc/content  # pulled in by heat_conduction
     - ${MOOSE_DIR}/modules/level_set/doc/content
     - ${MOOSE_DIR}/modules/navier_stokes/doc/content
-    - ${MOOSE_DIR}/modules/fluid_properties/doc/content # pulled in by navier_stokes
-    - ${MOOSE_DIR}/modules/rdg/doc/content  # pulled in by navier_stokes
     - ${MOOSE_DIR}/modules/phase_field/doc/content
+    - ${MOOSE_DIR}/modules/ray_tracing/doc/content  # pulled in by heat_conduction
+    - ${MOOSE_DIR}/modules/rdg/doc/content  # pulled in by navier_stokes
     - ${MOOSE_DIR}/modules/tensor_mechanics/doc/content
     - ${MOOSE_DIR}/modules/level_set/doc/content
     - infrastructure:  # needed due to tensor_mechanics SQA
@@ -26,6 +28,7 @@ Extensions:
             Using MALAMUTE: getting_started/using_malamute.md
           Documentation and Resources:
             Complete Code Manual: syntax/index.md
+            Thermal Contact Verification: verification/thermal_contact_verification.md
             Code Standards: development/code_standards.md
             Developer Information Links: development/moose_developer_info.md
             Software Quality Assurance (SQA) Information: /sqa/index.md
@@ -44,12 +47,14 @@ Extensions:
         categories:
             framework: !include ${MOOSE_DIR}/framework/doc/sqa_framework.yml
             malamute: !include ${ROOT_DIR}/doc/sqa_malamute.yml
-            heat_conduction: !include ${MOOSE_DIR}/modules/heat_conduction/doc/sqa_heat_conduction.yml
-            ray_tracing: !include ${MOOSE_DIR}/modules/ray_tracing/doc/sqa_ray_tracing.yml
-            navier_stokes: !include ${MOOSE_DIR}/modules/navier_stokes/doc/sqa_navier_stokes.yml
+            electromagnetics: !include ${MOOSE_DIR}/modules/electromagnetics/doc/sqa_electromagnetics.yml
+            contact: !include ${MOOSE_DIR}/modules/contact/doc/sqa_contact.yml
             fluid_properties: !include ${MOOSE_DIR}/modules/fluid_properties/doc/sqa_fluid_properties.yml
-            rdg: !include ${MOOSE_DIR}/modules/rdg/doc/sqa_rdg.yml
+            heat_conduction: !include ${MOOSE_DIR}/modules/heat_conduction/doc/sqa_heat_conduction.yml
+            navier_stokes: !include ${MOOSE_DIR}/modules/navier_stokes/doc/sqa_navier_stokes.yml
             phase_field: !include ${MOOSE_DIR}/modules/phase_field/doc/sqa_phase_field.yml
+            ray_tracing: !include ${MOOSE_DIR}/modules/ray_tracing/doc/sqa_ray_tracing.yml
+            rdg: !include ${MOOSE_DIR}/modules/rdg/doc/sqa_rdg.yml
             tensor_mechanics: !include ${MOOSE_DIR}/modules/tensor_mechanics/doc/sqa_tensor_mechanics.yml
             level_set: !include ${MOOSE_DIR}/modules/level_set/doc/sqa_level_set.yml
         reports: !include ${ROOT_DIR}/doc/sqa_reports.yml

@@ -1,6 +1,6 @@
 [Tests]
   issues = '#6'
-  design = 'source/materials/StainlessSteelElectricalResistivity.md'
+  design = 'source/materials/GraphiteElectricalConductivity.md'
   [./electrical_properties]
     type = 'CSVDiff'
     input = 'graphite_electrical_material_properties.i'

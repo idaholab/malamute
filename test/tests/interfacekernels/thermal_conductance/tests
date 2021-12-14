@@ -1,5 +1,5 @@
 [Tests]
-  design = 'ThermalContactConductance.md'
+  design = 'ThermalContactCondition.md'
   [./low_low]
     type = Exodiff
     input = 'thermal_interface.i'
