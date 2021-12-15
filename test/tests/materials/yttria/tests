@@ -1,5 +1,5 @@
 [Tests]
-  issues = '#2'
+  issues = '#9'
   [./yittra_only_engineering_scale]
     type = 'CSVDiff'
     input = 'yittra_only_engineering_scale.i'

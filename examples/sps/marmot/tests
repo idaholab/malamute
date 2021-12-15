@@ -4,11 +4,13 @@
     input = 'sps_elec_2D.i'
     check_input = True
     method = opt
+    issues = '#19'
   [../]
   [./phase_field_yttrium_oxygen_vac]
     type = RunApp
     input = 'sps_elec_2D_intrinsic.i'
     check_input = True
     method = opt
+    issues = '#19'
   [../]
 []

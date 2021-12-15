@@ -4,11 +4,13 @@
     input = 'multipoint_block_demo_thermoelectical_refres_constant_electricpotential.i'
     check_input = True
     method = opt
+    issues = '#9'
   [../]
   [./yttria_thermoelectrical_microapp]
     type = RunApp
     input = 'micro_yttria_thermoelectrical_aehproperties_refres.i'
     check_input = True
     method = opt
+    issues = '#9'
   [../]
 []

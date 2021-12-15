@@ -4,13 +4,13 @@
     input = 'engineering_scale_electrothermal.i'
     check_input = True
     method = opt
-    issues = '#21'
+    issues = '#20'
   [../]
   [./electrothermal_goofycontact_drsinter_geometry]
     type = RunApp
     input = 'engineering_scale_electrothermal_goofycontact.i'
     check_input = True
     method = opt
-    issues = '#21'
+    issues = '#20'
   [../]
 []

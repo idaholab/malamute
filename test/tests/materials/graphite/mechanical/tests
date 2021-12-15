@@ -1,9 +1,9 @@
 [Tests]
-  issues = '#6'
   [./thermal_expansion]
     type = 'CSVDiff'
     input = 'graphite_thermal_expansion.i'
     csvdiff = 'graphite_thermal_expansion_out.csv'
+    issues = '#12'
     design = 'source/materials/GraphiteThermalExpansionEigenstrain.md'
     requirement = 'The system shall compute the coefficient of thermal expansion of AT 101 grahite as a function of temperature such that the calculated strain aligns with the analytical solution of the piecewise function.'
   [../]
@@ -12,6 +12,7 @@
     input = 'graphite_thermal_expansion.i'
     cli_args = '--error Functions/temp_ramp/value=250.0'
     expect_err = 'The temperature in graphite_thermal_expansion is below the calibration lower range limit at a value of 250'
+    issues = '#12'
     design = 'source/materials/GraphiteThermalExpansionEigenstrain.md'
     requirement = 'The system shall not allow the calculation of the AT 101 graphite coefficient of thermal expansion with a temperature below the curve calibration range.'
     prereq = thermal_expansion
@@ -21,6 +22,7 @@
     input = 'graphite_thermal_expansion.i'
     cli_args = 'Functions/temp_ramp/value=3000.0'
     expect_err = 'The temperature in graphite_thermal_expansion is above the calibration upper range limit at a value of 3000'
+    issues = '#12'
     design = 'source/materials/GraphiteThermalExpansionEigenstrain.md'
     requirement = 'The system shall not allow the calculation of the AT 101 graphite coefficient of thermal expansion with a temperature above the curve calibration range.'
     prereq = thermal_expansion_lower_range_check
@@ -31,7 +33,7 @@
     input = 'ad_graphite_thermal_expansion.i'
     csvdiff = 'graphite_thermal_expansion_out.csv'
     design = 'source/materials/ADGraphiteThermalExpansionEigenstrain.md'
-    issues = '#6, #10'
+    issues = '#12 #14'
     requirement = 'The system shall compute the coefficient of thermal expansion of AT 101 graphite as a function of temperature such that the calculated strain aligns with the analytical solution of the piecewise function while using automatic differentiation.'
     prereq = thermal_expansion
   [../]
@@ -41,7 +43,7 @@
     cli_args = '--error Functions/temp_ramp/value=250.0'
     expect_err = 'The temperature in graphite_thermal_expansion is below the calibration lower range limit at a value of 250'
     design = 'source/materials/ADGraphiteThermalExpansionEigenstrain.md'
-    issues = '#6, #10'
+    issues = '#12 #14'
     requirement = 'The system shall not allow the calculation of the AT 101 graphite coefficient of thermal expansion with a temperature below the curve calibration range while using automatic differentiation.'
     prereq = ad_thermal_expansion
   [../]
@@ -51,7 +53,7 @@
     cli_args = 'Functions/temp_ramp/value=3000.0'
     expect_err = 'The temperature in graphite_thermal_expansion is above the calibration upper range limit at a value of 3000'
     design = 'source/materials/ADGraphiteThermalExpansionEigenstrain.md'
-    issues = '#6, #10'
+    issues = '#12 #14'
     requirement = 'The system shall not allow the calculation of the AT 101 graphite coefficient of thermal expansion with a temperature above the curve calibration range while using automatic differentiation.'
     prereq = ad_thermal_expansion_lower_range_check
   [../]
@@ -60,7 +62,7 @@
     input = 'ad_graphite_thermal_expansion.i'
     cli_args = 'Executioner/end_time=40.0'
     design = 'source/materials/ADGraphiteThermalExpansionEigenstrain.md'
-    issues = '#6 #10'
+    issues = '#12 #14'
     requirement = 'The system shall support the calculation of the temperature dependent coefficient of thermal expansion for AT 101 graphite with the correct jacobian.'
     prereq = 'ad_thermal_expansion'
   [../]

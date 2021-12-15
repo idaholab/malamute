@@ -1,5 +1,5 @@
 [Tests]
-  issues = '#2'
+  issues = '#9'
   [./twoway_coupling_demo_new_phasefield]
     type = RunApp
     input = 'twoway_coupling_demo_new_phasefield.i'

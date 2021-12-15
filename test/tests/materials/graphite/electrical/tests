@@ -1,5 +1,5 @@
 [Tests]
-  issues = '#6'
+  issues = '#12'
   design = 'source/materials/GraphiteElectricalConductivity.md'
   [./electrical_properties]
     type = 'CSVDiff'

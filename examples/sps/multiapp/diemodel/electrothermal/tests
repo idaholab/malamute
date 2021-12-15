@@ -1,8 +1,9 @@
 [Tests]
   [./electrothermal_nodalcontact_die_powder]
-  type = RunApp
-  input = 'electrothermal_plunger_powder.i'
-  check_input = True
-  method = opt
+    type = RunApp
+    input = 'electrothermal_plunger_powder.i'
+    check_input = True
+    method = opt
+    issues = '#9'
   [../]
 []
