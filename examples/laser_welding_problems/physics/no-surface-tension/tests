@@ -4,11 +4,13 @@
     input = cold-no-surface-tension.i
     check_input = True
     skip = "from baldr, broken"
+    issues = '#5'
   []
   [hot]
     type = RunApp
     input = hot-no-surface-tension.i
     check_input = True
     skip = "from baldr, broken"
+    issues = '#5'
   []
 []
