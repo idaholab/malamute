@@ -1,7 +1,7 @@
 #include "SurfaceTensionBC.h"
 #include "Assembly.h"
 
-registerMooseObject("BaldrApp", SurfaceTensionBC);
+registerMooseObject("MalamuteApp", SurfaceTensionBC);
 
 InputParameters
 SurfaceTensionBC::validParams()

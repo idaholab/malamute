@@ -1,6 +1,6 @@
 #include "ADStressDivergence.h"
 
-registerMooseObject("BaldrApp", ADStressDivergence);
+registerMooseObject("MalamuteApp", ADStressDivergence);
 
 InputParameters
 ADStressDivergence::validParams()

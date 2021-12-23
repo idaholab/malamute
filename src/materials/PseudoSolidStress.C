@@ -1,6 +1,6 @@
 #include "PseudoSolidStress.h"
 
-registerMooseObject("BaldrApp", PseudoSolidStress);
+registerMooseObject("MalamuteApp", PseudoSolidStress);
 
 InputParameters
 PseudoSolidStress::validParams()

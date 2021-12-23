@@ -1,6 +1,6 @@
 #include "BaldrConvectedMesh.h"
 
-registerMooseObject("BaldrApp", BaldrConvectedMesh);
+registerMooseObject("MalamuteApp", BaldrConvectedMesh);
 
 InputParameters
 BaldrConvectedMesh::validParams()

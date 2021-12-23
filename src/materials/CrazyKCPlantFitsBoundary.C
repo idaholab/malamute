@@ -1,7 +1,7 @@
 #include "CrazyKCPlantFitsBoundary.h"
 #include "Assembly.h"
 
-registerMooseObject("BaldrApp", CrazyKCPlantFitsBoundary);
+registerMooseObject("MalamuteApp", CrazyKCPlantFitsBoundary);
 
 InputParameters
 CrazyKCPlantFitsBoundary::validParams()

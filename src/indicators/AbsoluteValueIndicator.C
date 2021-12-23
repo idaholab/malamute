@@ -1,7 +1,7 @@
 #include "AbsoluteValueIndicator.h"
 #include "Function.h"
 
-registerMooseObject("BaldrApp", AbsoluteValueIndicator);
+registerMooseObject("MalamuteApp", AbsoluteValueIndicator);
 
 InputParameters
 AbsoluteValueIndicator::validParams()

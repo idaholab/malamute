@@ -1,6 +1,6 @@
 #include "DisplaceBoundaryBC.h"
 
-registerMooseObject("BaldrApp", DisplaceBoundaryBC);
+registerMooseObject("MalamuteApp", DisplaceBoundaryBC);
 
 InputParameters
 DisplaceBoundaryBC::validParams()

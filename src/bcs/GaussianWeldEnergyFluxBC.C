@@ -1,7 +1,7 @@
 #include "GaussianWeldEnergyFluxBC.h"
 #include "Function.h"
 
-registerMooseObject("BaldrApp", GaussianWeldEnergyFluxBC);
+registerMooseObject("MalamuteApp", GaussianWeldEnergyFluxBC);
 
 InputParameters
 GaussianWeldEnergyFluxBC::validParams()

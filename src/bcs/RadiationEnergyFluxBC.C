@@ -1,6 +1,6 @@
 #include "RadiationEnergyFluxBC.h"
 
-registerMooseObject("BaldrApp", RadiationEnergyFluxBC);
+registerMooseObject("MalamuteApp", RadiationEnergyFluxBC);
 
 InputParameters
 RadiationEnergyFluxBC::validParams()

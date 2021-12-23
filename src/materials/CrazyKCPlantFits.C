@@ -1,6 +1,6 @@
 #include "CrazyKCPlantFits.h"
 
-registerMooseObject("BaldrApp", CrazyKCPlantFits);
+registerMooseObject("MalamuteApp", CrazyKCPlantFits);
 
 InputParameters
 CrazyKCPlantFits::validParams()

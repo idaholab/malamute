@@ -373,7 +373,7 @@ pooldepth=${width}
 [MultiApps]
   [./grain_growth]
     type = TransientMultiApp
-    app_type = BaldrApp
+    app_type = MalamuteApp
     positions = '-1 -2 0
                  -1 -5 0'
     input_files = 'grain_growth_2D_middle.i grain_growth_2D_bottom.i'

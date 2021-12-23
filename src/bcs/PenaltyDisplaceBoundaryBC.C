@@ -1,6 +1,6 @@
 #include "PenaltyDisplaceBoundaryBC.h"
 
-registerMooseObject("BaldrApp", PenaltyDisplaceBoundaryBC);
+registerMooseObject("MalamuteApp", PenaltyDisplaceBoundaryBC);
 
 InputParameters
 PenaltyDisplaceBoundaryBC::validParams()

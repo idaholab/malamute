@@ -1,6 +1,6 @@
 #include "VaporRecoilPressureMomentumFluxBC.h"
 
-registerMooseObject("BaldrApp", VaporRecoilPressureMomentumFluxBC);
+registerMooseObject("MalamuteApp", VaporRecoilPressureMomentumFluxBC);
 
 InputParameters
 VaporRecoilPressureMomentumFluxBC::validParams()
