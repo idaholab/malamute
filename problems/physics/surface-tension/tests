@@ -3,35 +3,42 @@
     type = RunApp
     input = 2d-one-spot-scaled-2nd-order.i
     check_input = True
+    skip = "from baldr, broken"
   []
   [2d-one-spot-unscaled-2nd-order]
     type = RunApp
     input = 2d-one-spot-unscaled-2nd-order.i
     check_input = True
+    skip = "from baldr, broken"
   []
   [3d-one-spot-unscaled-1st-order]
     type = RunApp
     input = 3d-one-spot-unscaled-1st-order.i
     check_input = True
+    skip = "from baldr, broken"
   []
   [3d-scaled-1st-order]
     type = RunApp
     input = 3d-scaled-1st-order.i
     check_input = True
+    skip = "from baldr, broken"
   []
   [cold-start-twice-around-circle]
     type = RunApp
     input = cold-start-twice-around-circle.i
     check_input = True
+    skip = "from baldr, broken"
   []
   [gold-2d-one-spot-scaled-1st-order]
     type = RunApp
     input = gold-2d-one-spot-scaled-1st-order.i
     check_input = True
+    skip = "from baldr, broken"
   []
   [hot-once-around-circle]
     type = RunApp
     input = hot-once-around-circle.i
     check_input = True
+    skip = "from baldr, broken"
   []
 []

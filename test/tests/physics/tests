@@ -4,11 +4,13 @@
     input = 'cold-twice-around-no-surface-tension.i'
     exodiff = 'cold-twice-around-no-surface-tension_exodus.e cold-twice-around-no-surface-tension_exodus.e-s002 cold-twice-around-no-surface-tension_exodus.e-s003'
     cli_args = 'Mesh/uniform_refine=0 Executioner/num_steps=3'
+    skip = "from baldr, broken"
   []
   [hot]
     type = Exodiff
     input = 'hot-once-around-no-surface-tension.i'
     exodiff = 'hot-once-around-no-surface-tension_exodus.e hot-once-around-no-surface-tension_exodus.e-s002 hot-once-around-no-surface-tension_exodus.e-s003'
     cli_args = 'Mesh/uniform_refine=0 Mesh/nx=4 Mesh/ny=4 Mesh/nz=4 Executioner/num_steps=3'
+    skip = "from baldr, broken"
   []
 []
