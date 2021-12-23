@@ -23,13 +23,15 @@ VaporRecoilPressureMomentumFluxBC::validParams()
 
 VaporRecoilPressureMomentumFluxBC::VaporRecoilPressureMomentumFluxBC(
     const InputParameters & parameters)
-  : ADVectorIntegratedBC(parameters),
-    _rc_pressure(getADMaterialProperty<Real>("rc_pressure_name"))
+  : ADVectorIntegratedBC(parameters), _rc_pressure(getADMaterialProperty<Real>("rc_pressure_name"))
 {
 }
 
 ADReal
 VaporRecoilPressureMomentumFluxBC::computeQpResidual()
 {
-  return _test[_i][_qp] * ADRealVectorValue(std::abs(_normals[_qp](0)), std::abs(_normals[_qp](1)), std::abs(_normals[_qp](2))) * _rc_pressure[_qp];
+  return _test[_i][_qp] *
+         ADRealVectorValue(
+             std::abs(_normals[_qp](0)), std::abs(_normals[_qp](1)), std::abs(_normals[_qp](2))) *
+         _rc_pressure[_qp];
 }

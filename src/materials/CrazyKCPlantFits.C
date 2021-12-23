@@ -76,8 +76,7 @@ CrazyKCPlantFits::CrazyKCPlantFits(const InputParameters & parameters)
     _k(declareADProperty<Real>(getParam<MaterialPropertyName>("k_name"))),
     _cp(declareADProperty<Real>(getParam<MaterialPropertyName>("cp_name"))),
     _rho(declareADProperty<Real>(getParam<MaterialPropertyName>("rho_name"))),
-    _grad_k(
-        declareADProperty<RealVectorValue>("grad_" + getParam<MaterialPropertyName>("k_name"))),
+    _grad_k(declareADProperty<RealVectorValue>("grad_" + getParam<MaterialPropertyName>("k_name"))),
     _length_units_per_meter(1. / std::pow(10, getParam<int>("length_unit_exponent"))),
     _temperature_units_per_kelvin(1. / std::pow(10, getParam<int>("temperature_unit_exponent"))),
     _mass_units_per_kilogram(1. / std::pow(10, getParam<int>("mass_unit_exponent"))),
