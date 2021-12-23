@@ -309,7 +309,7 @@ pooldepth=2e-4
   num_steps = 3
   petsc_options = '-snes_converged_reason -ksp_converged_reason -options_left -ksp_monitor_singular_value'
   petsc_options_iname = '-ksp_max_it -ksp_gmres_restart -pc_type'
-  petsc_options_value = '1000	     200	        asm'
+  petsc_options_value = '1000      200          asm'
 
   line_search = 'none'
   nl_max_its = 12

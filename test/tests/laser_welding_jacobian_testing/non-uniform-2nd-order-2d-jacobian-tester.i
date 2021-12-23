@@ -315,7 +315,7 @@
   num_steps = 3
   petsc_options = '-snes_converged_reason -ksp_converged_reason -options_left'
   petsc_options_iname = '-pc_type -pc_factor_shift_type -pc_factor_shift_amount -snes_linesearch_minlambda -pc_factor_mat_solver_type -ksp_gmres_restart -snes_test_err'
-  petsc_options_value = 'lu       NONZERO               1e-15                   1e-3                       superlu_dist               100		 1e-9'
+  petsc_options_value = 'lu       NONZERO               1e-15                   1e-3                       superlu_dist               100    1e-9'
 
   line_search = 'none'
   nl_max_its = 10

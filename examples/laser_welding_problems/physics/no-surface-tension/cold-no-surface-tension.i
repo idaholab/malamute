@@ -361,7 +361,7 @@ surfacetemp=300
   dtmax = ${timestep}
   petsc_options = '-snes_converged_reason -ksp_converged_reason -options_left -ksp_monitor_singular_value'
   petsc_options_iname = '-ksp_gmres_restart -pc_type'
-  petsc_options_value = '100		    asm'
+  petsc_options_value = '100        asm'
 
   line_search = 'none'
   nl_max_its = 12

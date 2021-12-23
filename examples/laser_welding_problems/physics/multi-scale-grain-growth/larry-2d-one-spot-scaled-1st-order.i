@@ -353,7 +353,7 @@ pooldepth=${width}
   end_time = ${endtime}
   petsc_options = '-snes_converged_reason -ksp_converged_reason -options_left -ksp_monitor_singular_value'
   # petsc_options_iname = '-ksp_max_it -ksp_gmres_restart -pc_type -snes_max_funcs -sub_pc_factor_levels'
-  # petsc_options_value = '200	     200	        asm      1000000         1'
+  # petsc_options_value = '200       200          asm      1000000         1'
   petsc_options_iname = '-pc_type -pc_factor_mat_solver_type -ksp_max_it'
   petsc_options_value = 'lu       superlu_dist                      10'
 
