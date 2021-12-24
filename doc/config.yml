@@ -28,6 +28,7 @@ Extensions:
             Code Standards: development/code_standards.md
             Developer Information Links: development/moose_developer_info.md
             Software Quality Assurance (SQA) Information: /sqa/index.md
+            Code Coverage: https://malamute-dev.hpc.inl.gov/coverage/
     MooseDocs.extensions.appsyntax:
         executable: ${ROOT_DIR}
         remove:
