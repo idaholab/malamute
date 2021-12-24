@@ -7,6 +7,8 @@ Content:
     - ${MOOSE_DIR}/modules/navier_stokes/doc/content
     - ${MOOSE_DIR}/modules/fluid_properties/doc/content # pulled in by navier_stokes
     - ${MOOSE_DIR}/modules/rdg/doc/content  # pulled in by navier_stokes
+    - ${MOOSE_DIR}/modules/phase_field/doc/content
+    - ${MOOSE_DIR}/modules/tensor_mechanics/doc/content
 Renderer:
     type: MooseDocs.base.MaterializeRenderer
 Extensions:
@@ -41,6 +43,8 @@ Extensions:
             navier_stokes: !include ${MOOSE_DIR}/modules/navier_stokes/doc/sqa_navier_stokes.yml
             fluid_properties: !include ${MOOSE_DIR}/modules/fluid_properties/doc/sqa_fluid_properties.yml
             rdg: !include ${MOOSE_DIR}/modules/rdg/doc/sqa_rdg.yml
+            phase_field: !include ${MOOSE_DIR}/modules/phase_field/doc/sqa_phase_field.yml
+            tensor_mechanics: !include ${MOOSE_DIR}/modules/tensor_mechanics/doc/sqa_tensor_mechanics.yml
         reports: !include ${ROOT_DIR}/doc/sqa_reports.yml
         repos:
             default: https://hpcgitlab.hpc.inl.gov/idaholab/malamute
@@ -50,3 +54,5 @@ Extensions:
         duplicates:
           - greenshields2010implementation
           - batten1997average
+          - hales15homogenization
+          - kim_phase-field_1999
