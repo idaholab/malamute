@@ -64,7 +64,7 @@
     temperature = temperature
   [../]
   [./converter]
-    type = MaterialConverter
+    type = MaterialADConverter
     reg_props_in = electrical_conductivity
     ad_props_out = ad_electrical_conductivity
   [../]

@@ -864,7 +864,7 @@ initial_temperature=293 #roughly 600C where the pyrometer kicks in
 
   # Material property converter for DiffusionFluxAux object
   [converter]
-    type = MaterialConverter
+    type = MaterialADConverter
     ad_props_in = thermal_conductivity
     reg_props_out = nonad_thermal_conductivity
   []

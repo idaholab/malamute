@@ -36,8 +36,8 @@
   [./rename_blocks]
     type = RenameBlockGenerator
     input = rename_boundaries
-    old_block_id = '1 2'
-    new_block_name = 'stainless_steel graphite'
+    old_block = '1 2'
+    new_block = 'stainless_steel graphite'
   [../]
   [./rename_stainless_steel_sideset]
     type = BlockDeletionGenerator

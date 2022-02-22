@@ -33,8 +33,8 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
   [block_rename]
     type = RenameBlockGenerator
     input = two_blocks
-    old_block_id = '1'
-    new_block_name = 'upper_plunger'
+    old_block = '1'
+    new_block = 'upper_plunger'
   []
   [inner_centerpoint]
     type = BoundingBoxNodeSetGenerator

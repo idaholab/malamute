@@ -15,8 +15,8 @@
   [../]
   [./rename_right]
     type = RenameBlockGenerator
-    old_block_id = 0
-    new_block_name = 'graphite'
+    old_block = 0
+    new_block = 'graphite'
     input = split
   [../]
   [./interface]

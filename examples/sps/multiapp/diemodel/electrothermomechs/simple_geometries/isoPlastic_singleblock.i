@@ -33,8 +33,8 @@ initial_temperature=600 #roughly 600C where the pyrometer kicks in
   [block_rename]
     type = RenameBlockGenerator
     input = two_blocks
-    old_block_id = '1'
-    new_block_name = 'powder_compact'
+    old_block = '1'
+    new_block = 'powder_compact'
   []
   patch_update_strategy = iteration
   patch_size = 10

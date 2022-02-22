@@ -308,7 +308,7 @@ initial_current_density=-5.0e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
     outputs = exodus
   []
   [convert_ad_electrical_conductivity]
-    type = MaterialConverter
+    type = MaterialADConverter
     ad_props_in = 'electrical_conductivity'
     reg_props_out = 'reg_electrical_conductivity'
   []
