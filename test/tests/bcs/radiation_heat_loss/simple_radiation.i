@@ -63,6 +63,7 @@
 [Executioner]
   type = Steady
   line_search = none
+  nl_rel_tol = 2e-8
 []
 
 [Postprocessors]
