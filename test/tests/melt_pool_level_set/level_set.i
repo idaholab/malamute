@@ -295,8 +295,7 @@
     type = MultiAppCopyTransfer
     source_variable = ls
     variable = ls
-    direction = to_multiapp
-    multi_app = reinit
+    to_multi_app = reinit
     execute_on = 'timestep_end'
   []
 
@@ -304,8 +303,7 @@
     type = MultiAppCopyTransfer
     source_variable = ls
     variable = ls_0
-    direction = to_multiapp
-    multi_app = reinit
+    to_multi_app = reinit
     execute_on = 'timestep_end'
   []
 
@@ -313,8 +311,7 @@
     type = MultiAppCopyTransfer
     source_variable = ls
     variable = ls
-    direction = from_multiapp
-    multi_app = reinit
+    from_multi_app = reinit
     execute_on = 'timestep_end'
   []
 []
