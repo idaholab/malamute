@@ -9,6 +9,7 @@ Content:
     - ${MOOSE_DIR}/modules/rdg/doc/content  # pulled in by navier_stokes
     - ${MOOSE_DIR}/modules/phase_field/doc/content
     - ${MOOSE_DIR}/modules/tensor_mechanics/doc/content
+    - ${MOOSE_DIR}/modules/level_set/doc/content
     - infrastructure:  # needed due to tensor_mechanics SQA
         root_dir: ${MOOSE_DIR}/modules/doc/content
         content:
@@ -50,6 +51,7 @@ Extensions:
             rdg: !include ${MOOSE_DIR}/modules/rdg/doc/sqa_rdg.yml
             phase_field: !include ${MOOSE_DIR}/modules/phase_field/doc/sqa_phase_field.yml
             tensor_mechanics: !include ${MOOSE_DIR}/modules/tensor_mechanics/doc/sqa_tensor_mechanics.yml
+            level_set: !include ${MOOSE_DIR}/modules/level_set/doc/sqa_level_set.yml
         reports: !include ${ROOT_DIR}/doc/sqa_reports.yml
         repos:
             default: https://hpcgitlab.hpc.inl.gov/idaholab/malamute
