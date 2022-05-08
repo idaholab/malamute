@@ -46,21 +46,21 @@ ADGraphiteThermalExpansionEigenstrain::jacobianSetup()
 }
 
 void
-ADGraphiteThermalExpansionEigenstrain::computeThermalStrain(ADReal & thermal_strain)
+ADGraphiteThermalExpansionEigenstrain::computeThermalStrain(ADReal & thermal_strain, Real *)
 {
   const Real temperature = raw_value(_temperature[_qp]);
   if (_check_temperature_now)
   {
     if (temperature < 290.9)
       mooseDoOnce(mooseWarning("The temperature in ",
-                 _name,
-                 " is below the calibration lower range limit at a value of ",
-                 temperature));
+                               _name,
+                               " is below the calibration lower range limit at a value of ",
+                               temperature));
     else if (temperature > 2383.0)
       mooseDoOnce(mooseWarning("The temperature in ",
-                 _name,
-                 " is above the calibration upper range limit at a value of ",
-                 temperature));
+                               _name,
+                               " is above the calibration upper range limit at a value of ",
+                               temperature));
 
     _check_temperature_now = false;
   }

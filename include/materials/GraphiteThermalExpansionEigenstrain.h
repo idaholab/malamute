@@ -19,7 +19,7 @@ public:
 
 protected:
   virtual void jacobianSetup() override;
-  virtual void computeThermalStrain(Real & temperature, Real & scalar_thermal_strain) override;
+  virtual void computeThermalStrain(Real & temperature, Real * dthermal_strain_dT) override;
 
 private:
   /**

@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "ADComputeThermalExpansionEigenstrainBase.h"
+#include "ComputeThermalExpansionEigenstrainBase.h"
 
 class ADGraphiteThermalExpansionEigenstrain : public ADComputeThermalExpansionEigenstrainBase
 {
@@ -19,7 +19,7 @@ public:
 
 protected:
   virtual void jacobianSetup() override;
-  virtual void computeThermalStrain(ADReal & thermal_strain) override;
+  virtual void computeThermalStrain(ADReal & thermal_strain, Real *) override;
 
 private:
   /**

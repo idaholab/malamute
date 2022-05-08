@@ -46,27 +46,29 @@ GraphiteThermalExpansionEigenstrain::jacobianSetup()
 
 void
 GraphiteThermalExpansionEigenstrain::computeThermalStrain(Real & thermal_strain,
-                                                          Real & instantaneous_cte)
+                                                          Real * dthermal_strain_dT)
 {
   if (_check_temperature_now)
   {
     if (_temperature[_qp] < 290.9)
       mooseDoOnce(mooseWarning("The temperature in ",
-                 _name,
-                 " is below the calibration lower range limit at a value of ",
-                 _temperature[_qp]));
+                               _name,
+                               " is below the calibration lower range limit at a value of ",
+                               _temperature[_qp]));
     else if (_temperature[_qp] > 2383.0)
       mooseDoOnce(mooseWarning("The temperature in ",
-                 _name,
-                 " is above the calibration upper range limit at a value of ",
-                 _temperature[_qp]));
+                               _name,
+                               " is above the calibration upper range limit at a value of ",
+                               _temperature[_qp]));
 
     _check_temperature_now = false;
   }
 
   const Real cte = computeCoefficientThermalExpansion(_temperature[_qp]);
   thermal_strain = cte * (_temperature[_qp] - _stress_free_temperature[_qp]);
-  instantaneous_cte = cte;
+
+  mooseAssert(dthermal_strain_dT, "Internal error. dthermal_strain_dT should not be nullptr.");
+  *dthermal_strain_dT = cte;
 }
 
 Real
