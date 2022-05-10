@@ -44,9 +44,8 @@ StainlessSteelThermalExpansionEigenstrain::jacobianSetup()
     _check_temperature_now = true;
 }
 
-void
-StainlessSteelThermalExpansionEigenstrain::computeThermalStrain(Real & thermal_strain,
-                                                                Real * dthermal_strain_dT)
+ValueAndDerivative<false>
+StainlessSteelThermalExpansionEigenstrain::computeThermalStrain()
 {
   if (_check_temperature_now)
   {
@@ -64,18 +63,15 @@ StainlessSteelThermalExpansionEigenstrain::computeThermalStrain(Real & thermal_s
     _check_temperature_now = false;
   }
 
-  const Real cte = computeCoefficientThermalExpansion(_temperature[_qp]);
-  thermal_strain = cte * (_temperature[_qp] - _stress_free_temperature[_qp]);
-
-  mooseAssert(dthermal_strain_dT, "Internal error. dthermal_strain_dT should not be nullptr.");
-  *dthermal_strain_dT = cte;
+  const auto cte = computeCoefficientThermalExpansion(_temperature[_qp]);
+  return cte * (_temperature[_qp] - _stress_free_temperature[_qp]);
 }
 
-Real
+ValueAndDerivative<false>
 StainlessSteelThermalExpansionEigenstrain::computeCoefficientThermalExpansion(
-    const Real & temperature)
+    const ValueAndDerivative<false> & temperature)
 {
-  Real coefficient_thermal_expansion;
+  ValueAndDerivative<false> coefficient_thermal_expansion;
   if (temperature < 373)
     coefficient_thermal_expansion = 1.72e-5; // in 1/K
   else if (temperature < 588)

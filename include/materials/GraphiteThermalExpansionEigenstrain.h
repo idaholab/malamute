@@ -19,7 +19,7 @@ public:
 
 protected:
   virtual void jacobianSetup() override;
-  virtual void computeThermalStrain(Real & temperature, Real * dthermal_strain_dT) override;
+  virtual ValueAndDerivative<false> computeThermalStrain() override;
 
 private:
   /**
@@ -29,7 +29,8 @@ private:
    * Figure 7d. The thermal conductivity units are W/(m-K).
    * Temperature calibration bounds are 290.9K - 2383.0K
    */
-  Real computeCoefficientThermalExpansion(const Real & temperature);
+  ValueAndDerivative<false>
+  computeCoefficientThermalExpansion(const ValueAndDerivative<false> & temperature);
 
   ///Scaling factor appplied to the coefficient for a scaling study
   const Real _coeff_thermal_expansion_scale_factor;

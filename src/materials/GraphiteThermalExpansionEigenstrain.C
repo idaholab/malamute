@@ -44,9 +44,8 @@ GraphiteThermalExpansionEigenstrain::jacobianSetup()
     _check_temperature_now = true;
 }
 
-void
-GraphiteThermalExpansionEigenstrain::computeThermalStrain(Real & thermal_strain,
-                                                          Real * dthermal_strain_dT)
+ValueAndDerivative<false>
+GraphiteThermalExpansionEigenstrain::computeThermalStrain()
 {
   if (_check_temperature_now)
   {
@@ -64,17 +63,15 @@ GraphiteThermalExpansionEigenstrain::computeThermalStrain(Real & thermal_strain,
     _check_temperature_now = false;
   }
 
-  const Real cte = computeCoefficientThermalExpansion(_temperature[_qp]);
-  thermal_strain = cte * (_temperature[_qp] - _stress_free_temperature[_qp]);
-
-  mooseAssert(dthermal_strain_dT, "Internal error. dthermal_strain_dT should not be nullptr.");
-  *dthermal_strain_dT = cte;
+  const auto cte = computeCoefficientThermalExpansion(_temperature[_qp]);
+  return cte * (_temperature[_qp] - _stress_free_temperature[_qp]);
 }
 
-Real
-GraphiteThermalExpansionEigenstrain::computeCoefficientThermalExpansion(const Real & temperature)
+ValueAndDerivative<false>
+GraphiteThermalExpansionEigenstrain::computeCoefficientThermalExpansion(
+    const ValueAndDerivative<false> & temperature)
 {
-  Real coefficient_thermal_expansion =
+  const auto coefficient_thermal_expansion =
       1.996e-6 * std::log(4.799e-2 * temperature) - 4.041e-6; // in 1/K
-  return coefficient_thermal_expansion *= _coeff_thermal_expansion_scale_factor;
+  return coefficient_thermal_expansion * _coeff_thermal_expansion_scale_factor;
 }

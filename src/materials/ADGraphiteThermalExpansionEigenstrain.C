@@ -45,8 +45,8 @@ ADGraphiteThermalExpansionEigenstrain::jacobianSetup()
     _check_temperature_now = true;
 }
 
-void
-ADGraphiteThermalExpansionEigenstrain::computeThermalStrain(ADReal & thermal_strain, Real *)
+ValueAndDerivative<true>
+ADGraphiteThermalExpansionEigenstrain::computeThermalStrain()
 {
   const Real temperature = raw_value(_temperature[_qp]);
   if (_check_temperature_now)
@@ -65,13 +65,13 @@ ADGraphiteThermalExpansionEigenstrain::computeThermalStrain(ADReal & thermal_str
     _check_temperature_now = false;
   }
 
-  const ADReal cte = computeCoefficientThermalExpansion(_temperature[_qp]);
-  thermal_strain = cte * (_temperature[_qp] - _stress_free_temperature[_qp]);
+  const auto cte = computeCoefficientThermalExpansion(_temperature[_qp]);
+  return cte * (_temperature[_qp] - _stress_free_temperature[_qp]);
 }
 
-ADReal
+ValueAndDerivative<true>
 ADGraphiteThermalExpansionEigenstrain::computeCoefficientThermalExpansion(
-    const ADReal & temperature)
+    const ValueAndDerivative<true> & temperature)
 {
   ADReal coefficient_thermal_expansion =
       1.996e-6 * std::log(4.799e-2 * temperature) - 4.041e-6; // in 1/K

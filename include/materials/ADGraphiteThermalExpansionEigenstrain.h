@@ -19,7 +19,7 @@ public:
 
 protected:
   virtual void jacobianSetup() override;
-  virtual void computeThermalStrain(ADReal & thermal_strain, Real *) override;
+  virtual ValueAndDerivative<true> computeThermalStrain() override;
 
 private:
   /**
@@ -29,7 +29,8 @@ private:
    * Figure 7d. The thermal conductivity units are W/(m-K).
    * Temperature calibration bounds are 290.9K - 2383.0K
    */
-  ADReal computeCoefficientThermalExpansion(const ADReal & temperature);
+  ValueAndDerivative<true>
+  computeCoefficientThermalExpansion(const ValueAndDerivative<true> & temperature);
 
   ///Scaling factor appplied to the coefficient for a scaling study
   const Real _coeff_thermal_expansion_scale_factor;

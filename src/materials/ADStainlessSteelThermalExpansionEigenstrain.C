@@ -45,8 +45,8 @@ ADStainlessSteelThermalExpansionEigenstrain::jacobianSetup()
     _check_temperature_now = true;
 }
 
-void
-ADStainlessSteelThermalExpansionEigenstrain::computeThermalStrain(ADReal & thermal_strain, Real *)
+ValueAndDerivative<true>
+ADStainlessSteelThermalExpansionEigenstrain::computeThermalStrain()
 {
   if (_check_temperature_now)
   {
@@ -66,12 +66,12 @@ ADStainlessSteelThermalExpansionEigenstrain::computeThermalStrain(ADReal & therm
   }
 
   const ADReal cte = computeCoefficientThermalExpansion(_temperature[_qp]);
-  thermal_strain = cte * (_temperature[_qp] - _stress_free_temperature[_qp]);
+  return cte * (_temperature[_qp] - _stress_free_temperature[_qp]);
 }
 
-ADReal
+ValueAndDerivative<true>
 ADStainlessSteelThermalExpansionEigenstrain::computeCoefficientThermalExpansion(
-    const ADReal & temperature)
+    const ValueAndDerivative<true> & temperature)
 {
   ADReal coefficient_thermal_expansion;
   if (temperature < 373)
