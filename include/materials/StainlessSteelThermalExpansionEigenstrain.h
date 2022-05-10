@@ -11,15 +11,17 @@
 
 #include "ComputeThermalExpansionEigenstrainBase.h"
 
-class StainlessSteelThermalExpansionEigenstrain : public ComputeThermalExpansionEigenstrainBase
+template <bool is_ad>
+class StainlessSteelThermalExpansionEigenstrainTempl
+  : public ComputeThermalExpansionEigenstrainBaseTempl<is_ad>
 {
 public:
   static InputParameters validParams();
-  StainlessSteelThermalExpansionEigenstrain(const InputParameters & parameters);
+  StainlessSteelThermalExpansionEigenstrainTempl(const InputParameters & parameters);
 
 protected:
   virtual void jacobianSetup() override;
-  virtual ValueAndDerivative<false> computeThermalStrain() override;
+  virtual ValueAndDerivative<is_ad> computeThermalStrain() override;
 
 private:
   /**
@@ -29,12 +31,20 @@ private:
    * page 711, Figure 8d. The thermal conductivity units are W/(m-K).
    * Temperature calibration bounds are 273.3K - 810.5K
    */
-  ValueAndDerivative<false>
-  computeCoefficientThermalExpansion(const ValueAndDerivative<false> & temperature);
+  ValueAndDerivative<is_ad>
+  computeCoefficientThermalExpansion(const ValueAndDerivative<is_ad> & temperature);
 
   ///Scaling factor appplied to the coefficient for a scaling study
   const Real _coeff_thermal_expansion_scale_factor;
 
   /// Check the temperature only at the start of each timestep
   bool _check_temperature_now;
+
+  using ComputeThermalExpansionEigenstrainBaseTempl<is_ad>::_qp;
+  using ComputeThermalExpansionEigenstrainBaseTempl<is_ad>::_temperature;
 };
+
+typedef StainlessSteelThermalExpansionEigenstrainTempl<false>
+    StainlessSteelThermalExpansionEigenstrain;
+typedef StainlessSteelThermalExpansionEigenstrainTempl<true>
+    ADStainlessSteelThermalExpansionEigenstrain;
