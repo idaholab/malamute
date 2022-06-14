@@ -8,6 +8,7 @@ initial_temperature=300
 []
 
 [Mesh]
+  second_order = true
   [yttria_block]
     type = GeneratedMeshGenerator
     dim = 2
