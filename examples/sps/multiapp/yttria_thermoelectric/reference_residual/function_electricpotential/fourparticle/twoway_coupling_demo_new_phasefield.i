@@ -16,7 +16,6 @@ initial_temperature=300
     xmax = 0.01 #10mm
     ymax = 0.008 #8mm
     elem_type = QUAD8
-    second_order = true
   []
 []
 

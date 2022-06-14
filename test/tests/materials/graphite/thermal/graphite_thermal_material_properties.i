@@ -40,7 +40,6 @@
   [./HeatDiff]
     type = ADHeatConduction
     variable = temperature
-    diffusion_coefficient = thermal_conductivity
   [../]
   [./HeatTdot]
     type = ADHeatConductionTimeDerivative
