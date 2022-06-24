@@ -56,7 +56,7 @@
     type = PetscJacobianTester
     input = 'ad_stainless_steel_electrical_material_properties.i'
     run_sim = false
-    difference_tol = 2e-8  #difference = 1.87604e-08
+    difference_tol = 2.1e-8  #difference = 2.02634e-08
     issues = '#12 #14'
     requirement = 'The system shall support the calculation of the temperature dependent electrical conductivity for AT 101 graphite with the correct jacobian.'
     prereq = ad_electrical_properties

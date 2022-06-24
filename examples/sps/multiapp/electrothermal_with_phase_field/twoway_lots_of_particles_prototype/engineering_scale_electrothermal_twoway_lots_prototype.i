@@ -193,9 +193,9 @@ initial_temperature=873 #roughly 600C where the pyrometer kicks in
     block = 'graphite_spacers upper_plunger lower_plunger die_wall'
   []
   [electric_graphite]
-    type = ConductivityLaplacian
+    type = ADMatDiffusion
     variable = electric_potential
-    conductivity_coefficient = electrical_conductivity
+    diffusivity = electrical_conductivity
     extra_vector_tags = 'ref'
     block = 'graphite_spacers upper_plunger lower_plunger die_wall'
   []
@@ -225,9 +225,9 @@ initial_temperature=873 #roughly 600C where the pyrometer kicks in
     block = stainless_steel
   []
   [electric_stainless_steel]
-    type = ConductivityLaplacian
+    type = ADMatDiffusion
     variable = potential_stainless_steel
-    conductivity_coefficient = electrical_conductivity
+    diffusivity = electrical_conductivity
     extra_vector_tags = 'ref'
     block = stainless_steel
   []
@@ -257,9 +257,9 @@ initial_temperature=873 #roughly 600C where the pyrometer kicks in
     block = powder_compact
   []
   [electric_yttria]
-    type = ConductivityLaplacian
+    type = ADMatDiffusion
     variable = electric_potential
-    conductivity_coefficient = electrical_conductivity
+    diffusivity = electrical_conductivity
     extra_vector_tags = 'ref'
     block = powder_compact
   []

@@ -37,9 +37,9 @@
 
 [Kernels]
   [./electric_graphite]
-    type = ConductivityLaplacian
+    type = ADMatDiffusion
     variable = graphite_potential
-    conductivity_coefficient = ad_electrical_conductivity
+    diffusivity = ad_electrical_conductivity
   [../]
 []
 

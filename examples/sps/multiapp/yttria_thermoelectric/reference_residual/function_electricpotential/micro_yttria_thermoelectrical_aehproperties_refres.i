@@ -402,9 +402,9 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
     extra_vector_tags = 'ref'
   [../]
   [electric_yttria]
-    type = ConductivityLaplacian
+    type = ADMatDiffusion
     variable = V
-    conductivity_coefficient = electrical_conductivity
+    diffusivity = electrical_conductivity
     extra_vector_tags = 'ref'
   []
   # [./Laplace]

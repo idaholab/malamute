@@ -54,8 +54,8 @@
     type = PetscJacobianTester
     input = 'ad_graphite_electrical_material_properties.i'
     run_sim = false
-    difference_tol = 4e-8  #difference = 3.7268e-08
-    ratio_tol = 2e-8    #ratio = 1.56373e-08
+    difference_tol = 4.6e-8  #difference = 4.52995e-08
+    ratio_tol = 2e-8    #ratio = 1.90073e-0
     issues = '#6 #10'
     requirement = 'The system shall support the calculation of the temperature dependent electrical conductivity for AISI 304 stainless steel with the correct jacobian.'
     prereq = ad_electrical_properties

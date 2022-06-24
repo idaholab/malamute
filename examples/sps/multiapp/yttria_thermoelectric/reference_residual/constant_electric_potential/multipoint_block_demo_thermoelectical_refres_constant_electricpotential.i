@@ -82,9 +82,9 @@ initial_temperature=1350
     extra_vector_tags = 'ref'
   []
   [electric_yttria]
-    type = ConductivityLaplacian
+    type = ADMatDiffusion
     variable = yttria_potential
-    conductivity_coefficient = yttria_electrical_conductivity
+    diffusivity = yttria_electrical_conductivity
     extra_vector_tags = 'ref'
   []
 []

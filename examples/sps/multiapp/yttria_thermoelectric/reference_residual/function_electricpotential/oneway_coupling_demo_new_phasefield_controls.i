@@ -89,9 +89,9 @@ initial_temperature=300
     extra_vector_tags = 'ref'
   []
   [electric_yttria]
-    type = ConductivityLaplacian
+    type = ADMatDiffusion
     variable = electric_potential
-    conductivity_coefficient = electrical_conductivity
+    diffusivity = electrical_conductivity
     use_displaced_mesh = true
     extra_vector_tags = 'ref'
   []

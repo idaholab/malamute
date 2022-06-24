@@ -37,9 +37,9 @@
 
 [Kernels]
   [./electric_stainless_steel]
-    type = ConductivityLaplacian
+    type = ADMatDiffusion
     variable = stainless_steel_potential
-    conductivity_coefficient = ad_electrical_conductivity
+    diffusivity = ad_electrical_conductivity
   [../]
 []
 

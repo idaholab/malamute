@@ -115,9 +115,9 @@ initial_temperature=600 #roughly 600C where the pyrometer kicks in
     extra_vector_tags = 'ref'
   []
   [electric_graphite]
-    type = ConductivityLaplacian
+    type = ADMatDiffusion
     variable = electric_potential
-    conductivity_coefficient = electrical_conductivity
+    diffusivity = electrical_conductivity
     extra_vector_tags = 'ref'
   []
 []
