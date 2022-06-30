@@ -39,7 +39,8 @@ ThermalContactTemperatureTestFunc::validParams()
   return params;
 }
 
-ThermalContactTemperatureTestFunc::ThermalContactTemperatureTestFunc(const InputParameters & parameters)
+ThermalContactTemperatureTestFunc::ThermalContactTemperatureTestFunc(
+    const InputParameters & parameters)
   : Function(parameters),
     _electrical_conductivity_graphite(getParam<Real>("graphite_electrical_conductivity")),
     _electrical_conductivity_stainless_steel(

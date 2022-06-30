@@ -27,10 +27,12 @@ ThermalContactCondition::validParams()
   params.addParam<MaterialPropertyName>("secondary_electrical_conductivity",
                                         "electrical_conductivity",
                                         "Electrical conductivity on the secondary block.");
-  params.addParam<FunctionName>("user_thermal_contact_conductance", 0.0,
-                        "User-provided thermal contact conductance coefficient.");
-  params.addParam<FunctionName>("user_electrical_contact_conductance", 0.0,
-                        "User-provided electrical contact conductance coefficient.");
+  params.addParam<FunctionName>("user_thermal_contact_conductance",
+                                0.0,
+                                "User-provided thermal contact conductance coefficient.");
+  params.addParam<FunctionName>("user_electrical_contact_conductance",
+                                0.0,
+                                "User-provided electrical contact conductance coefficient.");
   params.addRequiredCoupledVar("primary_potential",
                                "Electrostatic potential on the primary block.");
   params.addRequiredCoupledVar("secondary_potential",
@@ -40,9 +42,10 @@ ThermalContactCondition::validParams()
       "mean_hardness",
       "mean_hardness",
       "Geometric mean of the hardness of each contacting material.");
-  params.addParam<FunctionName>("mechanical_pressure", 0.0,
-                        "Mechanical pressure uniformly applied at the contact surface area "
-                        "(Pressure = Force / Surface Area).");
+  params.addParam<FunctionName>("mechanical_pressure",
+                                0.0,
+                                "Mechanical pressure uniformly applied at the contact surface area "
+                                "(Pressure = Force / Surface Area).");
   params.addClassDescription(
       "Interface condition that describes the thermal contact resistance across a boundary formed "
       "between two dissimilar materials (resulting in a temperature discontinuity) under the "
@@ -69,9 +72,9 @@ ThermalContactCondition::ThermalContactCondition(const InputParameters & paramet
     _splitting_factor(getParam<Real>("splitting_factor")),
     _mean_hardness(isParamValid("user_thermal_contact_conductance")
                        ? getGenericZeroMaterialProperty<Real, true>("mean_hardness")
-                       : isParamValid("user_electrical_contact_conductance")
-                             ? getGenericZeroMaterialProperty<Real, true>("mean_hardness")
-                             : getADMaterialProperty<Real>("mean_hardness")),
+                   : isParamValid("user_electrical_contact_conductance")
+                       ? getGenericZeroMaterialProperty<Real, true>("mean_hardness")
+                       : getADMaterialProperty<Real>("mean_hardness")),
     _mechanical_pressure(getFunction("mechanical_pressure")),
     _alpha_thermal(22810.0),
     _beta_thermal(1.08),
@@ -108,11 +111,13 @@ ThermalContactCondition::computeQpResidual(Moose::DGResidualType type)
 
     thermal_contact_conductance =
         _alpha_thermal * mean_thermal_conductivity *
-        std::pow((_mechanical_pressure.value(_t, _q_point[_qp]) / _mean_hardness[_qp]), _beta_thermal);
+        std::pow((_mechanical_pressure.value(_t, _q_point[_qp]) / _mean_hardness[_qp]),
+                 _beta_thermal);
 
     electrical_contact_conductance =
         _alpha_electric * mean_electrical_conductivity *
-        std::pow((_mechanical_pressure.value(_t, _q_point[_qp]) / _mean_hardness[_qp]), _beta_electric);
+        std::pow((_mechanical_pressure.value(_t, _q_point[_qp]) / _mean_hardness[_qp]),
+                 _beta_electric);
   }
   else
   {
