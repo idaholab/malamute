@@ -963,15 +963,13 @@ initial_temperature=873 #roughly 600C where the pyrometer kicks in
 [Transfers]
   [temperature_to_sub]
     type = MultiAppVariableValueSampleTransfer
-    direction = to_multiapp
-    multi_app = micro
+    to_multi_app = micro
     source_variable = temperature
     variable = T
   []
   [micro_field_pp_to_sub]
    type = MultiAppVariableValueSamplePostprocessorTransfer
-    direction = to_multiapp
-    multi_app = micro
+    to_multi_app = micro
     source_variable = E_y
     postprocessor = Ey_in
   []

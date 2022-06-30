@@ -975,53 +975,46 @@ initial_temperature=873 #roughly 600C where the pyrometer kicks in
 [Transfers]
   [keff_from_sub]
     type = MultiAppPostprocessorInterpolationTransfer
-    direction = from_multiapp
-    multi_app = micro
+    from_multi_app = micro
     variable = yttria_thermal_conductivity_aeh
     power = 2 #2 is the default value, tutorial uses 1
     postprocessor = k_AEH_average
   []
   [sigma_aeh_eff_from_sub]
     type = MultiAppPostprocessorInterpolationTransfer
-    direction = from_multiapp
-    multi_app = micro
+    from_multi_app = micro
     variable = yttria_sigma_aeh
     power = 2 #2 is the default value, tutorial uses 1
     postprocessor = sigma_y_AEH
   []
   [Q_from_sub]
     type = MultiAppPostprocessorInterpolationTransfer
-    direction = from_multiapp
-    multi_app = micro
+    from_multi_app = micro
     variable = Q_from_sub #This is the integrated heat produced in the phase-field simulation in eV/m/s
     power = 2 #2 is the default value, tutorial uses 1
     postprocessor = Q_joule_total
   []
   [temperature_to_sub]
     type = MultiAppVariableValueSampleTransfer
-    direction = to_multiapp
-    multi_app = micro
+    to_multi_app = micro
     source_variable = temperature
     variable = T
   []
   [temperature_to_sub_postproc]
    type = MultiAppVariableValueSamplePostprocessorTransfer
-    direction = to_multiapp
-    multi_app = micro
+    to_multi_app = micro
     source_variable = temperature
     postprocessor = T_postproc
   []
   [potential_to_sub_postproc]
    type = MultiAppVariableValueSamplePostprocessorTransfer
-    direction = to_multiapp
-    multi_app = micro
+    to_multi_app = micro
     source_variable = electric_potential
     postprocessor = V_postproc
   []
   [micro_field_pp_to_sub]
    type = MultiAppVariableValueSamplePostprocessorTransfer
-    direction = to_multiapp
-    multi_app = micro
+    to_multi_app = micro
     source_variable = E_y
     postprocessor = Ey_in
   []

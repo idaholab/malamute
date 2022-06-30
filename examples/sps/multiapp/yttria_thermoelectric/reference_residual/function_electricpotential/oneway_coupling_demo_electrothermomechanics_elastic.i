@@ -410,30 +410,26 @@ initial_temperature=1350
 [Transfers]
   [temperature_to_sub]
     type = MultiAppVariableValueSampleTransfer
-    direction = to_multiapp
-    multi_app = micro
+    to_multi_app = micro
     source_variable = temperature
     variable = temperature_in
   []
   [temperaturepp_to_sub]
    type = MultiAppVariableValueSamplePostprocessorTransfer
-    direction = to_multiapp
-    multi_app = micro
+    to_multi_app = micro
     source_variable = temperature
     postprocessor = center_temperature
   []
 
   [micro_potential_pp_to_sub]
    type = MultiAppVariableValueSamplePostprocessorTransfer
-    direction = to_multiapp
-    multi_app = micro
+    to_multi_app = micro
     source_variable = microapp_potential
     postprocessor = potential_in
   []
   [micro_current_density_pp_to_sub]
    type = MultiAppVariableValueSamplePostprocessorTransfer
-    direction = to_multiapp
-    multi_app = micro
+    to_multi_app = micro
     source_variable = microapp_current_density
     postprocessor = current_density_in
   []

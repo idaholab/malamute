@@ -336,62 +336,54 @@ initial_temperature=1350
 [Transfers]
   [keff_from_sub]
     type = MultiAppPostprocessorInterpolationTransfer
-    direction = from_multiapp
-    multi_app = micro
+    from_multi_app = micro
     variable = thermal_conductivity_aeh
     power = 2 #2 is the default value, tutorial uses 1
     postprocessor = k_AEH_average
   []
   [cpeff_from_sub]
     type = MultiAppPostprocessorInterpolationTransfer
-    direction = from_multiapp
-    multi_app = micro
+    from_multi_app = micro
     variable = specific_heat_capacity_va
     power = 2 #2 is the default value, tutorial uses 1
     postprocessor = cp_eff
   []
   [density_eff_from_sub]
     type = MultiAppPostprocessorInterpolationTransfer
-    direction = from_multiapp
-    multi_app = micro
+    from_multi_app = micro
     variable = density_va
     power = 2 #2 is the default value, tutorial uses 1
     postprocessor = density_eff
   []
   [temperature_to_sub]
     type = MultiAppVariableValueSampleTransfer
-    direction = to_multiapp
-    multi_app = micro
+    to_multi_app = micro
     source_variable = temperature
     variable = temperature_in
   []
   [temperaturepp_to_sub]
    type = MultiAppVariableValueSamplePostprocessorTransfer
-    direction = to_multiapp
-    multi_app = micro
+    to_multi_app = micro
     source_variable = temperature
     postprocessor = center_temperature
   []
 
   [sigma_aeh_eff_from_sub]
     type = MultiAppPostprocessorInterpolationTransfer
-    direction = from_multiapp
-    multi_app = micro
+    from_multi_app = micro
     variable = sigma_aeh
     power = 2 #2 is the default value, tutorial uses 1
     postprocessor = sigma_AEH_average
   []
   [micro_potential_pp_to_sub]
    type = MultiAppVariableValueSamplePostprocessorTransfer
-    direction = to_multiapp
-    multi_app = micro
+    to_multi_app = micro
     source_variable = microapp_potential
     postprocessor = potential_in
   []
   [micro_current_density_pp_to_sub]
    type = MultiAppVariableValueSamplePostprocessorTransfer
-    direction = to_multiapp
-    multi_app = micro
+    to_multi_app = micro
     source_variable = microapp_current_density
     postprocessor = current_density_in
   []
