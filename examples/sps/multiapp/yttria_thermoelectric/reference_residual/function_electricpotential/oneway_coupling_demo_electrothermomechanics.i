@@ -192,14 +192,12 @@ initial_temperature=1350
     variable = disp_y
     boundary = 'bottom'
     function = 'if(t<1.0, (20.7e6/1.0)*t, 20.7e6)'
-    component = 1
   []
   [top_pressure_ydirection]
     type = ADPressure
     variable = disp_y
     boundary = 'top'
     function = 'if(t<1.0, (20.7e6/1.0)*t, 20.7e6)'
-    component = 1
   []
 
   [external_surface]

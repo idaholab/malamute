@@ -258,14 +258,12 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
     variable = disp_y
     boundary = 'bottom_lower_plunger'
     function = 'if(t<1.0, (20.7e6/1.0)*t, 20.7e6)'
-    component = 1
   []
   [top_pressure_ydirection]
     type = ADPressure
     variable = disp_y
     boundary = 'top_upper_plunger'
     function = 'if(t<1.0, (20.7e6/1.0)*t, 20.7e6)'
-    component = 1
   []
 
   [external_surface]

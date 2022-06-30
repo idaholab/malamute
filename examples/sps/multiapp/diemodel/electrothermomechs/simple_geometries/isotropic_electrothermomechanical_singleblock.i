@@ -168,14 +168,12 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
     variable = disp_y
     boundary = 'powder_compact_bottom'
     function = 20.7e6 #'if(t<1, 20.7e6*t, 20.7e6)'
-    component = 1
   []
   [top_pressure_ydirection]
     type = ADPressure
     variable = disp_y
     boundary = 'powder_compact_top'
     function = 20.7e6 #'if(t<1, 20.7e6*t, 20.7e6)'
-    component = 1
   []
 
   [external_surface]
