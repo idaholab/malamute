@@ -1,3 +1,12 @@
+/****************************************************************************/
+/*                        DO NOT MODIFY THIS HEADER                         */
+/*                                                                          */
+/* MALAMUTE: MOOSE Application Library for Advanced Manufacturing UTilitiEs */
+/*                                                                          */
+/*           Copyright 2021 - 2022, Battelle Energy Alliance, LLC           */
+/*                           ALL RIGHTS RESERVED                            */
+/****************************************************************************/
+
 #include "ThermalContactPotentialTestFunc.h"
 
 registerMooseObject("MalamuteTestApp", ThermalContactPotentialTestFunc);
