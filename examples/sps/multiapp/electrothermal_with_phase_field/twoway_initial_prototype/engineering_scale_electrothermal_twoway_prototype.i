@@ -40,7 +40,7 @@ initial_temperature=873 #roughly 600C where the pyrometer kicks in
 #initial_porosity=0.36 #Maximum random jammed packing, Donev et al (2004) Science Magazine
 
 [Mesh]
-  file = drsinter_nodalcontact_2d.e
+  file = ../../../meshes/drsinter_nodalcontact_2d.e
   construct_side_list_from_node_list = true
   patch_update_strategy = iteration
   patch_size = 20
