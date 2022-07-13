@@ -1,0 +1,16 @@
+[Tests]
+  [engineering_scale_electrothermal_twoway_prototype]
+    type = RunApp
+    input = 'engineering_scale_electrothermal_twoway_prototype.i'
+    check_input = True
+    method = opt
+    issues = '#20'
+  []
+  [micro_yttria_thermoelectric_twoway]
+    type = RunApp
+    input = 'micro_yttria_thermoelectric_twoway.i'
+    check_input = True
+    method = opt
+    issues = '#20'
+  []
+[]

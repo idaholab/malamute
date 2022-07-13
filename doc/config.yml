@@ -8,11 +8,11 @@ Content:
     - ${MOOSE_DIR}/modules/level_set/doc/content
     - ${MOOSE_DIR}/modules/navier_stokes/doc/content
     - ${MOOSE_DIR}/modules/phase_field/doc/content
-    - ${MOOSE_DIR}/modules/ray_tracing/doc/content  # pulled in by heat_conduction
-    - ${MOOSE_DIR}/modules/rdg/doc/content  # pulled in by navier_stokes
+    - ${MOOSE_DIR}/modules/ray_tracing/doc/content      # pulled in by heat_conduction
+    - ${MOOSE_DIR}/modules/rdg/doc/content              # pulled in by navier_stokes
     - ${MOOSE_DIR}/modules/tensor_mechanics/doc/content
     - ${MOOSE_DIR}/modules/level_set/doc/content
-    - infrastructure:  # needed due to tensor_mechanics SQA
+    - infrastructure:                                   # needed due to tensor_mechanics SQA
         root_dir: ${MOOSE_DIR}/modules/doc/content
         content:
             - help/finite_element_concepts/nodal_patch_recovery.md
@@ -47,8 +47,8 @@ Extensions:
         categories:
             framework: !include ${MOOSE_DIR}/framework/doc/sqa_framework.yml
             malamute: !include ${ROOT_DIR}/doc/sqa_malamute.yml
-            electromagnetics: !include ${MOOSE_DIR}/modules/electromagnetics/doc/sqa_electromagnetics.yml
             contact: !include ${MOOSE_DIR}/modules/contact/doc/sqa_contact.yml
+            electromagnetics: !include ${MOOSE_DIR}/modules/electromagnetics/doc/sqa_electromagnetics.yml
             fluid_properties: !include ${MOOSE_DIR}/modules/fluid_properties/doc/sqa_fluid_properties.yml
             heat_conduction: !include ${MOOSE_DIR}/modules/heat_conduction/doc/sqa_heat_conduction.yml
             navier_stokes: !include ${MOOSE_DIR}/modules/navier_stokes/doc/sqa_navier_stokes.yml
