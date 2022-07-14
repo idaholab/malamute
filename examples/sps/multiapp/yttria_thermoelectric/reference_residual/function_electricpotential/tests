@@ -48,23 +48,9 @@
     method = opt
     issues = '#9'
   [../]
-  [./micro_yttria_thermoelectric_oneway_controls]
-    type = RunApp
-    input = 'micro_yttria_thermoelectric_oneway_controls.i'
-    check_input = true
-    method = opt
-    issues = '#9'
-  [../]
   [./twoway_coupling_demo_new_phasefield]
     type = RunApp
     input = 'twoway_coupling_demo_new_phasefield.i'
-    check_input = true
-    method = opt
-    issues = '#9'
-  [../]
-  [./micro_yttria_thermoelectric_twoway]
-    type = RunApp
-    input = 'micro_yttria_thermoelectric_twoway.i'
     check_input = true
     method = opt
     issues = '#9'
@@ -74,14 +60,6 @@
     input = 'twoway_coupling_demo_new_phasefield_lots_controls.i'
     min_parallel = 5
     check_input = true
-    method = opt
-    issues = '#20'
-  [../]
-  [./micro_yttria_thermoelectric_twoway_lots_controls]
-    type = RunApp
-    input = 'micro_yttria_thermoelectric_twoway_lots_controls.i'
-    check_input = true
-    cli_args = 'Mesh/gen/nx=50 Mesh/gen/ny=54'
     method = opt
     issues = '#20'
   [../]
