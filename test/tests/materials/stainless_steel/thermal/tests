@@ -1,0 +1,66 @@
+[Tests]
+  design = 'source/materials/StainlessSteelThermal.md'
+  [./thermal_material_properties]
+    type = 'CSVDiff'
+    input = 'stainless_steel_thermal_material_properties.i'
+    csvdiff = 'stainless_steel_thermal_material_properties_out.csv'
+    issues = '#12'
+    requirement = 'The system shall compute the thermal conductivity and heat capacity of AISI 304 stainless steel as a function of temperature and the computed properties shall align with original figure data points.'
+  [../]
+  [./thermal_properties_lower_range_check]
+    type = RunException
+    input = 'stainless_steel_thermal_material_properties.i'
+    cli_args = '--error Variables/temperature/initial_condition=250.0'
+    expect_err = 'The temperature in stainless_steel_thermal is below the calibration lower range limit at a value of 250'
+    issues = '#12'
+    requirement = 'The system shall warn the user if the calculation of stainless steel thermal material properties with a temperature below the curve calibration range.'
+    prereq = thermal_material_properties
+  [../]
+  [./thermal_properties_upper_range_check]
+    type = RunException
+    input = 'stainless_steel_thermal_material_properties.i'
+    cli_args = 'Variables/temperature/initial_condition=1250.0'
+    expect_err = 'The temperature in stainless_steel_thermal is above the calibration upper range limit at a value of 1250'
+    issues = '#12'
+    requirement = 'The system shall not allow the calculation of stainless steel thermal material properties with a temperature above the curve calibration range.'
+    prereq = thermal_properties_lower_range_check
+  [../]
+
+  [./ad_thermal_material_properties]
+    type = 'CSVDiff'
+    input = 'ad_stainless_steel_thermal_material_properties.i'
+    csvdiff = 'stainless_steel_thermal_material_properties_out.csv'
+    issues = '#12 #14'
+    requirement = 'The system shall compute the thermal conductivity and heat capacity of AISI 304 stainless steel as a function of temperature and the computed properties shall align with original figure data points while using automatic differentiation.'
+    prereq = thermal_properties_upper_range_check
+  [../]
+  [./ad_thermal_properties_lower_range_check]
+    type = RunException
+    input = 'ad_stainless_steel_thermal_material_properties.i'
+    cli_args = '--error Variables/temperature/initial_condition=250.0'
+    expect_err = 'The temperature in stainless_steel_thermal is below the calibration lower range limit at a value of 250'
+    issues = '#12 #14'
+    requirement = 'The system shall warn the user if the calculation of stainless steel thermal material properties with a temperature below the curve calibration range while using automatic differentiation.'
+    prereq = ad_thermal_material_properties
+  [../]
+  [./ad_thermal_properties_upper_range_check]
+    type = RunException
+    input = 'ad_stainless_steel_thermal_material_properties.i'
+    cli_args = 'Variables/temperature/initial_condition=1250.0'
+    expect_err = 'The temperature in stainless_steel_thermal is above the calibration upper range limit at a value of 1250'
+    issues = '#12 #14'
+    requirement = 'The system shall not allow the calculation of stainless steel thermal material properties with a temperature above the curve calibration range while using automatic differentiation.'
+    prereq = ad_thermal_properties_lower_range_check
+  [../]
+  [./jacobian_ad_thermal_properties]
+    type = PetscJacobianTester
+    input = 'ad_stainless_steel_thermal_material_properties.i'
+    run_sim = false
+    cli_args = 'Executioner/end_time=50.0'
+    difference_tol = 1e-7  #difference = 8.16507e-08
+    ratio_tol = 5e-8    #ratio = 4.1338e-08
+    issues = '#12 #14'
+    requirement = 'The system shall support the calculation of the temperature dependent heat capacity and thermal conductivity for AISI 304 stainless steel with the correct jacobian.'
+    prereq = ad_thermal_material_properties
+  [../]
+[]

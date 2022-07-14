@@ -1,0 +1,92 @@
+title 'Model SPS Die Geometry'
+
+reset
+
+{#big_spacer_radius = 4.0}
+{#big_spacer_height = 4.0}
+{#electrode_radius = 4.0}
+{#upper_electrode_height = 16.4}
+{#lower_electrode_height = 26.0}
+{#channel_small_radius = sqrt(2.0) / 2.0}
+{#channel_large_radius = 2.25 / 2.0}
+{#channel_tee_height = 1.0}
+{#upper_channel_height = 13.65}
+{#lower_channel_height = 23.25}
+
+{#mesh_size = 0.002}
+
+#### Make the surfaces (so that we can rotate about an axis easier in the future)
+create surface rectangle width {electrode_radius} height {lower_electrode_height} zplane
+move vertex 4 x {electrode_radius / 2.0} y {lower_electrode_height / 2.0}
+
+create surface rectangle width {big_spacer_radius} height {big_spacer_height} zplane
+move vertex 7 x {big_spacer_radius / 2.0} y {big_spacer_height / 2.0 + lower_electrode_height}
+
+surface 2 3 copy reflect y nomesh  ## seems that volumes get created no matter what with this option
+move vertex 10  y {2.0 * lower_electrode_height + 2.0 * big_spacer_height}
+
+create surface rectangle width {electrode_radius} height {upper_electrode_height} zplane
+move vertex 15 x {electrode_radius / 2.0} y {upper_electrode_height / 2.0 + lower_electrode_height + 2.0 * big_spacer_height}
+
+#### Create and remove regions for water channel
+## lower
+create surface rectangle width {channel_large_radius} height {channel_tee_height} zplane
+move vertex 19 x {channel_large_radius / 2.0} y {channel_tee_height / 2.0 + lower_channel_height}
+
+create surface rectangle width {channel_small_radius} height {lower_channel_height} zplane
+move vertex 23 x {channel_small_radius / 2.0} y {lower_channel_height / 2.0}
+
+subtract body 5 6 from body 1
+
+## upper
+create surface rectangle width {channel_large_radius} height {channel_tee_height} zplane
+move vertex 32 x {channel_large_radius / 2.0} y {channel_tee_height / 2.0 + lower_electrode_height + 2.0 * big_spacer_height + upper_electrode_height - upper_channel_height - channel_tee_height}
+
+create surface rectangle width {channel_small_radius} height {upper_channel_height} zplane
+move vertex 36 x {channel_small_radius / 2.0} y {upper_channel_height / 2.0 + lower_electrode_height + 2.0 * big_spacer_height + upper_electrode_height - upper_channel_height}
+
+subtract body 7 8 from body 4
+
+surface all scale 0.01
+
+#### Start meshing
+imprint body all
+merge body all
+surface 2 3 7 10 size {mesh_size}
+surface 2 3 7 10 scheme auto
+mesh surface 2 3 7 10
+
+#### Add material blocks
+block 1 surface 2 3
+block 1 element type QUAD8
+block 1 Name "graphite"
+
+block 2 surface 7 10
+block 2 element type QUAD8
+block 2 Name "stainless_steel"
+
+#### Little element cleanup
+# quality surface all shape global draw mesh list ## basically pointless right now
+
+#### Assign sidesets for BCs
+sideset 100 add curve 26
+sideset 100 name "bottom_die"
+sideset 200 add curve 44
+sideset 200 name "top_die"
+sideset 400 add curve 8 12
+sideset 400 name "right_die_graphite"
+sideset 600 add curve 25 28 29 30 39 40 41 42
+sideset 600 name "water_channel"
+sideset 800 add curve 4 16
+sideset 800 name "right_die_stainless_steel"
+
+#### Assign internal sidesets for InterfaceKernels
+sideset 1000 add curve 5
+sideset 1000 name "gg_interface"
+sideset 1200 add curve 11
+sideset 1200 name "ssg_interface"
+sideset 1400 add curve 1
+sideset 1400 name "gss_interface"
+
+export mesh "spsdie_table1model1_2d.e" dimension 2 block all overwrite
+

@@ -1,0 +1,66 @@
+[Tests]
+  design = 'source/materials/GraphiteThermal.md'
+  [./thermal_material_properties]
+    type = 'CSVDiff'
+    input = 'graphite_thermal_material_properties.i'
+    csvdiff = 'graphite_thermal_material_properties_out.csv'
+    issues = '#12'
+    requirement = 'The system shall compute the thermal conductivity and heat capacity of AT 101 graphite as a function of temperature and the computed properties shall align with original figure data points.'
+  [../]
+  [./thermal_properties_lower_range_check]
+    type = RunException
+    input = 'graphite_thermal_material_properties.i'
+    cli_args = '--error Variables/temperature/initial_condition=450.0'
+    expect_err = 'The temperature in graphite_thermal is below the calibration lower range limit at a value of 450'
+    issues = '#12'
+    requirement = 'The system will warn the user when the calculation of graphite thermal material properties with a temperature below the curve calibration range.'
+    prereq = thermal_material_properties
+  [../]
+  [./thermal_properties_upper_range_check]
+    type = RunException
+    input = 'graphite_thermal_material_properties.i'
+    cli_args = 'Variables/temperature/initial_condition=3350.0'
+    expect_err = 'The temperature in graphite_thermal is above the calibration upper range limit at a value of 3350'
+    issues = '#12'
+    requirement = 'The system shall not allow the calculation of graphite thermal material properties with a temperature above the curve calibration range.'
+    prereq = thermal_properties_lower_range_check
+  [../]
+
+  [./ad_thermal_material_properties]
+    type = 'CSVDiff'
+    input = 'ad_graphite_thermal_material_properties.i'
+    csvdiff = 'graphite_thermal_material_properties_out.csv'
+    issues = '#12 #14'
+    requirement = 'The system shall compute the thermal conductivity and heat capacity of AT 101 graphite, using the automatic differentiation capabilities, as a function of temperature and the computed properties shall align with original figure data points.'
+    prereq = thermal_material_properties
+  [../]
+  [./ad_thermal_properties_lower_range_check]
+    type = RunException
+    input = 'ad_graphite_thermal_material_properties.i'
+    cli_args = '--error Variables/temperature/initial_condition=450.0'
+    expect_err = 'The temperature in graphite_thermal is below the calibration lower range limit at a value of 450'
+    issues = '#12 #14'
+    requirement = 'The system will warn the user when the calculation of graphite thermal material properties with a temperature below the curve calibration range while using automatic differentiation.'
+    prereq = ad_thermal_material_properties
+  [../]
+  [./ad_thermal_properties_upper_range_check]
+    type = RunException
+    input = 'ad_graphite_thermal_material_properties.i'
+    cli_args = 'Variables/temperature/initial_condition=3350.0'
+    expect_err = 'The temperature in graphite_thermal is above the calibration upper range limit at a value of 3350'
+    issues = '#12 #14'
+    requirement = 'The system shall not allow the calculation of graphite thermal material properties with a temperature above the curve calibration range while using automatic differentiation.'
+    prereq = ad_thermal_properties_lower_range_check
+  [../]
+  [./jacobian_ad_thermal_properties]
+    type = PetscJacobianTester
+    input = 'ad_graphite_thermal_material_properties.i'
+    run_sim = false
+    cli_args = 'Executioner/end_time=50.0'
+    difference_tol = 3e-7  #difference = 2.06099e-07
+    ratio_tol = 2e-7    #ratio = 1.02493e-07
+    issues = '#12 #14'
+    requirement = 'The system shall support the calculation of the temperature dependent heat capacity and thermal conductivity for AT 101 graphite with the correct jacobian.'
+    prereq = ad_thermal_material_properties
+  [../]
+[]

@@ -1,0 +1,1 @@
+../../../electrothermal_with_phase_field/oneway_controls/micro_yttria_thermoelectric_oneway_controls.i

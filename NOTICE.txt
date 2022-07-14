@@ -1,7 +1,7 @@
 This project contains code from Idaho National Laboratory's MALAMUTE
 https://hpcgitlab.hpc.inl.gov/idaholab/malamute
 
-Copyright 2021, Battelle Energy Alliance, LLC
+Copyright 2021 - 2022, Battelle Energy Alliance, LLC
 ALL RIGHTS RESERVED
 
 Notice: These data were produced by BATTELLE ENERGY ALLIANCE, LLC under Contract

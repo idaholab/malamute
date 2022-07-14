@@ -1,0 +1,66 @@
+[Tests]
+  [./oneway_coupling_yttria_coupling]
+    type = RunApp
+    input = 'oneway_coupling_demo_fcn_electricpotential.i'
+    check_input = True
+    method = opt
+    issues = '#9'
+  [../]
+  [./fullphysics_oneway_coupling_elasticmechanices_yttria_macroblock]
+    type = RunApp
+    input = 'oneway_coupling_demo_electrothermomechanics_elastic.i'
+    check_input = true
+    method = opt
+    issues = '#9'
+  [../]
+  [./fullphysics_oneway_coupling_yttria_macroblock]
+    type = RunApp
+    input = 'oneway_coupling_demo_electrothermomechanics.i'
+    check_input = true
+    method = opt
+    issues = '#9'
+  [../]
+  [./yttria_thermoelectrical_microapp]
+    type = RunApp
+    input = 'micro_yttria_thermoelectrical_aehproperties_refres.i'
+    check_input = True
+    method = opt
+    issues = '#9'
+  [../]
+  [./oneway_coupling_demo_new_phasefield]
+    type = RunApp
+    input = 'oneway_coupling_demo_new_phasefield.i'
+    check_input = true
+    method = opt
+    issues = '#9'
+  [../]
+  [./micro_yttria_thermoelectric_oneway]
+    type = RunApp
+    input = 'micro_yttria_thermoelectric_oneway.i'
+    check_input = true
+    method = opt
+    issues = '#9'
+  [../]
+  [./oneway_coupling_demo_new_phasefield_controls]
+    type = RunApp
+    input = 'oneway_coupling_demo_new_phasefield_controls.i'
+    check_input = true
+    method = opt
+    issues = '#9'
+  [../]
+  [./twoway_coupling_demo_new_phasefield]
+    type = RunApp
+    input = 'twoway_coupling_demo_new_phasefield.i'
+    check_input = true
+    method = opt
+    issues = '#9'
+  [../]
+  [./twoway_coupling_demo_new_phasefield_lots_controls]
+    type = RunApp
+    input = 'twoway_coupling_demo_new_phasefield_lots_controls.i'
+    min_parallel = 5
+    check_input = true
+    method = opt
+    issues = '#20'
+  [../]
+[]

@@ -1,0 +1,9 @@
+[Tests]
+  [./yttria_thermoelectrical_centroid_microapp]
+    type = RunApp
+    input = 'micro_yttria_thermoelectrical_demo.i'
+    check_input = True
+    method = opt
+    issues = '#9'
+  [../]
+[]

@@ -1,0 +1,311 @@
+reset
+title 'Dr Sinter Experiment Model'
+
+######### user-defined variables ############
+
+{#mesh_size = 0.5} #0.2
+{#mesh_size_coarsing_factor = 1.5}
+{#die_wall_mesh_factor = 1.1}
+{#unit_conversion = 0.001} #meter in 1 mm
+
+######## start defined model dimensions ######
+
+{#powder_compact_radius = 20.0/2.0}
+{#powder_compact_height = 8.0}
+
+{#die_wall_thickness = 30.0/2.0}
+{#die_height = 40.0}
+
+{#punch_base_radius = 20.0/2.0}
+{#punch_base_height = 5.0}
+{#punch_neck_radius = 15.0/2.0}
+{#punch_neck_height = 25.0}
+{#punch_neck_radius = 1.0} #roughly 1/8 inch--way too big
+
+{#electrode_radius = 40.0}
+{#upper_electrode_height = 115.0}
+{#lower_electrode_height = 211.0}
+{#channel_small_radius = sqrt(200.0) / 2.0}
+{#channel_large_radius = 22.5 / 2.0}
+{#channel_tee_height = 10.0}
+{#upper_channel_height = 95.72}
+{#lower_channel_height = 188.68}
+
+{#lower_spacer_height = 5.0}
+{#lower_spacer_radius = 73.0 / 2.0}
+
+{#upper_spacer_height = 5.0}
+{#upper_spacer_radius = 73.0 / 2.0}
+
+
+######### end defined model dimensions ######
+
+############ Make the graphite die #################
+
+{#punch_total_height = punch_base_height + punch_neck_height}
+{#punch_step_radius = punch_base_radius - punch_neck_radius}
+{#chamfer_side_length = sqrt(punch_neck_radius/2.0)}
+{#total_model_height  = 2.0 * punch_total_height + powder_compact_height}
+
+create surface rectangle width {punch_base_radius} height {punch_total_height} zplane
+create surface rectangle width {punch_step_radius} height {punch_neck_height} zplane
+create vertex {-punch_step_radius/2.0 + punch_neck_radius} {punch_neck_height/2} 0 on curve 5
+create vertex {-punch_step_radius/2.0} {punch_neck_height/2 - punch_neck_radius} 0 on curve 6
+create vertex {-punch_step_radius/2.0 + punch_neck_radius} {punch_neck_height/2 - punch_neck_radius} 0 on surface 2
+
+create curve arc center vertex 11 9 10 radius {punch_neck_radius}
+create curve vertex 6 9
+create curve vertex 10 6
+create surface curve 9 10 11
+subtract body 3 from body 2
+delete vertex 11
+
+move surface 4 x {punch_step_radius / 2.0} y {-1 * punch_base_height / 2.0}
+subtract body 2 from body 1
+split curve 18 distance {0.5 * (total_model_height - die_height)} from vertex 20
+
+move surface 5 x {punch_base_radius / 2.0 } y {punch_total_height / 2.0}
+surface 5 copy reflect y
+move surface 6 y {2 * punch_total_height + powder_compact_height}
+
+create surface rectangle width {die_wall_thickness} height {die_height}
+move surface 7 x {die_wall_thickness / 2.0 + punch_base_radius} y {total_model_height / 2.0}
+
+surface 5 name 'lower_plunger'
+surface 6 name 'upper_plunger'
+surface 7 name 'die_wall'
+
+
+############ Make the powder compact #################
+create surface rectangle width {powder_compact_radius} height {powder_compact_height} zplane
+move surface 8 x {powder_compact_radius / 2.0} y {powder_compact_height / 2.0 + punch_total_height}
+
+surface 8 name 'powder_compact'
+block 4 surface powder_compact
+block 4 name 'powder_compact'
+
+curve 34 name 'top_powder_compact'
+curve 36 name 'bottom_powder_compact'
+curve 35 name 'centerline_powder_compact'
+curve 37 name 'outer_powder_compact'
+
+############ Make the lower electrode #################
+
+create surface rectangle width {electrode_radius} height {lower_electrode_height} zplane
+move surface 9 x {electrode_radius / 2.0} y {-lower_electrode_height / 2.0 - lower_spacer_height}
+
+# create lower spacer
+create surface rectangle width {lower_spacer_radius} height {lower_spacer_height} zplane
+move surface 10 x {lower_spacer_radius / 2.0} y {-lower_spacer_height / 2.0}
+split curve 42 distance {punch_base_radius} from vertex 44
+
+# create and subtract the lower die water channels
+create surface rectangle width {channel_large_radius} height {channel_tee_height} zplane
+move surface 11 x {channel_large_radius / 2.0} y {-channel_tee_height / 2.0 - (lower_electrode_height - channel_tee_height - lower_channel_height) - lower_spacer_height}
+create surface rectangle width {channel_small_radius} height {lower_channel_height} zplane
+move surface 12 x {channel_small_radius / 2.0} y {-lower_channel_height / 2.0 - (lower_electrode_height - lower_channel_height) - lower_spacer_height}
+
+subtract body 9 10 from body 7
+
+surface 10 name 'lower_spacer'
+surface 13 name 'lower_ram'
+
+############ Make the upper electrode #################
+
+create surface rectangle width {electrode_radius} height {upper_electrode_height} zplane
+move surface 14 x {electrode_radius / 2.0} y {upper_electrode_height / 2.0 + total_model_height + upper_spacer_height}
+
+# Create upper spacer
+create surface rectangle width {upper_spacer_radius} height {upper_spacer_height} zplane
+move surface 15 x {upper_spacer_radius / 2.0} y {upper_spacer_height / 2.0 + total_model_height}
+split curve 68 distance {punch_base_radius} from vertex 67
+
+# create and subtract the upper die water channel
+create surface rectangle width {channel_large_radius} height {channel_tee_height} zplane
+move surface 16 x {channel_large_radius / 2.0} y {channel_tee_height/2.0 + total_model_height + upper_spacer_height + (upper_electrode_height - upper_channel_height - channel_tee_height)}
+create surface rectangle width {channel_small_radius} height {upper_channel_height} zplane
+move surface 17 x {channel_small_radius / 2.0} y {upper_channel_height / 2.0 + total_model_height +  upper_spacer_height + (upper_electrode_height - upper_channel_height)}
+
+subtract body 13 14 from body 11
+surface 18 name 'upper_ram'
+surface 15 name 'upper_spacer'
+
+######## Mesh setup for the powder compact ######
+
+imprint body all
+
+#Set up different aspect ratio for the powder compact to get to better element aspect ratios after compression
+curve top_powder_compact bottom_powder_compact scheme equal
+curve top_powder_compact bottom_powder_compact size {mesh_size}
+mesh curve top_powder_compact bottom_powder_compact
+curve centerline_powder_compact outer_powder_compact scheme equal
+curve outer_powder_compact size {mesh_size * mesh_size_coarsing_factor}
+mesh curve outer_powder_compact
+
+surface powder_compact scheme map
+mesh surface powder_compact
+
+# Set up the mesh for the plungers
+surface lower_plunger upper_plunger scheme pave
+surface lower_plunger upper_plunger size {mesh_size}
+mesh surface lower_plunger upper_plunger
+
+# Set up the biased mesh for the die wall
+curve 86 87 88 89 90 scheme equal
+curve 86 87 88 89 90 size {mesh_size}
+mesh curve 86 87 88 89 90
+curve 32 scheme bias fine size {mesh_size} factor {die_wall_mesh_factor} start vertex 33
+curve 30 scheme bias fine size {mesh_size} factor {die_wall_mesh_factor} start vertex 32
+mesh curve 30 32
+surface die_wall scheme map
+mesh surface die_wall
+
+############ Mesh setup for the electrodes #################
+
+surface lower_ram lower_spacer scheme pave
+surface lower_ram lower_spacer size {mesh_size}
+mesh surface lower_ram lower_spacer
+
+surface upper_ram upper_spacer scheme pave
+surface upper_ram upper_spacer size {mesh_size}
+mesh surface upper_ram upper_spacer
+
+####### Sideset and Block Assignment #############
+
+#prevent just the powder and die wall blocks from merging
+body 5 6 merge off
+merge body all
+
+#Set names for the lower plunger block
+block 1 surface lower_plunger
+block 1 name 'lower_plunger'
+
+sideset 101 add curve 1
+sideset 101 name  'top_lower_plunger'
+sideset 102 add curve 2
+sideset 102 name 'centerline_lower_plunger'
+sideset 103 add curve 16
+sideset 103 name 'outer_lower_plunger'
+sideset 104 add curve 17
+sideset 104 name 'bottom_lower_plunger'
+
+sideset 105 add curve 15
+sideset 105 name 'spacer_facing_lower_plunger'
+sideset 106 add curve 20
+sideset 106 name 'radiative_lower_plunger'
+sideset 107 add curve 21
+sideset 107 name 'die_wall_facing_lower_plunger'
+
+
+#Set names for the upper plunger block
+block 2 surface upper_plunger
+block 2 name 'upper_plunger'
+sideset 201 add curve 26
+sideset 201 name 'top_upper_plunger'
+sideset 202 add curve 25
+sideset 202 name 'centerline_upper_plunger'
+sideset 203 add curve 23
+sideset 203 name 'outer_upper_plunger'
+sideset 204 add curve 24
+sideset 204 name 'bottom_upper_plunger'
+
+sideset 205 add curve 22
+sideset 205 name 'spacer_facing_upper_plunger'
+sideset 206 add curve 27
+sideset 206 name 'radiative_upper_plunger'
+sideset 207 add curve 28
+sideset 207 name 'die_wall_facing_upper_plunger'
+sideset 208 add curve 16 23
+sideset 208 name 'combined_outer_plungers'
+
+
+#Set names for the die wall block
+block 3 surface die_wall
+block 3 name 'die_wall'
+sideset 301 add curve 30
+sideset 301 name 'top_die_wall'
+sideset 302 add curve 86 87 88 89 90
+sideset 302 name 'inner_die_wall'
+sideset 303 add curve 33
+sideset 303 name 'outer_die_wall'
+sideset 304 add curve 32
+sideset 304 name 'bottom_die_wall'
+
+nodeset 305 add vertex 30
+nodeset 305 name 'upper_inner_die_wall_corner'
+nodeset 306 add vertex 31
+nodeset 306 name 'lower_inner_die_wall_corner'
+
+
+#Sideset names for the powder block
+sideset 401 add curve top_powder_compact
+sideset 401 name 'top_powder_compact'
+sideset 402 add curve bottom_powder_compact
+sideset 402 name 'bottom_powder_compact'
+sideset 403 add curve centerline_powder_compact
+sideset 403 name 'centerline_powder_compact'
+sideset 404 add curve outer_powder_compact
+sideset 404 name 'outer_powder_compact'
+
+#Nodeset for the centerline centerpoint node
+nodeset 501 add node with y_coord > {0.5*total_model_height - 1.0*mesh_size} AND y_coord < {0.5*total_model_height + 0.5*mesh_size}  AND x_coord = 0.0
+nodeset 501 name 'axial_centerpoint'
+
+#Nodeset for the axial centerline points on the die wall
+nodeset 502 add node with y_coord > {0.5*total_model_height - 0.5*mesh_size} AND y_coord < {0.5*total_model_height + 0.5*mesh_size}  AND x_coord = {powder_compact_radius}
+nodeset 502 name 'centerpoint_inner_die_wall'
+nodeset 503 add node with y_coord > {0.5*total_model_height - 0.5*mesh_size} AND y_coord < {0.5*total_model_height + 0.5*mesh_size}  AND x_coord = {powder_compact_radius + die_wall_thickness}
+nodeset 503 name 'centerpoint_outer_die_wall'
+
+
+
+# Setup sidesets for the graphite spacers
+sideset 601 add curve 43 67
+sideset 601 name 'centerline_spacers'
+sideset 602 add curve 46
+sideset 602 name 'top_lower_spacer'
+sideset 603 add curve 71
+sideset 603 name 'bottom_upper_spacer'
+sideset 604 add curve 45 69
+sideset 604 name 'outer_radiative_spacers'
+
+sideset 605 add curve 93
+sideset 605 name 'plunger_facing_lower_spacer'
+sideset 606 add curve 98
+sideset 606 name 'plunger_facing_upper_spacer'
+
+
+# Setup sidesets for the stainless steel ram
+sideset 701 add curve 65 96 41 91
+sideset 701 name 'outer_radiative_stainless_steel'
+sideset 702 add curve 58 84
+sideset 702 name 'centerline_steel_ram'
+sideset 703 add curve 57
+sideset 703 name 'bottom_lower_steel_ram'
+sideset 704 add curve 85
+sideset 704 name 'top_upper_steel_ram'
+
+# Add water channel sideset
+sideset 801 add curve 80 81 82 83 56 59 60 61
+sideset 801 name 'water_channel'
+
+# Add interface between lower ram and spacer
+sideset 901 add curve 44
+sideset 901 name 'lower_ram_spacer_interface'
+
+# Add interface between upper plunger and ram
+sideset 1001 add curve 66
+sideset 1001 name 'upper_ram_spacer_interface'
+
+# Make graphite, stainless, blocks
+block 5 surface lower_ram upper_ram
+block 5 name 'stainless_steel'
+
+block 6 surface lower_spacer upper_spacer
+block 6 name 'graphite_spacers'
+
+block all element type QUAD8
+body all scale {unit_conversion}
+
+########## Save off the mesh ######
+export mesh "drsinter_nodalcontact_2d.e" dimension 2 block all overwrite
