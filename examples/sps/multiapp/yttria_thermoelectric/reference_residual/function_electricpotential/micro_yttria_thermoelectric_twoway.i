@@ -1,0 +1,1 @@
+../../../electrothermal_with_phase_field/twoway_initial_prototype/micro_yttria_thermoelectric_twoway.i

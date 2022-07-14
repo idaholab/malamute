@@ -1,0 +1,190 @@
+reset
+title 'Cincotti Die Geometry: Select model type!'
+
+{#model_sample_type = 2} #Options are 2, 3, or 4
+{#mesh_size = 0.002} #finer = 0.0005
+{#use_interface_bias = TRUE}
+{#ram_interface_factor = 1.025} #super fussy value, looks like a range between 1.045 and 1.01 is best
+
+
+######### end user set values, start defined model dimensions ######
+
+{#bgspacer_radius = 8.0/2.0}
+{#bgspacer_height = 4.0}
+{#smspacer_radius = 3.0/2.0}
+{#smspacer_height = 3.0}
+{#plunger_radius = 1.45/2.0}
+{#plunger_height = 2.0}
+{#ensemble_plunger_height = 0.75}
+{#die_height = 0.0}
+
+{#electrode_radius = 4.0}
+{#upper_electrode_height = 16.4}
+{#lower_electrode_height = 26.0}
+{#channel_small_radius = sqrt(2.0) / 2.0}
+{#channel_large_radius = 2.25 / 2.0}
+{#channel_tee_height = 1.0}
+{#upper_channel_height = 13.65}
+{#lower_channel_height = 23.25}
+
+
+############ Make the stainless steel rams #################
+create surface rectangle width {electrode_radius} height {lower_electrode_height} zplane
+move surface 1 x {electrode_radius / 2.0} y {lower_electrode_height / 2.0}
+
+# create and subtract the lower die water channels
+create surface rectangle width {channel_large_radius} height {channel_tee_height} zplane
+move surface 2 x {channel_large_radius / 2.0} y {channel_tee_height / 2.0 + lower_channel_height}
+create surface rectangle width {channel_small_radius} height {lower_channel_height} zplane
+move surface 3 x {channel_small_radius / 2.0} y {lower_channel_height / 2.0}
+
+subtract body 2 3 from body 1
+surface 4 name 'lower_ram'
+curve 1 name 'lower_ram_interface'
+
+# upper ram
+create surface rectangle width {electrode_radius} height {upper_electrode_height} zplane
+move surface 5 x {electrode_radius / 2.0} y {lower_electrode_height +  upper_electrode_height/ 2.0}
+
+# create and subtract the upper die water channels
+create surface rectangle width {channel_large_radius} height {channel_tee_height} zplane
+move surface 6 x {channel_large_radius / 2.0} y {lower_electrode_height + (upper_electrode_height - upper_channel_height) - channel_tee_height / 2.0}
+create surface rectangle width {channel_small_radius} height {upper_channel_height} zplane
+move surface 7 x {channel_small_radius / 2.0} y {lower_electrode_height +  upper_electrode_height - upper_channel_height / 2}
+
+subtract body 5 6 from body 4
+surface 8 name 'upper_ram'
+curve 21 name 'upper_ram_interface'
+
+
+############ Make the graphite die #################
+create surface rectangle width {bgspacer_radius} height {bgspacer_height} zplane
+
+#{if(model_sample_type == 2)}
+  {#die_height = 2*bgspacer_height}
+  move surface 9 x {bgspacer_radius/2} y {die_height/4}
+  surface 9 copy reflect y
+  move surface 9 10 y {die_height/2 + lower_electrode_height}
+
+  ## Add mesh information
+  block 1 surface 9 10
+  block 1 element type QUAD8
+  block 1 Name "graphite"
+#{endif}
+
+#{if(model_sample_type == 3)}
+  {#die_height = 2 * (bgspacer_height + smspacer_height) + plunger_height}
+  move surface 9 x {bgspacer_radius/2} y {(die_height - bgspacer_height)/2}
+  create surface rectangle width {smspacer_radius} height {smspacer_height} zplane
+  move surface 10 x {(smspacer_radius)/2} y {(smspacer_height + plunger_height)/2}
+
+  surface 9 10 copy reflect y
+  create surface rectangle width {plunger_radius} height {plunger_height} zplane
+  move surface 13 x {plunger_radius/2}
+
+  move surface 9 10 11 12 13 x 0 y {die_height / 2 + lower_electrode_height}
+
+#  curve 37 name 'upper_die_interface'
+#  curve 41 name "lower_die_interface"
+
+  ## Add mesh information
+  block 1 surface 9 10 11 12 13
+  block 1 element type QUAD8
+  block 1 Name "graphite"
+
+#  block 3 surface 13
+#  block 3 element type QUAD8
+#  block 3 Name "center_graphite"
+#{endif}
+
+#{if(model_sample_type == 4)}
+  {#die_height = 2 * (bgspacer_height + ensemble_plunger_height) + 3 * smspacer_height}
+  move surface 9 x {bgspacer_radius/2} y {(die_height - bgspacer_height)/2}
+  create surface rectangle width {smspacer_radius} height {smspacer_height} zplane
+  move surface 10 x {(smspacer_radius)/2} y {(die_height - 2*bgspacer_height - smspacer_height)/2}
+  create surface rectangle width {plunger_radius} height {ensemble_plunger_height} zplane
+  move surface 11 x {(plunger_radius)/2} y {(smspacer_height + ensemble_plunger_height)/2}
+
+  surface 9 10 11 copy reflect y
+  create surface rectangle width {smspacer_radius} height {smspacer_height} zplane
+  move surface 15 x {smspacer_radius/2}
+
+  move surface 9 10 11 12 13 14 15 x 0 y {die_height / 2 + lower_electrode_height}
+
+  ## Add mesh information
+  block 1 surface 9 10 11 12 13 14 15
+  block 1 element type QUAD8
+  block 1 Name "graphite"
+
+#  block 3 surface 15
+#  block 3 element type QUAD8
+#  block 3 Name "center_graphite"
+  surface 15 size {mesh_size}
+#{endif}
+
+move surface upper_ram y {die_height}
+
+############ Scale and mesh the geometry #################
+surface all scale 0.01
+
+block 2 surface upper_ram lower_ram
+block 2 element type QUAD8
+block 2 Name "stainless_steel"
+
+imprint body all
+merge body all
+surface all scheme pave
+
+surface all size {mesh_size}
+
+#{if(use_interface_bias)}
+  curve lower_ram_interface upper_ram_interface size {mesh_size/ 2.0}
+  surface lower_ram upper_ram sizing function type bias start curve lower_ram_interface upper_ram_interface factor {ram_interface_factor}
+#{endif}
+
+mesh surface all
+
+quality surface all shape global draw mesh list
+
+############### Set up sidesets for BCs and interface kernels ###############
+
+#{if(model_sample_type == 2)}
+  sideset 400 add curve 40 44
+  sideset 400 name "right_die_graphite"
+  sideset 1000 add curve 39
+  sideset 1000 name "gg_interface"
+#{endif}
+
+#{if(model_sample_type == 3)}
+  sideset 400 add curve 40 44 48 52 56 58 60 61 63
+  sideset 400 name "right_die_graphite"
+  sideset 1000 add curve 55 53 49 41
+  sideset 1000 name "gg_interface"
+#{endif}
+
+#{if(model_sample_type == 4)}
+  sideset 400 add curve 40 44 48 52 56 60 64 66 68 69 71 73 76
+  sideset 400 name "right_die_graphite"
+  sideset 1000 add curve 41 45 47 53 57 59
+  sideset 1000 name "gg_interface"
+#{endif}
+
+## Set sidesets for the rams only geometry
+sideset 100 add curve 14
+sideset 100 name "bottom_die"
+sideset 200 add curve 36
+sideset 200 name "top_die"
+sideset 600 add curve 13 16 17 18 31 32 33 34
+sideset 600 name "water_channel"
+sideset 800 add curve 4 22
+sideset 800 name "right_die_stainless_steel"
+
+## Add die-ram interface kernels
+sideset 1200 add curve upper_ram_interface
+sideset 1200 name 'ssg_interface'
+sideset 1400 add curve lower_ram_interface
+sideset 1400 name 'gss_interface'
+
+export mesh "sps_dieram_assembly_2d.e" dimension 2 block all overwrite
+#draw block all
+

@@ -1,0 +1,16 @@
+[Tests]
+  [engineering_scale_electrothermal_oneway_controls]
+    type = RunApp
+    input = 'engineering_scale_electrothermal_oneway_controls.i'
+    check_input = True
+    method = opt
+    issues = '#20'
+  []
+  [micro_yttria_thermoelectric_oneway_controls]
+    type = RunApp
+    input = 'micro_yttria_thermoelectric_oneway_controls.i'
+    check_input = True
+    method = opt
+    issues = '#20'
+  []
+[]
