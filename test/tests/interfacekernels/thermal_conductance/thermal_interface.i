@@ -1,9 +1,6 @@
 # Input file block to generate this mesh can be found in thermal_interface_mesh.i
 [Mesh]
   file = thermal_interface_regular_mesh.e
-[]
-
-[Problem]
   coord_type = RZ
 []
 

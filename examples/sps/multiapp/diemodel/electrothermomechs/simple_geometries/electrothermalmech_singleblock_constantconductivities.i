@@ -50,12 +50,12 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
     top_right = '5.25e-5 0.000755 0'
     new_boundary = 'outer_centerpoint'
   []
+  coord_type = RZ
   patch_update_strategy = iteration
   patch_size = 10
 []
 
 [Problem]
-  coord_type = RZ
   type = ReferenceResidualProblem
   reference_vector = 'ref'
   extra_tag_vectors = 'ref'
