@@ -8,10 +8,10 @@ initial_temperature=1350
   xmax = 0.01 #1cm
   ymax = 0.004 #0.4cm (to get square elements)
   second_order = true
+  coord_type = RZ
 []
 
 [Problem]
-  coord_type = RZ
   type = ReferenceResidualProblem
   reference_vector = 'ref'
   extra_tag_vectors = 'ref'

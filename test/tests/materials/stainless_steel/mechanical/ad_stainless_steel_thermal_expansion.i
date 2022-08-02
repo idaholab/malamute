@@ -14,9 +14,6 @@
     type = PatchMeshGenerator
     dim = 2
   [../]
-[]
-
-[Problem]
   coord_type = RZ
 []
 

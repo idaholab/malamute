@@ -8,13 +8,13 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
 
 [Mesh]
   file = stepped_plunger_powder_2d.e
+  coord_type = RZ
   construct_side_list_from_node_list = true
   patch_update_strategy = iteration
   patch_size = 20
 []
 
 [Problem]
-  coord_type = RZ
   type = ReferenceResidualProblem
   reference_vector = 'ref'
   extra_tag_vectors = 'ref'

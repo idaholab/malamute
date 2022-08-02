@@ -8,9 +8,6 @@
   ny = 5
   xmax = 0.01 #1cm
   ymax = 0.01 #1cm
-[]
-
-[Problem]
   coord_type = RZ
 []
 

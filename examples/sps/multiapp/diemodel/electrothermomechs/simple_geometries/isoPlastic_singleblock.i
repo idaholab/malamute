@@ -36,12 +36,12 @@ initial_temperature=600 #roughly 600C where the pyrometer kicks in
     old_block = '1'
     new_block = 'powder_compact'
   []
+  coord_type = RZ
   patch_update_strategy = iteration
   patch_size = 10
 []
 
 [Problem]
-  coord_type = RZ
   type = ReferenceResidualProblem
   reference_vector = 'ref'
   extra_tag_vectors = 'ref'
