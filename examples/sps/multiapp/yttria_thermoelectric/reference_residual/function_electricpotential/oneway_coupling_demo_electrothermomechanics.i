@@ -7,6 +7,7 @@ initial_temperature=1350
 []
 
 [Mesh]
+  coord_type = RZ
   second_order = true
   [yttria_block]
     type = GeneratedMeshGenerator
@@ -27,7 +28,6 @@ initial_temperature=1350
 []
 
 [Problem]
-  coord_type = RZ
   type = ReferenceResidualProblem
   reference_vector = 'ref'
   extra_tag_vectors = 'ref'

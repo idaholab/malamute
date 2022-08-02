@@ -34,9 +34,6 @@
     type = FileMeshGenerator
     file = spsdie_table1model3_2d.e
   [../]
-[]
-
-[Problem]
   coord_type = RZ
 []
 

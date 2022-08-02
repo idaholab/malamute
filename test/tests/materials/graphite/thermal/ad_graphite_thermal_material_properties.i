@@ -24,9 +24,6 @@
   ny = 2
   xmax = 0.01 #1cm
   ymax = 0.02 #2cm
-[]
-
-[Problem]
   coord_type = RZ
 []
 
