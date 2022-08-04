@@ -1,24 +1,16 @@
 [Tests]
-  [./electrothermomechanics_singleblock_elastic_powder]
+  [yttria_electrothermomechanical_singleblock]
     type = RunApp
-    input = 'isotropic_electrothermomechanical_singleblock.i'
+    input = 'yttria_electrothermomechanical_singleblock.i'
     check_input = True
     method = opt
     issues = '#9'
-  [../]
-  [./electrothermomechanics_singleblock_creep_powder]
+  []
+  [graphite_electrothermalmech_singleblock]
     type = RunApp
-    input = 'powerlawcreep_singleblock.i'
+    input = 'graphite_electrothermalmech_singleblock.i'
     check_input = True
     method = opt
     issues = '#9'
-  [../]
-  [./electrothermomechanics_singleblock_plstic_powder]
-    type = RunApp
-    input = 'isoPlastic_singleblock.i'
-    cli_args = 'initial_temperature=500 Outputs/file_base=t500'
-    check_input = True
-    method = opt
-    issues = '#22'
-  [../]
+  []
 []
