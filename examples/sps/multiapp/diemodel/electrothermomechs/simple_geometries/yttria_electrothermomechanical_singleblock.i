@@ -1,7 +1,7 @@
 ## Units in the input file: m-Pa-s-K
 
-#initial_porosity = 0.38
-initial_temperature=300 #roughly 600C where the pyrometer kicks in
+initial_porosity = 0.38
+initial_temperature = 300 #roughly 600C where the pyrometer kicks in
 
 [GlobalParams]
   displacements = 'disp_x disp_y'
@@ -13,8 +13,8 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
   [top_square]
     type = GeneratedMeshGenerator
     dim = 2
-    nx = 20
-    ny = 20
+    nx = 50
+    ny = 50
     xmax = 0.0005
     ymin = 0.0005
     ymax = 0.001
@@ -35,13 +35,6 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
     input = two_blocks
     old_block = '1'
     new_block = 'powder_compact'
-  []
-  [inner_centerpoint]
-    type = BoundingBoxNodeSetGenerator
-    input = block_rename
-    bottom_left = '0.0    0.00074 0'
-    top_right = '0.25e-5 0.000755 0'
-    new_boundary = 'centerpoint'
   []
   coord_type = RZ
   patch_update_strategy = iteration
@@ -85,9 +78,11 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
   [TensorMechanics/Master]
     [graphite]
       strain = FINITE
+      incremental = true
       add_variables = true
       use_automatic_differentiation = true
-      generate_output = 'strain_xx strain_xy strain_yy strain_zz stress_xx stress_xy stress_yy stress_zz'
+      generate_output = 'strain_xx strain_xy strain_yy strain_zz stress_xx stress_xy stress_yy '
+                        'stress_zz plastic_strain_yy'
       extra_vector_tags = 'ref'
       eigenstrain_names = 'thermal_expansion'
     []
@@ -156,32 +151,26 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
     value = 0
     boundary = 'powder_compact_left'
   []
-  [fixed_in_y]
+  [bottom_no_disp]
     type = ADDirichletBC
     preset = true
     variable = disp_y
     value = 0
-    boundary = 'centerpoint'
-  []
-  [bottom_pressure_ydirection]
-    type = ADPressure
-    variable = disp_y
     boundary = 'powder_compact_bottom'
-    function = 20.7e6 #'if(t<1, 20.7e6*t, 20.7e6)'
   []
   [top_pressure_ydirection]
     type = ADPressure
     variable = disp_y
     boundary = 'powder_compact_top'
-    function = 20.7e6 #'if(t<1, 20.7e6*t, 20.7e6)'
+    function = 'if(t<5.0, 4.14e6*t, 20.7e6)'
   []
 
-  [external_surface]
-    type = CoupledVarNeumannBC
-    boundary = 'powder_compact_right'
-    variable = temperature
-    v = heat_transfer_radiation
-  []
+  # [external_surface]
+  #   type = CoupledVarNeumannBC
+  #   boundary = 'powder_compact_right'
+  #   variable = temperature
+  #   v = heat_transfer_radiation
+  # []
 
   [electric_top]
     type = ADFunctionDirichletBC
@@ -197,6 +186,19 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
   []
 []
 
+[Functions]
+  [yield]
+    type = PiecewiseLinear
+    x = '100  300  400  500  600  5000' #temperature
+    y = '15e6 15e6 14e6 13e6 10e6 10e6' #yield stress
+  []
+  [temp_hist]
+    type = PiecewiseLinear
+    x = '0   5   10' #time
+    y = '300 300 600' #temperature
+  []
+[]
+
 [Materials]
   [yttria_elasticity_tensor]
     type = ADComputeIsotropicElasticityTensor
@@ -204,14 +206,19 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
     youngs_modulus = 1.38e10 #in Pa assuming 62% initial density and theoretical coeff. from Phani and Niyogi (1987)
     poissons_ratio = 0.36
   []
-  [yttria_elastic_stress]
-    type = ADComputeFiniteStrainElasticStress
+  [yttria_stress]
+    type = ADComputeMultipleInelasticStress
+    inelastic_models = yttria_plastic_model
   []
-  # [yttria_stress]
-  #   type = ADComputeMultipleInelasticStress
-  #   inelastic_models = yttria_creep_model
-  # []
-  # [yttria_creep_model]
+  [yttria_plastic_model]
+    type = ADIsotropicPlasticityStressUpdate
+    yield_stress_function = yield
+    hardening_constant = 0.1e10
+    temperature = temperature
+    outputs = all
+    # max_inelastic_increment = 0.000001
+  []
+  # [yttria_creep_model] ## Doesn't work, perserve record of attempt for now
   #   type = ADPowerLawCreepStressUpdate
   #   coefficient = 3.75e-7 #1e-15
   #   n_exponent = 0.714 #from Al's work
@@ -227,7 +234,7 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
   []
   [thermal_expansion]
     type = ADComputeThermalExpansionEigenstrain
-    thermal_expansion_coeff = 9.3e-6  # from https://doi.org/10.1111/j.1151-2916.1957.tb12619.x
+    thermal_expansion_coeff = 9.3e-6 # from https://doi.org/10.1111/j.1151-2916.1957.tb12619.x
     eigenstrain_name = thermal_expansion
     stress_free_temperature = 300
     temperature = temperature
@@ -246,13 +253,13 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
   []
   [electrical_conductivity]
     type = ADParsedMaterial
-  #   args = 'sigma_aeh'
-  #   function = 'sigma_aeh*1.602e8' #converts to units of J/(V^2-m-s)
+    #   args = 'sigma_aeh'
+    #   function = 'sigma_aeh*1.602e8' #converts to units of J/(V^2-m-s)
     f_name = 'electrical_conductivity'
     output_properties = electrical_conductivity
     outputs = 'exodus csv'
     args = 'temperature'
-    constant_names =       'Q_elec  kB            prefactor_solid  initial_porosity'
+    constant_names = 'Q_elec  kB            prefactor_solid  initial_porosity'
     constant_expressions = '1.61    8.617343e-5        1.25e-4           0.38'
     function = '(1-initial_porosity) * prefactor_solid * exp(-Q_elec/kB/temperature) * 1.602e8' # in eV/(nV^2 s nm) per chat with Larry, last term converts to units of J/(V^2-m-s)
   []
@@ -270,7 +277,8 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
   petsc_options_value = ' lu       superlu_dist'
 
   nl_rel_tol = 1e-4 #was 1e-10, for temperature only
-  nl_abs_tol = 2e-12 #was 1e-10, before that 1e-12
+  nl_abs_tol = 1e-10 #was 1e-10, before that 1e-12
+  nl_forced_its = 1
   nl_max_its = 20
   l_max_its = 50
   dtmin = 1.0e-3
@@ -305,8 +313,15 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
     type = ElementAverageValue
     variable = vonmises_stress
   []
+  [plastic_strain_yy]
+    type = ElementAverageValue
+    variable = plastic_strain_yy
+  []
+  [temperature_pp]
+    type = AverageNodalVariableValue
+    variable = temperature
+  []
 []
-
 
 [Outputs]
   csv = true
