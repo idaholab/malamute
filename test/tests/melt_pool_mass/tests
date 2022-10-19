@@ -1,0 +1,10 @@
+[Tests]
+  issues = '#35'
+  [mass]
+    type = 'Exodiff'
+    input = 'mass.i'
+    exodiff = 'mass_out.e'
+    design = 'LevelSetPowderAddition.md'
+    requirement = 'The system shall evolve the level set variable field with the velocity due to the powder addition.'
+  []
+[]
