@@ -1,6 +1,5 @@
 ## Units in the input file: m-Pa-s-K
 
-initial_porosity = 0.38
 initial_temperature = 300 #roughly 600C where the pyrometer kicks in
 
 [GlobalParams]
