@@ -63,14 +63,21 @@ initial_temperature = 300 #roughly 600C where the pyrometer kicks in
   [specific_heat_capacity_va]
     initial_condition = 842.2 # at 1500K #568.73 at 1000K #447.281 # at 293K
   []
-  [density_va]
-    initial_condition = 3106.2 ##5010.0*(1-${initial_porosity}) #in kg/m^3
+  [density_va] # initial condition set in ICs block below
   []
   [heat_transfer_radiation]
   []
   [current_density_J]
     family = NEDELEC_ONE
     order = FIRST
+  []
+[]
+
+[ICs]
+  [density_va_ic]
+    type = FunctionIC
+    variable = density_va
+    function = '5010.0*(1-${initial_porosity})' # 3106.2 in kg/m^3
   []
 []
 
