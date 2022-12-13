@@ -658,18 +658,16 @@ initial_voltage=0.0001
   []
   [k_x_AEH] #Effective thermal conductivity in x-direction from AEH
     type = HomogenizedThermalConductivity
-    variable = Tx_AEH
-    temp_x = Tx_AEH
-    temp_y = Ty_AEH
-    component = 0
+    chi = 'Tx_AEH Ty_AEH'
+    row = 0
+    col = 0
     execute_on = TIMESTEP_END
   []
   [k_y_AEH] #Effective thermal conductivity in y-direction from AEH
     type = HomogenizedThermalConductivity
-    variable = Ty_AEH
-    temp_x = Tx_AEH
-    temp_y = Ty_AEH
-    component = 1
+    chi = 'Tx_AEH Ty_AEH'
+    row = 1
+    col = 1
     execute_on = TIMESTEP_END
   []
   [k_AEH_average]
@@ -679,19 +677,17 @@ initial_voltage=0.0001
   []
   [sigma_x_AEH] #Effective electrical conductivity in x-direction from AEH
     type = HomogenizedThermalConductivity
-    variable = Vx_AEH
-    temp_x = Vx_AEH
-    temp_y = Vy_AEH
-    component = 0
+    chi = 'Vx_AEH Vy_AEH'
+    row = 0
+    col = 0
     execute_on = TIMESTEP_END
     diffusion_coefficient = electrical_conductivity
   []
   [sigma_y_AEH] #Effective electrical conductivity in y-direction from AEH
     type = HomogenizedThermalConductivity
-    variable = Vy_AEH
-    temp_x = Vx_AEH
-    temp_y = Vy_AEH
-    component = 1
+    chi = 'Vx_AEH Vy_AEH'
+    row = 1
+    col = 1
     execute_on = TIMESTEP_END
     diffusion_coefficient = electrical_conductivity
   []
