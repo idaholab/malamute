@@ -553,19 +553,17 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
   []
   [k_x_AEH] #Effective thermal conductivity in x-direction from AEH
     type = HomogenizedThermalConductivity
-    variable = Tx_AEH
-    temp_x = Tx_AEH
-    temp_y = Ty_AEH
-    component = 0
+    chi = 'Tx_AEH Ty_AEH'
+    row = 0
+    col = 0
     execute_on = TIMESTEP_END
     # scale_factor = 1e6 #Scale due to length scale of problem
   []
   [k_y_AEH] #Effective thermal conductivity in x-direction from AEH
     type = HomogenizedThermalConductivity
-    variable = Ty_AEH
-    temp_x = Tx_AEH
-    temp_y = Ty_AEH
-    component = 1
+    chi = 'Tx_AEH Ty_AEH'
+    row = 1
+    col = 1
     execute_on = TIMESTEP_END
     # scale_factor = 1e6 #Scale due to length scale of problem
   []
@@ -581,21 +579,19 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
   []
   [sigma_x_AEH] #Effective electrical conductivity in x-direction from AEH
     type = HomogenizedThermalConductivity
-    variable = Vx_AEH
-    temp_x = Vx_AEH
-    temp_y = Vy_AEH
+    chi = 'Vx_AEH Vy_AEH'
+    row = 0
+    col = 0
     diffusion_coefficient = reg_electrical_conductivity
-    component = 0
     execute_on = TIMESTEP_END
     # scale_factor = 1e6 #Scale due to length scale of problem
   []
   [sigma_y_AEH] #Effective electrical conductivity in x-direction from AEH
     type = HomogenizedThermalConductivity
-    variable = Vy_AEH
-    temp_x = Vx_AEH
-    temp_y = Vy_AEH
+    chi = 'Vx_AEH Vy_AEH'
+    row = 1
+    col = 1
     diffusion_coefficient = reg_electrical_conductivity
-    component = 1
     execute_on = TIMESTEP_END
     # scale_factor = 1e6 #Scale due to length scale of problem
   []
