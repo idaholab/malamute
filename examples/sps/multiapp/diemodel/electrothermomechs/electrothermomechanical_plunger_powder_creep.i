@@ -291,34 +291,34 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
 [Functions]
   [graphite_thermal_conductivity_fcn]
     type = ParsedFunction
-    value = '-4.418e-12*t^4+2.904e-8*t^3-4.688e-5*t^2-0.0316*t+119.659'
+    expression = '-4.418e-12*t^4+2.904e-8*t^3-4.688e-5*t^2-0.0316*t+119.659'
   []
   # [yttria_thermal_conductivity_fcn] #from the multiapp
   #   type = ParsedFunction
-  #   value = '3214.46/(t-147.73)'
+  #   expression = '3214.46/(t-147.73)'
   # []
   [harmonic_mean_thermal_conductivity]
     type = ParsedFunction
-    value = '2*(-4.418e-12*t^4+2.904e-8*t^3-4.688e-5*t^2-0.0316*t+119.659)*(3214.46/(t-147.73))/((-4.418e-12*t^4+2.904e-8*t^3-4.688e-5*t^2-0.0316*t+119.659)+(3214.46/(t-147.73)))'
-    # vars = 'k_graphite k_yttria'
-    # vals = 'graphite_thermal_conductivity_fcn yttria_thermal_conductivity_fcn'
+    expression = '2*(-4.418e-12*t^4+2.904e-8*t^3-4.688e-5*t^2-0.0316*t+119.659)*(3214.46/(t-147.73))/((-4.418e-12*t^4+2.904e-8*t^3-4.688e-5*t^2-0.0316*t+119.659)+(3214.46/(t-147.73)))'
+    # symbol_names = 'k_graphite k_yttria'
+    # symbol_values = 'graphite_thermal_conductivity_fcn yttria_thermal_conductivity_fcn'
   []
 
   [graphite_electrical_conductivity_fcn]
     type = ParsedFunction
-    value = '1.0/(-2.705e-15*t^3+1.263e-11*t^2-1.836e-8*t+1.813e-5)'
+    expression = '1.0/(-2.705e-15*t^3+1.263e-11*t^2-1.836e-8*t+1.813e-5)'
   []
   # [electrical_conductivity_fcn]
   #   type = ParsedFunction
-  #   # vars = porosity
-  #   # vals = initial_porosity
-  #   value = '(1-0.62)*2.0025e4*exp(-1.61/8.617343e-5/t)'
+  #   # symbol_names = porosity
+  #   # symbol_values = initial_porosity
+  #   expression = '(1-0.62)*2.0025e4*exp(-1.61/8.617343e-5/t)'
   # []
   [harmonic_mean_electrical_conductivity]
     type = ParsedFunction
-    value = '2*(1.0/(-2.705e-15*t^3+1.263e-11*t^2-1.836e-8*t+1.813e-5))*((1)*2.0025e4*exp(-1.61/8.617343e-5/t))/((1.0/(-2.705e-15*t^3+1.263e-11*t^2-1.836e-8*t+1.813e-5))+((1)*2.0025e4*exp(-1.61/8.617343e-5/t)))'
-    # vars = 'k_graphite k_yttria'
-    # vals = 'graphite_thermal_conductivity_fcn yttria_thermal_conductivity_fcn'
+    expression = '2*(1.0/(-2.705e-15*t^3+1.263e-11*t^2-1.836e-8*t+1.813e-5))*((1)*2.0025e4*exp(-1.61/8.617343e-5/t))/((1.0/(-2.705e-15*t^3+1.263e-11*t^2-1.836e-8*t+1.813e-5))+((1)*2.0025e4*exp(-1.61/8.617343e-5/t)))'
+    # symbol_names = 'k_graphite k_yttria'
+    # symbol_values = 'graphite_thermal_conductivity_fcn yttria_thermal_conductivity_fcn'
   []
 []
 

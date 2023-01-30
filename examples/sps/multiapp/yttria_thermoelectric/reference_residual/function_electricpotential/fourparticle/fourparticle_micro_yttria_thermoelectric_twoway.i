@@ -209,9 +209,9 @@ initial_voltage=0.0001
 [Functions]
   [./top_bc_funct]
     type = ParsedFunction
-    vars = 'L_y E_y' #L_y is the length of the domain in the y-direction
-    vals = '40  Ey_in'
-    value = 'L_y * E_y * 1e-9' #1e-9 converts from length units of m in engineering scale to nm in phase-field
+    symbol_names = 'L_y E_y' #L_y is the length of the domain in the y-direction
+    symbol_values = '40  Ey_in'
+    expression = 'L_y * E_y * 1e-9' #1e-9 converts from length units of m in engineering scale to nm in phase-field
   [../]
 []
 

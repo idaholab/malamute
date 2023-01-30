@@ -370,9 +370,9 @@
 [Functions]
   [./mechanical_pressure_func]
     type = ParsedFunction
-    vars = 'radius force'
-    vals = '0.04 3.5' # 'm kN'
-    value = 'force * 1e3 / (pi * radius^2)' # (N / m^2)
+    symbol_names = 'radius force'
+    symbol_values = '0.04 3.5' # 'm kN'
+    expression = 'force * 1e3 / (pi * radius^2)' # (N / m^2)
   [../]
 []
 

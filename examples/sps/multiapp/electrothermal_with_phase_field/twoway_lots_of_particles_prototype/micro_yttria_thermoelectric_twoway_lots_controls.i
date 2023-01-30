@@ -190,15 +190,15 @@ initial_voltage=0.0001
 [Functions]
   [./top_bc_funct]
     type = ParsedFunction
-    vars = 'L_y E_y' #L_y is the length of the domain in the y-direction
-    vals = '320  Ey_in'
-    value = 'L_y * E_y * 1e-9' #1e-9 converts from length units of m in engineering scale to nm in phase-field
+    symbol_names = 'L_y E_y' #L_y is the length of the domain in the y-direction
+    symbol_values = '320  Ey_in'
+    expression = 'L_y * E_y * 1e-9' #1e-9 converts from length units of m in engineering scale to nm in phase-field
   [../]
   [./temp_switch]
     type = ParsedFunction
-    vars = 'center_temp'
-    vals = 'T_postproc'
-    value = 'if(center_temp > 1100, 1, 0)'
+    symbol_names = 'center_temp'
+    symbol_values = 'T_postproc'
+    expression = 'if(center_temp > 1100, 1, 0)'
   [../]
 []
 

@@ -10,7 +10,7 @@
   [./thermal_expansion_lower_range_check]
     type = RunException
     input = 'graphite_thermal_expansion.i'
-    cli_args = '--error Functions/temp_ramp/value=250.0'
+    cli_args = '--error Functions/temp_ramp/expression=250.0'
     expect_err = 'The temperature in graphite_thermal_expansion is below the calibration lower range limit at a value of 250'
     issues = '#12'
     design = 'source/materials/GraphiteThermalExpansionEigenstrain.md'
@@ -20,7 +20,7 @@
   [./thermal_expansion_upper_range_check]
     type = RunException
     input = 'graphite_thermal_expansion.i'
-    cli_args = 'Functions/temp_ramp/value=3000.0'
+    cli_args = 'Functions/temp_ramp/expression=3000.0'
     expect_err = 'The temperature in graphite_thermal_expansion is above the calibration upper range limit at a value of 3000'
     issues = '#12'
     design = 'source/materials/GraphiteThermalExpansionEigenstrain.md'
@@ -40,7 +40,7 @@
   [./ad_thermal_expansion_lower_range_check]
     type = RunException
     input = 'ad_graphite_thermal_expansion.i'
-    cli_args = '--error Functions/temp_ramp/value=250.0'
+    cli_args = '--error Functions/temp_ramp/expression=250.0'
     expect_err = 'The temperature in graphite_thermal_expansion is below the calibration lower range limit at a value of 250'
     design = 'source/materials/ADGraphiteThermalExpansionEigenstrain.md'
     issues = '#12 #14'
@@ -50,7 +50,7 @@
   [./ad_thermal_expansion_upper_range_check]
     type = RunException
     input = 'ad_graphite_thermal_expansion.i'
-    cli_args = 'Functions/temp_ramp/value=3000.0'
+    cli_args = 'Functions/temp_ramp/expression=3000.0'
     expect_err = 'The temperature in graphite_thermal_expansion is above the calibration upper range limit at a value of 3000'
     design = 'source/materials/ADGraphiteThermalExpansionEigenstrain.md'
     issues = '#12 #14'
