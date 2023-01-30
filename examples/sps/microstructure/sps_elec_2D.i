@@ -348,8 +348,8 @@
   [./negative_V]
     type = ParsedAux
     variable = negative_V
-    args = V
-    function = '-V'
+    coupled_variables = V
+    expression = '-V'
   [../]
   [./E_x]
     type = VariableGradientComponent

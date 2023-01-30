@@ -562,8 +562,8 @@ initial_voltage=0.0001
   [./negative_V]
     type = ParsedAux
     variable = negative_V
-    args = V
-    function = '-V'
+    coupled_variables = V
+    expression = '-V'
   [../]
   [./E_x]
     type = VariableGradientComponent
@@ -580,8 +580,8 @@ initial_voltage=0.0001
   [./negative_dV]
     type = ParsedAux
     variable = negative_dV
-    args = dV
-    function = '-dV'
+    coupled_variables = dV
+    expression = '-dV'
   [../]
   [./dE_x]
     type = VariableGradientComponent

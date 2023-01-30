@@ -127,8 +127,8 @@
   [../]
   [./temp_conversion]
     type = ParsedAux
-    args = 'T_1000K'
-    function = '1000 * T_1000K'
+    coupled_variables = 'T_1000K'
+    expression = '1000 * T_1000K'
     variable = T
   [../]
 []

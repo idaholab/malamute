@@ -180,10 +180,10 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
     type = ParsedAux
     variable = heat_transfer_radiation
     boundary = 'upper_plunger_right'
-    args = 'temperature'
+    coupled_variables = 'temperature'
     constant_names = 'boltzmann epsilon temperature_farfield'
     constant_expressions = '5.67e-8 0.85 300.0' #roughly room temperature, which is probably too cold
-    function = '-boltzmann*epsilon*(temperature^4-temperature_farfield^4)'
+    expression = '-boltzmann*epsilon*(temperature^4-temperature_farfield^4)'
   []
   [electrical_conductivity]
     type = ADMaterialRealAux
@@ -215,8 +215,8 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
   [graphite_current_density]
     type = ParsedAux
     variable = graphite_current_density
-    args = 'electrical_conductivity E_y'
-    function = '-1.0*electrical_conductivity*E_y'
+    coupled_variables = 'electrical_conductivity E_y'
+    expression = '-1.0*electrical_conductivity*E_y'
     block = 'upper_plunger'
   []
   [current_density_J]

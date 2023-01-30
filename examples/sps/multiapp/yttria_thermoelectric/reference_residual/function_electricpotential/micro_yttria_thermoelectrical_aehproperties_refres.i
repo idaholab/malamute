@@ -504,8 +504,8 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
   [./negative_V]
     type = ParsedAux
     variable = negative_V
-    args = V
-    function = '-V'
+    coupled_variables = V
+    expression = '-V'
   [../]
   [./E_x]
     type = VariableGradientComponent

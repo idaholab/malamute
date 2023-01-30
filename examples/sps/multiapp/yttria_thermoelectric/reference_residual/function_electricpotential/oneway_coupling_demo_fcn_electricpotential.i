@@ -102,16 +102,16 @@ initial_temperature=1350
     type = ParsedAux
     variable = heat_transfer_radiation
     boundary = right
-    args = 'temperature'
+    coupled_variables = 'temperature'
     constant_names = 'boltzmann epsilon temperature_farfield'  #published emissivity for graphite is 0.85, but use 0.1 to prevent too much heat loss
     constant_expressions = '5.67e-8 0.1 1000.0' #estimated farfield temperature, to stand in for graphite, in a manner
-    function = '-boltzmann*epsilon*(temperature^4-temperature_farfield^4)'
+    expression = '-boltzmann*epsilon*(temperature^4-temperature_farfield^4)'
   []
   [microapp_potential]
     type = ParsedAux
     variable = microapp_potential
-    args = electric_potential
-    function = 'electric_potential*1e9' #convert from V to nV
+    coupled_variables = electric_potential
+    expression = 'electric_potential*1e9' #convert from V to nV
   []
   [E_x]
     type = VariableGradientComponent
@@ -133,8 +133,8 @@ initial_temperature=1350
   [microapp_current_density]
     type = ParsedAux
     variable = microapp_current_density
-    args = 'sigma_aeh E_y'  ## Probably needs to be updated to use the current_density_J
-    function = '-1.0*sigma_aeh*E_y'
+    coupled_variables = 'sigma_aeh E_y'  ## Probably needs to be updated to use the current_density_J
+    expression = '-1.0*sigma_aeh*E_y'
   []
 []
 

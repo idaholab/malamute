@@ -313,8 +313,8 @@ initial_temperature=873 #roughly 600C where the pyrometer kicks in
   [microapp_potential]
     type = ParsedAux
     variable = microapp_potential
-    args = electric_potential
-    function = 'electric_potential*1e9' #convert from V to nV
+    coupled_variables = electric_potential
+    expression = 'electric_potential*1e9' #convert from V to nV
     block = 'powder_compact'
   []
   [E_x]
@@ -334,8 +334,8 @@ initial_temperature=873 #roughly 600C where the pyrometer kicks in
   [yttria_current_density_forBC_microapp]
     type = ParsedAux
     variable = yttria_current_density_forBC_microapp
-    args = 'electrical_conductivity E_y'
-    function = '-1.0*electrical_conductivity*E_y'
+    coupled_variables = 'electrical_conductivity E_y'
+    expression = '-1.0*electrical_conductivity*E_y'
     block = 'powder_compact'
   []
 
@@ -392,19 +392,19 @@ initial_temperature=873 #roughly 600C where the pyrometer kicks in
     type = ParsedAux
     variable = heat_transfer_radiation
     boundary = 'outer_radiative_spacers outer_die_wall radiative_upper_plunger radiative_lower_plunger'
-    args = 'temperature'
+    coupled_variables = 'temperature'
     constant_names = 'boltzmann epsilon temperature_farfield'  #published emissivity for graphite is 0.85
     constant_expressions = '5.67e-8 0.85 293.0' #roughly room temperature, which is probably too cold
-    function = '-boltzmann*epsilon*(temperature^4-temperature_farfield^4)'
+    expression = '-boltzmann*epsilon*(temperature^4-temperature_farfield^4)'
   []
   [heat_transfer_radiation_stainless_steel]
     type = ParsedAux
     variable = heat_transfer_radiation
     boundary = 'outer_radiative_stainless_steel'
-    args = 'temperature_stainless_steel'
+    coupled_variables = 'temperature_stainless_steel'
     constant_names = 'boltzmann epsilon temperature_farfield'  #published emissivity for graphite is 0.85
     constant_expressions = '5.67e-8 0.4 293.0' #roughly room temperature, which is probably too cold
-    function = '-boltzmann*epsilon*(temperature_stainless_steel^4-temperature_farfield^4)'
+    expression = '-boltzmann*epsilon*(temperature_stainless_steel^4-temperature_farfield^4)'
   []
   [thermal_conductivity_graphite]
     type = ADMaterialRealAux

@@ -101,10 +101,10 @@ initial_temperature=300
     type = ParsedAux
     variable = heat_transfer_radiation
     boundary = right
-    args = 'temperature'
+    coupled_variables = 'temperature'
     constant_names = 'boltzmann epsilon temperature_farfield'  #published emissivity for graphite is 0.85, but use 0.1 to prevent too much heat loss
     constant_expressions = '5.67e-8 0.1 1600.0' #estimated farfield temperature, to stand in for graphite, in a manner
-    function = '-boltzmann*epsilon*(temperature^4-temperature_farfield^4)'
+    expression = '-boltzmann*epsilon*(temperature^4-temperature_farfield^4)'
   []
   [E_x]
     type = VariableGradientComponent

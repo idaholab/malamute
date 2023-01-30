@@ -138,10 +138,10 @@ initial_temperature = 300 #roughly 600C where the pyrometer kicks in
     type = ParsedAux
     variable = heat_transfer_radiation
     boundary = 'powder_compact_right'
-    args = 'temperature'
+    coupled_variables = 'temperature'
     constant_names = 'boltzmann epsilon temperature_farfield'
     constant_expressions = '5.67e-8 0.85 300.0' #roughly room temperature, which is probably too cold
-    function = '-boltzmann*epsilon*(temperature^4-temperature_farfield^4)'
+    expression = '-boltzmann*epsilon*(temperature^4-temperature_farfield^4)'
   []
   [current_density_J]
     type = ADCurrentDensity

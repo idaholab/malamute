@@ -466,8 +466,8 @@ initial_field=10 #from the engineering scale, starting value 10 V/m
   [./negative_V]
     type = ParsedAux
     variable = negative_V
-    args = V
-    function = '-V'
+    coupled_variables = V
+    expression = '-V'
   [../]
   [./E_x]
     type = VariableGradientComponent
@@ -484,8 +484,8 @@ initial_field=10 #from the engineering scale, starting value 10 V/m
   [./negative_dV]
     type = ParsedAux
     variable = negative_dV
-    args = dV
-    function = '-dV'
+    coupled_variables = dV
+    expression = '-dV'
   [../]
   [./dE_x]
     type = VariableGradientComponent
@@ -517,8 +517,8 @@ initial_field=10 #from the engineering scale, starting value 10 V/m
   [../]
   [./Q_joule_convert_SI]
     type = ParsedAux
-    args = 'Q_joule'
-    function = 'Q_joule * 1.602e8'
+    coupled_variables = 'Q_joule'
+    expression = 'Q_joule * 1.602e8'
     variable = Q_joule_SI
   [../]
 []

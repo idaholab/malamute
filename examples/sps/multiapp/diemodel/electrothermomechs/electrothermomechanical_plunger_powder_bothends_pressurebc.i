@@ -184,10 +184,10 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
     type = ParsedAux
     variable = heat_transfer_radiation
     boundary = 'outer_die_wall'
-    args = 'temperature'
+    coupled_variables = 'temperature'
     constant_names = 'boltzmann epsilon temperature_farfield'  #published emissivity for graphite is 0.85
     constant_expressions = '5.67e-8 0.85 300.0' #roughly room temperature, which is probably too cold
-    function = '-boltzmann*epsilon*(temperature^4-temperature_farfield^4)'
+    expression = '-boltzmann*epsilon*(temperature^4-temperature_farfield^4)'
   []
   [thermal_conductivity]
     type = ADMaterialRealAux
@@ -199,8 +199,8 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
   [microapp_potential]
     type = ParsedAux
     variable = microapp_potential
-    args = electric_potential
-    function = 'electric_potential*1e9' #convert from V to nV
+    coupled_variables = electric_potential
+    expression = 'electric_potential*1e9' #convert from V to nV
     block = 'powder_compact'
   []
   [E_x]
@@ -220,15 +220,15 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
   [yttria_current_density]
     type = ParsedAux
     variable = yttria_current_density
-    args = 'electrical_conductivity E_y'
-    function = '-1.0*electrical_conductivity*E_y'
+    coupled_variables = 'electrical_conductivity E_y'
+    expression = '-1.0*electrical_conductivity*E_y'
     block = 'powder_compact'
   []
   [graphite_current_density]
     type = ParsedAux
     variable = graphite_current_density
-    args = 'electrical_conductivity E_y'
-    function = '-1.0*electrical_conductivity*E_y'
+    coupled_variables = 'electrical_conductivity E_y'
+    expression = '-1.0*electrical_conductivity*E_y'
     block = 'upper_plunger lower_plunger die_wall'
   []
   [current_density_J]
