@@ -350,9 +350,9 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
   []
   [graphite_electrical_conductivity]
     type = ADParsedMaterial
-    f_name = electrical_conductivity
-    args = 'temperature'
-    function = '1.0/(-2.705e-15*temperature^3+1.263e-11*temperature^2-1.836e-8*temperature+1.813e-5)'
+    property_name = electrical_conductivity
+    coupled_variables = 'temperature'
+    expression = '1.0/(-2.705e-15*temperature^3+1.263e-11*temperature^2-1.836e-8*temperature+1.813e-5)'
     output_properties = electrical_conductivity
     outputs = 'csv exodus'
     block = 'upper_plunger'

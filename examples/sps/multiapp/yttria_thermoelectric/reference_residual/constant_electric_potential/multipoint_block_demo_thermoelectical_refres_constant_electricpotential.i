@@ -164,36 +164,36 @@ initial_temperature=1350
 [Materials]
   [yttria_thermal_conductivity]
     type = ADParsedMaterial
-    # args = 'temperature'
-    # function = '3214.46 / (temperature - 147.73)' #in W/(m-K) #Given from Larry's curve fitting, data from Klein and Croft, JAP, v. 38, p. 1603 and UC report "For Computer Heat Conduction Calculations - A compilation of thermal properties data" by A.L. Edwards, UCRL-50589 (1969)
-    args = 'thermal_conductivity_aeh'
-    function = 'thermal_conductivity_aeh' #in W/(m-K) directly, for now
-    f_name = 'yttria_thermal_conductivity'
+    # coupled_variables = 'temperature'
+    # expression = '3214.46 / (temperature - 147.73)' #in W/(m-K) #Given from Larry's curve fitting, data from Klein and Croft, JAP, v. 38, p. 1603 and UC report "For Computer Heat Conduction Calculations - A compilation of thermal properties data" by A.L. Edwards, UCRL-50589 (1969)
+    coupled_variables = 'thermal_conductivity_aeh'
+    expression = 'thermal_conductivity_aeh' #in W/(m-K) directly, for now
+    property_name = 'yttria_thermal_conductivity'
     output_properties = yttria_thermal_conductivity
     outputs = 'csv exodus'
   []
   [yttria_specific_heat_capacity]
     type = ADParsedMaterial
-    f_name = yttria_specific_heat_capacity
-    args = 'specific_heat_capacity_va'
-    function = 'specific_heat_capacity_va' #in J/(K-kg)
+    property_name = yttria_specific_heat_capacity
+    coupled_variables = 'specific_heat_capacity_va'
+    expression = 'specific_heat_capacity_va' #in J/(K-kg)
     output_properties = yttria_specific_heat_capacity
     outputs = 'csv exodus'
   [../]
   [./yttria_density]
     type = ADParsedMaterial
-    f_name = 'yttria_density'
-    args = 'density_va'
-    function = 'density_va'
+    property_name = 'yttria_density'
+    coupled_variables = 'density_va'
+    expression = 'density_va'
     output_properties = yttria_density
     outputs = 'csv exodus'
   []
 
   [yttria_electrical_conductivity]
     type = ADParsedMaterial
-    args = 'sigma_aeh'
-    function = 'sigma_aeh*1.602e8' #converts to units of J/(V^2-m-s)
-    f_name = 'yttria_electrical_conductivity'
+    coupled_variables = 'sigma_aeh'
+    expression = 'sigma_aeh*1.602e8' #converts to units of J/(V^2-m-s)
+    property_name = 'yttria_electrical_conductivity'
     output_properties = yttria_electrical_conductivity
     outputs = 'exodus csv'
   []

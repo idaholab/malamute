@@ -233,9 +233,9 @@ initial_temperature = 300 #roughly 600C where the pyrometer kicks in
   # []
   [yttria_thermal_conductivity]
     type = ADParsedMaterial
-    args = 'temperature'
-    function = '3214.46 / (temperature - 147.73)' #in W/(m-K) #Given from Larry's curve fitting, data from Klein and Croft, JAP, v. 38, p. 1603 and UC report "For Computer Heat Conduction Calculations - A compilation of thermal properties data" by A.L. Edwards, UCRL-50589 (1969)
-    f_name = 'thermal_conductivity'
+    coupled_variables = 'temperature'
+    expression = '3214.46 / (temperature - 147.73)' #in W/(m-K) #Given from Larry's curve fitting, data from Klein and Croft, JAP, v. 38, p. 1603 and UC report "For Computer Heat Conduction Calculations - A compilation of thermal properties data" by A.L. Edwards, UCRL-50589 (1969)
+    property_name = 'thermal_conductivity'
     output_properties = thermal_conductivity
     outputs = 'csv exodus'
   []
@@ -248,27 +248,27 @@ initial_temperature = 300 #roughly 600C where the pyrometer kicks in
   []
   [yttria_specific_heat_capacity]
     type = ADParsedMaterial
-    f_name = heat_capacity
-    args = 'specific_heat_capacity_va'
-    function = 'specific_heat_capacity_va' #in J/(K-kg)
+    property_name = heat_capacity
+    coupled_variables = 'specific_heat_capacity_va'
+    expression = 'specific_heat_capacity_va' #in J/(K-kg)
   []
   [yttria_density]
     type = ADParsedMaterial
-    f_name = 'yttria_density'
-    args = 'density_va'
-    function = 'density_va'
+    property_name = 'yttria_density'
+    coupled_variables = 'density_va'
+    expression = 'density_va'
   []
   [electrical_conductivity]
     type = ADParsedMaterial
-    #   args = 'sigma_aeh'
-    #   function = 'sigma_aeh*1.602e8' #converts to units of J/(V^2-m-s)
-    f_name = 'electrical_conductivity'
+    #   coupled_variables = 'sigma_aeh'
+    #   expression = 'sigma_aeh*1.602e8' #converts to units of J/(V^2-m-s)
+    property_name = 'electrical_conductivity'
     output_properties = electrical_conductivity
     outputs = 'exodus csv'
-    args = 'temperature'
+    coupled_variables = 'temperature'
     constant_names = 'Q_elec  kB            prefactor_solid  initial_porosity'
     constant_expressions = '1.61    8.617343e-5        1.25e-4           0.38'
-    function = '(1-initial_porosity) * prefactor_solid * exp(-Q_elec/kB/temperature) * 1.602e8' # in eV/(nV^2 s nm) per chat with Larry, last term converts to units of J/(V^2-m-s)
+    expression = '(1-initial_porosity) * prefactor_solid * exp(-Q_elec/kB/temperature) * 1.602e8' # in eV/(nV^2 s nm) per chat with Larry, last term converts to units of J/(V^2-m-s)
   []
 []
 
