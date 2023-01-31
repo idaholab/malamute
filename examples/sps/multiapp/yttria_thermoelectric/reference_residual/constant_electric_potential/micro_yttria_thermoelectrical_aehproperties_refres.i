@@ -208,17 +208,17 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
   # Free energy coefficients for parabolic curves
   [./ks]
     type = ParsedMaterial
-    f_name = ks
-    args = 'temperature_in'
+    property_name = ks
+    coupled_variables = 'temperature_in'
     constant_names = 'a b'
     constant_expressions = '-0.0017 140.44'
-    function = 'a*temperature_in + b'
+    expression = 'a*temperature_in + b'
   [../]
   [./kv]
     type = ParsedMaterial
-    f_name = kv
+    property_name = kv
     material_property_names = 'ks'
-    function = '10*ks'
+    expression = '10*ks'
   [../]
   # Diffusivity and mobilities
   [./chiD]
@@ -241,12 +241,12 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
   # Everything else
   [./cv_eq]
     type = DerivativeParsedMaterial
-    f_name = cv_eq
-    args = 'gr0 gr1 gr2 gr3 temperature_in'
+    property_name = cv_eq
+    coupled_variables = 'gr0 gr1 gr2 gr3 temperature_in'
     constant_names = 'Ef c_GB kB'
     constant_expressions = '4.37 0.189 8.617343e-5' #TODO fix GB eq concentration
     derivative_order = 2
-    function = 'c_B:=exp(-Ef/kB/temperature_in); bnds:=gr0^2 + gr1^2 + gr2^2 + gr3^2;
+    expression = 'c_B:=exp(-Ef/kB/temperature_in); bnds:=gr0^2 + gr1^2 + gr2^2 + gr3^2;
                 c_B + 4.0 * c_GB * (1.0 - bnds)^2'
   [../]
   [./sintering]
@@ -265,19 +265,19 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
   # Concentration is only meant for output
   [./c]
     type = ParsedMaterial
-    f_name = c
+    property_name = c
     material_property_names = 'hs rhos hv rhov'
     constant_names = 'Va'
     constant_expressions = '0.0774'
-    function = 'Va*(hs*rhos + hv*rhov)'
+    expression = 'Va*(hs*rhos + hv*rhov)'
     outputs = exodus
   [../]
   [./f_bulk]
     type = ParsedMaterial
-    f_name = f_bulk
-    args = 'phi gr0 gr1 gr2 gr3'
+    property_name = f_bulk
+    coupled_variables = 'phi gr0 gr1 gr2 gr3'
     material_property_names = 'mu gamma'
-    function = 'mu*(phi^4/4-phi^2/2 + gr0^4/4-gr0^2/2 + gr1^4/4-gr1^2/2
+    expression = 'mu*(phi^4/4-phi^2/2 + gr0^4/4-gr0^2/2 + gr1^4/4-gr1^2/2
                   + gr2^4/4-gr2^2/2 + gr3^4/4-gr3^2/2
                   + gamma*(phi^2*(gr0^2+gr1^2+gr2^2+gr3^2) + gr0^2*(gr1^2+gr2^2+gr3^2)
                   + gr1^2*(gr2^2 + gr3^2) + gr2^2*gr3^2) + 0.25)'
@@ -285,27 +285,27 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
   [../]
   [./f_switch]
     type = ParsedMaterial
-    f_name = f_switch
-    args = 'w'
+    property_name = f_switch
+    coupled_variables = 'w'
     material_property_names = 'chi'
-    function = '0.5*w^2*chi'
+    expression = '0.5*w^2*chi'
     outputs = exodus
   [../]
   [./f0]
     type = ParsedMaterial
-    f_name = f0
+    property_name = f0
     material_property_names = 'f_bulk f_switch'
-    function = 'f_bulk + f_switch'
+    expression = 'f_bulk + f_switch'
   [../]
 
   [electrical_conductivity]
     type = ADDerivativeParsedMaterial
-    f_name = electrical_conductivity
-    args = 'phi temperature_in'
+    property_name = electrical_conductivity
+    coupled_variables = 'phi temperature_in'
     constant_names =       'Q_elec  kB            prefactor_void prefactor_solid'
     constant_expressions = '1.61    8.617343e-5   1.25e-7        1.25e-4'
     derivative_order = 2
-    function = 'phi * prefactor_void * exp(-Q_elec/kB/temperature_in) + (1-phi) * prefactor_solid * exp(-Q_elec/kB/temperature_in)' # in eV/(nV^2 s nm) per chat with Larry
+    expression = 'phi * prefactor_void * exp(-Q_elec/kB/temperature_in) + (1-phi) * prefactor_solid * exp(-Q_elec/kB/temperature_in)' # in eV/(nV^2 s nm) per chat with Larry
     outputs = exodus
   []
   [convert_ad_electrical_conductivity]
@@ -316,42 +316,42 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
 
   [thermal_conductivity]
     type = ParsedMaterial
-    f_name = thermal_conductivity
-    args = 'phi temperature_in'
+    property_name = thermal_conductivity
+    coupled_variables = 'phi temperature_in'
     constant_names =        'prefactor_void  prefactor_solid'
     constant_expressions =  '0.025        3214.06' #in W/(m-K) #solid value from Larry's curve fitting, data from Klein and Croft, JAP, v. 38, p. 1603 and UC report "For Computer Heat Conduction Calculations - A compilation of thermal properties data" by A.L. Edwards, UCRL-50589 (1969)
-    function = '(phi * prefactor_void + (1-phi) * prefactor_solid) / (temperature_in - 147.73)'
+    expression = '(phi * prefactor_void + (1-phi) * prefactor_solid) / (temperature_in - 147.73)'
     outputs = exodus
   []
   #as long as thermal conductivity in the void is very low this probably could be a constant
   #but leaving as phi-dependent for now
   [density]
     type = DerivativeParsedMaterial
-    f_name = density
-    args = 'phi'
+    property_name = density
+    coupled_variables = 'phi'
     constant_names =        'density_void   density_solid'
     constant_expressions =  '1.25           5.01e3' #units are kg/m^3
     derivative_order = 2
-    function = 'phi * density_void + (1-phi) * density_solid'
+    expression = 'phi * density_void + (1-phi) * density_solid'
     outputs = exodus
   []
   [specific_heat]
     type = DerivativeParsedMaterial
-    f_name = specific_heat
-    args = 'phi'
+    property_name = specific_heat
+    coupled_variables = 'phi'
     material_property_names = 'specific_heat_yttria'
     constant_names =        'specific_heat_void'
     constant_expressions =  '1.005e3' #units are J/(K-kg)
-    function = 'phi * specific_heat_void + (1-phi) * specific_heat_yttria'
+    expression = 'phi * specific_heat_void + (1-phi) * specific_heat_yttria'
     outputs = exodus
   []
   [specific_heat_yttria]
     type = DerivativeParsedMaterial
-    f_name = specific_heat_yttria
-    args = 'temperature_in'
+    property_name = specific_heat_yttria
+    coupled_variables = 'temperature_in'
     constant_names =       'molar_mass   gtokg'
     constant_expressions = '225.81       1.0e3'
-    function = 'if(temperature_in<1503.7, (3.0183710318246e-19 * temperature_in^7 - 2.03644357435399e-15 * temperature_in^6
+    expression = 'if(temperature_in<1503.7, (3.0183710318246e-19 * temperature_in^7 - 2.03644357435399e-15 * temperature_in^6
                               + 5.75283959486472e-12 * temperature_in^5 - 8.8224198737065e-09 * temperature_in^4
                               + 7.96030446457309e-06  * temperature_in^3 - 0.00427362972278911 * temperature_in^2
                               + 1.30756778141995 * temperature_in - 61.6301212149735) / molar_mass * gtokg,
@@ -504,8 +504,8 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
   [./negative_V]
     type = ParsedAux
     variable = negative_V
-    args = V
-    function = '-V'
+    coupled_variables  = V
+    expression = '-V'
   [../]
   [./E_x]
     type = VariableGradientComponent

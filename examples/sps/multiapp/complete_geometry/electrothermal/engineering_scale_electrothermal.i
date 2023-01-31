@@ -304,8 +304,8 @@ initial_temperature=293 #roughly 600C where the pyrometer kicks in
   [microapp_potential]
     type = ParsedAux
     variable = microapp_potential
-    args = electric_potential
-    function = 'electric_potential*1e9' #convert from V to nV
+    coupled_variables = electric_potential
+    expression = 'electric_potential*1e9' #convert from V to nV
     block = 'powder_compact'
   []
   [E_x]
@@ -325,8 +325,8 @@ initial_temperature=293 #roughly 600C where the pyrometer kicks in
   [yttria_current_density_forBC_microapp]
     type = ParsedAux
     variable = yttria_current_density_forBC_microapp
-    args = 'electrical_conductivity E_y'
-    function = '-1.0*electrical_conductivity*E_y'
+    coupled_variables = 'electrical_conductivity E_y'
+    expression = '-1.0*electrical_conductivity*E_y'
     block = 'powder_compact'
   []
 
@@ -383,19 +383,19 @@ initial_temperature=293 #roughly 600C where the pyrometer kicks in
     type = ParsedAux
     variable = heat_transfer_radiation
     boundary = 'outer_radiative_spacers outer_die_wall radiative_upper_plunger radiative_lower_plunger'
-    args = 'temperature'
+    coupled_variables = 'temperature'
     constant_names = 'boltzmann epsilon temperature_farfield'  #published emissivity for graphite is 0.85
     constant_expressions = '5.67e-8 0.85 293.0' #roughly room temperature, which is probably too cold
-    function = '-boltzmann*epsilon*(temperature^4-temperature_farfield^4)'
+    expression = '-boltzmann*epsilon*(temperature^4-temperature_farfield^4)'
   []
   [heat_transfer_radiation_stainless_steel]
     type = ParsedAux
     variable = heat_transfer_radiation
     boundary = 'outer_radiative_stainless_steel'
-    args = 'temperature_stainless_steel'
+    coupled_variables = 'temperature_stainless_steel'
     constant_names = 'boltzmann epsilon temperature_farfield'  #published emissivity for graphite is 0.85
     constant_expressions = '5.67e-8 0.4 293.0' #roughly room temperature, which is probably too cold
-    function = '-boltzmann*epsilon*(temperature_stainless_steel^4-temperature_farfield^4)'
+    expression = '-boltzmann*epsilon*(temperature_stainless_steel^4-temperature_farfield^4)'
   []
   [thermal_conductivity_graphite]
     type = ADMaterialRealAux
@@ -479,40 +479,40 @@ initial_temperature=293 #roughly 600C where the pyrometer kicks in
 [Functions]
   [graphite_thermal_conductivity_fcn]
     type = ParsedFunction
-    value = '-4.418e-12*t^4+2.904e-8*t^3-4.688e-5*t^2-0.0316*t+119.659'
+    expression = '-4.418e-12*t^4+2.904e-8*t^3-4.688e-5*t^2-0.0316*t+119.659'
   []
   # [yttria_thermal_conductivity_fcn] #from the multiapp
   #   type = ParsedFunction
-  #   value = '3214.46/(t-147.73)'
+  #   expression = '3214.46/(t-147.73)'
   # []
   [harmonic_mean_thermal_conductivity]
     type = ParsedFunction
-    value = '2*(-4.418e-12*t^4+2.904e-8*t^3-4.688e-5*t^2-0.0316*t+119.659)*(3214.46/(t-147.73))/((-4.418e-12*t^4+2.904e-8*t^3-4.688e-5*t^2-0.0316*t+119.659)+(3214.46/(t-147.73)))'
-    # vars = 'k_graphite k_yttria'
-    # vals = 'graphite_thermal_conductivity_fcn yttria_thermal_conductivity_fcn'
+    expression = '2*(-4.418e-12*t^4+2.904e-8*t^3-4.688e-5*t^2-0.0316*t+119.659)*(3214.46/(t-147.73))/((-4.418e-12*t^4+2.904e-8*t^3-4.688e-5*t^2-0.0316*t+119.659)+(3214.46/(t-147.73)))'
+    # symbol_names = 'k_graphite k_yttria'
+    # symbol_values = 'graphite_thermal_conductivity_fcn yttria_thermal_conductivity_fcn'
   []
 
   [graphite_electrical_conductivity_fcn]
     type = ParsedFunction
-    value = '1.0/(-2.705e-15*t^3+1.263e-11*t^2-1.836e-8*t+1.813e-5)'
+    expression = '1.0/(-2.705e-15*t^3+1.263e-11*t^2-1.836e-8*t+1.813e-5)'
   []
   # [electrical_conductivity_fcn]
   #   type = ParsedFunction
-  #   # vars = porosity
-  #   # vals = initial_porosity
-  #   value = '(1-0.62)*2.0025e4*exp(-1.61/8.617343e-5/t)'
+  #   # symbol_names = porosity
+  #   # symbol_values = initial_porosity
+  #   expression = '(1-0.62)*2.0025e4*exp(-1.61/8.617343e-5/t)'
   # []
   [harmonic_mean_electrical_conductivity]
     type = ParsedFunction
-    value = '2*(1.0/(-2.705e-15*t^3+1.263e-11*t^2-1.836e-8*t+1.813e-5))*((1)*2.0025e4*exp(-1.61/8.617343e-5/t))/((1.0/(-2.705e-15*t^3+1.263e-11*t^2-1.836e-8*t+1.813e-5))+((1)*2.0025e4*exp(-1.61/8.617343e-5/t)))'
-    # vars = 'k_graphite k_yttria'
-    # vals = 'graphite_thermal_conductivity_fcn yttria_thermal_conductivity_fcn'
+    expression = '2*(1.0/(-2.705e-15*t^3+1.263e-11*t^2-1.836e-8*t+1.813e-5))*((1)*2.0025e4*exp(-1.61/8.617343e-5/t))/((1.0/(-2.705e-15*t^3+1.263e-11*t^2-1.836e-8*t+1.813e-5))+((1)*2.0025e4*exp(-1.61/8.617343e-5/t)))'
+    # symbol_names = 'k_graphite k_yttria'
+    # symbol_values = 'graphite_thermal_conductivity_fcn yttria_thermal_conductivity_fcn'
   []
   [mechanical_pressure_func]
     type = ParsedFunction
-    vars = 'radius coolant_radius force'
-    vals = '0.04 7.071e-3 6.5' # 'm kN'
-    value = 'force * 1e3 / (pi * (radius^2 - coolant_radius^2))' # (N / m^2)
+    symbol_names = 'radius coolant_radius force'
+    symbol_values = '0.04 7.071e-3 6.5' # 'm kN'
+    expression = 'force * 1e3 / (pi * (radius^2 - coolant_radius^2))' # (N / m^2)
   []
 []
 
@@ -807,47 +807,47 @@ initial_temperature=293 #roughly 600C where the pyrometer kicks in
   ## yttria powder compact
   [yttria_thermal_conductivity]
     type = ADParsedMaterial
-    args = 'temperature'
-    function = '3214.46 / (temperature - 147.73)' #in W/(m-K) #Given from Larry's curve fitting, data from Klein and Croft, JAP, v. 38, p. 1603 and UC report "For Computer Heat Conduction Calculations - A compilation of thermal properties data" by A.L. Edwards, UCRL-50589 (1969)
-    # args = 'thermal_conductivity_aeh'
-    # function = 'thermal_conductivity_aeh' #in W/(m-K) directly, for now
-    f_name = 'thermal_conductivity'
+    coupled_variables = 'temperature'
+    expression = '3214.46 / (temperature - 147.73)' #in W/(m-K) #Given from Larry's curve fitting, data from Klein and Croft, JAP, v. 38, p. 1603 and UC report "For Computer Heat Conduction Calculations - A compilation of thermal properties data" by A.L. Edwards, UCRL-50589 (1969)
+    # coupled_variables = 'thermal_conductivity_aeh'
+    # expression = 'thermal_conductivity_aeh' #in W/(m-K) directly, for now
+    property_name = 'thermal_conductivity'
     output_properties = thermal_conductivity
     outputs = 'csv exodus'
     block = powder_compact
   []
   [yttria_specific_heat_capacity]
     type = ADParsedMaterial
-    f_name = heat_capacity
-    args = 'yttria_heat_capacity_volume_avg'
-    function = 'yttria_heat_capacity_volume_avg' #in J/(K-kg)
+    property_name = heat_capacity
+    coupled_variables = 'yttria_heat_capacity_volume_avg'
+    expression = 'yttria_heat_capacity_volume_avg' #in J/(K-kg)
     # output_properties = yttria_specific_heat_capacity
     # outputs = 'csv exodus'
     block = powder_compact
   []
   [yttria_density]
     type = ADParsedMaterial
-    f_name = 'density'
-    args = 'yttria_density_volume_avg'
-    function = 'yttria_density_volume_avg'
+    property_name = 'density'
+    coupled_variables = 'yttria_density_volume_avg'
+    expression = 'yttria_density_volume_avg'
     # output_properties = yttria_density
     # outputs = 'csv exodus'
     block = powder_compact
   []
   [electrical_conductivity]
     type = ADParsedMaterial
-  #   args = 'yttria_sigma_aeh'
-  #   function = 'yttria_sigma_aeh*1.602e8' #converts to units of J/(V^2-m-s)
-    f_name = 'electrical_conductivity'
+  #   coupled_variables = 'yttria_sigma_aeh'
+  #   expression = 'yttria_sigma_aeh*1.602e8' #converts to units of J/(V^2-m-s)
+    property_name = 'electrical_conductivity'
     output_properties = electrical_conductivity
     outputs = 'exodus csv'
     block = powder_compact
     # type = ADDerivativeParsedMaterial
-    # f_name = electrical_conductivity
-    args = 'temperature'
+    # property_name = electrical_conductivity
+    coupled_variables = 'temperature'
     constant_names =       'Q_elec  kB            prefactor_solid  initial_porosity'
     constant_expressions = '1.61    8.617343e-5        1.25e-4           0.38'
-    function = '(1-initial_porosity) * prefactor_solid * exp(-Q_elec/kB/temperature) * 1.602e8' # in eV/(nV^2 s nm) per chat with Larry, last term converts to units of J/(V^2-m-s)
+    expression = '(1-initial_porosity) * prefactor_solid * exp(-Q_elec/kB/temperature) * 1.602e8' # in eV/(nV^2 s nm) per chat with Larry, last term converts to units of J/(V^2-m-s)
   []
 
   # Material property converter for DiffusionFluxAux object

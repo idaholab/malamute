@@ -67,9 +67,9 @@
   [../]
   [./graphite_electrical_resistivity]
     type = ParsedMaterial
-    f_name = electrical_resistivity
+    property_name = electrical_resistivity
     material_property_names = electrical_conductivity
-    function = '1 / electrical_conductivity'
+    expression = '1 / electrical_conductivity'
   [../]
 []
 

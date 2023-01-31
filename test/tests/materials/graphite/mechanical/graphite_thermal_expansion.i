@@ -35,19 +35,19 @@
 [Functions]
   [./temp_ramp]
     type = ParsedFunction
-    value = '300 + 400.0/60.*t' #stand-in for a 400C/min heating rate
+    expression = '300 + 400.0/60.*t' #stand-in for a 400C/min heating rate
   [../]
   [./thermal_expansion]
     type = ParsedFunction
-    vars = T
-    vals = temperature
-    value = '(1.996e-6*log(T*4.799e-2)-4.041e-6)'
+    symbol_names = T
+    symbol_values = temperature
+    expression = '(1.996e-6*log(T*4.799e-2)-4.041e-6)'
   [../]
   [./thexp_exact]
     type = ParsedFunction
-    vars = 'ref_temperature thermal_expansion temperature'
-    vals = '300.0 thermal_expansion temperature'
-    value = 'thermal_expansion * (temperature - ref_temperature)'
+    symbol_names = 'ref_temperature thermal_expansion temperature'
+    symbol_values = '300.0 thermal_expansion temperature'
+    expression = 'thermal_expansion * (temperature - ref_temperature)'
   [../]
 []
 

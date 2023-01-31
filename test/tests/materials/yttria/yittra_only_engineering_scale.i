@@ -52,19 +52,19 @@
 [Materials]
   [./yttria_thermal_conductivity]
     type = ParsedMaterial
-    args = 'temperature'
-    function = '3214.46 / (temperature - 147.73)' #in W/(m-K)
-    f_name = 'yttria_thermal_conductivity'
+    coupled_variables = 'temperature'
+    expression = '3214.46 / (temperature - 147.73)' #in W/(m-K)
+    property_name = 'yttria_thermal_conductivity'
     output_properties = yttria_thermal_conductivity
     outputs = 'csv exodus'
   [../]
   [./yttria_specific_heat_capacity]
     type = DerivativeParsedMaterial
-    f_name = yttria_specific_heat_capacity
-    args = 'temperature'
+    property_name = yttria_specific_heat_capacity
+    coupled_variables = 'temperature'
     constant_names =        'molar_mass    gtokg'
     constant_expressions =  '225.81         1.0e3' #
-    function = 'if(temperature<1503.7, (3.0183710318246e-19 * temperature^7 - 2.03644357435399e-15 * temperature^6
+    expression = 'if(temperature<1503.7, (3.0183710318246e-19 * temperature^7 - 2.03644357435399e-15 * temperature^6
                               + 5.75283959486472e-12 * temperature^5 - 8.8224198737065e-09 * temperature^4
                               + 7.96030446457309e-06  * temperature^3 - 0.00427362972278911 * temperature^2
                               + 1.30756778141995 * temperature - 61.6301212149735) / molar_mass * gtokg,
