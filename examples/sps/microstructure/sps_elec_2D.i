@@ -327,7 +327,7 @@
     variable = T
     elec = V
     electrical_conductivity = electrical_conductivity
-    args = 'phi'
+    coupled_variables = 'phi'
   [../]
 []
 
