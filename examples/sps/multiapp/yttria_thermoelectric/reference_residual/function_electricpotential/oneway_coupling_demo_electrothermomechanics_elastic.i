@@ -247,7 +247,7 @@ initial_temperature=1350
   # #   coefficient = 3.75e-7 # from Al's work
   # #   n_exponent = 0.714 # from Al's work
   # #   activation_energy = 0.0
-  # #   use_substep = true
+  # #   use_substepping = INCREMENT_BASED
   # #   absolute_tolerance = 5e-9
   # # []
   [yttria_thermal_expansion]
