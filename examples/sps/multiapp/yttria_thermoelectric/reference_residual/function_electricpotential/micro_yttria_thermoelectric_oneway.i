@@ -417,13 +417,13 @@ initial_field=10 #from the engineering scale, starting value 10 V/m
   [./potential_solid_constants]
     type = MaskedBodyForce
     variable = V
-    args = 'phi'
+    coupled_variables = 'phi'
     mask = solid_pre
   [../]
   [./potential_void_constants]
     type = MaskedBodyForce
     variable = V
-    args = 'phi'
+    coupled_variables = 'phi'
     mask = void_pre
   [../]
   [./potential_cat_mu]
