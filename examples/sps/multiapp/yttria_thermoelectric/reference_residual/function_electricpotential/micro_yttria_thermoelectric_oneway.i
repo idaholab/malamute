@@ -142,9 +142,9 @@ initial_field=10 #from the engineering scale, starting value 10 V/m
 [Functions]
   [./top_bc_funct]
     type = ParsedFunction
-    vars = 'L_y E_y' #L_y is the length of the domain in the y-direction
-    vals = '40  Ey_in'
-    value = 'L_y * E_y * 1e-9' #1e-9 converts from length units of m in engineering scale to nm in phase-field
+    symbol_names = 'L_y E_y' #L_y is the length of the domain in the y-direction
+    symbol_values = '40  Ey_in'
+    expression = 'L_y * E_y * 1e-9' #1e-9 converts from length units of m in engineering scale to nm in phase-field
   [../]
 []
 
@@ -152,31 +152,31 @@ initial_field=10 #from the engineering scale, starting value 10 V/m
   # Free energy coefficients for parabolic curves
   [./ks_cat]
     type = ParsedMaterial
-    f_name = ks_cat
-    args = 'T'
+    property_name = ks_cat
+    coupled_variables = 'T'
     constant_names = 'a b Va'
     constant_expressions = '-0.0017 140.44 0.03726'
-    function = '(a*T + b) * Va^2'
+    expression = '(a*T + b) * Va^2'
   [../]
   [./ks_an]
     type = ParsedMaterial #TODO re-fit this for oxygen
-    f_name = ks_an
-    args = 'T'
+    property_name = ks_an
+    coupled_variables = 'T'
     constant_names = 'a b Va'
     constant_expressions = '-0.0017 140.44 0.03726'
-    function = '(a*T + b) * Va^2'
+    expression = '(a*T + b) * Va^2'
   [../]
   [./kv_cat]
     type = ParsedMaterial
-    f_name = kv_cat
+    property_name = kv_cat
     material_property_names = 'ks_cat'
-    function = '10*ks_cat'
+    expression = '10*ks_cat'
   [../]
   [./kv_an]
     type = ParsedMaterial
-    f_name = kv_an
+    property_name = kv_an
     material_property_names = 'ks_cat'
-    function = '10*ks_cat'
+    expression = '10*ks_cat'
   [../]
   # Diffusivity and mobilities
   [./chiDy]
@@ -218,22 +218,22 @@ initial_field=10 #from the engineering scale, starting value 10 V/m
   # Everything else
   [./ns_y_min]
     type = DerivativeParsedMaterial
-    f_name = ns_y_min
-    args = 'gr0 gr1 T'
+    property_name = ns_y_min
+    coupled_variables = 'gr0 gr1 T'
     constant_names =        'Ef_B c_GB   kB          Va_Y'
     constant_expressions =  '4.37 0.1    8.617343e-5 0.03726'
     derivative_order = 2
-    function = 'c_B:=exp(-Ef_B/kB/T); bnds:=gr0^2 + gr1^2;
+    expression = 'c_B:=exp(-Ef_B/kB/T); bnds:=gr0^2 + gr1^2;
                 (c_B + 4.0 * c_GB * (1.0 - bnds)^2) / Va_Y'
   [../]
   [./ns_o_min]
     type = DerivativeParsedMaterial
-    f_name = ns_o_min
-    args = 'gr0 gr1 T'
+    property_name = ns_o_min
+    coupled_variables = 'gr0 gr1 T'
     constant_names =        'Ef_B c_GB  kB          Va_O'
     constant_expressions =  '1.25 0.1   8.617343e-5 0.02484'
     derivative_order = 2
-    function = 'c_B:=exp(-Ef_B/kB/T); bnds:=gr0^2 + gr1^2;
+    expression = 'c_B:=exp(-Ef_B/kB/T); bnds:=gr0^2 + gr1^2;
                 (c_B + 4.0 * c_GB * (1.0 - bnds)^2) / Va_O'
   [../]
   [./sintering]
@@ -289,79 +289,79 @@ initial_field=10 #from the engineering scale, starting value 10 V/m
 
   [./permittivity]
     type = DerivativeParsedMaterial
-    f_name = permittivity
-    args = 'phi'
+    property_name = permittivity
+    coupled_variables = 'phi'
     material_property_names = 'hs hv'
     constant_names =       'eps_rel_solid   eps_void_over_e'
     constant_expressions = '15              5.52e-2' #eps_void_over_e in 1/V/nm
     derivative_order = 2
-    function = '-hs * eps_rel_solid * eps_void_over_e - hv * eps_void_over_e'
+    expression = '-hs * eps_rel_solid * eps_void_over_e - hv * eps_void_over_e'
   [../]
   [./solid_pre]
     type = DerivativeParsedMaterial
-    f_name = solid_pre
+    property_name = solid_pre
     material_property_names = 'hs ns_y_min ns_o_min'
     constant_names =       'Z_cat   Z_an'
     constant_expressions = '-3      2'
     derivative_order = 2
-    function = '-hs * (Z_cat * ns_y_min + Z_an * ns_o_min)'
+    expression = '-hs * (Z_cat * ns_y_min + Z_an * ns_o_min)'
   [../]
   [./void_pre]
     type = DerivativeParsedMaterial
-    f_name = void_pre
+    property_name = void_pre
     material_property_names = 'hv'
     constant_names =       'Z_cat   Z_an nv_y_min nv_o_min'
     constant_expressions = '-3      2    26.837   40.2555'
     derivative_order = 2
-    function = '-hv * (Z_cat * nv_y_min + Z_an * nv_o_min)'
+    expression = '-hv * (Z_cat * nv_y_min + Z_an * nv_o_min)'
   [../]
   [./cat_mu_pre]
     type = DerivativeParsedMaterial
-    f_name = cat_mu_pre
+    property_name = cat_mu_pre
     material_property_names = 'hs hv ks_cat kv_cat' #TODO add material properties for these
     constant_names =       'Z_cat'
     constant_expressions = '-3'
     derivative_order = 2
-    function = '-hs * Z_cat / ks_cat - hv * Z_cat / kv_cat'
+    expression = '-hs * Z_cat / ks_cat - hv * Z_cat / kv_cat'
   [../]
   [./an_mu_pre]
     type = DerivativeParsedMaterial
-    f_name = an_mu_pre
+    property_name = an_mu_pre
     material_property_names = 'hs hv ks_an kv_an' #TODO add material properties for these
     constant_names =       'Z_an'
     constant_expressions = '2'
     derivative_order = 2
-    function = '-hs * Z_an / ks_an - hv * Z_an / kv_an'
+    expression = '-hs * Z_an / ks_an - hv * Z_an / kv_an'
   [../]
   [./cat_V_pre]
     type = DerivativeParsedMaterial
-    f_name = cat_V_pre
+    property_name = cat_V_pre
     material_property_names = 'hs hv ks_cat kv_cat' #TODO add material properties for these
     constant_names =       'Z_cat   v_scale e '
     constant_expressions = '-3      1       1'
     derivative_order = 2
-    function = 'hs * Z_cat^2 * e * v_scale / ks_cat + hv * Z_cat^2 * e * v_scale / kv_cat'
+    expression = 'hs * Z_cat^2 * e * v_scale / ks_cat + hv * Z_cat^2 * e * v_scale / kv_cat'
   [../]
   [./an_V_pre]
     type = DerivativeParsedMaterial
-    f_name = an_V_pre
+    property_name = an_V_pre
     material_property_names = 'hs hv ks_an kv_an' #TODO add material properties for these and check sign
     constant_names =       'Z_an    v_scale e '
     constant_expressions = '2       1       1'
     derivative_order = 2
-    function = 'hs * Z_an^2 * e * v_scale / ks_an + hv * Z_an^2 * e * v_scale / kv_an'
+    expression = 'hs * Z_an^2 * e * v_scale / ks_an + hv * Z_an^2 * e * v_scale / kv_an'
   [../]
   [./n_cat]
     type = ParsedMaterial
-    f_name = n_cat
+    property_name = n_cat
     material_property_names = 'hs ns_cat hv nv_cat'
-    function = '(hs*ns_cat + hv*nv_cat)'
+    expression = '(hs*ns_cat + hv*nv_cat)'
   [../]
   [./n_an]
     type = ParsedMaterial
-    f_name = n_an
+    property_name = n_an
     material_property_names = 'hs ns_an hv nv_an'
-    function = '(hs*ns_an + hv*nv_an)'
+    expression = '(hs*ns_an + hv*nv_an)'
   [../]
   [./constants]
     type = GenericConstantMaterial
@@ -370,14 +370,14 @@ initial_field=10 #from the engineering scale, starting value 10 V/m
   [../]
   [./conductivity]
     type = DerivativeParsedMaterial
-    f_name = conductivity
-    args = 'phi T'
+    property_name = conductivity
+    coupled_variables = 'phi T'
     material_property_names = 'hs hv n_cat n_an'
     constant_names =       'kB        D0_O    Em_O  D0_Y  Em_Y  Z_Y Z_O'
     constant_expressions = '8.617e-5  5.9e11  4.25  5.9e9 4.25  3   2'
     derivative_order = 2
-    function = '(Z_Y^2 * abs(n_cat) * D0_Y * exp(-Em_Y/kB/T) / kB / T + Z_O^2 * abs(n_an) * D0_O * exp(-Em_O/kB/T) / kB / T)*hs + 1e-3'
-    # function = '1'
+    expression = '(Z_Y^2 * abs(n_cat) * D0_Y * exp(-Em_Y/kB/T) / kB / T + Z_O^2 * abs(n_an) * D0_O * exp(-Em_O/kB/T) / kB / T)*hs + 1e-3'
+    # expression = '1'
     outputs = exodus
   [../]
 []
@@ -417,13 +417,13 @@ initial_field=10 #from the engineering scale, starting value 10 V/m
   [./potential_solid_constants]
     type = MaskedBodyForce
     variable = V
-    args = 'phi'
+    coupled_variables = 'phi'
     mask = solid_pre
   [../]
   [./potential_void_constants]
     type = MaskedBodyForce
     variable = V
-    args = 'phi'
+    coupled_variables = 'phi'
     mask = void_pre
   [../]
   [./potential_cat_mu]
@@ -466,8 +466,8 @@ initial_field=10 #from the engineering scale, starting value 10 V/m
   [./negative_V]
     type = ParsedAux
     variable = negative_V
-    args = V
-    function = '-V'
+    coupled_variables = V
+    expression = '-V'
   [../]
   [./E_x]
     type = VariableGradientComponent
@@ -484,8 +484,8 @@ initial_field=10 #from the engineering scale, starting value 10 V/m
   [./negative_dV]
     type = ParsedAux
     variable = negative_dV
-    args = dV
-    function = '-dV'
+    coupled_variables = dV
+    expression = '-dV'
   [../]
   [./dE_x]
     type = VariableGradientComponent
@@ -517,8 +517,8 @@ initial_field=10 #from the engineering scale, starting value 10 V/m
   [../]
   [./Q_joule_convert_SI]
     type = ParsedAux
-    args = 'Q_joule'
-    function = 'Q_joule * 1.602e8'
+    coupled_variables = 'Q_joule'
+    expression = 'Q_joule * 1.602e8'
     variable = Q_joule_SI
   [../]
 []

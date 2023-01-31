@@ -234,9 +234,9 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
   []
   [yttria_density]
     type = ADParsedMaterial
-    f_name = 'yttria_density'
-    args = 'density_va'
-    function = 'density_va'
+    property_name = 'yttria_density'
+    coupled_variables = 'density_va'
+    expression = 'density_va'
     # output_properties = yttria_density
     # outputs = 'csv exodus'
     block = powder_compact
