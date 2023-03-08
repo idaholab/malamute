@@ -12,10 +12,11 @@ Content:
     - ${MOOSE_DIR}/modules/rdg/doc/content              # pulled in by navier_stokes
     - ${MOOSE_DIR}/modules/tensor_mechanics/doc/content
     - ${MOOSE_DIR}/modules/level_set/doc/content
-    - infrastructure:                                   # needed due to tensor_mechanics SQA
+    - infrastructure:
         root_dir: ${MOOSE_DIR}/modules/doc/content
         content:
             - help/finite_element_concepts/nodal_patch_recovery.md
+            - application_usage/restart_recover.md
 Renderer:
     type: MooseDocs.base.MaterializeRenderer
 Extensions:
