@@ -52,7 +52,7 @@ Code reliability is a central principle in code development, and this project
 employs a well-defined development and testing strategy.  Code changes are only
 merged into the repository after both a manual code review and the automated
 regression test system have been completed.  The testing process and status of
-MALAMUTE is available at [www.moosebuild.hpc.inl.gov](https://moosebuild.hpc.inl.gov/repo/523/).
+MALAMUTE is available at [civet.inl.gov](https://civet.inl.gov/repo/936/).
 
 MALAMUTE and MOOSE are developed by the Idaho National Laboratory by a team of
 computer scientists and engineers and is supported by various funding agencies,
