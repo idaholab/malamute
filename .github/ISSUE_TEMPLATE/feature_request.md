@@ -1,3 +1,12 @@
+---
+name: Feature or Enhancement Request
+about: New Features or enhancements to existing capabilities
+title: ''
+labels: ['t: task', 'p: normal']
+assignees: ''
+
+---
+
 ## Reason
 <!--Why do you need this feature or what is the enhancement?-->
 
