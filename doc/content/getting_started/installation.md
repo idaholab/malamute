@@ -10,7 +10,7 @@ the instructions to the conda installation step named "Cloning MOOSE". Then,
 return to this page and continue with Step Two.
 
 - [Linux and MacOS](https://mooseframework.inl.gov/getting_started/installation/conda.html)
-- [Windows 10 (experimental)](https://mooseframework.inl.gov/getting_started/installation/windows10.html)
+- [Windows (experimental)](https://mooseframework.inl.gov/getting_started/installation/windows.html)
 
 Advanced manual installation instructions for this environment are available
 [via the MOOSE website](https://mooseframework.inl.gov/getting_started/installation/index.html).
@@ -21,7 +21,7 @@ please see [the MOOSE troubleshooting guide for Conda](https://mooseframework.in
 ## Step Two: Clone MALAMUTE
 
 !style halign=left
-MALAMUTE is hosted on the [INL HPC GitLab server](https://hpcgitlab.hpc.inl.gov/idaholab/malamute),
+MALAMUTE is hosted [on GitHub](https://github.com/idaholab/malamute),
 and should be cloned directly from there using [git](https://git-scm.com/). As in
 the MOOSE directions, it is recommended that users create a directory named
 "projects" to put all of your MOOSE-related work.
@@ -31,7 +31,7 @@ To clone MALAMUTE, run the following commands in Terminal:
 ```bash
 mkdir ~/projects
 cd ~/projects
-git clone git@hpcgitlab.hpc.inl.gov:idaholab/malamute.git
+git clone git@github.com:idaholab/malamute.git
 cd malamute
 git checkout main
 ```
@@ -44,7 +44,7 @@ out the "main" code branch. There are two code branches available:
 - "devel", which is intended for code development (and may be more regularly broken as changes occur in MALAMUTE and MOOSE).
 
 Developers wishing to add new features should create a new branch for submission
-off of the current "devel" branch.  
+off of the current "devel" branch.
 !alert-end!
 
 ## Step Three: Build and Test MALAMUTE
@@ -76,8 +76,8 @@ make -j8
 ```
 
 !alert! note
-The `-j8` flag in the above commands signifies the number of processor cores used to 
-build the code and run the tests. The number in that flag can be changed to the 
+The `-j8` flag in the above commands signifies the number of processor cores used to
+build the code and run the tests. The number in that flag can be changed to the
 number of physical and virtual cores on the workstation being used to build MALAMUTE.
 !alert-end!
 
@@ -90,7 +90,7 @@ MALAMUTE is ready to be used and further developed.
 If issues are experienced in installation and testing, several resources
 are available:
 
-- [MALAMUTE Issues Page](https://hpcgitlab.hpc.inl.gov/idaholab/malamute/issues)
+- [MALAMUTE Issues Page](https://github.com/idaholab/malamute/issues)
 - [MOOSE FAQ page for common MOOSE issues](https://mooseframework.inl.gov/help/faq/index.html)
 - [MOOSE Discussion Forum (for non-MALAMUTE issues and questions)](https://github.com/idaholab/moose/discussions)
 
