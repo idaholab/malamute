@@ -145,11 +145,11 @@ data_file_base = os.path.basename(data_file_path)
 
 smooth_disp_query = input(
     'Smooth displacement data? (Y or N, Press ENTER/RETURN for Y): ')
-if smooth_disp_query == 'Y' or smooth_disp_query == 'Yes' or smooth_disp_query == 1 or smooth_disp_query == 'True':
+if smooth_disp_query == 'Y' or smooth_disp_query == 'y' or smooth_disp_query == 'Yes' or smooth_disp_query == 1 or smooth_disp_query == 'True':
     smooth_disp = True
 elif smooth_disp_query == '':
     smooth_disp = True
-elif smooth_disp_query == 'N' or smooth_disp_query == 'No' or smooth_disp_query == 0 or smooth_disp_query == 'False':
+elif smooth_disp_query == 'N' or smooth_disp_query == 'n' or smooth_disp_query == 'No' or smooth_disp_query == 0 or smooth_disp_query == 'False':
     smooth_disp = False
 else:
     print('ERROR: Please input Yes or No for displacement data smoothing!')
@@ -165,11 +165,11 @@ if smooth_disp:
 
 smooth_temperature_query = input(
     'Smooth temperature data? (Y or N, Press ENTER/RETURN for Y): ')
-if smooth_temperature_query == 'Y' or smooth_temperature_query == 'Yes' or smooth_temperature_query == 1 or smooth_temperature_query == 'True':
+if smooth_temperature_query == 'Y' or smooth_temperature_query == 'y' or smooth_temperature_query == 'Yes' or smooth_temperature_query == 1 or smooth_temperature_query == 'True':
     smooth_temperature = True
 elif smooth_temperature_query == '':
     smooth_temperature = True
-elif smooth_temperature_query == 'N' or smooth_temperature_query == 'No' or smooth_temperature_query == 0 or smooth_temperature_query == 'False':
+elif smooth_temperature_query == 'N' or smooth_temperature_query == 'n' or smooth_temperature_query == 'No' or smooth_temperature_query == 0 or smooth_temperature_query == 'False':
     smooth_temperature = False
 else:
     print('ERROR: Please input Yes or No for displacement data smoothing!')
@@ -184,11 +184,11 @@ if smooth_temperature:
         temp_smoothing_window = int(temp_smoothing_window)
 
 plot_query = input('Plot extracted data? (Y or N, Press ENTER/RETURN for Y): ')
-if plot_query == 'Y' or plot_query == 'Yes' or plot_query == 1 or plot_query == 'True':
+if plot_query == 'Y' or plot_query == 'Yes' or plot_query == 'y' or plot_query == 1 or plot_query == 'True':
     plot_data = True
 elif plot_query == '':
     plot_data = True
-elif plot_query == 'N' or plot_query == 'No' or plot_query == 0 or plot_query == 'False':
+elif plot_query == 'N' or plot_query == 'No' or plot_query == 'n' or plot_query == 0 or plot_query == 'False':
     plot_data = False
 else:
     print('ERROR: Please input Yes or No for data plot export!')
@@ -258,7 +258,7 @@ channel_row = raw_data[0].loc[raw_data[0][dummy_names[0]] == 'Waveform Name']
 
 header_print('DATA UNITS')
 
-# Get units for each channel (TODO: remove weird non-standard character in front of C for temp)
+# Get units for each channel
 units_row = raw_data[0].loc[raw_data[0][dummy_names[0]] == 'Unit']
 for i in range(1, len(units_row.columns)):
     curr_unit = units_row.iloc[0][i]
@@ -443,7 +443,7 @@ if plot_data:
         ax1.get_legend().remove()
         plt.tight_layout(pad=2)
         plt.savefig(name_base + cols[i] + plot_format)
-        print('Exported', cols[i] + plot_format)
+        print('Exported', name_base + cols[i] + plot_format)
         plt.cla()
 
 #########################################################
