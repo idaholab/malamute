@@ -1,0 +1,19 @@
+[Tests]
+  issues = '#63'
+  [rosenthal_temp]
+    type = 'Exodiff'
+    input = 'rosenthal_temp_source.i'
+    exodiff = 'rosenthal_temp_source_out.e'
+    abs_zero = 1e-8
+    design = 'RosenthalTemperatureSource.md'
+    requirement = 'The system shall provide analytical expressions for meltpool geometry and corresponding temperature profile'
+  []
+  [rosenthal_depth]
+    type = 'CSVDiff'
+    input = 'rosenthal_temp_source.i'
+    csvdiff = 'rosenthal_temp_source_out.csv'
+    abs_zero = 1e-8
+    design = 'RosenthalTemperatureSource.md'
+    requirement = 'The system shall provide analytical expressions for meltpool depth and width'
+  []
+[]
