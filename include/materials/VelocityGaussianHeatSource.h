@@ -11,7 +11,6 @@
 
 #include "GaussianHeatSourceBase.h"
 
-
 /**
  * Double ellipsoid heat source distribution.
  */

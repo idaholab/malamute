@@ -19,9 +19,18 @@ VelocityGaussianHeatSource::validParams()
   params.addParam<Real>("y0", 0, "The y component of the initial center of the heating spot");
   params.addParam<Real>("z0", 0, "The z component of the initial center of the heating spot");
 
-  params.addParam<FunctionName>("function_vx", 0, "The function of x component of the center of the heating spot moving speed");
-  params.addParam<FunctionName>("function_vy", 0, "The function of y component of the center of the heating spot moving speed");
-  params.addParam<FunctionName>("function_vz", 0, "The function of z component of the center of the heating spot moving speed");
+  params.addParam<FunctionName>(
+      "function_vx",
+      0,
+      "The function of x component of the center of the heating spot moving speed");
+  params.addParam<FunctionName>(
+      "function_vy",
+      0,
+      "The function of y component of the center of the heating spot moving speed");
+  params.addParam<FunctionName>(
+      "function_vz",
+      0,
+      "The function of z component of the center of the heating spot moving speed");
 
   params.addClassDescription("Double ellipsoid volumetric source heat with moving velocity.");
 

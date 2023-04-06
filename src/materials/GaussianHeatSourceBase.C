@@ -87,7 +87,8 @@ GaussianHeatSourceBase::GaussianHeatSourceBase(const InputParameters & parameter
     // however, this info is not available, and sampling again would change the
     // history
     if (_heat_source_type != HeatSourceType::POINT)
-      paramError("heat_source_type", "We can only use the POINT heat source type when _use_input_r = false.");
+      paramError("heat_source_type",
+                 "We can only use the POINT heat source type when _use_input_r = false.");
   }
 
   // set to a small number to start
@@ -243,15 +244,15 @@ GaussianHeatSourceBase::computeEffectiveRadii(const Real time)
   _r[0] = dist_xy(generator);
   _r[2] = dist_z(generator);
   // make sure that the sampled values are within +-sigma range
-  if (_r[0] > mean_rxy + _std_factor*std::abs(std_r))
-    _r[0] = mean_rxy + _std_factor*std::abs(std_r);
-  else if (_r[0] < mean_rxy - _std_factor*std::abs(std_r) || _r[0]<=0.0)
-    _r[0] = std::abs(mean_rxy - _std_factor*std::abs(std_r)); // make sure r is not negative
-  _r[0] *= 0.5; // get the radius
+  if (_r[0] > mean_rxy + _std_factor * std::abs(std_r))
+    _r[0] = mean_rxy + _std_factor * std::abs(std_r);
+  else if (_r[0] < mean_rxy - _std_factor * std::abs(std_r) || _r[0] <= 0.0)
+    _r[0] = std::abs(mean_rxy - _std_factor * std::abs(std_r)); // make sure r is not negative
+  _r[0] *= 0.5;                                                 // get the radius
   _r[1] = _r[0];
 
-  if (_r[2] > mean_rz + _std_factor*std::abs(std_r))
-    _r[2] = mean_rz + _std_factor*std::abs(std_r);
-  else if (_r[2] < mean_rz - _std_factor*std::abs(std_r) || _r[0]<=0.0)
-    _r[2] = std::abs(mean_rz - _std_factor*std::abs(std_r)); // make sure r is not negative
+  if (_r[2] > mean_rz + _std_factor * std::abs(std_r))
+    _r[2] = mean_rz + _std_factor * std::abs(std_r);
+  else if (_r[2] < mean_rz - _std_factor * std::abs(std_r) || _r[0] <= 0.0)
+    _r[2] = std::abs(mean_rz - _std_factor * std::abs(std_r)); // make sure r is not negative
 }
