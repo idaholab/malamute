@@ -10,6 +10,7 @@
 #pragma once
 
 #include "GaussianHeatSourceBase.h"
+#include "Function.h"
 
 /**
  * Double ellipsoid heat source distribution.
