@@ -7,16 +7,16 @@
 /*                           ALL RIGHTS RESERVED                            */
 /****************************************************************************/
 
-#include "FunctionPathGaussianHeatSource.h"
+#include "ADFunctionPathGaussianHeatSource.h"
 
 #include "Function.h"
 
-registerMooseObject("MalamuteApp", FunctionPathGaussianHeatSource);
+registerMooseObject("MalamuteApp", ADFunctionPathGaussianHeatSource);
 
 InputParameters
-FunctionPathGaussianHeatSource::validParams()
+ADFunctionPathGaussianHeatSource::validParams()
 {
-  InputParameters params = GaussianHeatSourceBase::validParams();
+  InputParameters params = ADGaussianHeatSourceBase::validParams();
   params.addParam<FunctionName>("function_x",
                                 "0",
                                 "The x component of the center of the heating spot as a function "
@@ -36,8 +36,8 @@ FunctionPathGaussianHeatSource::validParams()
   return params;
 }
 
-FunctionPathGaussianHeatSource::FunctionPathGaussianHeatSource(const InputParameters & parameters)
-  : GaussianHeatSourceBase(parameters),
+ADFunctionPathGaussianHeatSource::ADFunctionPathGaussianHeatSource(const InputParameters & parameters)
+  : ADGaussianHeatSourceBase(parameters),
     _function_x(getFunction("function_x")),
     _function_y(getFunction("function_y")),
     _function_z(getFunction("function_z"))
@@ -45,7 +45,7 @@ FunctionPathGaussianHeatSource::FunctionPathGaussianHeatSource(const InputParame
 }
 
 void
-FunctionPathGaussianHeatSource::computeHeatSourceCenterAtTime(Real & x,
+ADFunctionPathGaussianHeatSource::computeHeatSourceCenterAtTime(Real & x,
                                                               Real & y,
                                                               Real & z,
                                                               const Real & time)
@@ -57,7 +57,7 @@ FunctionPathGaussianHeatSource::computeHeatSourceCenterAtTime(Real & x,
 }
 
 void
-FunctionPathGaussianHeatSource::computeHeatSourceMovingSpeedAtTime(const Real & time)
+ADFunctionPathGaussianHeatSource::computeHeatSourceMovingSpeedAtTime(const Real & time)
 {
   const static Point dummy;
   Real vx = _function_x.timeDerivative(time);

@@ -71,7 +71,7 @@
 
 [Materials]
   [volumetric_heat]
-    type = FunctionPathGaussianHeatSource
+    type = ADFunctionPathGaussianHeatSource
     r = '0.2 0.3 0.1'
     power = 0.3
     efficiency = 0.3

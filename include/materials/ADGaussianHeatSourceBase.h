@@ -16,12 +16,12 @@
 /**
  * Double ellipsoid heat source distribution.
  */
-class GaussianHeatSourceBase : public Material
+class ADGaussianHeatSourceBase : public Material
 {
 public:
   static InputParameters validParams();
 
-  GaussianHeatSourceBase(const InputParameters & parameters);
+  ADGaussianHeatSourceBase(const InputParameters & parameters);
 
 protected:
   virtual void computeHeatSourceCenterAtTime(Real & x, Real & y, Real & z, const Real & time) = 0;

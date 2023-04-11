@@ -7,14 +7,14 @@
 /*                           ALL RIGHTS RESERVED                            */
 /****************************************************************************/
 
-#include "VelocityGaussianHeatSource.h"
+#include "ADVelocityGaussianHeatSource.h"
 
-registerMooseObject("MalamuteApp", VelocityGaussianHeatSource);
+registerMooseObject("MalamuteApp", ADVelocityGaussianHeatSource);
 
 InputParameters
-VelocityGaussianHeatSource::validParams()
+ADVelocityGaussianHeatSource::validParams()
 {
-  InputParameters params = GaussianHeatSourceBase::validParams();
+  InputParameters params = ADGaussianHeatSourceBase::validParams();
   params.addParam<Real>(
       "x0", 0, "The x component of the initial center of the heating spot, speed unit is [mm/ms].");
   params.addParam<Real>(
@@ -40,8 +40,8 @@ VelocityGaussianHeatSource::validParams()
   return params;
 }
 
-VelocityGaussianHeatSource::VelocityGaussianHeatSource(const InputParameters & parameters)
-  : GaussianHeatSourceBase(parameters),
+ADVelocityGaussianHeatSource::ADVelocityGaussianHeatSource(const InputParameters & parameters)
+  : ADGaussianHeatSourceBase(parameters),
     _prev_time(0),
     _x_prev(getParam<Real>("x0")),
     _y_prev(getParam<Real>("y0")),
@@ -53,7 +53,7 @@ VelocityGaussianHeatSource::VelocityGaussianHeatSource(const InputParameters & p
 }
 
 void
-VelocityGaussianHeatSource::computeHeatSourceCenterAtTime(Real & x,
+ADVelocityGaussianHeatSource::computeHeatSourceCenterAtTime(Real & x,
                                                           Real & y,
                                                           Real & z,
                                                           const Real & time)
@@ -86,7 +86,7 @@ VelocityGaussianHeatSource::computeHeatSourceCenterAtTime(Real & x,
 }
 
 void
-VelocityGaussianHeatSource::computeHeatSourceMovingSpeedAtTime(const Real & /*time*/)
+ADVelocityGaussianHeatSource::computeHeatSourceMovingSpeedAtTime(const Real & /*time*/)
 {
   _scan_speed = std::sqrt(_vx * _vx + _vy * _vy + _vz * _vz);
 }

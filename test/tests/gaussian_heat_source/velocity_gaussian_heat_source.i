@@ -56,7 +56,7 @@
 
 [Materials]
   [volumetric_heat]
-    type = VelocityGaussianHeatSource
+    type = ADVelocityGaussianHeatSource
     r = 0.2
     power = 0.3
     efficiency = 0.3

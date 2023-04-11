@@ -71,7 +71,7 @@
 
 [Materials]
   [volumetric_heat]
-    type = FunctionPathGaussianHeatSource
+    type = ADFunctionPathGaussianHeatSource
     use_input_r = false
     feed_rate = 0.000124 # 4 rpm
     power = 0.3

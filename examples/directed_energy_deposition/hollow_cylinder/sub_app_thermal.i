@@ -232,7 +232,7 @@ dt = 20
     block = '1 2 3'
   []
   [volumetric_heat_metal]
-    type = FunctionPathGaussianHeatSource
+    type = ADFunctionPathGaussianHeatSource
     r = ${r}
     power = ${power}
     efficiency = 0.36

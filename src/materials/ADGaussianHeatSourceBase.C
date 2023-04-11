@@ -7,10 +7,10 @@
 /*                           ALL RIGHTS RESERVED                            */
 /****************************************************************************/
 
-#include "GaussianHeatSourceBase.h"
+#include "ADGaussianHeatSourceBase.h"
 
 InputParameters
-GaussianHeatSourceBase::validParams()
+ADGaussianHeatSourceBase::validParams()
 {
   InputParameters params = Material::validParams();
   params.addRequiredParam<Real>("power", "laser power (1e-3 W)");
@@ -54,7 +54,7 @@ GaussianHeatSourceBase::validParams()
   return params;
 }
 
-GaussianHeatSourceBase::GaussianHeatSourceBase(const InputParameters & parameters)
+ADGaussianHeatSourceBase::ADGaussianHeatSourceBase(const InputParameters & parameters)
   : Material(parameters),
     _use_input_r(getParam<bool>("use_input_r")),
     _P(getParam<Real>("power")),
@@ -96,7 +96,7 @@ GaussianHeatSourceBase::GaussianHeatSourceBase(const InputParameters & parameter
 }
 
 void
-GaussianHeatSourceBase::computeQpProperties()
+ADGaussianHeatSourceBase::computeQpProperties()
 {
   const Real & x = _q_point[_qp](0);
   const Real & y = _q_point[_qp](1);
@@ -117,7 +117,7 @@ GaussianHeatSourceBase::computeQpProperties()
 }
 
 Real
-GaussianHeatSourceBase::computeHeatSourceAtTime(const Real x,
+ADGaussianHeatSourceBase::computeHeatSourceAtTime(const Real x,
                                                 const Real y,
                                                 const Real z,
                                                 const Real time)
@@ -136,7 +136,7 @@ GaussianHeatSourceBase::computeHeatSourceAtTime(const Real x,
 }
 
 Real
-GaussianHeatSourceBase::computeAveragedHeatSource(
+ADGaussianHeatSourceBase::computeAveragedHeatSource(
     const Real x, const Real y, const Real z, const Real time_begin, const Real time_end)
 {
   mooseAssert(time_end > time_begin, "Begin time should be smaller than end time.");
@@ -171,7 +171,7 @@ GaussianHeatSourceBase::computeAveragedHeatSource(
 }
 
 Real
-GaussianHeatSourceBase::computeMixedHeatSource(
+ADGaussianHeatSourceBase::computeMixedHeatSource(
     const Real x, const Real y, const Real z, const Real time_begin, const Real time_end)
 {
   mooseAssert(time_end > time_begin, "Begin time should be smaller than end time.");
@@ -193,7 +193,7 @@ GaussianHeatSourceBase::computeMixedHeatSource(
 }
 
 void
-GaussianHeatSourceBase::computeProperties()
+ADGaussianHeatSourceBase::computeProperties()
 {
   // effective radii under current processing parameters
   if (!_use_input_r)
@@ -208,7 +208,7 @@ GaussianHeatSourceBase::computeProperties()
 }
 
 void
-GaussianHeatSourceBase::computeEffectiveRadii(const Real time)
+ADGaussianHeatSourceBase::computeEffectiveRadii(const Real time)
 {
   // we do not update _r if we do not proceed in time
   if (time <= _r_time_prev)

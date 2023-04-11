@@ -37,7 +37,7 @@ The $L_0$ is the threshold distance between the current laser spot location and 
 
 For all three heat source formulations above, the scanning path $\boldsymbol{p}(t)$ is a time-varying spatial location that represents the movement of the laser beam. Therefore, $\boldsymbol{p}(t)$ is  dependent on the product geometry and processing parameters, including scanning pattern, scanning speed, hatch spacing, and layer thickness, etc.
 
-Users can specify the velocity profile or the spacial location of the laser beam using [VelocityGaussianHeatSource](VelocityGaussianHeatSource.md) or [FunctionPathGaussianHeatSource](FunctionPathGaussianHeatSource.md).
+Users can specify the velocity profile or the spacial location of the laser beam using [ADVelocityGaussianHeatSource](ADVelocityGaussianHeatSource.md) or [ADFunctionPathGaussianHeatSource](ADFunctionPathGaussianHeatSource.md).
 
 ### Effective radii
 

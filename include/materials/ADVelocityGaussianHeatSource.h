@@ -9,19 +9,19 @@
 
 #pragma once
 
-#include "GaussianHeatSourceBase.h"
+#include "ADGaussianHeatSourceBase.h"
 #include "Function.h"
 
 /**
- * Gaussian heat source distribution. The motion of its center follows user-specified path functions
- * in space
+ * Gaussian heat source distribution. The motion of its center follows a user-specified velocity
+ * profile
  */
-class FunctionPathGaussianHeatSource : public GaussianHeatSourceBase
+class ADVelocityGaussianHeatSource : public ADGaussianHeatSourceBase
 {
 public:
   static InputParameters validParams();
 
-  FunctionPathGaussianHeatSource(const InputParameters & parameters);
+  ADVelocityGaussianHeatSource(const InputParameters & parameters);
 
 protected:
   virtual void
@@ -29,8 +29,17 @@ protected:
 
   virtual void computeHeatSourceMovingSpeedAtTime(const Real & time) override;
 
-  /// path of the heat source, x, y, z components
-  const Function & _function_x;
-  const Function & _function_y;
-  const Function & _function_z;
+  /// previous time
+  Real _prev_time;
+
+  /// position at previous time
+  Real _x_prev, _y_prev, _z_prev;
+
+  /// function of scanning speed along three directions
+  const Function & _function_vx;
+  const Function & _function_vy;
+  const Function & _function_vz;
+
+  /// stores the velocity at the current step
+  Real _vx, _vy, _vz;
 };
