@@ -192,6 +192,7 @@ dt = 20
     y = '426.69 426.69 479.77 549.54 676.94  695.14 726.99 726.99'
     scale_factor = 1.0
   []
+  # the properties are scaled to the right value and unit (see D. Yushu et al., 2022)
   [thermal_conductivity_metal]
     type = PiecewiseLinear
     x = '-1e7 198.84  298.10  398.75 500.76 601.40 700.64 801.27 901.89 1001.12 1098.98 1200.96 '
@@ -289,7 +290,7 @@ dt = 20
 
 [Executioner]
   type = Transient
-  solve_type = 'PJFNK'
+  solve_type = 'NEWTON'
 
   petsc_options_iname = '-ksp_type -pc_type -pc_factor_mat_solver_package -pc_factor_shift_type '
                         '-pc_factor_shift_amount'

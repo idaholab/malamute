@@ -73,6 +73,10 @@ protected:
   Real _r_time_prev; // save the time when we last update the effective radii
 
 private:
+  // Note: the following coefficients are calculated from measurement data of multiple DED processed
+  // samples under different combinations of scanning speeds, laser powers, and feed rates. The
+  // coefficients are utilized when `use_input_r = false`.
+
   // list of the mean and std of the fitted parameters in the diameter formulation
   const std::vector<std::pair<Real, Real>> _diameter_param = {
       {0.95314595, -0.59208523},

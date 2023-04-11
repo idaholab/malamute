@@ -13,7 +13,8 @@
 #include "Function.h"
 
 /**
- * Double ellipsoid heat source distribution.
+ * Gaussian heat source distribution. The motion of its center follows a user-specified velocity
+ * profile
  */
 class VelocityGaussianHeatSource : public GaussianHeatSourceBase
 {

@@ -1,3 +1,5 @@
+# unit of length (mm), time (ms)
+
 T_room = 300
 T_melt = 1700
 
@@ -60,8 +62,6 @@ dt = 200
     type = CombinerGenerator
     inputs = 'add_set2 moving_boundary'
   []
-
-  displacements = 'disp_x disp_y disp_z'
 
   skip_partitioning = true
 []
@@ -130,7 +130,6 @@ dt = 200
 [Modules/TensorMechanics/Master]
   strain = FINITE
   incremental = true
-  add_variables = true
   generate_output = 'stress_xx stress_yy stress_zz stress_xy stress_yz stress_xz strain_yy strain_xx '
                     'strain_zz strain_xy strain_xz strain_yz'
   use_automatic_differentiation = true
@@ -277,7 +276,7 @@ dt = 200
 
 [Executioner]
   type = Transient
-  solve_type = 'PJFNK'
+  solve_type = 'NEWTON'
 
   petsc_options_iname = '-ksp_type -pc_type -pc_factor_mat_solver_package -pc_factor_shift_type '
                         '-pc_factor_shift_amount'

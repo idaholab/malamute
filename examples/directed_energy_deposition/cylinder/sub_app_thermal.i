@@ -1,3 +1,5 @@
+# unit of length (mm), time (ms)
+
 T_room = 300
 T_ambient = 300
 T_melt = 1700
@@ -160,6 +162,7 @@ dt = 200
 []
 
 [Functions]
+  # the values are scaled to fit the size of the substrate
   [heat_source_x]
     type = PiecewiseLinear
     data_file = ./path_eq_t_x_coarse_ms.csv
@@ -178,6 +181,7 @@ dt = 200
     format = columns
     scale_factor = 0.15
   []
+  # the properties are scaled to the right value and unit (see D. Yushu et al., 2022)
   [specific_heat_metal]
     type = PiecewiseLinear
     x = '-1e7 197.79  298.46  600.31 1401.01 1552.59 1701.44 1e7'
@@ -281,7 +285,7 @@ dt = 200
 
 [Executioner]
   type = Transient
-  solve_type = 'PJFNK'
+  solve_type = 'NEWTON'
 
   petsc_options_iname = '-ksp_type -pc_type -pc_factor_mat_solver_package -pc_factor_shift_type '
                         '-pc_factor_shift_amount'

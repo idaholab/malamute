@@ -15,24 +15,27 @@ InputParameters
 VelocityGaussianHeatSource::validParams()
 {
   InputParameters params = GaussianHeatSourceBase::validParams();
-  params.addParam<Real>("x0", 0, "The x component of the initial center of the heating spot");
-  params.addParam<Real>("y0", 0, "The y component of the initial center of the heating spot");
-  params.addParam<Real>("z0", 0, "The z component of the initial center of the heating spot");
+  params.addParam<Real>(
+      "x0", 0, "The x component of the initial center of the heating spot, speed unit is [mm/ms].");
+  params.addParam<Real>(
+      "y0", 0, "The y component of the initial center of the heating spot, speed unit is [mm/ms].");
+  params.addParam<Real>(
+      "z0", 0, "The z component of the initial center of the heating spot, speed unit is [mm/ms].");
 
   params.addParam<FunctionName>(
       "function_vx",
-      0,
+      "0",
       "The function of x component of the center of the heating spot moving speed");
   params.addParam<FunctionName>(
       "function_vy",
-      0,
+      "0",
       "The function of y component of the center of the heating spot moving speed");
   params.addParam<FunctionName>(
       "function_vz",
-      0,
+      "0",
       "The function of z component of the center of the heating spot moving speed");
 
-  params.addClassDescription("Double ellipsoid volumetric source heat with moving velocity.");
+  params.addClassDescription("Gaussian heat source whose center moves with a specified velocity.");
 
   return params;
 }
@@ -55,15 +58,13 @@ VelocityGaussianHeatSource::computeHeatSourceCenterAtTime(Real & x,
                                                           Real & z,
                                                           const Real & time)
 {
-  Real delta_t;
-  if (time > _prev_time)
+  Real delta_t = time - _prev_time;
+  if (delta_t > 0.0)
   {
     const static Point dummy;
     _vx = _function_vx.value(time, dummy);
     _vy = _function_vy.value(time, dummy);
     _vz = _function_vz.value(time, dummy);
-
-    delta_t = time - _prev_time;
 
     x = _x_prev + _vx * delta_t;
     y = _y_prev + _vy * delta_t;

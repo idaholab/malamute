@@ -17,14 +17,21 @@ InputParameters
 FunctionPathGaussianHeatSource::validParams()
 {
   InputParameters params = GaussianHeatSourceBase::validParams();
-  params.addParam<FunctionName>(
-      "function_x", "0", "The x component of the center of the heating spot as a function of time");
-  params.addParam<FunctionName>(
-      "function_y", "0", "The y component of the center of the heating spot as a function of time");
-  params.addParam<FunctionName>(
-      "function_z", "0", "The z component of the center of the heating spot as a function of time");
+  params.addParam<FunctionName>("function_x",
+                                "0",
+                                "The x component of the center of the heating spot as a function "
+                                "of time, length unit is [mm], time unit is [ms].");
+  params.addParam<FunctionName>("function_y",
+                                "0",
+                                "The y component of the center of the heating spot as a function "
+                                "of time, length unit is [mm], time unit is [ms].");
+  params.addParam<FunctionName>("function_z",
+                                "0",
+                                "The z component of the center of the heating spot as a function "
+                                "of time, length unit is [mm], time unit is [ms].");
 
-  params.addClassDescription("Double ellipsoid volumetric source heat with function path.");
+  params.addClassDescription(
+      "Gaussian heat source whose center moves along a specified function path.");
 
   return params;
 }

@@ -13,7 +13,7 @@ InputParameters
 GaussianHeatSourceBase::validParams()
 {
   InputParameters params = Material::validParams();
-  params.addRequiredParam<Real>("power", "power");
+  params.addRequiredParam<Real>("power", "laser power (1e-3 W)");
   params.addParam<Real>("efficiency", 1, "process efficiency");
   params.addParam<bool>("use_input_r",
                         true,
@@ -21,13 +21,13 @@ GaussianHeatSourceBase::validParams()
                         "formulations. Default is to use user input data.");
   params.addParam<std::vector<Real>>(
       "r",
-      "effective radii along three directions. If only one parameter is provided, then we assume "
+      "effective radii (mm) along three directions. If only one parameter is provided, then we assume "
       "the effective radius to be equal along three directions.");
 
   params.addParam<Real>(
       "feed_rate",
-      0.000124,
-      "powder material feed rate. This value is used only when use_input_r = false.");
+      0.0,
+      "powder material feed rate (g/ms). This value is used only when use_input_r = false.");
 
   params.addParam<Real>(
       "factor",
@@ -40,7 +40,7 @@ GaussianHeatSourceBase::validParams()
       "heat_source_type", MooseEnum("point line mixed", "point"), "Type of the heat source");
 
   params.addParam<Real>(
-      "threshold_length", 1.0, "Threshold size when we change the way of computing heat source");
+      "threshold_length", 1.0, "Threshold size (mm) when we change the way of computing heat source");
 
   params.addParam<Real>(
       "number_time_integration",
@@ -140,7 +140,8 @@ GaussianHeatSourceBase::computeAveragedHeatSource(
     const Real x, const Real y, const Real z, const Real time_begin, const Real time_end)
 {
   mooseAssert(time_end > time_begin, "Begin time should be smaller than end time.");
-
+  // Use 5 points as a starting point. Number of points will double if
+  // integration is not accurate enough or exceeds _number_time_integration.
   unsigned int num_pts = 5;
   Real Q_integral = 0, Q_integral_old = 0;
   do
