@@ -54,9 +54,9 @@ ADVelocityGaussianHeatSource::ADVelocityGaussianHeatSource(const InputParameters
 
 void
 ADVelocityGaussianHeatSource::computeHeatSourceCenterAtTime(Real & x,
-                                                          Real & y,
-                                                          Real & z,
-                                                          const Real & time)
+                                                            Real & y,
+                                                            Real & z,
+                                                            const Real & time)
 {
   Real delta_t = time - _prev_time;
   if (delta_t > 0.0)

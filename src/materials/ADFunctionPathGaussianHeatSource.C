@@ -36,7 +36,8 @@ ADFunctionPathGaussianHeatSource::validParams()
   return params;
 }
 
-ADFunctionPathGaussianHeatSource::ADFunctionPathGaussianHeatSource(const InputParameters & parameters)
+ADFunctionPathGaussianHeatSource::ADFunctionPathGaussianHeatSource(
+    const InputParameters & parameters)
   : ADGaussianHeatSourceBase(parameters),
     _function_x(getFunction("function_x")),
     _function_y(getFunction("function_y")),
@@ -46,9 +47,9 @@ ADFunctionPathGaussianHeatSource::ADFunctionPathGaussianHeatSource(const InputPa
 
 void
 ADFunctionPathGaussianHeatSource::computeHeatSourceCenterAtTime(Real & x,
-                                                              Real & y,
-                                                              Real & z,
-                                                              const Real & time)
+                                                                Real & y,
+                                                                Real & z,
+                                                                const Real & time)
 {
   const static Point dummy;
   x = _function_x.value(time, dummy);

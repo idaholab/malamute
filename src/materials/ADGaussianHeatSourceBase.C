@@ -19,10 +19,10 @@ ADGaussianHeatSourceBase::validParams()
                         true,
                         "option to use user input effective radii or from experimentally fitted "
                         "formulations. Default is to use user input data.");
-  params.addParam<std::vector<Real>>(
-      "r",
-      "effective radii (mm) along three directions. If only one parameter is provided, then we assume "
-      "the effective radius to be equal along three directions.");
+  params.addParam<std::vector<Real>>("r",
+                                     "effective radii (mm) along three directions. If only one "
+                                     "parameter is provided, then we assume "
+                                     "the effective radius to be equal along three directions.");
 
   params.addParam<Real>(
       "feed_rate",
@@ -39,8 +39,9 @@ ADGaussianHeatSourceBase::validParams()
   params.addParam<MooseEnum>(
       "heat_source_type", MooseEnum("point line mixed", "point"), "Type of the heat source");
 
-  params.addParam<Real>(
-      "threshold_length", 1.0, "Threshold size (mm) when we change the way of computing heat source");
+  params.addParam<Real>("threshold_length",
+                        1.0,
+                        "Threshold size (mm) when we change the way of computing heat source");
 
   params.addParam<Real>(
       "number_time_integration",
@@ -118,9 +119,9 @@ ADGaussianHeatSourceBase::computeQpProperties()
 
 Real
 ADGaussianHeatSourceBase::computeHeatSourceAtTime(const Real x,
-                                                const Real y,
-                                                const Real z,
-                                                const Real time)
+                                                  const Real y,
+                                                  const Real z,
+                                                  const Real time)
 {
   // center of the heat source
   Real x_t, y_t, z_t;
