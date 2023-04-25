@@ -1,0 +1,9 @@
+[Tests]
+  [ded_cylinder]
+    type = RunApp
+    input = master_app_mechanical.i
+    check_input = True
+    method = opt
+    issues = '#66'
+  []
+[]

@@ -1,0 +1,44 @@
+[Tests]
+  [gaussian_heat_source]
+    type = CSVDiff
+    input = 'gaussian_heat_source.i'
+    csvdiff = 'gaussian_heat_source_out.csv'
+    requirement = 'The system shall produce the correct temperature field with moving Gaussian heat '
+                  'source.'
+  []
+  [velocity_gaussian_heat_source]
+    type = CSVDiff
+    input = 'velocity_gaussian_heat_source.i'
+    csvdiff = 'velocity_gaussian_heat_source_out.csv'
+    requirement = 'The system shall produce the correct temperature field with moving Gaussian heat '
+                  'source.'
+  []
+  [gaussian_heat_source_vary_r]
+    type = CSVDiff
+    input = 'gaussian_heat_source_vary_r.i'
+    csvdiff = 'gaussian_heat_source_vary_r_out.csv'
+    requirement = 'The system shall produce the correct temperature field with moving Gaussian heat '
+                  'source and anisotropic effective radii along three directions.'
+  []
+  [velocity_gaussian_heat_source_vary_r]
+    type = CSVDiff
+    input = 'velocity_gaussian_heat_source_vary_r.i'
+    csvdiff = 'velocity_gaussian_heat_source_vary_r_out.csv'
+    requirement = 'The system shall produce the correct temperature field with moving Gaussian heat '
+                  'source and anisotropic effective radii along three directions.'
+  []
+  [gaussian_heat_source_experiment_r]
+    type = CSVDiff
+    input = 'gaussian_heat_source_experiment_r.i'
+    csvdiff = 'gaussian_heat_source_experiment_r_out.csv'
+    requirement = 'The system shall produce the correct temperature field with moving Gaussian heat '
+                  'source and anisotropic effective radii based on experimental measurements.'
+  []
+  [velocity_gaussian_heat_source_experiment_r]
+    type = CSVDiff
+    input = 'velocity_gaussian_heat_source_experiment_r.i'
+    csvdiff = 'velocity_gaussian_heat_source_experiment_r_out.csv'
+    requirement = 'The system shall produce the correct temperature field with moving Gaussian heat '
+                  'source and anisotropic effective radii based on experimental measurements.'
+  []
+[]
