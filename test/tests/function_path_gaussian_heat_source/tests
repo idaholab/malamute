@@ -1,0 +1,9 @@
+[Tests]
+  [gaussian_heat_source]
+    type = CSVDiff
+    input = 'func_path_gaussian_heat_source.i'
+    csvdiff = 'func_path_gaussian_heat_source_out.csv'
+    requirement = 'The system shall produce the correct temperature field with moving Gaussian heat '
+                  'source.'
+  []
+[]
