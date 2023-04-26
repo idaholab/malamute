@@ -47,4 +47,7 @@ protected:
 
   /// Reference pressure for vaporization
   const Real & _p0;
+
+  /// Saturated vapor pressure
+  ADMaterialProperty<Real> & _saturated_vapor_pressure;
 };

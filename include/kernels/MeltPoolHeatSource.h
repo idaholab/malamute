@@ -28,7 +28,7 @@ protected:
   const ADMaterialProperty<Real> & _delta_function;
 
   /// Laser power
-  const Real & _power;
+  const Function & _power;
 
   /// Absorption coefficient
   const Real & _alpha;
