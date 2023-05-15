@@ -9,6 +9,13 @@ Applications:
         show_warning: false
 
 Documents:
+    software_quality_plan: sqa/inl_records.md#software_quality_plan
+    enterprise_architecture_entry: sqa/inl_records.md#enterprise_architecture_entry
+    safety_software_determination: sqa/inl_records.md#safety_software_determination
+    quality_level_determination: sqa/inl_records.md#quality_level_determination
+    configuration_management_plan: sqa/inl_records.md#configuration_management_plan
+    asset_management_plan: sqa/inl_records.md#asset_management_plan
+    verification_validation_plan: sqa/inl_records.md#verification_and_validation_plan
     software_requirements_specification: sqa/malamute_srs.md
     software_design_description: sqa/malamute_sdd.md
     software_test_plan: sqa/malamute_stp.md
@@ -16,9 +23,13 @@ Documents:
     verification_validation_report: sqa/malamute_vvr.md
     failure_analysis_report: sqa/malamute_far.md
     software_library_list: sqa/malamute_sll.md
+    communication_and_contact_information: sqa/malamute_cci.md
     software_coding_standards: development/code_standards.md
     log_default: WARNING
     show_warning: false
+    working_dirs:
+        - ${ROOT_DIR}/doc/content
+        - ${MOOSE_DIR}/framework/doc/content
 
 Requirements:
     malamute:
