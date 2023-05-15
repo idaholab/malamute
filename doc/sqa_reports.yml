@@ -16,6 +16,7 @@ Documents:
     verification_validation_report: sqa/malamute_vvr.md
     failure_analysis_report: sqa/malamute_far.md
     software_library_list: sqa/malamute_sll.md
+    software_coding_standards: development/code_standards.md
     log_default: WARNING
     show_warning: false
 

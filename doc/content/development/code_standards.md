@@ -18,4 +18,4 @@ changes needed to conform to the code style (if any).
 
 For extended information on file guidelines, naming conventions, example code,
 doxygen documentation, and other tips, please see
-[the MOOSE Code Standards page](https://mooseframework.inl.gov/sqa/framework_scs.html).
+[the MOOSE Code Standards](sqa/framework_scs.md).
