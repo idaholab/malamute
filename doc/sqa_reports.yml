@@ -21,6 +21,20 @@ Documents:
 
 Requirements:
     malamute:
+        working_dirs:
+            - ${ROOT_DIR}/doc/content
+            - ${MOOSE_DIR}/framework/doc/content
+            - ${MOOSE_DIR}/modules/contact/doc/content
+            - ${MOOSE_DIR}/modules/electromagnetics/doc/content
+            - ${MOOSE_DIR}/modules/fluid_properties/doc/content # pulled in by navier_stokes
+            - ${MOOSE_DIR}/modules/heat_conduction/doc/content
+            - ${MOOSE_DIR}/modules/level_set/doc/content
+            - ${MOOSE_DIR}/modules/navier_stokes/doc/content
+            - ${MOOSE_DIR}/modules/phase_field/doc/content
+            - ${MOOSE_DIR}/modules/ray_tracing/doc/content      # pulled in by heat_conduction
+            - ${MOOSE_DIR}/modules/rdg/doc/content              # pulled in by navier_stokes
+            - ${MOOSE_DIR}/modules/tensor_mechanics/doc/content
+            - ${MOOSE_DIR}/modules/level_set/doc/content
         directories:
             - ${ROOT_DIR}/test
         log_default: WARNING
