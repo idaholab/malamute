@@ -1,1 +1,1 @@
-!template load file=sqa/app_srs.md.template app=MalamuteApp category=malamute
+!template load file=sqa/app_srs.md.template app=MALAMUTE category=malamute
