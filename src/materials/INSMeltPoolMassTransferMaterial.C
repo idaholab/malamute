@@ -35,16 +35,19 @@ INSMeltPoolMassTransferMaterial::INSMeltPoolMassTransferMaterial(const InputPara
     _beta_r(getParam<Real>("retrodiffusion_coefficient")),
     _Lv(getParam<Real>("vaporization_latent_heat")),
     _vaporization_temperature(getParam<Real>("vaporization_temperature")),
-    _p0(getParam<Real>("reference_pressure"))
+    _p0(getParam<Real>("reference_pressure")),
+    _saturated_vapor_pressure(declareADProperty<Real>("saturated_vapor_pressure"))
 {
 }
 
 void
 INSMeltPoolMassTransferMaterial::computeQpProperties()
 {
-  ADReal p_sat = _p0 * std::exp(_m * _Lv / _boltzmann / _vaporization_temperature *
-                                (1 - _vaporization_temperature / _temp[_qp]));
+  _saturated_vapor_pressure[_qp] =
+      _p0 * std::exp(_m * _Lv / _boltzmann / _vaporization_temperature *
+                     (1 - _vaporization_temperature / _temp[_qp]));
 
-  _melt_pool_mass_rate[_qp] = std::sqrt(_m / (2 * libMesh::pi * _boltzmann)) * p_sat /
-                              std::sqrt(_temp[_qp]) * (1 - _beta_r);
+  _melt_pool_mass_rate[_qp] = std::sqrt(_m / (2 * libMesh::pi * _boltzmann)) *
+                              _saturated_vapor_pressure[_qp] / std::sqrt(_temp[_qp]) *
+                              (1 - _beta_r);
 }
