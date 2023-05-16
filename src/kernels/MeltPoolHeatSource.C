@@ -24,7 +24,7 @@ MeltPoolHeatSource::validParams()
       "laser_location_y", 0, "The laser center function of y coordinate.");
   params.addParam<FunctionName>(
       "laser_location_z", 0, "The laser center function of z coordinate.");
-  params.addRequiredParam<Real>("laser_power", "Laser power.");
+  params.addRequiredParam<FunctionName>("laser_power", "Laser power.");
   params.addRequiredParam<Real>("effective_beam_radius", "Effective beam radius.");
   params.addRequiredParam<Real>("absorption_coefficient", "Absorption coefficient.");
   params.addRequiredParam<Real>("heat_transfer_coefficient", "Heat transfer coefficient.");
@@ -40,7 +40,7 @@ MeltPoolHeatSource::validParams()
 MeltPoolHeatSource::MeltPoolHeatSource(const InputParameters & parameters)
   : ADKernelValue(parameters),
     _delta_function(getADMaterialProperty<Real>("delta_function")),
-    _power(getParam<Real>("laser_power")),
+    _power(getFunction("laser_power")),
     _alpha(getParam<Real>("absorption_coefficient")),
     _Rb(getParam<Real>("effective_beam_radius")),
     _Ah(getParam<Real>("heat_transfer_coefficient")),
@@ -69,7 +69,7 @@ MeltPoolHeatSource::precomputeQpResidual()
 
   ADReal r = (_ad_q_point[_qp] - laser_location).norm();
 
-  ADReal laser_source = 2 * _power * _alpha / (libMesh::pi * Utility::pow<2>(_Rb)) *
+  ADReal laser_source = 2 * _power.value(_t, p) * _alpha / (libMesh::pi * Utility::pow<2>(_Rb)) *
                         std::exp(-2.0 * Utility::pow<2>(r / _Rb));
 
   ADReal convection = -_Ah * (_u[_qp] - _T0);

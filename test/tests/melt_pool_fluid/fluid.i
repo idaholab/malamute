@@ -261,10 +261,11 @@
   nl_rel_tol = 1e-12
   num_steps = 2
   line_search = 'none'
-  petsc_options_iname = '-pc_type -pc_factor_mat_solver_type -ksp_type'
-  petsc_options_value = 'lu superlu_dist preonly'
+  petsc_options_iname = '-pc_type -pc_factor_shift_type'
+  petsc_options_value = 'lu       NONZERO'
   nl_div_tol = 1e20
   automatic_scaling = true
+  off_diagonals_in_auto_scaling = true
 []
 
 [Outputs]

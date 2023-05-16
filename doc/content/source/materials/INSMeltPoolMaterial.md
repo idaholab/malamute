@@ -7,7 +7,7 @@
 The momentum conservation equations[!citep](ShaoyiWen2010) are described by
 
 \begin{equation}
-\rho\left(\frac{\partial{\overrightarrow {u}}}{\partial t}+ \overrightarrow{u}\cdot{\nabla\overrightarrow {u}}\right)- \nabla\left [ -p\mathbf{I}+\mu\left(\nabla\overrightarrow {u} + \nabla \overrightarrow u ^T\right) \right ] =  -\frac{\mu_m}{K}\overrightarrow{u} + \gamma\overrightarrow {n} \kappa \delta(\phi)-\nabla_s\gamma\delta(\phi).
+\rho\left(\frac{\partial{\overrightarrow {u}}}{\partial t}+ \overrightarrow{u}\cdot{\nabla\overrightarrow {u}}\right)- \nabla\left [ -p\mathbf{I}+\mu\left(\nabla\overrightarrow {u} + \nabla \overrightarrow u ^T\right) \right ] =  -\frac{\mu_m}{K}\overrightarrow{u} + \gamma\overrightarrow {n} \kappa \delta(\phi)-\nabla_s\gamma\delta(\phi)-0.55P_{sat}\delta(\phi).
 \end{equation}
 
 The first term on the right is a Darcy term, representing the damping force when fluid passes through mushy zone. $K$ is the isotropic permeability given by
@@ -21,11 +21,13 @@ The second and third terms represent surface tension and Marangoni forces at the
 \nabla_s\gamma = \gamma_T\nabla_sT = \gamma_T (\mathbf{I}-\overrightarrow n \otimes \overrightarrow n)\nabla T.
 \end{equation}
 
+The fourth term is the recoil pressure at the keyhole[!citep](Tan2013).
+
 The mass conservation equation[!citep](ShaoyiWen2010, ESMAEELI2004) is modified to account for the phase change from liquid to vapor:
 \begin{equation}
 \nabla\cdot \overrightarrow {u} = \dot{m}\delta(\phi)\left(\frac{1}{\rho_g}-\frac{1}{\rho_l}\right),
 \end{equation}
-where $\dot{m}$ is mass transfer rate ([INSMeltPoolMassTransferMaterial](/INSMeltPoolMassTransferMaterial.md)) and $\rho_g$ and $\rho_l$ are gas density and liquid density, respectively. 
+where $\dot{m}$ is mass transfer rate ([INSMeltPoolMassTransferMaterial](/INSMeltPoolMassTransferMaterial.md)) and $\rho_g$ and $\rho_l$ are gas density and liquid density, respectively.
 
 ## Example Input Syntax
 
