@@ -5,6 +5,6 @@
     input = 'gradient_regularization.i'
     exodiff = 'gradient_regularization_out.e'
     design = 'VariableGradientRegularization.md'
-    requirement = 'MALAMUTE shall compute the regularized graident of a level set variable.'
+    requirement = 'The system shall compute the regularized graident of a level set variable.'
   [../]
 []
