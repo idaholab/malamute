@@ -34,7 +34,7 @@ MalamuteApp::~MalamuteApp() {}
 void
 MalamuteApp::registerAll(Factory & f, ActionFactory & af, Syntax & syntax)
 {
-  ModulesApp::registerAll(f, af, syntax);
+  ModulesApp::registerAllObjects<MalamuteApp>(f, af, syntax);
   Registry::registerObjectsTo(f, {"MalamuteApp"});
   Registry::registerActionsTo(af, {"MalamuteApp"});
 

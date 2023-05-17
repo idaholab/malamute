@@ -26,8 +26,12 @@ include $(FRAMEWORK_DIR)/moose.mk
 
 ################################## MODULES ####################################
 # set desired physics modules equal to 'yes' to enable them
+
+ALL_MODULES                 := no
+
 CHEMICAL_REACTIONS          := no
-CONTACT                     := no
+CONTACT                     := yes
+ELECTROMAGNETICS            := yes
 EXTERNAL_PETSC_SOLVER       := no
 FLUID_PROPERTIES            := no
 FSI                         := no
@@ -35,7 +39,7 @@ FUNCTIONAL_EXPANSION_TOOLS  := no
 GEOCHEMISTRY                := no
 HEAT_CONDUCTION             := yes
 LEVEL_SET                   := yes
-MISC                        := no
+MISC                        := yes
 NAVIER_STOKES               := yes
 PHASE_FIELD                 := yes
 POROUS_FLOW                 := no
@@ -45,7 +49,8 @@ RICHARDS                    := no
 STOCHASTIC_TOOLS            := no
 TENSOR_MECHANICS            := yes
 XFEM                        := no
-include           $(MOOSE_DIR)/modules/modules.mk
+
+include $(MOOSE_DIR)/modules/modules.mk
 ###############################################################################
 
 # Extra stuff for GTEST
