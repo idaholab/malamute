@@ -3,14 +3,33 @@
 !template! item key=system-scope
 !! system-scope-begin
 
-MALAMUTE models....
+MALAMUTE performs simulations related to [!ac](AM) processes. These models often include highly coupled
+systems of equations related to heat conduction, electromagnetics, Navier Stokes, mechanics, and surface
+morphology, amongst others. Material models are also included to support these simulations (such as
+graphite and stainless steel), and they themselves are often dependent on simulation variables: temperature,
+electromagnetic field strength, stress/strain, etc. While many models within MALAMUTE are performed
+at the "engineering scale" (i.e., at the scale of centimeters and meters), the [syntax/MultiApps/index.md]
+can leveraged to allow for multiscale coupling to the micro- and nano-scale of a given experiment.
+This allows for not only experimental process design and evaluation at the operator level but also
+evaluation of a process on the formation of a part and the experiment's end result.
+
+In addition to modeling full experiments (like in [!ac](EFAS)), MALAMUTE also contains building blocks
+for use in larger manufacturing models or as individual studies, such as directed energy deposition
+and laser welding (with surface deformation and melting). Mechanics models for pressing procedures are
+also under development.
 
 !! system-scope-finish
 !template-end!
 
 !template! item key=system-purpose
 !! system-purpose-begin
-The purpose of MALAMUTE is to simulate....
+The purpose of MALAMUTE is to serve as a simulation platform and library for a variety of advanced
+manufacturing (AM) processes and to connect the microscale characteristics and evolution of materials
+with their engineering-scale, post-manufacture performance. MALAMUTE currently simulates several main
+[!ac](AM) processes, including: [!ac](EFAS) (also known as [!ac](SPS)), directed energy deposition,
+and surface melting. MALAMUTE's main goal is to bring together the combined multiphysics capabilities
+of the [!ac](MOOSE) ecosystem to provide an open platform for future research in novel materials development
+and [!ac](AM) technologies.
 !! system-purpose-finish
 !template-end!
 

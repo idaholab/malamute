@@ -44,6 +44,7 @@ Extensions:
     MooseDocs.extensions.acronym:
         acronyms:
             framework: !include ${MOOSE_DIR}/framework/doc/acronyms.yml
+            malamute: !include ${ROOT_DIR}/doc/acronyms.yml
     MooseDocs.extensions.sqa:
         active: true
         categories:
