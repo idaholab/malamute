@@ -48,15 +48,15 @@
 [Functions]
   [heat_source_x]
     type = ParsedFunction
-    value = '6.773e-3*t' # 16 ipm
+    expression = '6.773e-3*t' # 16 ipm
   []
   [heat_source_y]
     type = ParsedFunction
-    value = 0.25
+    expression = 0.25
   []
   [heat_source_z]
     type = ParsedFunction
-    value = 0.1
+    expression = 0.1
   []
 []
 
