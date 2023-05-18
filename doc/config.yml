@@ -6,6 +6,7 @@ Content:
     - ${MOOSE_DIR}/modules/fluid_properties/doc/content # pulled in by navier_stokes
     - ${MOOSE_DIR}/modules/heat_conduction/doc/content
     - ${MOOSE_DIR}/modules/level_set/doc/content
+    - ${MOOSE_DIR}/modules/misc/doc/content
     - ${MOOSE_DIR}/modules/navier_stokes/doc/content
     - ${MOOSE_DIR}/modules/phase_field/doc/content
     - ${MOOSE_DIR}/modules/ray_tracing/doc/content      # pulled in by heat_conduction
@@ -21,7 +22,7 @@ Renderer:
     type: MooseDocs.base.MaterializeRenderer
 Extensions:
     MooseDocs.extensions.navigation:
-        name: Malamute
+        name: MALAMUTE
         repo: https://github.com/idaholab/malamute
         menu:
           Getting Started:
@@ -30,7 +31,7 @@ Extensions:
           Documentation and Resources:
             Complete Code Manual: syntax/index.md
             Thermal Contact Verification: verification/thermal_contact_verification.md
-            Code Standards: development/code_standards.md
+            Code Standards: sqa/malamute_scs.md
             Developer Information Links: development/moose_developer_info.md
             Software Quality Assurance (SQA) Information: /sqa/index.md
             Code Coverage: https://mooseframework.inl.gov/malamute/docs/coverage/
@@ -43,6 +44,7 @@ Extensions:
     MooseDocs.extensions.acronym:
         acronyms:
             framework: !include ${MOOSE_DIR}/framework/doc/acronyms.yml
+            malamute: !include ${ROOT_DIR}/doc/acronyms.yml
     MooseDocs.extensions.sqa:
         active: true
         categories:
@@ -52,12 +54,13 @@ Extensions:
             electromagnetics: !include ${MOOSE_DIR}/modules/electromagnetics/doc/sqa_electromagnetics.yml
             fluid_properties: !include ${MOOSE_DIR}/modules/fluid_properties/doc/sqa_fluid_properties.yml
             heat_conduction: !include ${MOOSE_DIR}/modules/heat_conduction/doc/sqa_heat_conduction.yml
+            level_set: !include ${MOOSE_DIR}/modules/level_set/doc/sqa_level_set.yml
+            misc: !include ${MOOSE_DIR}/modules/misc/doc/sqa_misc.yml
             navier_stokes: !include ${MOOSE_DIR}/modules/navier_stokes/doc/sqa_navier_stokes.yml
             phase_field: !include ${MOOSE_DIR}/modules/phase_field/doc/sqa_phase_field.yml
             ray_tracing: !include ${MOOSE_DIR}/modules/ray_tracing/doc/sqa_ray_tracing.yml
             rdg: !include ${MOOSE_DIR}/modules/rdg/doc/sqa_rdg.yml
             tensor_mechanics: !include ${MOOSE_DIR}/modules/tensor_mechanics/doc/sqa_tensor_mechanics.yml
-            level_set: !include ${MOOSE_DIR}/modules/level_set/doc/sqa_level_set.yml
         reports: !include ${ROOT_DIR}/doc/sqa_reports.yml
         repos:
             default: https://github.com/idaholab/malamute
@@ -69,3 +72,4 @@ Extensions:
           - batten1997average
           - hales15homogenization
           - kim_phase-field_1999
+          - popp2014dual

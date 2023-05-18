@@ -18,7 +18,7 @@
     input = 'simple_radiation.i'
     cli_args = 'BCs/heatloss/T_infinity="293 293"'
     expect_err = 'The number of coupled components does not match the number of `T_infinity` components.'
-    requirement = 'The system shall not all the computation of the simple radiative heat transfer when an excessive number of absolute blackboady temperatures are supplied by the user.'
+    requirement = 'The system shall error and not compute the simple radiative heat transfer when an excessive number of absolute blackbody temperatures are supplied by the user.'
     prereq = simple_radiation
   [../]
   [./multiple_phases_missing_emissivities]
@@ -26,7 +26,7 @@
     input = 'multiple_phases_simple_radiation.i'
     cli_args = 'BCs/heatloss/emissivity=0.9'
     expect_err = 'The number of coupled components does not match the number of `T_infinity` components.'
-    requirement = 'The system shall not all the computation of the simple radiative heat transfer when an excessive number of absolute blackboady temperatures are supplied by the user.'
+    requirement = 'The system shall error and not compute the simple radiative heat transfer when an insufficient number of emissivities are supplied by the user.'
     prereq = multiple_phases_simple_radiation
   [../]
 []

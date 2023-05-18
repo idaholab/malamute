@@ -1,1 +1,1 @@
-!template load file=sqa/app_vvr.md.template app=MalamuteApp category=malamute
+!template load file=sqa/app_vvr.md.template app=MALAMUTE category=malamute

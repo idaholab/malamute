@@ -5,5 +5,7 @@
     csvdiff = 'func_path_gaussian_heat_source_out.csv'
     requirement = 'The system shall produce the correct temperature field with moving Gaussian heat '
                   'source.'
+    issues = '#66'
+    design = 'ADGaussianHeatSourceBase.md ADFunctionPathGaussianHeatSource.md'
   []
 []
