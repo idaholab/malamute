@@ -2,7 +2,7 @@
 
 !template item key=general-communication
 Please use the [{{app}} Discussion forum](https://github.com/idaholab/{{category}}/discussions) for all
-questions and inquires.
+questions and inquiries.
 
 !template item key=problem-reporting
 If you are having a problem with a specific release of {{app}} please contact the team

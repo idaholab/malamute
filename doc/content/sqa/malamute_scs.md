@@ -18,9 +18,9 @@ testing system, [CIVET](https://civet.inl.gov), that is triggered when
 you submit a pull request will check your code and provide information on the
 changes needed to conform to the code style (if any).
 
-## MOOSE Code Standard
+## MALAMUTE Code Standards
 
 !style halign=left
-For extended information on file guidelines, naming conventions, example code,
+MALAMUTE follows the MOOSE code standards for all development. For information on file guidelines, naming conventions, example code,
 doxygen documentation, and other tips, please see
-[the MOOSE Code Standards](sqa/framework_scs.md).
+[the MOOSE standard here](sqa/framework_scs.md).

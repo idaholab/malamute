@@ -9,7 +9,7 @@ morphology, amongst others. Material models are also included to support these s
 graphite and stainless steel), and they themselves are often dependent on simulation variables: temperature,
 electromagnetic field strength, stress/strain, etc. While many models within MALAMUTE are performed
 at the "engineering scale" (i.e., at the scale of centimeters and meters), the [syntax/MultiApps/index.md]
-can leveraged to allow for multiscale coupling to the micro- and nano-scale of a given experiment.
+can be leveraged to allow for multiscale coupling to the micro- and nano-scale of a given experiment.
 This allows for not only experimental process design and evaluation at the operator level but also
 evaluation of a process on the formation of a part and the experiment's end result.
 
