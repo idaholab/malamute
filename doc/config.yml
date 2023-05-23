@@ -1,19 +1,33 @@
 Content:
-    - ${ROOT_DIR}/doc/content
-    - ${MOOSE_DIR}/framework/doc/content
-    - ${MOOSE_DIR}/modules/contact/doc/content
-    - ${MOOSE_DIR}/modules/electromagnetics/doc/content
-    - ${MOOSE_DIR}/modules/fluid_properties/doc/content # pulled in by navier_stokes
-    - ${MOOSE_DIR}/modules/heat_conduction/doc/content
-    - ${MOOSE_DIR}/modules/level_set/doc/content
-    - ${MOOSE_DIR}/modules/misc/doc/content
-    - ${MOOSE_DIR}/modules/navier_stokes/doc/content
-    - ${MOOSE_DIR}/modules/phase_field/doc/content
-    - ${MOOSE_DIR}/modules/ray_tracing/doc/content      # pulled in by heat_conduction
-    - ${MOOSE_DIR}/modules/rdg/doc/content              # pulled in by navier_stokes
-    - ${MOOSE_DIR}/modules/tensor_mechanics/doc/content
-    - ${MOOSE_DIR}/modules/level_set/doc/content
-    - infrastructure:
+    malamute:
+        root_dir: ${ROOT_DIR}/doc/content
+    framework:
+        root_dir: ${MOOSE_DIR}/framework/doc/content
+    contact:
+        root_dir: ${MOOSE_DIR}/modules/contact/doc/content
+    electromagnetics:
+        root_dir: ${MOOSE_DIR}/modules/electromagnetics/doc/content
+    fluid_properties:
+        root_dir: ${MOOSE_DIR}/modules/fluid_properties/doc/content # pulled in by navier_stokes
+    heat_conduction:
+        root_dir: ${MOOSE_DIR}/modules/heat_conduction/doc/content
+    level_set:
+        root_dir: ${MOOSE_DIR}/modules/level_set/doc/content
+    misc:
+        root_dir: ${MOOSE_DIR}/modules/misc/doc/content
+    navier_stokes:
+        root_dir: ${MOOSE_DIR}/modules/navier_stokes/doc/content
+    phase_field:
+        root_dir: ${MOOSE_DIR}/modules/phase_field/doc/content
+    ray_tracing:
+        root_dir: ${MOOSE_DIR}/modules/ray_tracing/doc/content      # pulled in by heat_conduction
+    rdg:
+        root_dir: ${MOOSE_DIR}/modules/rdg/doc/content              # pulled in by navier_stokes
+    tensor_mechanics:
+        root_dir: ${MOOSE_DIR}/modules/tensor_mechanics/doc/content
+    level_set:
+        root_dir: ${MOOSE_DIR}/modules/level_set/doc/content
+    modules:
         root_dir: ${MOOSE_DIR}/modules/doc/content
         content:
             - help/finite_element_concepts/nodal_patch_recovery.md
