@@ -8,9 +8,16 @@
   []
   [phase_field_yttrium_oxygen_vac]
     type = RunApp
-    input = 'sps_elec_2D_intrinsic.i'
+    input = 'sps_elec_2D_YOvac.i'
     check_input = True
     method = opt
     issues = '#19'
+  []
+  [phase_field_yttrium_oxygen_vac_temperature]
+    type = RunApp
+    input = 'sps_elec_2D_YOvac_T.i'
+    check_input = True
+    method = opt
+    issues = '#81'
   []
 []
