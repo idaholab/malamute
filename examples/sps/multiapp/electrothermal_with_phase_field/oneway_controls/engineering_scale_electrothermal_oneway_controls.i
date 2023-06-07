@@ -56,7 +56,7 @@ initial_temperature = 873 #roughly 600C where the pyrometer kicks in
 
 [Variables]
   [temperature_stainless_steel]
-    initial_condition = 300
+    initial_condition = 300 #units of K
     block = stainless_steel
   []
   [temperature]
@@ -107,9 +107,6 @@ initial_temperature = 873 #roughly 600C where the pyrometer kicks in
     block = 'powder_compact'
   []
 
-  # [T_infinity]
-  #   initial_condition = ${initial_temperature}
-  # []
   [heatflux_graphite_x]
     family = MONOMIAL
     order = CONSTANT
@@ -451,7 +448,7 @@ initial_temperature = 873 #roughly 600C where the pyrometer kicks in
     type = CoupledConvectiveHeatFluxBC
     boundary = water_channel
     variable = temperature_stainless_steel
-    T_infinity = 300
+    T_infinity = 300 #units of K
     htc = 4725
   []
   [temperature_ram_extremes]
