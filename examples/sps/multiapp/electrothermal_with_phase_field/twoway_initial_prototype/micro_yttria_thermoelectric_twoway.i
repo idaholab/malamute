@@ -439,7 +439,8 @@ initial_voltage = 0.0001
     constant_names = 'kB        D0_O    Em_O  D0_Y  Em_Y  Z_Y Z_O'
     constant_expressions = '8.617e-5  5.9e11  4.25  5.9e9 4.25  3   2'
     derivative_order = 2
-    expression = '(Z_Y^2 * abs(n_cat) * D0_Y * exp(-Em_Y/kB/T) / kB / T + Z_O^2 * abs(n_an) * D0_O * exp(-Em_O/kB/T) / kB / T)*hs + 1e-3'
+    expression = '(Z_Y^2 * abs(n_cat) * chiDy_mag / chi_cat / kB / T
+    + Z_O^2 * abs(n_an) * chiDo_mag / chi_an / kB / T)*hs + 1.0e4' #units eV/V^2/nm/s
     output_properties = 'electrical_conductivity'
     outputs = exodus
   []

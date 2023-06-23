@@ -841,7 +841,7 @@ initial_temperature = 873 #roughly 600C where the pyrometer kicks in
   [electrical_conductivity]
     type = ADParsedMaterial
     coupled_variables = 'yttria_sigma_aeh'
-    expression = 'yttria_sigma_aeh*1.602e8' #converts to units of J/(V^2-m-s)
+    expression = 'yttria_sigma_aeh*1.602e-10' #converts from eV/(V^2 s nm) to units of J/(V^2-m-s)
     property_name = 'electrical_conductivity'
     output_properties = electrical_conductivity
     outputs = 'exodus csv'
@@ -851,7 +851,7 @@ initial_temperature = 873 #roughly 600C where the pyrometer kicks in
     # coupled_variables = 'temperature'
     # constant_names =       'Q_elec  kB            prefactor_solid  initial_porosity'
     # constant_expressions = '1.61    8.617343e-5        1.25e-4           0.38'
-    # expression = '(1-initial_porosity) * prefactor_solid * exp(-Q_elec/kB/temperature) * 1.602e8' # in eV/(nV^2 s nm) per chat with Larry, last term converts to units of J/(V^2-m-s)
+    # expression = '(1-initial_porosity) * prefactor_solid * exp(-Q_elec/kB/temperature) * 1.602e-10' # in eV/(V^2 s nm) per chat with Larry, last term converts to units of J/(V^2-m-s)
   []
 
   [Q_SI]
