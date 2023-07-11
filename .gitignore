@@ -244,3 +244,7 @@ conf_vars.mk
 # GPerf performance
 *.prof
 *.heap
+
+# Generated resource files
+unit/malamute-unit.yaml
+malamute.yaml
