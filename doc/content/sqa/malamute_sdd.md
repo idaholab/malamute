@@ -18,7 +18,9 @@ with no additional dependencies.
 !template-end!
 
 !template! item key=design-stakeholders
-!include framework_sdd.md start=design-stakeholders-begin end=design-stakeholders-finish
+Stakeholders for {{app}} include several of the funding sources including [!ac](DOE) and [!ac](INL).
+However, Since {{app}} is an open-source project, several universities, companies, and foreign governments
+have an interest in the development and maintenance of the {{app}} project.
 !template-end!
 
 !template! item key=system-design
