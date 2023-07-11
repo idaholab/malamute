@@ -10,4 +10,4 @@ using the [{{app}} Discussion forum](https://github.com/idaholab/{{category}}/di
 to include the release information with the inquiry.
 
 !template item key=contributing
-With the exception of the location of the [code repository for {{app}}](https://github.com/idaholab/{{category}}), the same processes outlined in the instructions for contributing to the MOOSE framework [framework/contributing.md] apply for contributing to {{app}}.
+With the exception of the location of the [code repository for {{app}}](https://github.com/idaholab/{{category}}), the same processes outlined in the [instructions for contributing to the MOOSE framework](framework/contributing.md) apply for contributing to {{app}}.
