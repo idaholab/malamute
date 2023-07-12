@@ -20,7 +20,7 @@ initial_voltage = 0.0001
   [new_nodeset]
     input = gen
     type = ExtraNodesetGenerator
-    coord = '400 390'
+    coord = '390 430'
     new_boundary = 1000
   []
 []
