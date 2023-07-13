@@ -41,7 +41,7 @@
 # Reference for graphite, stainless steel: Cincotti et al, DOI 10.1002/aic.11102
 # Assorted references for yttria, listed as comments in input file
 
-initial_temperature=873 #roughly 600C where the pyrometer kicks in
+initial_temperature = 873 #roughly 600C where the pyrometer kicks in
 #initial_porosity=0.36 #Maximum random jammed packing, Donev et al (2004) Science Magazine
 
 [Mesh]
@@ -61,7 +61,7 @@ initial_temperature=873 #roughly 600C where the pyrometer kicks in
 
 [Variables]
   [temperature_stainless_steel]
-    initial_condition = ${initial_temperature}
+    initial_condition = 300 #units of K
     block = stainless_steel
   []
   [temperature]
@@ -393,7 +393,7 @@ initial_temperature=873 #roughly 600C where the pyrometer kicks in
     variable = heat_transfer_radiation
     boundary = 'outer_radiative_spacers outer_die_wall radiative_upper_plunger radiative_lower_plunger'
     coupled_variables = 'temperature'
-    constant_names = 'boltzmann epsilon temperature_farfield'  #published emissivity for graphite is 0.85
+    constant_names = 'boltzmann epsilon temperature_farfield' #published emissivity for graphite is 0.85
     constant_expressions = '5.67e-8 0.85 293.0' #roughly room temperature, which is probably too cold
     expression = '-boltzmann*epsilon*(temperature^4-temperature_farfield^4)'
   []
@@ -402,7 +402,7 @@ initial_temperature=873 #roughly 600C where the pyrometer kicks in
     variable = heat_transfer_radiation
     boundary = 'outer_radiative_stainless_steel'
     coupled_variables = 'temperature_stainless_steel'
-    constant_names = 'boltzmann epsilon temperature_farfield'  #published emissivity for graphite is 0.85
+    constant_names = 'boltzmann epsilon temperature_farfield' #published emissivity for graphite is 0.85
     constant_expressions = '5.67e-8 0.4 293.0' #roughly room temperature, which is probably too cold
     expression = '-boltzmann*epsilon*(temperature_stainless_steel^4-temperature_farfield^4)'
   []
@@ -461,7 +461,7 @@ initial_temperature=873 #roughly 600C where the pyrometer kicks in
     type = CoupledConvectiveHeatFluxBC
     boundary = water_channel
     variable = temperature_stainless_steel
-    T_infinity = ${initial_temperature}
+    T_infinity = 300 #units of K
     htc = 4725
   []
   [temperature_ram_extremes]
@@ -687,7 +687,7 @@ initial_temperature=873 #roughly 600C where the pyrometer kicks in
   []
   [upper_plunger_diewall_gap_thermal]
     type = GapHeatTransfer
-    primary = inner_die_wall  ### paired temperature doesn't show on inner die wall, but temperature profile looks reasonable
+    primary = inner_die_wall ### paired temperature doesn't show on inner die wall, but temperature profile looks reasonable
     secondary = die_wall_facing_upper_plunger
     variable = temperature
     quadrature = true
@@ -700,7 +700,7 @@ initial_temperature=873 #roughly 600C where the pyrometer kicks in
   []
   [lower_plunger_diewall_gap_thermal]
     type = GapHeatTransfer
-    primary = inner_die_wall  ### paired temperature doesn't show on inner die wall, but temperature profile looks reasonable
+    primary = inner_die_wall ### paired temperature doesn't show on inner die wall, but temperature profile looks reasonable
     secondary = die_wall_facing_lower_plunger
     variable = temperature
     quadrature = true
@@ -713,7 +713,7 @@ initial_temperature=873 #roughly 600C where the pyrometer kicks in
   []
 []
 
-  ## Thermal Contact between touching components of powder and die
+## Thermal Contact between touching components of powder and die
 [ThermalContact]
   [upper_plunger_powder_thermal]
     type = GapHeatTransfer
@@ -768,7 +768,6 @@ initial_temperature=873 #roughly 600C where the pyrometer kicks in
     normal_smoothing_distance = 0.1
   []
 []
-
 
 [Materials]
   ## graphite blocks
@@ -846,7 +845,7 @@ initial_temperature=873 #roughly 600C where the pyrometer kicks in
   [electrical_conductivity]
     type = ADParsedMaterial
     coupled_variables = 'yttria_sigma_aeh'
-    expression = 'yttria_sigma_aeh*1.602e-10' #converts to units of J/(V^2-m-s)
+    expression = 'yttria_sigma_aeh*1.602e-10' #converts from eV/(V^2 s nm) to units of J/(V^2-m-s)
     property_name = 'electrical_conductivity'
     output_properties = electrical_conductivity
     outputs = 'exodus csv'
@@ -870,7 +869,7 @@ initial_temperature=873 #roughly 600C where the pyrometer kicks in
     type = ParsedMaterial
     property_name = Q_SI
     coupled_variables = 'Q_from_sub'
-    expression = 'Q_from_sub / 300 / 320 * 0.1602' #divide by domain size and unit conversion to go from eV/S to J/m^3/s
+    expression = 'Q_from_sub / 260 / 260 * 0.1602' #divide by domain size and unit conversion to go from eV/S to J/m^3/s
     outputs = 'exodus'
   []
 []
@@ -911,7 +910,6 @@ initial_temperature=873 #roughly 600C where the pyrometer kicks in
     iteration_window = 2
   []
 []
-
 
 [Postprocessors]
   [temperature_pp]
@@ -960,8 +958,8 @@ initial_temperature=873 #roughly 600C where the pyrometer kicks in
   [micro]
     type = TransientMultiApp
     # type = CentroidMultiApp # lauches one in the middle of each element so don't need to give positions
-      #can specify the number of procs
-    max_procs_per_app = 10
+    #can specify the number of procs
+    max_procs_per_app = 10 #Can specify more than this, but it will degrade convergence
     app_type = MalamuteApp
     positions = '0.00125 0.034 0' #roughly the center of element 117 in this mesh
     input_files = micro_yttria_thermoelectric_twoway_lots_controls.i
@@ -999,25 +997,24 @@ initial_temperature=873 #roughly 600C where the pyrometer kicks in
     variable = T
   []
   [temperature_to_sub_postproc]
-   type = MultiAppVariableValueSamplePostprocessorTransfer
+    type = MultiAppVariableValueSamplePostprocessorTransfer
     to_multi_app = micro
     source_variable = temperature
     postprocessor = T_postproc
   []
   [potential_to_sub_postproc]
-   type = MultiAppVariableValueSamplePostprocessorTransfer
+    type = MultiAppVariableValueSamplePostprocessorTransfer
     to_multi_app = micro
     source_variable = electric_potential
     postprocessor = V_postproc
   []
   [micro_field_pp_to_sub]
-   type = MultiAppVariableValueSamplePostprocessorTransfer
+    type = MultiAppVariableValueSamplePostprocessorTransfer
     to_multi_app = micro
     source_variable = E_y
     postprocessor = Ey_in
   []
 []
-
 
 [Outputs]
   csv = true
