@@ -9,6 +9,6 @@
     method = opt
     issues = '#91'
     detail = 'using constant graphite material properties, which signficantly '
-             'overestimates the temperature profile during SPS run.'
+             'overestimates the temperature profile during the SPS run.'
   []
 []
