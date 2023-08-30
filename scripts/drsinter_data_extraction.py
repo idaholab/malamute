@@ -34,9 +34,10 @@
 #   Initial Dr. Sinter data file ( drsinter_example_data.csv ) import complete...
 #
 #  Note: if the script returns an error about unicode decoding, e.g.
-#    " UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb1 in position 1052: invalid start byte"
-#  delete the first line of the data file, save, and try again. Generally this data file
-#  modification allows the script to run as expected.
+#    " UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb1 in position ...: invalid start byte"
+#  see the recommendations about resaving the file with UTF8 encoding in this post
+#     https://stackoverflow.com/questions/18171739/unicodedecodeerror-when-reading-csv-file-in-pandas
+#  particularly the recommendations about using VSCode to change the encoding on save
 #
 #
 #   ####################
@@ -223,7 +224,7 @@ dummy_names = [i for i in range(0, max(col_count))]
 raw_data = []
 
 raw_data.append(pd.read_csv(
-    data_file_base, on_bad_lines='skip', names=dummy_names))
+    data_file_base, on_bad_lines='skip', names=dummy_names, encoding='latin'))
 print("Initial Dr. Sinter data file (", data_file_base, ") import complete...")
 
 # Create empty dataframe that will be used to house metadata for later export
