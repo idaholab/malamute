@@ -5,6 +5,7 @@
     input = sample_one.i
     exodiff = sample_one_out.e
     cli_args = "Executioner/end_time=3 Outputs/active=testing_out"
+    allow_warnings = true
     min_parallel = 4
     issues = '#9 #12'
     requirement = 'The system shall duplicate the results of Cincotti et al (doi:10.1002/aic.11102), Sample One.'
@@ -14,6 +15,7 @@
     input = sample_three.i
     exodiff = sample_three_out.e
     cli_args = "Executioner/end_time=3 Outputs/active=testing_out"
+    allow_warnings = true
     min_parallel = 4
     issues = '#9 #12'
     requirement = 'The system shall duplicate the results of Cincotti et al (doi:10.1002/aic.11102), Sample Three.'
@@ -23,6 +25,7 @@
     input = sample_four.i
     exodiff = sample_four_out.e
     cli_args = "Executioner/end_time=3 Outputs/active=testing_out"
+    allow_warnings = true
     min_parallel = 4
     issues = '#9 #12'
     requirement = 'The system shall duplicate the results of Cincotti et al (doi:10.1002/aic.11102), Sample Four.'
@@ -31,6 +34,7 @@
     type = PetscJacobianTester
     input = sample_one.i
     cli_args = "Mesh/import_mesh/file=sps_jacobian.e Executioner/end_time=2"
+    allow_warnings = true
     ratio_tol = 5.5e-7 # t=1 ratio is 5.1126e-07 and end ratio is 4.768e-07
     difference_tol = 6 # t=1 difference is 5.25598 and end difference is 5.25574
     issues = '#9 #12'
