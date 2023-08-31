@@ -1,4 +1,3 @@
-
 # MALAMUTE
 
 MALAMUTE (MOOSE Application Library for Advanced Manufacturing UTilitiEs)
