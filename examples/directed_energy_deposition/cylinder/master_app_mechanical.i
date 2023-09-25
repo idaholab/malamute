@@ -338,7 +338,7 @@ dt = 200
 
 [Transfers]
   [from_thermal]
-    type = MultiAppNearestNodeTransfer
+    type = MultiAppGeneralFieldNearestLocationTransfer
     from_multi_app = thermo_mech
     execute_on = 'TIMESTEP_END'
     source_variable = 'temp'
