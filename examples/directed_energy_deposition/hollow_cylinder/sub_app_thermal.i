@@ -195,11 +195,8 @@ dt = 20
   # the properties are scaled to the right value and unit (see D. Yushu et al., 2022)
   [thermal_conductivity_metal]
     type = PiecewiseLinear
-    x = '-1e7 198.84  298.10  398.75 500.76 601.40 700.64 801.27 901.89 1001.12 1098.98 1200.96 '
-        '1301.56 1400.78 1501.37 1601.96 1e7'
-    y = '247.72 247.72 285.64 323.55 358.44 390.29 417.59 446.41 469.16 491.91 510.11 528.31 540.44 '
-        '554.09 561.67 569.26 569.26'
-    format = columns
+    x = '-1e7 198.84  298.10  398.75 500.76 601.40 700.64 801.27 901.89 1001.12 1098.98 1200.96 1301.56 1400.78 1501.37 1601.96 1e7'
+    y = '247.72 247.72 285.64 323.55 358.44 390.29 417.59 446.41 469.16 491.91 510.11 528.31 540.44 554.09 561.67 569.26 569.26'
     scale_factor = 0.05e-6
   []
   # for monitoring the deposited material geometry
@@ -292,8 +289,7 @@ dt = 20
   type = Transient
   solve_type = 'NEWTON'
 
-  petsc_options_iname = '-ksp_type -pc_type -pc_factor_mat_solver_package -pc_factor_shift_type '
-                        '-pc_factor_shift_amount'
+  petsc_options_iname = '-ksp_type -pc_type -pc_factor_mat_solver_package -pc_factor_shift_type -pc_factor_shift_amount'
   petsc_options_value = 'preonly lu       superlu_dist NONZERO 1e-10'
 
   line_search = 'none'
