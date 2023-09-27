@@ -20,6 +20,7 @@ ADGaussianHeatSourceBase::validParams()
                         "option to use user input effective radii or from experimentally fitted "
                         "formulations. Default is to use user input data.");
   params.addParam<std::vector<Real>>("r",
+                                     {},
                                      "effective radii (mm) along three directions. If only one "
                                      "parameter is provided, then we assume "
                                      "the effective radius to be equal along three directions.");
