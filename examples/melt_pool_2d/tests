@@ -4,5 +4,6 @@
     input = 'melt_pool.i'
     check_input = True
     method = opt
+    issues = '#4'
   [../]
 []
