@@ -5,7 +5,6 @@ Applications:
         content_directory: ${ROOT_DIR}/doc/content
         remove:
             - ${MOOSE_DIR}/framework/doc/remove.yml
-        log_default: WARNING
         show_warning: false
 
 Documents:
@@ -51,5 +50,4 @@ Requirements:
         directories:
             - ${ROOT_DIR}/test
             - ${ROOT_DIR}/examples
-        log_default: WARNING
         show_warning: false
