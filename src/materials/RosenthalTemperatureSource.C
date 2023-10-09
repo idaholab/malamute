@@ -9,8 +9,8 @@
 
 #include "RosenthalTemperatureSource.h"
 
-registerMooseObject("HeatConductionApp", RosenthalTemperatureSource);
-registerMooseObject("HeatConductionApp", ADRosenthalTemperatureSource);
+registerMooseObject("MalamuteApp", RosenthalTemperatureSource);
+registerMooseObject("MalamuteApp", ADRosenthalTemperatureSource);
 
 template <bool is_ad>
 InputParameters
