@@ -15,6 +15,7 @@ InputParameters
 CrazyKCPlantFits::validParams()
 {
   InputParameters params = ADMaterial::validParams();
+  params.addClassDescription("Material properties corresponding to KC plant reference material.");
   params.addParam<Real>("c_mu0", 0.15616, "mu0 coefficient");
   params.addParam<Real>("c_mu1", -3.3696e-5, "mu1 coefficient");
   params.addParam<Real>("c_mu2", 1.0191e-8, "mu2 coefficient");

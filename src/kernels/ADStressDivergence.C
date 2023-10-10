@@ -15,6 +15,8 @@ InputParameters
 ADStressDivergence::validParams()
 {
   InputParameters params = ADKernel::validParams();
+  params.addClassDescription(
+      "Computes a stress divergence term for a given displacement component.");
   params.addRequiredParam<int>("component", "The displacement component");
   return params;
 }
