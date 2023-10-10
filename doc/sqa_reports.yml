@@ -18,7 +18,7 @@ Documents:
     software_requirements_specification: sqa/malamute_srs.md
     software_design_description: sqa/malamute_sdd.md
     software_test_plan: sqa/malamute_stp.md
-    requirements_traceablity_matrix: sqa/malamute_rtm.md
+    requirements_traceability_matrix: sqa/malamute_rtm.md
     verification_validation_report: sqa/malamute_vvr.md
     failure_analysis_report: sqa/malamute_far.md
     software_library_list: sqa/malamute_sll.md
