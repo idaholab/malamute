@@ -49,5 +49,5 @@ Requirements:
             - ${MOOSE_DIR}/modules/tensor_mechanics/doc/content
         directories:
             - ${ROOT_DIR}/test
-            - ${ROOT_DIR}/examples
+            # - ${ROOT_DIR}/examples   TODO: add back in when examples is more stable and less R&D
         show_warning: false
