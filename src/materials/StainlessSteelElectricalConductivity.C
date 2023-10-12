@@ -70,7 +70,7 @@ StainlessSteelElectricalConductivityTempl<is_ad>::jacobianSetup()
 {
   _check_temperature_now = false;
   int number_nonlinear_it =
-      _fe_problem.getNonlinearSystemBase().getCurrentNonlinearIterationNumber();
+      _fe_problem.getNonlinearSystemBase(/*nl_sys_num=*/0).getCurrentNonlinearIterationNumber();
   if (number_nonlinear_it == 0)
     _check_temperature_now = true;
 }
