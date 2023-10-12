@@ -17,7 +17,7 @@ AbsoluteValueIndicator::validParams()
 {
   InputParameters params = ElementIntegralIndicator::validParams();
   params.addClassDescription(
-      "Compute the absolute value of the provided variable for use as an error indicator.");
+      "Computes the absolute value of the provided variable for use as an error indicator.");
   return params;
 }
 

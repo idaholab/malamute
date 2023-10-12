@@ -4,7 +4,7 @@
     type = CSVDiff
     input = 'gaussian_heat_source.i'
     csvdiff = 'gaussian_heat_source_out.csv'
-    requirement = 'The system shall produce the correct temperature field with moving Gaussian heat '
+    requirement = 'The system shall produce the correct temperature field with a moving Gaussian heat '
                   'source, whose movement is prescribed by a position function.'
     design = 'ADGaussianHeatSourceBase.md ADFunctionPathGaussianHeatSource.md'
   []
@@ -12,7 +12,7 @@
     type = CSVDiff
     input = 'velocity_gaussian_heat_source.i'
     csvdiff = 'velocity_gaussian_heat_source_out.csv'
-    requirement = 'The system shall produce the correct temperature field with moving Gaussian heat '
+    requirement = 'The system shall produce the correct temperature field with a moving Gaussian heat '
                   'source, whose movement is prescribed by a given velocity vector.'
     design = 'ADGaussianHeatSourceBase.md ADVelocityGaussianHeatSource.md'
   []
@@ -20,7 +20,7 @@
     type = CSVDiff
     input = 'gaussian_heat_source_vary_r.i'
     csvdiff = 'gaussian_heat_source_vary_r_out.csv'
-    requirement = 'The system shall produce the correct temperature field with moving Gaussian heat '
+    requirement = 'The system shall produce the correct temperature field with a moving Gaussian heat '
                   'source (movement prescribed by a position function) and anisotropic effective '
                   'radii along three directions.'
     design = 'ADGaussianHeatSourceBase.md ADFunctionPathGaussianHeatSource.md'
@@ -29,7 +29,7 @@
     type = CSVDiff
     input = 'velocity_gaussian_heat_source_vary_r.i'
     csvdiff = 'velocity_gaussian_heat_source_vary_r_out.csv'
-    requirement = 'The system shall produce the correct temperature field with moving Gaussian heat '
+    requirement = 'The system shall produce the correct temperature field with a moving Gaussian heat '
                   'source (movement prescribed by velocity vector) and anisotropic effective radii '
                   'along three directions.'
     design = 'ADGaussianHeatSourceBase.md ADVelocityGaussianHeatSource.md'
@@ -38,7 +38,7 @@
     type = CSVDiff
     input = 'gaussian_heat_source_experiment_r.i'
     csvdiff = 'gaussian_heat_source_experiment_r_out.csv'
-    requirement = 'The system shall produce the correct temperature field with moving Gaussian heat '
+    requirement = 'The system shall produce the correct temperature field with a moving Gaussian heat '
                   'source (movement prescribed by a position function) and anisotropic effective '
                   'radii based on experimental measurements.'
     design = 'ADGaussianHeatSourceBase.md ADFunctionPathGaussianHeatSource.md'
@@ -47,7 +47,7 @@
     type = CSVDiff
     input = 'velocity_gaussian_heat_source_experiment_r.i'
     csvdiff = 'velocity_gaussian_heat_source_experiment_r_out.csv'
-    requirement = 'The system shall produce the correct temperature field with moving Gaussian heat '
+    requirement = 'The system shall produce the correct temperature field with a moving Gaussian heat '
                   'source (movement prescribed by velocity vector) and anisotropic effective radii '
                   'based on experimental measurements.'
     design = 'ADGaussianHeatSourceBase.md ADVelocityGaussianHeatSource.md'
