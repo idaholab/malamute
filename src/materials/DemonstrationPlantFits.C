@@ -7,14 +7,16 @@
 /*                           ALL RIGHTS RESERVED                            */
 /****************************************************************************/
 
-#include "CrazyKCPlantFits.h"
+#include "DemonstrationPlantFits.h"
 
-registerMooseObject("MalamuteApp", CrazyKCPlantFits);
+registerMooseObject("MalamuteApp", DemonstrationPlantFits);
 
 InputParameters
-CrazyKCPlantFits::validParams()
+DemonstrationPlantFits::validParams()
 {
   InputParameters params = ADMaterial::validParams();
+  params.addClassDescription(
+      "Material properties corresponding to demonstration reference material.");
   params.addParam<Real>("c_mu0", 0.15616, "mu0 coefficient");
   params.addParam<Real>("c_mu1", -3.3696e-5, "mu1 coefficient");
   params.addParam<Real>("c_mu2", 1.0191e-8, "mu2 coefficient");
@@ -55,7 +57,7 @@ CrazyKCPlantFits::validParams()
   return params;
 }
 
-CrazyKCPlantFits::CrazyKCPlantFits(const InputParameters & parameters)
+DemonstrationPlantFits::DemonstrationPlantFits(const InputParameters & parameters)
   : ADMaterial(parameters),
     _c_mu0(getParam<Real>("c_mu0")),
     _c_mu1(getParam<Real>("c_mu1")),
@@ -85,7 +87,7 @@ CrazyKCPlantFits::CrazyKCPlantFits(const InputParameters & parameters)
 }
 
 void
-CrazyKCPlantFits::computeQpProperties()
+DemonstrationPlantFits::computeQpProperties()
 {
   if (_temperature[_qp] < _Tl * _temperature_units_per_kelvin)
     _mu[_qp] = _mass_units_per_kilogram / (_length_units_per_meter * _time_units_per_second) *

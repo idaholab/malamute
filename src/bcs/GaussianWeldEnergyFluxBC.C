@@ -16,6 +16,8 @@ InputParameters
 GaussianWeldEnergyFluxBC::validParams()
 {
   InputParameters params = ADIntegratedBC::validParams();
+  params.addClassDescription("Calculates the boundary condition residual contribution of the heat "
+                             "flux of a Gaussian laser beam impinging on a surface.");
   params.addRequiredParam<Real>("reff",
                                 "The effective radius describing the radial distribution of the "
                                 "beam energy. This should be non-dimensional.");

@@ -14,43 +14,36 @@
 /**
  * A material that couples a material property
  */
-class CrazyKCPlantFitsBoundary : public ADMaterial
+class DemonstrationPlantFits : public ADMaterial
 {
 public:
   static InputParameters validParams();
 
-  CrazyKCPlantFitsBoundary(const InputParameters & parameters);
+  DemonstrationPlantFits(const InputParameters & parameters);
 
 protected:
   virtual void computeQpProperties();
 
-  const Real _ap0;
-  const Real _ap1;
-  const Real _ap2;
-  const Real _ap3;
-  const Real _bp0;
-  const Real _bp1;
-  const Real _bp2;
-  const Real _bp3;
-  const Real _Tb;
-  const Real _Tbound1;
-  const Real _Tbound2;
-
+  const Real _c_mu0;
+  const Real _c_mu1;
+  const Real _c_mu2;
+  const Real _c_mu3;
+  const Real _Tmax;
+  const Real _Tl;
+  const Real _T90;
+  const Real _beta;
+  const Real _c_k0;
+  const Real _c_k1;
+  const Real _c_cp0;
+  const Real _c_cp1;
+  const Real _c_rho0;
   const ADVariableValue & _temperature;
   const ADVariableGradient & _grad_temperature;
-
-  ADMaterialProperty<Real> & _rc_pressure;
-
-  const Real _alpha;
-  const Real _sigma0;
-  const Real _T0;
-  ADMaterialProperty<Real> & _surface_tension;
-  ADMaterialProperty<RealVectorValue> & _grad_surface_tension;
-  const MooseArray<ADPoint> & _ad_normals;
-  const MooseArray<ADReal> & _ad_curvatures;
-  ADMaterialProperty<RealVectorValue> & _surface_term_curvature;
-  ADMaterialProperty<RealVectorValue> & _surface_term_gradient1;
-  ADMaterialProperty<RealVectorValue> & _surface_term_gradient2;
+  ADMaterialProperty<Real> & _mu;
+  ADMaterialProperty<Real> & _k;
+  ADMaterialProperty<Real> & _cp;
+  ADMaterialProperty<Real> & _rho;
+  ADMaterialProperty<RealVectorValue> & _grad_k;
 
   const Real _length_units_per_meter;
   const Real _temperature_units_per_kelvin;

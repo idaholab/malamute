@@ -15,6 +15,8 @@ InputParameters
 PseudoSolidStress::validParams()
 {
   InputParameters params = ADMaterial::validParams();
+  params.addClassDescription(
+      "Calculates a pseudo solid stress property based on coupled displacements.");
   params.addRequiredCoupledVar("disp_x", "The x displacement");
   params.addCoupledVar("disp_y", "The y displacement");
   params.addCoupledVar("disp_z", "The z displacement");
