@@ -6,9 +6,9 @@
 
 !! Replace these lines with information regarding the BaldrConvectedMesh object.
 
-!! ## Example Input File Syntax
+## Example Input File Syntax
 
-!! Describe and include an example of how to use the BaldrConvectedMesh object.
+!listing cold-twice-around-no-surface-tension.i block=Kernels/mesh_velocity
 
 !syntax parameters /Kernels/BaldrConvectedMesh
 

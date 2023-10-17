@@ -6,9 +6,9 @@
 
 !! Replace these lines with information regarding the CrazyKCPlantFitsBoundary object.
 
-!! ## Example Input File Syntax
+## Example Input File Syntax
 
-!! Describe and include an example of how to use the CrazyKCPlantFitsBoundary object.
+!listing cold-no-surface-tension.i block=Materials/boundary
 
 !syntax parameters /Materials/CrazyKCPlantFitsBoundary
 

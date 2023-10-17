@@ -6,9 +6,9 @@
 
 !! Replace these lines with information regarding the VaporRecoilPressureMomentumFluxBC object.
 
-!! ## Example Input File Syntax
+## Example Input File Syntax
 
-!! Describe and include an example of how to use the VaporRecoilPressureMomentumFluxBC object.
+!listing cold-no-surface-tension.i block=BCs/vapor_recoil_x
 
 !syntax parameters /BCs/VaporRecoilPressureMomentumFluxBC
 

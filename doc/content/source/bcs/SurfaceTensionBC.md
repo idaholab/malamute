@@ -6,9 +6,9 @@
 
 !! Replace these lines with information regarding the SurfaceTensionBC object.
 
-!! ## Example Input File Syntax
+## Example Input File Syntax
 
-!! Describe and include an example of how to use the SurfaceTensionBC object.
+!listing 3d-scaled-1st-order.i block=BCs/surface_x
 
 !syntax parameters /BCs/SurfaceTensionBC
 

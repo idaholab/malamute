@@ -6,9 +6,9 @@
 
 !! Replace these lines with information regarding the ADStressDivergence object.
 
-!! ## Example Input File Syntax
+## Example Input File Syntax
 
-!! Describe and include an example of how to use the ADStressDivergence object.
+!listing 3d-scaled-1st-order.i block=Kernels/disp_x
 
 !syntax parameters /Kernels/ADStressDivergence
 

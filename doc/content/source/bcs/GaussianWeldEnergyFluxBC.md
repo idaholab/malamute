@@ -6,9 +6,9 @@
 
 !! Replace these lines with information regarding the GaussianWeldEnergyFluxBC object.
 
-!! ## Example Input File Syntax
+## Example Input File Syntax
 
-!! Describe and include an example of how to use the GaussianWeldEnergyFluxBC object.
+!listing cold-no-surface-tension.i block=BCs/weld_flux
 
 !syntax parameters /BCs/GaussianWeldEnergyFluxBC
 

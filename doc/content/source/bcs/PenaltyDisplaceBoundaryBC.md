@@ -6,9 +6,9 @@
 
 !! Replace these lines with information regarding the PenaltyDisplaceBoundaryBC object.
 
-!! ## Example Input File Syntax
+## Example Input File Syntax
 
-!! Describe and include an example of how to use the PenaltyDisplaceBoundaryBC object.
+!listing 3d-scaled-1st-order.i block=BCs/displace_x_top
 
 !syntax parameters /BCs/PenaltyDisplaceBoundaryBC
 

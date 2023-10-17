@@ -6,9 +6,9 @@
 
 !! Replace these lines with information regarding the RadiationEnergyFluxBC object.
 
-!! ## Example Input File Syntax
+## Example Input File Syntax
 
-!! Describe and include an example of how to use the RadiationEnergyFluxBC object.
+!listing cold-no-surface-tension.i block=BCs/radiation_flux
 
 !syntax parameters /BCs/RadiationEnergyFluxBC
 

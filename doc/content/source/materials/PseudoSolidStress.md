@@ -6,9 +6,9 @@
 
 !! Replace these lines with information regarding the PseudoSolidStress object.
 
-!! ## Example Input File Syntax
+## Example Input File Syntax
 
-!! Describe and include an example of how to use the PseudoSolidStress object.
+!listing 3d-scaled-1st-order.i block=Materials/stress
 
 !syntax parameters /Materials/PseudoSolidStress
 
