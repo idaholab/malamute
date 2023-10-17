@@ -7,17 +7,17 @@
 /*                           ALL RIGHTS RESERVED                            */
 /****************************************************************************/
 
-#include "CrazyKCPlantFitsBoundary.h"
+#include "DemonstrationPlantFitsBoundary.h"
 #include "Assembly.h"
 
-registerMooseObject("MalamuteApp", CrazyKCPlantFitsBoundary);
+registerMooseObject("MalamuteApp", DemonstrationPlantFitsBoundary);
 
 InputParameters
-CrazyKCPlantFitsBoundary::validParams()
+DemonstrationPlantFitsBoundary::validParams()
 {
   InputParameters params = ADMaterial::validParams();
   params.addClassDescription(
-      "Boundary material properties corresponding to KC plant reference material.");
+      "Boundary material properties corresponding to demonstration reference material.");
   params.addParam<Real>("c_mu0", 0.15616, "mu0 coefficient");
   params.addParam<Real>("ap0", 0, "");
   params.addParam<Real>("ap1", 1.851502e1, "");
@@ -60,7 +60,7 @@ CrazyKCPlantFitsBoundary::validParams()
   return params;
 }
 
-CrazyKCPlantFitsBoundary::CrazyKCPlantFitsBoundary(const InputParameters & parameters)
+DemonstrationPlantFitsBoundary::DemonstrationPlantFitsBoundary(const InputParameters & parameters)
   : ADMaterial(parameters),
     _ap0(getParam<Real>("ap0")),
     _ap1(getParam<Real>("ap1")),
@@ -96,7 +96,7 @@ CrazyKCPlantFitsBoundary::CrazyKCPlantFitsBoundary(const InputParameters & param
 }
 
 void
-CrazyKCPlantFitsBoundary::computeQpProperties()
+DemonstrationPlantFitsBoundary::computeQpProperties()
 {
   auto && theta = _temperature[_qp] / _temperature_units_per_kelvin - _Tb;
   if (theta < _Tbound1)
