@@ -274,12 +274,12 @@ surfacetemp=300
 
 [Materials]
   [./kc_fits]
-    type = CrazyKCPlantFits
+    type = DemonstrationPlantFits
     temperature = T
     beta = 1e7
   [../]
   [./boundary]
-    type = CrazyKCPlantFitsBoundary
+    type = DemonstrationPlantFitsBoundary
     boundary = 'front'
     temperature = T
   [../]

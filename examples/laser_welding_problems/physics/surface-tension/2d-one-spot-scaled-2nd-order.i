@@ -293,7 +293,7 @@ half_width=${fparse 4e-4 / 10^length_unit_exponent}
 
 [ADMaterials]
   [./kc_fits]
-    type = CrazyKCPlantFits
+    type = DemonstrationPlantFits
     temperature = T
     beta = 1e7
     length_unit_exponent = ${length_unit_exponent}
@@ -304,7 +304,7 @@ half_width=${fparse 4e-4 / 10^length_unit_exponent}
     T90 = 400
   [../]
   [./boundary]
-    type = CrazyKCPlantFitsBoundary
+    type = DemonstrationPlantFitsBoundary
     boundary = 'top'
     temperature = T
     use_displaced_mesh = true

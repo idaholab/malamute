@@ -1,14 +1,13 @@
 [Tests]
-  requirement = 'The system shall compute the electro-thermo-mechanical response '
-                'of a 2D-axisymmetric representation of the DCS-5 stepped 20mm diameter '
-                'punch graphite tooling stack,'
   [dcs5_stepped20mm_empty_constant_properties]
     type = RunApp
     input = 'dcs5_stepped20mm_empty_constant_properties.i'
     check_input = True
     method = opt
     issues = '#91'
-    detail = 'using constant graphite material properties, which signficantly '
-             'overestimates the temperature profile during the SPS run.'
+    requirement = 'The system shall compute the electro-thermo-mechanical response '
+                  'of a 2D-axisymmetric representation of the DCS-5 stepped 20mm diameter '
+                  'punch graphite tooling stack, using constant graphite material properties, '
+                  'which significantly overestimates the temperature profile measured during the EFAS run.'
   []
 []

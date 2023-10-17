@@ -274,12 +274,12 @@ pooldepth=2e-4
 
 [ADMaterials]
   [./kc_fits]
-    type = CrazyKCPlantFits
+    type = DemonstrationPlantFits
     temperature = T
     beta = 1e7
   [../]
   [./boundary]
-    type = CrazyKCPlantFitsBoundary
+    type = DemonstrationPlantFitsBoundary
     boundary = 'top'
     temperature = T
     use_displaced_mesh = true

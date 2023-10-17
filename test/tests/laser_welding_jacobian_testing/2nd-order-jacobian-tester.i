@@ -338,7 +338,7 @@
 
 [ADMaterials]
   [./kc_fits]
-    type = CrazyKCPlantFits
+    type = DemonstrationPlantFits
     temperature = T
     c_mu1 = 1
     c_mu2 = 1
@@ -354,7 +354,7 @@
     c_rho0 = 1
   [../]
   [./boundary]
-    type = CrazyKCPlantFitsBoundary
+    type = DemonstrationPlantFitsBoundary
     use_displaced_mesh = true
     boundary = 'front'
     temperature = T
