@@ -47,7 +47,7 @@ A summary listing of the current modules required for complete MALAMUTE operatio
 
 - [Contact](contact/index.md)
 - [Electromagnetics](electromagnetics/index.md)
-- [Heat Conduction](heat_transfer/index.md)
+- [Heat Transfer](heat_transfer/index.md)
 - [Level Set](level_set/index.md)
 - [Miscellaneous Module](misc/index.md)
 - [Navier Stokes](navier_stokes/index.md)
