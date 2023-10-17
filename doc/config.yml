@@ -9,8 +9,8 @@ Content:
         root_dir: ${MOOSE_DIR}/modules/electromagnetics/doc/content
     fluid_properties:
         root_dir: ${MOOSE_DIR}/modules/fluid_properties/doc/content # pulled in by navier_stokes
-    heat_conduction:
-        root_dir: ${MOOSE_DIR}/modules/heat_conduction/doc/content
+    heat_transfer:
+        root_dir: ${MOOSE_DIR}/modules/heat_transfer/doc/content
     level_set:
         root_dir: ${MOOSE_DIR}/modules/level_set/doc/content
     misc:
@@ -20,7 +20,7 @@ Content:
     phase_field:
         root_dir: ${MOOSE_DIR}/modules/phase_field/doc/content
     ray_tracing:
-        root_dir: ${MOOSE_DIR}/modules/ray_tracing/doc/content      # pulled in by heat_conduction
+        root_dir: ${MOOSE_DIR}/modules/ray_tracing/doc/content      # pulled in by heat_transfer
     rdg:
         root_dir: ${MOOSE_DIR}/modules/rdg/doc/content              # pulled in by navier_stokes
     tensor_mechanics:
@@ -67,7 +67,7 @@ Extensions:
             contact: !include ${MOOSE_DIR}/modules/contact/doc/sqa_contact.yml
             electromagnetics: !include ${MOOSE_DIR}/modules/electromagnetics/doc/sqa_electromagnetics.yml
             fluid_properties: !include ${MOOSE_DIR}/modules/fluid_properties/doc/sqa_fluid_properties.yml
-            heat_conduction: !include ${MOOSE_DIR}/modules/heat_conduction/doc/sqa_heat_conduction.yml
+            heat_transfer: !include ${MOOSE_DIR}/modules/heat_transfer/doc/sqa_heat_transfer.yml
             level_set: !include ${MOOSE_DIR}/modules/level_set/doc/sqa_level_set.yml
             misc: !include ${MOOSE_DIR}/modules/misc/doc/sqa_misc.yml
             navier_stokes: !include ${MOOSE_DIR}/modules/navier_stokes/doc/sqa_navier_stokes.yml
