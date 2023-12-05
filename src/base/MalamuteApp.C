@@ -38,7 +38,9 @@ MalamuteApp::registerAll(Factory & f, ActionFactory & af, Syntax & syntax)
   Registry::registerObjectsTo(f, {"MalamuteApp"});
   Registry::registerActionsTo(af, {"MalamuteApp"});
 
-  /* register custom execute flags, action syntax, etc. here */
+  // Adds [SpatioTemporalPath] block
+  registerSyntax("EmptyAction", "SpatioTemporalPaths");
+  registerSyntaxTask("AddSpatioTemporalPathAction", "SpatioTemporalPaths/*", "add_user_object");
 }
 
 void
