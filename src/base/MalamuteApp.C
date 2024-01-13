@@ -45,6 +45,7 @@ void
 MalamuteApp::registerApps()
 {
   registerApp(MalamuteApp);
+  ModulesApp::registerApps();
 }
 
 /***************************************************************************************************

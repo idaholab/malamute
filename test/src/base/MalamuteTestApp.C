@@ -50,7 +50,7 @@ MalamuteTestApp::registerAll(Factory & f, ActionFactory & af, Syntax & s, bool u
 void
 MalamuteTestApp::registerApps()
 {
-  registerApp(MalamuteApp);
+  MalamuteApp::registerApps();
   registerApp(MalamuteTestApp);
 }
 
