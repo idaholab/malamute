@@ -332,7 +332,7 @@ dt = 20
     max_catch_up_steps = 10
     keep_solution_during_restore = true
     execute_on = 'TIMESTEP_END'
-    cli_args = 'dt=${dt};T_room=${T_room};T_melt=${T_melt};'
+    cli_args = 'dt=${dt};T_room=${T_room};T_melt=${T_melt}'
   []
 []
 
