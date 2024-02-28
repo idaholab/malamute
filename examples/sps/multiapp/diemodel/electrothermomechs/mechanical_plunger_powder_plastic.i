@@ -1,6 +1,6 @@
 ## Units in the input file: m-Pa-s-K
 
-initial_temperature=300 #roughly 600C where the pyrometer kicks in
+initial_temperature = 300 #roughly 600C where the pyrometer kicks in
 
 [GlobalParams]
   displacements = 'disp_x disp_y'
@@ -9,7 +9,7 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
 []
 
 [Mesh]
-  [./fmg]
+  [fmg]
     type = FileMeshGenerator
     file = stepped_plunger_powder_2d.e
   []
@@ -48,8 +48,8 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
   []
 []
 
-[Modules]
-  [TensorMechanics/Master]
+[Physics]
+  [SolidMechanics/QuasiStatic]
     [graphite]
       strain = FINITE
       add_variables = true
@@ -115,11 +115,11 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
 []
 
 [Functions]
-  [./yield]
+  [yield]
     type = PiecewiseLinear
-    x = '100  600  700  800  900  5000'  #temperature
-    y = '15e6 15e6 14e6 13e6 10e6 10e6'  #yield stress
-  [../]
+    x = '100  600  700  800  900  5000' #temperature
+    y = '15e6 15e6 14e6 13e6 10e6 10e6' #yield stress
+  []
   [temp_hist]
     type = PiecewiseLinear
     x = '0   5   10' #time
@@ -227,7 +227,7 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
   []
   [yttria_thermal_expansion]
     type = ADComputeThermalExpansionEigenstrain
-    thermal_expansion_coeff = 9.3e-6  # from https://doi.org/10.1111/j.1151-2916.1957.tb12619.x
+    thermal_expansion_coeff = 9.3e-6 # from https://doi.org/10.1111/j.1151-2916.1957.tb12619.x
     eigenstrain_name = yttria_thermal_expansion
     stress_free_temperature = 300
     temperature = temperature
@@ -275,7 +275,7 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
   l_max_its = 50
   dtmin = 1.0e-4
   dtmax = .4
-  dt=0.4
+  dt = 0.4
 
   end_time = 10 #900 #15 minutes, rule of thumb from Dennis is 10 minutes
   [Quadrature]
@@ -353,7 +353,6 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
     block = 'upper_plunger lower_plunger'
   []
 []
-
 
 [Outputs]
   csv = true

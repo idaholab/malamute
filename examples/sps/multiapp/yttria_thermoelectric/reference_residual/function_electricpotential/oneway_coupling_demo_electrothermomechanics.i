@@ -1,4 +1,4 @@
-initial_temperature=1350
+initial_temperature = 1350
 
 [GlobalParams]
   displacements = 'disp_x disp_y'
@@ -32,7 +32,6 @@ initial_temperature=1350
   reference_vector = 'ref'
   extra_tag_vectors = 'ref'
 []
-
 
 [Variables]
   [temperature]
@@ -80,8 +79,8 @@ initial_temperature=1350
   []
 []
 
-[Modules]
-  [TensorMechanics/Master]
+[Physics]
+  [SolidMechanics/QuasiStatic]
     [yttria]
       strain = FINITE
       add_variables = true
@@ -137,7 +136,7 @@ initial_temperature=1350
     variable = heat_transfer_radiation
     boundary = right
     coupled_variables = 'temperature'
-    constant_names = 'boltzmann epsilon temperature_farfield'  #published emissivity for graphite is 0.85, but use 0.1 to prevent too much heat loss
+    constant_names = 'boltzmann epsilon temperature_farfield' #published emissivity for graphite is 0.85, but use 0.1 to prevent too much heat loss
     constant_expressions = '5.67e-8 0.1 1000.0' #estimated farfield temperature, to stand in for graphite, in a manner
     expression = '-boltzmann*epsilon*(temperature^4-temperature_farfield^4)'
   []
@@ -167,7 +166,7 @@ initial_temperature=1350
   [microapp_current_density]
     type = ParsedAux
     variable = microapp_current_density
-    coupled_variables = 'sigma_aeh E_y'  ## Probably needs to be updated to use the current_density_J
+    coupled_variables = 'sigma_aeh E_y' ## Probably needs to be updated to use the current_density_J
     expression = '-1.0*sigma_aeh*E_y'
   []
 []
@@ -213,12 +212,11 @@ initial_temperature=1350
   #   function = '${initial_temperature} + 50.0/60.0*t' #stand-in for a 50C/min heating rate
   # []
 
-
   [electric_top]
     type = ADFunctionDirichletBC
     variable = electric_potential
     boundary = top
-    function = 'if(t<1.0,0.0, if(t<20.0, 4.0e-3*t, 0.08))'  #rate roughly from Cincotti, per discussion with Casey
+    function = 'if(t<1.0,0.0, if(t<20.0, 4.0e-3*t, 0.08))' #rate roughly from Cincotti, per discussion with Casey
   []
   [electric_bottom]
     type = ADDirichletBC
@@ -249,7 +247,7 @@ initial_temperature=1350
   []
   [yttria_thermal_expansion]
     type = ADComputeThermalExpansionEigenstrain
-    thermal_expansion_coeff = 9.3e-6  # from https://doi.org/10.1111/j.1151-2916.1957.tb12619.x
+    thermal_expansion_coeff = 9.3e-6 # from https://doi.org/10.1111/j.1151-2916.1957.tb12619.x
     eigenstrain_name = yttria_thermal_expansion
     stress_free_temperature = 300
     temperature = temperature
@@ -283,15 +281,15 @@ initial_temperature=1350
   []
   [electrical_conductivity]
     type = ADParsedMaterial
-  #   coupled_variables = 'sigma_aeh'
-  #   expression = 'sigma_aeh*1.602e8' #converts to units of J/(V^2-m-s)
+    #   coupled_variables = 'sigma_aeh'
+    #   expression = 'sigma_aeh*1.602e8' #converts to units of J/(V^2-m-s)
     property_name = 'electrical_conductivity'
     output_properties = electrical_conductivity
     outputs = 'exodus csv'
     # type = ADDerivativeParsedMaterial
     # property_name = electrical_conductivity
     coupled_variables = 'temperature'
-    constant_names =       'Q_elec  kB            prefactor_solid  initial_porosity'
+    constant_names = 'Q_elec  kB            prefactor_solid  initial_porosity'
     constant_expressions = '1.61    8.617343e-5        1.25e-4           0.38'
     expression = '(1-initial_porosity) * prefactor_solid * exp(-Q_elec/kB/temperature) * 1.602e8' # in eV/(nV^2 s nm) per chat with Larry, last term converts to units of J/(V^2-m-s)
   []
@@ -349,8 +347,7 @@ initial_temperature=1350
     variable = electrical_conductivity
   []
 
-
-### The following are useful for debugging, but are mesh dependent via the elementid
+  ### The following are useful for debugging, but are mesh dependent via the elementid
   [temperature_368]
     type = ElementalVariableValue
     variable = temperature
@@ -392,7 +389,7 @@ initial_temperature=1350
   [micro]
     type = TransientMultiApp
     # type = CentroidMultiApp # lauches one in the middle of each element so don't need to give positions
-      #can specify the number of procs
+    #can specify the number of procs
     max_procs_per_app = 1 #paolo recommends starting here
     app_type = MalamuteApp
     positions = '0.0074 0.0058 0' #roughly the center of element 368 in this mesh
@@ -410,26 +407,25 @@ initial_temperature=1350
     variable = temperature_in
   []
   [temperaturepp_to_sub]
-   type = MultiAppVariableValueSamplePostprocessorTransfer
+    type = MultiAppVariableValueSamplePostprocessorTransfer
     to_multi_app = micro
     source_variable = temperature
     postprocessor = center_temperature
   []
 
   [micro_potential_pp_to_sub]
-   type = MultiAppVariableValueSamplePostprocessorTransfer
+    type = MultiAppVariableValueSamplePostprocessorTransfer
     to_multi_app = micro
     source_variable = microapp_potential
     postprocessor = potential_in
   []
   [micro_current_density_pp_to_sub]
-   type = MultiAppVariableValueSamplePostprocessorTransfer
+    type = MultiAppVariableValueSamplePostprocessorTransfer
     to_multi_app = micro
     source_variable = microapp_current_density
     postprocessor = current_density_in
   []
 []
-
 
 [Outputs]
   csv = true

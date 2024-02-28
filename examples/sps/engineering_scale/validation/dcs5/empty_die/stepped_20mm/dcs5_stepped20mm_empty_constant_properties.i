@@ -46,7 +46,7 @@
     ny = 30
     xmax = 0.0075
     ymax = 0.03
-    boundary_name_prefix= top_punch
+    boundary_name_prefix = top_punch
     boundary_id_offset = 8
     elem_type = QUAD8
   []
@@ -58,7 +58,7 @@
     xmin = 0.0075
     xmax = 0.01
     ymax = 0.005
-    boundary_name_prefix= top_step
+    boundary_name_prefix = top_step
     boundary_id_offset = 12
     elem_type = QUAD8
   []
@@ -88,7 +88,7 @@
     xmax = 0.0075
     ymax = 0.0
     ymin = -0.03
-    boundary_name_prefix= low_punch
+    boundary_name_prefix = low_punch
     boundary_id_offset = 20
     elem_type = QUAD8
   []
@@ -101,7 +101,7 @@
     xmax = 0.01
     ymax = 0.0
     ymin = -0.005
-    boundary_name_prefix= low_step
+    boundary_name_prefix = low_step
     boundary_id_offset = 24
     elem_type = QUAD8
   []
@@ -295,8 +295,8 @@
   # []
 []
 
-[Modules]
-  [TensorMechanics/Master]
+[Physics]
+  [SolidMechanics/QuasiStatic]
     [graphite]
       strain = FINITE
       incremental = true
@@ -839,14 +839,14 @@
     type = GapFluxModelConduction
     temperature = temperature
     boundary = punch_step_exterior
-    gap_conductivity = 81  #assuming graphfoil thermal conductivity matches graphite
+    gap_conductivity = 81 #assuming graphfoil thermal conductivity matches graphite
     use_displaced_mesh = true
   []
   [electrical_conduction_punch_wall]
     type = GapFluxModelConduction
     temperature = potential
     boundary = punch_step_exterior
-    gap_conductivity = 5.88e4  #assuming graphfoil electrical conductivity matches graphite
+    gap_conductivity = 5.88e4 #assuming graphfoil electrical conductivity matches graphite
     use_displaced_mesh = true
   []
   [closed_thermal_interface_punch_wall]
@@ -1021,7 +1021,7 @@
     dt = 0.05
     optimal_iterations = 8
     iteration_window = 2
-    time_t = ' 0.0     120.0     240.0   740.0   760.0   790.0   810.0'  #using this approach to force each inflection point in the current function
+    time_t = ' 0.0     120.0     240.0   740.0   760.0   790.0   810.0' #using this approach to force each inflection point in the current function
     time_dt = '0.05    5.0e-3   10.0     1.0     1.0     5.0     0.25'
   []
 []

@@ -81,8 +81,8 @@ initial_temperature = 300 #roughly 600C where the pyrometer kicks in
   []
 []
 
-[Modules]
-  [TensorMechanics/Master]
+[Physics]
+  [SolidMechanics/QuasiStatic]
     [graphite]
       strain = FINITE
       incremental = true

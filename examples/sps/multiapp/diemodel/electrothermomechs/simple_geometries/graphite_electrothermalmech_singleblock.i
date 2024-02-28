@@ -1,7 +1,7 @@
 ## Units in the input file: m-Pa-s-K
 
 #initial_porosity = 0.38
-initial_temperature=300 #roughly 600C where the pyrometer kicks in
+initial_temperature = 300 #roughly 600C where the pyrometer kicks in
 
 [GlobalParams]
   displacements = 'disp_x disp_y'
@@ -120,8 +120,8 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
   []
 []
 
-[Modules]
-  [TensorMechanics/Master]
+[Physics]
+  [SolidMechanics/QuasiStatic]
     [graphite]
       strain = FINITE
       add_variables = true
@@ -463,7 +463,6 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
   #   point = '0.00025 0.00075 0'
   # []
 []
-
 
 [Outputs]
   csv = true
