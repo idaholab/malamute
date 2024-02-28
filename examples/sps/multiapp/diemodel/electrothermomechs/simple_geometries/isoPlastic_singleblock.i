@@ -1,7 +1,7 @@
 ## Units in the input file: m-Pa-s-K
 
 #initial_porosity = 0.38
-initial_temperature=600 #roughly 600C where the pyrometer kicks in
+initial_temperature = 600 #roughly 600C where the pyrometer kicks in
 
 [GlobalParams]
   displacements = 'disp_x disp_y'
@@ -79,8 +79,8 @@ initial_temperature=600 #roughly 600C where the pyrometer kicks in
   []
 []
 
-[Modules]
-  [TensorMechanics/Master]
+[Physics]
+  [SolidMechanics/QuasiStatic]
     [graphite]
       strain = FINITE
       add_variables = true
@@ -192,11 +192,11 @@ initial_temperature=600 #roughly 600C where the pyrometer kicks in
 []
 
 [Functions]
-  [./yield]
-   type = PiecewiseLinear
-   x = '100  300  400  500  600  5000'  #temperature
-   y = '15e6 15e6 14e6 13e6 10e6 10e6'  #yield stress
-  [../]
+  [yield]
+    type = PiecewiseLinear
+    x = '100  300  400  500  600  5000' #temperature
+    y = '15e6 15e6 14e6 13e6 10e6 10e6' #yield stress
+  []
   [temp_hist]
     type = PiecewiseLinear
     x = '0   5   10' #time
@@ -235,7 +235,7 @@ initial_temperature=600 #roughly 600C where the pyrometer kicks in
   []
   [thermal_expansion]
     type = ADComputeThermalExpansionEigenstrain
-    thermal_expansion_coeff = 9.3e-6  # from https://doi.org/10.1111/j.1151-2916.1957.tb12619.x
+    thermal_expansion_coeff = 9.3e-6 # from https://doi.org/10.1111/j.1151-2916.1957.tb12619.x
     eigenstrain_name = thermal_expansion
     stress_free_temperature = ${initial_temperature} #300
     temperature = temperature
@@ -258,15 +258,15 @@ initial_temperature=600 #roughly 600C where the pyrometer kicks in
   []
   [electrical_conductivity]
     type = ADParsedMaterial
-  #   coupled_variables = 'sigma_aeh'
-  #   expression = 'sigma_aeh*1.602e8' #converts to units of J/(V^2-m-s)
+    #   coupled_variables = 'sigma_aeh'
+    #   expression = 'sigma_aeh*1.602e8' #converts to units of J/(V^2-m-s)
     property_name = 'electrical_conductivity'
     output_properties = electrical_conductivity
     outputs = 'exodus csv'
     # type = ADDerivativeParsedMaterial
     # property_name = electrical_conductivity
     coupled_variables = 'temperature'
-    constant_names =       'Q_elec  kB            prefactor_solid  initial_porosity'
+    constant_names = 'Q_elec  kB            prefactor_solid  initial_porosity'
     constant_expressions = '1.61    8.617343e-5        1.25e-4           0.38'
     expression = '(1-initial_porosity) * prefactor_solid * exp(-Q_elec/kB/temperature) * 1.602e8' # in eV/(nV^2 s nm) per chat with Larry, last term converts to units of J/(V^2-m-s)
   []
@@ -321,7 +321,6 @@ initial_temperature=600 #roughly 600C where the pyrometer kicks in
     variable = temperature
   []
 []
-
 
 [Outputs]
   csv = true

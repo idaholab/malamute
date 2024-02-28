@@ -52,7 +52,7 @@ A summary listing of the current modules required for complete MALAMUTE operatio
 - [Miscellaneous Module](misc/index.md)
 - [Navier Stokes](navier_stokes/index.md)
 - [Phase Field](phase_field/index.md)
-- [Tensor Mechanics](tensor_mechanics/index.md)
+- [Solid Mechanics](solid_mechanics/index.md)
 
 The structure of {{app}} is based on defining C++ classes that derive from classes in the MOOSE framework
 or modules that provide functionality that is specifically tailored to the structural degradation
