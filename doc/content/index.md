@@ -2,6 +2,9 @@
 
 # MALAMUTE class=center style=font-weight:600;font-size:350%;
 
+!media media/malamute_blue.png dark_src=media/malamute_white.png
+       style=display:block;margin-left:auto;margin-right:auto;width:20%;padding-top:30px;
+
 # Modeling and Simulation of Advanced Manufacturing Processes class=center style=font-weight:200;font-size:200%
 
 !style halign=center
