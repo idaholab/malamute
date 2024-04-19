@@ -49,7 +49,7 @@ the solution of coupled physics problems of varying size and dimensionality. The
 can be solved using computer hardware appropriate for the model size, ranging from
 laptops and workstations to large high performance computers.
 
-!media large_media/framework/inl_blue.png style=float:right;width:30%;margin-left:30px;
+!media large_media/framework/inl_blue.png style=float:right;width:20%;margin-left:30px;
 
 Code reliability is a central principle in code development, and this project
 employs a well-defined development and testing strategy.  Code changes are only

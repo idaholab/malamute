@@ -49,6 +49,7 @@ Extensions:
             Developer Information Links: development/moose_developer_info.md
             Software Quality Assurance (SQA) Information: /sqa/index.md
             Code Coverage: https://mooseframework.inl.gov/malamute/docs/coverage/
+            Testing Status: https://civet.inl.gov/repo/936/
     MooseDocs.extensions.appsyntax:
         executable: ${ROOT_DIR}
         remove:
@@ -87,3 +88,4 @@ Extensions:
           - hales15homogenization
           - kim_phase-field_1999
           - popp2014dual
+          - puso2008segment
