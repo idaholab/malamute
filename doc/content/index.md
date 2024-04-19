@@ -62,3 +62,10 @@ computer scientists and engineers and is supported by various funding agencies,
 including the [United States Department of Energy](http://energy.gov).  Development
 of these codes is ongoing at [INL](https://www.inl.gov) and by collaborators
 throughout the world.
+
+## Version Information
+
+!style halign=left
+This documentation was built on [!datetime!today format=%A, %B %d, %Y], from MALAMUTE git commit [!git!commit].
+
+This version of MALAMUTE uses MOOSE git commit [!git!submodule-hash url=https://github.com/idaholab/moose/commit](moose).
