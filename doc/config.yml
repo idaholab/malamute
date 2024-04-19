@@ -44,7 +44,7 @@ Extensions:
             Using MALAMUTE: getting_started/using_malamute.md
           Documentation and Resources:
             Complete Code Manual: syntax/index.md
-            Thermal Contact Verification: verification/thermal_contact_verification.md
+            Demonstration Cases: demonstration/index.md
             Code Standards: sqa/malamute_scs.md
             Developer Information Links: development/moose_developer_info.md
             Software Quality Assurance (SQA) Information: /sqa/index.md

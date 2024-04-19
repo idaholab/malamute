@@ -33,7 +33,7 @@ The Code Reference provides detailed documentation of specific code features.
 !col-end!
 
 !col! small=12 medium=4 large=4 icon=assessment
-## [Demonstration](demonstration/Placeholder.md) class=center style=font-weight:200;font-size:150%;
+## [Demonstration](demonstration/index.md) class=center style=font-weight:200;font-size:150%;
 
 !style halign=center
 There are a number of example problems to demonstrate usage of MALAMUTE. Details
