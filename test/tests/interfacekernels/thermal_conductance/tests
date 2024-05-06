@@ -67,5 +67,6 @@
     allow_test_objects = True
     requirement = 'The system shall calculate the correct thermal contact temperature solution when compared to an analytic result, given a one-dimensional, two-material-block scenario.'
     issues = '#13'
+    verification=thermal_contact_verification.md
   [../]
 []
