@@ -2,6 +2,9 @@
 
 # MALAMUTE class=center style=font-weight:600;font-size:350%;
 
+!media media/logo/malamute_blue.png dark_src=media/logo/malamute_white.png
+       style=display:block;margin-left:auto;margin-right:auto;width:20%;padding-top:30px;
+
 # Modeling and Simulation of Advanced Manufacturing Processes class=center style=font-weight:200;font-size:200%
 
 !style halign=center
@@ -30,7 +33,7 @@ The Code Reference provides detailed documentation of specific code features.
 !col-end!
 
 !col! small=12 medium=4 large=4 icon=assessment
-## [Demonstration](demonstration/Placeholder.md) class=center style=font-weight:200;font-size:150%;
+## [Demonstration](demonstration/index.md) class=center style=font-weight:200;font-size:150%;
 
 !style halign=center
 There are a number of example problems to demonstrate usage of MALAMUTE. Details
@@ -46,16 +49,25 @@ the solution of coupled physics problems of varying size and dimensionality. The
 can be solved using computer hardware appropriate for the model size, ranging from
 laptops and workstations to large high performance computers.
 
-!media large_media/framework/inl_blue.png style=float:right;width:30%;margin-left:30px;
+!media large_media/framework/inl_blue.png style=float:right;width:20%;margin-left:30px;
 
 Code reliability is a central principle in code development, and this project
 employs a well-defined development and testing strategy.  Code changes are only
 merged into the repository after both a manual code review and the automated
 regression test system have been completed.  The testing process and status of
-MALAMUTE is available at [civet.inl.gov](https://civet.inl.gov/repo/936/).
+MALAMUTE is available at [civet.inl.gov](https://civet.inl.gov/repo/936/), and
+documentation related to MALAMUTE's code development practices are available at
+our [Software Quality Assurance](sqa/index.md exact=True) page.
 
 MALAMUTE and MOOSE are developed by the Idaho National Laboratory by a team of
 computer scientists and engineers and is supported by various funding agencies,
 including the [United States Department of Energy](http://energy.gov).  Development
 of these codes is ongoing at [INL](https://www.inl.gov) and by collaborators
 throughout the world.
+
+## Version Information
+
+!style halign=left
+This documentation was built on [!datetime!today format=%A, %B %d, %Y], from MALAMUTE git commit [!git!commit].
+
+This version of MALAMUTE uses MOOSE git commit [!git!submodule-hash url=https://github.com/idaholab/moose/commit](moose).
