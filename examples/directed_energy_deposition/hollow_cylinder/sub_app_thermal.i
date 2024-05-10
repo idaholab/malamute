@@ -315,7 +315,7 @@ dt = 20
   [exodus]
     type = Exodus
     file_base = 'output/Exodus/Thermal'
-    interval = 1
+    time_step_interval = 1
   []
 []
 

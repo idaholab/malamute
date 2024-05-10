@@ -1019,7 +1019,7 @@ initial_temperature = 873 #roughly 600C where the pyrometer kicks in
   perf_graph = true
   # [ckpt]
   #   type =Checkpoint
-  #   interval = 1
+  #   time_step_interval = 1
   #   num_files = 2
   # []
 []
