@@ -51,9 +51,9 @@
   [../]
 []
 
-[Modules]
-  [./TensorMechanics]
-    [./Master]
+[Physics]
+  [SolidMechanics]
+    [QuasiStatic]
       [./all]
         strain = SMALL
         decomposition_method = EigenSolution
