@@ -296,19 +296,21 @@
 []
 
 [Physics]
-  [SolidMechanics/QuasiStatic]
-    [graphite]
-      strain = FINITE
-      incremental = true
-      add_variables = false
-      use_automatic_differentiation = true
-      extra_vector_tags = 'ref'
-      generate_output = 'strain_xx strain_xy strain_yy stress_xx stress_xy stress_yy'
-      additional_generate_output = 'vonmises_stress'
-      additional_material_output_family = 'MONOMIAL'
-      additional_material_output_order = 'FIRST'
-      eigenstrain_names = graphite_thermal_expansion
-      block = 'top_ram_spacer top_sinter_spacer top_punch low_punch low_sinter_spacer low_ram_spacer die_wall'
+  [SolidMechanics]
+    [QuasiStatic]
+      [graphite]
+        strain = FINITE
+        incremental = true
+        add_variables = false
+        use_automatic_differentiation = true
+        extra_vector_tags = 'ref'
+        generate_output = 'strain_xx strain_xy strain_yy stress_xx stress_xy stress_yy'
+        additional_generate_output = 'vonmises_stress'
+        additional_material_output_family = 'MONOMIAL'
+        additional_material_output_order = 'FIRST'
+        eigenstrain_names = graphite_thermal_expansion
+        block = 'top_ram_spacer top_sinter_spacer top_punch low_punch low_sinter_spacer low_ram_spacer die_wall'
+      []
     []
   []
 []
