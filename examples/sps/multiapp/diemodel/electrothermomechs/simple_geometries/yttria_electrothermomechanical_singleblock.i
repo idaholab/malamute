@@ -63,7 +63,8 @@ initial_temperature = 300 #roughly 600C where the pyrometer kicks in
   [specific_heat_capacity_va]
     initial_condition = 842.2 # at 1500K #568.73 at 1000K #447.281 # at 293K
   []
-  [density_va] # initial condition set in ICs block below
+  [density_va]
+    # initial condition set in ICs block below
   []
   [heat_transfer_radiation]
   []
@@ -82,16 +83,17 @@ initial_temperature = 300 #roughly 600C where the pyrometer kicks in
 []
 
 [Physics]
-  [SolidMechanics/QuasiStatic]
-    [graphite]
-      strain = FINITE
-      incremental = true
-      add_variables = true
-      use_automatic_differentiation = true
-      generate_output = 'strain_xx strain_xy strain_yy strain_zz stress_xx stress_xy stress_yy '
-                        'stress_zz plastic_strain_yy'
-      extra_vector_tags = 'ref'
-      eigenstrain_names = 'thermal_expansion'
+  [SolidMechanics]
+    [QuasiStatic]
+      [graphite]
+        strain = FINITE
+        incremental = true
+        add_variables = true
+        use_automatic_differentiation = true
+        generate_output = 'strain_xx strain_xy strain_yy strain_zz stress_xx stress_xy stress_yy stress_zz plastic_strain_yy'
+        extra_vector_tags = 'ref'
+        eigenstrain_names = 'thermal_expansion'
+      []
     []
   []
 []

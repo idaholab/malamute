@@ -80,14 +80,16 @@ initial_temperature = 600 #roughly 600C where the pyrometer kicks in
 []
 
 [Physics]
-  [SolidMechanics/QuasiStatic]
-    [graphite]
-      strain = FINITE
-      add_variables = true
-      use_automatic_differentiation = true
-      generate_output = 'plastic_strain_yy strain_xx strain_xy strain_yy strain_zz stress_xx stress_xy stress_yy stress_zz'
-      extra_vector_tags = 'ref'
-      eigenstrain_names = 'thermal_expansion'
+  [SolidMechanics]
+    [QuasiStatic]
+      [graphite]
+        strain = FINITE
+        add_variables = true
+        use_automatic_differentiation = true
+        generate_output = 'plastic_strain_yy strain_xx strain_xy strain_yy strain_zz stress_xx stress_xy stress_yy stress_zz'
+        extra_vector_tags = 'ref'
+        eigenstrain_names = 'thermal_expansion'
+      []
     []
   []
 []
