@@ -49,24 +49,26 @@ initial_temperature = 300 #roughly 600C where the pyrometer kicks in
 []
 
 [Physics]
-  [SolidMechanics/QuasiStatic]
-    [graphite]
-      strain = FINITE
-      add_variables = true
-      use_automatic_differentiation = true
-      generate_output = 'strain_xx strain_xy strain_yy strain_zz stress_xx stress_xy stress_yy stress_zz'
-      extra_vector_tags = 'ref'
-      eigenstrain_names = 'graphite_thermal_expansion'
-      block = 'upper_plunger lower_plunger die_wall'
-    []
-    [yttria]
-      strain = FINITE
-      add_variables = true
-      use_automatic_differentiation = true
-      generate_output = 'plastic_strain_yy strain_xx strain_xy strain_yy strain_zz stress_xx stress_xy stress_yy stress_zz'
-      extra_vector_tags = 'ref'
-      eigenstrain_names = 'yttria_thermal_expansion'
-      block = 'powder_compact'
+  [SolidMechanics]
+    [QuasiStatic]
+      [graphite]
+        strain = FINITE
+        add_variables = true
+        use_automatic_differentiation = true
+        generate_output = 'strain_xx strain_xy strain_yy strain_zz stress_xx stress_xy stress_yy stress_zz'
+        extra_vector_tags = 'ref'
+        eigenstrain_names = 'graphite_thermal_expansion'
+        block = 'upper_plunger lower_plunger die_wall'
+      []
+      [yttria]
+        strain = FINITE
+        add_variables = true
+        use_automatic_differentiation = true
+        generate_output = 'plastic_strain_yy strain_xx strain_xy strain_yy strain_zz stress_xx stress_xy stress_yy stress_zz'
+        extra_vector_tags = 'ref'
+        eigenstrain_names = 'yttria_thermal_expansion'
+        block = 'powder_compact'
+      []
     []
   []
 []
@@ -223,7 +225,6 @@ initial_temperature = 300 #roughly 600C where the pyrometer kicks in
     # relative_tolerance = 1e-20
     # absolute_tolerance = 1e-8
     # max_inelastic_increment = 0.000001
-
   []
   [yttria_thermal_expansion]
     type = ADComputeThermalExpansionEigenstrain

@@ -100,7 +100,8 @@ initial_temperature = 300 #roughly 600C where the pyrometer kicks in
   #   order = FIRST
   #   block = 'upper_plunger'
   # []
-  [microapp_potential] #converted to microapp electronVolts units
+  [microapp_potential]
+    #converted to microapp electronVolts units
   []
   [E_x]
     order = FIRST
@@ -121,15 +122,17 @@ initial_temperature = 300 #roughly 600C where the pyrometer kicks in
 []
 
 [Physics]
-  [SolidMechanics/QuasiStatic]
-    [graphite]
-      strain = FINITE
-      add_variables = true
-      use_automatic_differentiation = true
-      generate_output = 'strain_xx strain_xy strain_yy strain_zz stress_xx stress_xy stress_yy stress_zz'
-      extra_vector_tags = 'ref'
-      # eigenstrain_names = 'graphite_thermal_expansion'
-      block = 'upper_plunger'
+  [SolidMechanics]
+    [QuasiStatic]
+      [graphite]
+        strain = FINITE
+        add_variables = true
+        use_automatic_differentiation = true
+        generate_output = 'strain_xx strain_xy strain_yy strain_zz stress_xx stress_xy stress_yy stress_zz'
+        extra_vector_tags = 'ref'
+        # eigenstrain_names = 'graphite_thermal_expansion'
+        block = 'upper_plunger'
+      []
     []
   []
 []
