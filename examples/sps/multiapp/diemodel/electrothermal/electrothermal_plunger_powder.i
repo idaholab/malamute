@@ -1,6 +1,6 @@
 ## Units in the input file: m-Pa-s-K
 
-initial_temperature=300 #roughly 600C where the pyrometer kicks in
+initial_temperature = 300 #roughly 600C where the pyrometer kicks in
 
 [GlobalParams]
   order = SECOND
@@ -46,7 +46,8 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
   [sigma_aeh]
     initial_condition = 2.0e-10 #in units eV/((nV)^2-s-nm)
   []
-  [microapp_potential] #converted to microapp electronVolts units
+  [microapp_potential]
+    #converted to microapp electronVolts units
   []
   [E_x]
     order = FIRST
@@ -143,7 +144,7 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
     variable = heat_transfer_radiation
     boundary = 'outer_die_wall'
     coupled_variables = 'temperature'
-    constant_names = 'boltzmann epsilon temperature_farfield'  #published emissivity for graphite is 0.85
+    constant_names = 'boltzmann epsilon temperature_farfield' #published emissivity for graphite is 0.85
     constant_expressions = '5.67e-8 0.85 300.0' #roughly room temperature, which is probably too cold
     expression = '-boltzmann*epsilon*(temperature^4-temperature_farfield^4)'
   []
@@ -386,7 +387,6 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
   []
 []
 
-
 [Materials]
   [graphite_density]
     type = ADGenericConstantMaterial
@@ -457,8 +457,8 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
   []
   [electrical_conductivity]
     type = ADParsedMaterial
-  #   coupled_variables = 'sigma_aeh'
-  #   expression = 'sigma_aeh*1.602e8' #converts to units of J/(V^2-m-s)
+    #   coupled_variables = 'sigma_aeh'
+    #   expression = 'sigma_aeh*1.602e8' #converts to units of J/(V^2-m-s)
     property_name = 'electrical_conductivity'
     output_properties = electrical_conductivity
     outputs = 'exodus csv'
@@ -466,7 +466,7 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
     # type = ADDerivativeParsedMaterial
     # property_name = electrical_conductivity
     coupled_variables = 'temperature'
-    constant_names =       'Q_elec  kB            prefactor_solid  initial_porosity'
+    constant_names =       'Q_elec      kB            prefactor_solid  initial_porosity'
     constant_expressions = '1.61    8.617343e-5        1.25e-4           0.38'
     expression = '(1-initial_porosity) * prefactor_solid * exp(-Q_elec/kB/temperature) * 1.602e8' # in eV/(nV^2 s nm) per chat with Larry, last term converts to units of J/(V^2-m-s)
   []
@@ -537,13 +537,12 @@ initial_temperature=300 #roughly 600C where the pyrometer kicks in
   []
 []
 
-
 [Outputs]
   csv = true
   exodus = true
   perf_graph = true
   [ckpt]
-    type =Checkpoint
+    type = Checkpoint
     time_step_interval = 1
     num_files = 2
   []
