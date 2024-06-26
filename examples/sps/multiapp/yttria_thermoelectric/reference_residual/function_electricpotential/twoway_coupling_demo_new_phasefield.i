@@ -1,7 +1,7 @@
 #This example uses updated electrochemical phase-field model, which includes
 #Y and O vacancies as defect species (intrinsic defects)
 #Two-way coupling from engineering scale to phase-field
-initial_temperature=300
+initial_temperature = 300
 
 [GlobalParams]
   order = SECOND
@@ -26,7 +26,6 @@ initial_temperature=300
   reference_vector = 'ref'
   extra_tag_vectors = 'ref'
 []
-
 
 [Variables]
   [temperature]
@@ -68,7 +67,8 @@ initial_temperature=300
     order = FIRST
     family = LAGRANGE
   []
-  [Q_from_sub] #this will be in eV/m/s, will need unit conversion to J/m^3/s based on phase-field domain size
+  [Q_from_sub]
+    #this will be in eV/m/s, will need unit conversion to J/m^3/s based on phase-field domain size
     order = FIRST
     family = LAGRANGE
   []
@@ -108,7 +108,7 @@ initial_temperature=300
     variable = heat_transfer_radiation
     boundary = right
     coupled_variables = 'temperature'
-    constant_names = 'boltzmann epsilon temperature_farfield'  #published emissivity for graphite is 0.85, but use 0.1 to prevent too much heat loss
+    constant_names = 'boltzmann epsilon temperature_farfield' #published emissivity for graphite is 0.85, but use 0.1 to prevent too much heat loss
     constant_expressions = '5.67e-8 0.1 1600.0' #estimated farfield temperature, to stand in for graphite, in a manner
     expression = '-boltzmann*epsilon*(temperature^4-temperature_farfield^4)'
   []
@@ -148,7 +148,7 @@ initial_temperature=300
     type = ADFunctionDirichletBC
     variable = electric_potential
     boundary = top
-    function = 'if(t<20.0, 4.0e-3*t, 0.08)'  #rate roughly from Cincotti, per discussion with Casey
+    function = 'if(t<20.0, 4.0e-3*t, 0.08)' #rate roughly from Cincotti, per discussion with Casey
   []
   [electric_bottom]
     type = ADDirichletBC
@@ -263,7 +263,7 @@ initial_temperature=300
   [micro]
     type = TransientMultiApp
     # type = CentroidMultiApp # lauches one in the middle of each element so don't need to give positions
-      #can specify the number of procs
+    #can specify the number of procs
     max_procs_per_app = 1 #paolo recommends starting here
     app_type = MalamuteApp
     positions = '0.0074 0.0058 0' #roughly the center of element 368 in this mesh
@@ -302,25 +302,24 @@ initial_temperature=300
     variable = T
   []
   [temperature_to_sub_postproc]
-   type = MultiAppVariableValueSamplePostprocessorTransfer
+    type = MultiAppVariableValueSamplePostprocessorTransfer
     to_multi_app = micro
     source_variable = temperature
     postprocessor = T_postproc
   []
   [potential_to_sub_postproc]
-   type = MultiAppVariableValueSamplePostprocessorTransfer
+    type = MultiAppVariableValueSamplePostprocessorTransfer
     to_multi_app = micro
     source_variable = electric_potential
     postprocessor = V_postproc
   []
   [micro_field_pp_to_sub]
-   type = MultiAppVariableValueSamplePostprocessorTransfer
+    type = MultiAppVariableValueSamplePostprocessorTransfer
     to_multi_app = micro
     source_variable = E_y
     postprocessor = Ey_in
   []
 []
-
 
 [Outputs]
   csv = true

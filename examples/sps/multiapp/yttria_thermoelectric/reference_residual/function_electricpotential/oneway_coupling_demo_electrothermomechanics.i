@@ -59,7 +59,8 @@ initial_temperature = 1350
   [sigma_aeh]
     initial_condition = 2.0e-10 #in units eV/((nV)^2-s-nm)
   []
-  [microapp_potential] #converted to microapp electronVolts units
+  [microapp_potential]
+    #converted to microapp electronVolts units
   []
   [E_x]
     order = FIRST
@@ -80,14 +81,16 @@ initial_temperature = 1350
 []
 
 [Physics]
-  [SolidMechanics/QuasiStatic]
-    [yttria]
-      strain = FINITE
-      add_variables = true
-      use_automatic_differentiation = true
-      generate_output = 'strain_xx strain_xy strain_yy strain_zz stress_xx stress_xy stress_yy stress_zz'
-      extra_vector_tags = 'ref'
-      eigenstrain_names = 'yttria_thermal_expansion'
+  [SolidMechanics]
+    [QuasiStatic]
+      [yttria]
+        strain = FINITE
+        add_variables = true
+        use_automatic_differentiation = true
+        generate_output = 'strain_xx strain_xy strain_yy strain_zz stress_xx stress_xy stress_yy stress_zz'
+        extra_vector_tags = 'ref'
+        eigenstrain_names = 'yttria_thermal_expansion'
+      []
     []
   []
 []
