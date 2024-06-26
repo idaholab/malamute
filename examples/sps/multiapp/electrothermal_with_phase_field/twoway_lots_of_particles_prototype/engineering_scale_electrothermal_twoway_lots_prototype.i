@@ -93,7 +93,8 @@ initial_temperature = 873 #roughly 600C where the pyrometer kicks in
     initial_condition = 2.0e-10 #in units eV/((nV)^2-s-nm)
     block = 'powder_compact'
   []
-  [microapp_potential] #converted to microapp electronVolts units
+  [microapp_potential]
+    #converted to microapp electronVolts units
     block = 'powder_compact'
   []
   [E_x]
@@ -112,7 +113,8 @@ initial_temperature = 873 #roughly 600C where the pyrometer kicks in
     block = 'powder_compact'
   []
 
-  [Q_from_sub] #this will be in eV/m/s, will need unit conversion to J/m^3/s based on phase-field domain size
+  [Q_from_sub]
+    #this will be in eV/m/s, will need unit conversion to J/m^3/s based on phase-field domain size
     order = FIRST
     family = LAGRANGE
   []
@@ -629,10 +631,8 @@ initial_temperature = 873 #roughly 600C where the pyrometer kicks in
     gap_conductivity_function_variable = temperature
     normal_smoothing_distance = 0.1
   []
-[]
 
 ##Thermal Contact between gapped graphite die components
-[ThermalContact]
   [upper_plunger_spacer_gap_thermal]
     type = GapHeatTransfer
     primary = spacer_facing_upper_plunger
@@ -711,10 +711,8 @@ initial_temperature = 873 #roughly 600C where the pyrometer kicks in
     gap_conductivity_function_variable = temperature
     normal_smoothing_distance = 0.1
   []
-[]
 
 ## Thermal Contact between touching components of powder and die
-[ThermalContact]
   [upper_plunger_powder_thermal]
     type = GapHeatTransfer
     primary = bottom_upper_plunger

@@ -44,16 +44,20 @@ initial_voltage = 0.0001
   []
   [dV]
   []
-  [Tx_AEH] #Temperature used for the x-component of the AEH solve
+  [Tx_AEH]
+    #Temperature used for the x-component of the AEH solve
     initial_condition = ${initial_temperature}
   []
-  [Ty_AEH] #Temperature used for the y-component of the AEH solve
+  [Ty_AEH]
+    #Temperature used for the y-component of the AEH solve
     initial_condition = ${initial_temperature}
   []
-  [Vx_AEH] #Voltage potential used for the x-component of the AEH solve
+  [Vx_AEH]
+    #Voltage potential used for the x-component of the AEH solve
     initial_condition = ${initial_voltage}
   []
-  [Vy_AEH] #Voltage potential used for the y-component of the AEH solve
+  [Vy_AEH]
+    #Voltage potential used for the y-component of the AEH solve
     initial_condition = ${initial_voltage}
   []
 []
@@ -91,7 +95,8 @@ initial_voltage = 0.0001
   []
   [T]
   []
-  [Q_joule] #Problem units of eV/nm^3/s
+  [Q_joule]
+    #Problem units of eV/nm^3/s
     order = CONSTANT
     family = MONOMIAL
   []
@@ -176,25 +181,29 @@ initial_voltage = 0.0001
       variable = 'Tx_AEH Ty_AEH Vx_AEH Vy_AEH'
     []
   []
-  [fix_AEH_Tx] #Fix Tx_AEH at a single point
+  [fix_AEH_Tx]
+    #Fix Tx_AEH at a single point
     type = PostprocessorDirichletBC
     variable = Tx_AEH
     postprocessor = T_postproc
     boundary = 1000
   []
-  [fix_AEH_Ty] #Fix Ty_AEH at a single point
+  [fix_AEH_Ty]
+    #Fix Ty_AEH at a single point
     type = PostprocessorDirichletBC
     variable = Ty_AEH
     postprocessor = T_postproc
     boundary = 1000
   []
-  [fix_AEH_Vx] #Fix Tx_AEH at a single point
+  [fix_AEH_Vx]
+    #Fix Tx_AEH at a single point
     type = PostprocessorDirichletBC
     variable = Vx_AEH
     postprocessor = V_postproc
     boundary = 1000
   []
-  [fix_AEH_Vy] #Fix Ty_AEH at a single point
+  [fix_AEH_Vy]
+    #Fix Ty_AEH at a single point
     type = PostprocessorDirichletBC
     variable = Vy_AEH
     postprocessor = V_postproc
@@ -528,7 +537,8 @@ initial_voltage = 0.0001
     diffusivity = electrical_conductivity
     args = 'phi'
   []
-  [heat_x] #Following kernels are for AEH approach to calculate thermal cond.
+  [heat_x]
+    #Following kernels are for AEH approach to calculate thermal cond.
     type = HeatConduction
     variable = Tx_AEH
   []
@@ -546,7 +556,8 @@ initial_voltage = 0.0001
     variable = Ty_AEH
     component = 1
   []
-  [voltage_x] #The following four kernels are for AEH approach to calculate electrical cond.
+  [voltage_x]
+    #The following four kernels are for AEH approach to calculate electrical cond.
     type = HeatConduction
     variable = Vx_AEH
     diffusion_coefficient = electrical_conductivity
@@ -654,14 +665,16 @@ initial_voltage = 0.0001
     type = Receiver
     default = ${initial_voltage}
   []
-  [k_x_AEH] #Effective thermal conductivity in x-direction from AEH
+  [k_x_AEH]
+    #Effective thermal conductivity in x-direction from AEH
     type = HomogenizedThermalConductivity
     chi = 'Tx_AEH Ty_AEH'
     row = 0
     col = 0
     execute_on = TIMESTEP_END
   []
-  [k_y_AEH] #Effective thermal conductivity in y-direction from AEH
+  [k_y_AEH]
+    #Effective thermal conductivity in y-direction from AEH
     type = HomogenizedThermalConductivity
     chi = 'Tx_AEH Ty_AEH'
     row = 1
@@ -673,7 +686,8 @@ initial_voltage = 0.0001
     pp_coefs = '0.5 0.5'
     pp_names = 'k_x_AEH k_y_AEH'
   []
-  [sigma_x_AEH] #Effective electrical conductivity in x-direction from AEH
+  [sigma_x_AEH]
+    #Effective electrical conductivity in x-direction from AEH
     type = HomogenizedThermalConductivity
     chi = 'Vx_AEH Vy_AEH'
     row = 0
@@ -681,7 +695,8 @@ initial_voltage = 0.0001
     execute_on = TIMESTEP_END
     diffusion_coefficient = electrical_conductivity
   []
-  [sigma_y_AEH] #Effective electrical conductivity in y-direction from AEH
+  [sigma_y_AEH]
+    #Effective electrical conductivity in y-direction from AEH
     type = HomogenizedThermalConductivity
     chi = 'Vx_AEH Vy_AEH'
     row = 1
