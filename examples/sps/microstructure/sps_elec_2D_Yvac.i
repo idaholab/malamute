@@ -241,7 +241,7 @@
     property_name = specific_heat
     coupled_variables = 'T'
     constant_names = 'molar_mass   JtoeV     cm3tonm3'
-    constant_expressions = '225.81       1.602e-19 1e-21' #
+    constant_expressions = '225.81  1.602e-19 1e-21' #
     expression = 'if(T<1503.7, (3.0183710318246e-19 * T^7 - 2.03644357435399e-15 * T^6
                               + 5.75283959486472e-12 * T^5 - 8.8224198737065e-09 * T^4
                               + 7.96030446457309e-06  * T^3 - 0.00427362972278911 * T^2
