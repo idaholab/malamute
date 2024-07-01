@@ -266,15 +266,19 @@ dt = 20
   marker = marker
   initial_marker = marker
   max_h_level = 2
-  [Indicators/indicator]
-    type = GradientJumpIndicator
-    variable = temp
+  [Indicators]
+    [indicator]
+      type = GradientJumpIndicator
+      variable = temp
+    []
   []
-  [Markers/marker]
-    type = ErrorFractionMarker
-    indicator = indicator
-    coarsen = 0 # coarsening is pending MOOSE PR #23078 being merged
-    refine = 0.5
+  [Markers]
+    [marker]
+      type = ErrorFractionMarker
+      indicator = indicator
+      coarsen = 0 # coarsening is pending MOOSE PR #23078 being merged
+      refine = 0.5
+    []
   []
 []
 
