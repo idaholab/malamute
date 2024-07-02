@@ -70,11 +70,13 @@
   []
 []
 
-[Functions/ls_exact]
-   type = LevelSetOlssonPlane
-   epsilon = 0.00008
-   point = '0.005 0.005 0.005'
-   normal = '0 0 1'
+[Functions]
+  [ls_exact]
+    type = LevelSetOlssonPlane
+    epsilon = 0.00008
+    point = '0.005 0.005 0.005'
+    normal = '0 0 1'
+  []
 []
 
 [BCs]
