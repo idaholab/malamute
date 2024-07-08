@@ -716,5 +716,4 @@ initial_current_density = -5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
   perf_graph = true
   csv = true
   exodus = true
-  #  checkpoint = true
 []
