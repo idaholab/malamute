@@ -1,4 +1,4 @@
-initial_temperature=1350
+initial_temperature = 1350
 
 [Mesh]
   type = GeneratedMesh
@@ -16,7 +16,6 @@ initial_temperature=1350
   reference_vector = 'ref'
   extra_tag_vectors = 'ref'
 []
-
 
 [Variables]
   [temperature]
@@ -44,7 +43,8 @@ initial_temperature=1350
   [sigma_aeh]
     initial_condition = 2.0e-10 #in units eV/((nV)^2-s-nm)
   []
-  [microapp_potential] #converted to microapp electronVolts units
+  [microapp_potential]
+    #converted to microapp electronVolts units
   []
   [E_x]
     order = FIRST
@@ -74,13 +74,13 @@ initial_temperature=1350
     density_name = yttria_density
     extra_vector_tags = 'ref'
   []
-  [./HeatSource_JouleHeating]
+  [HeatSource_JouleHeating]
     type = ADJouleHeatingSource
     variable = temperature
     elec = yttria_potential
     electrical_conductivity = yttria_electrical_conductivity
     extra_vector_tags = 'ref'
-  [../]
+  []
   [electric_yttria]
     type = ADMatDiffusion
     variable = yttria_potential
@@ -136,7 +136,7 @@ initial_temperature=1350
     type = FunctionDirichletBC
     boundary = left
     variable = temperature
-    function = '${initial_temperature} + 50.0/60.0*t'#'300.0 + 100.0/60.*t' # + 0.50*t/60.0'  #'3 + 100.0/60.*t' #stand-in for the 100C/min heating rate
+    function = '${initial_temperature} + 50.0/60.0*t' #'300.0 + 100.0/60.*t' # + 0.50*t/60.0'  #'3 + 100.0/60.*t' #stand-in for the 100C/min heating rate
   []
   [electric_top]
     type = FunctionDirichletBC
@@ -170,8 +170,8 @@ initial_temperature=1350
     expression = 'specific_heat_capacity_va' #in J/(K-kg)
     output_properties = yttria_specific_heat_capacity
     outputs = 'csv exodus'
-  [../]
-  [./yttria_density]
+  []
+  [yttria_density]
     type = ADParsedMaterial
     property_name = 'yttria_density'
     coupled_variables = 'density_va'
@@ -267,7 +267,7 @@ initial_temperature=1350
 [MultiApps]
   [micro]
     type = CentroidMultiApp # lauches one in the middle of each element so don't need to give positions
-      #can specify the number of procs
+    #can specify the number of procs
     max_procs_per_app = 1 #paolo recommends starting here
     app_type = MalamuteApp
     input_files = micro_yttria_thermoelectrical_demo.i
@@ -305,7 +305,7 @@ initial_temperature=1350
     variable = temperature_in
   []
   [temperaturepp_to_sub]
-   type = MultiAppVariableValueSamplePostprocessorTransfer
+    type = MultiAppVariableValueSamplePostprocessorTransfer
     to_multi_app = micro
     source_variable = temperature
     postprocessor = center_temperature
@@ -319,19 +319,18 @@ initial_temperature=1350
     postprocessor = sigma_AEH_average
   []
   [micro_potential_pp_to_sub]
-   type = MultiAppVariableValueSamplePostprocessorTransfer
+    type = MultiAppVariableValueSamplePostprocessorTransfer
     to_multi_app = micro
     source_variable = microapp_potential
     postprocessor = potential_in
   []
   [micro_current_density_pp_to_sub]
-   type = MultiAppVariableValueSamplePostprocessorTransfer
+    type = MultiAppVariableValueSamplePostprocessorTransfer
     to_multi_app = micro
     source_variable = microapp_current_density
     postprocessor = current_density_in
   []
 []
-
 
 [Outputs]
   csv = true
