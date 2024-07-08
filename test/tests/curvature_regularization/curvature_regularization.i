@@ -20,14 +20,18 @@
   []
 []
 
-[AuxVariables/ls]
+[AuxVariables]
+  [ls]
+  []
 []
 
-[AuxKernels/ls_aux]
-  type = FunctionAux
-  variable = ls
-  function = ls_func
-  execute_on = initial
+[AuxKernels]
+  [ls_aux]
+    type = FunctionAux
+    variable = ls
+    function = ls_func
+    execute_on = initial
+  []
 []
 
 [Variables]
@@ -39,23 +43,25 @@
 []
 
 [Kernels]
- [curvature]
-   type = LevelSetCurvatureRegularization
-   level_set_regularized_gradient = grad_ls
-   variable = curvature
-   varepsilon = 0.04
- []
- [grad_ls]
-   type = VariableGradientRegularization
-   regularized_var = ls
-   variable = grad_ls
- []
+  [curvature]
+    type = LevelSetCurvatureRegularization
+    level_set_regularized_gradient = grad_ls
+    variable = curvature
+    varepsilon = 0.04
+  []
+  [grad_ls]
+    type = VariableGradientRegularization
+    regularized_var = ls
+    variable = grad_ls
+  []
 []
 
-[Functions/ls_func]
-  type = LevelSetOlssonBubble
-  center = '0.5 0.5 0'
-  radius = 0.15
+[Functions]
+  [ls_func]
+    type = LevelSetOlssonBubble
+    center = '0.5 0.5 0'
+    radius = 0.15
+  []
 []
 
 [Preconditioning]
