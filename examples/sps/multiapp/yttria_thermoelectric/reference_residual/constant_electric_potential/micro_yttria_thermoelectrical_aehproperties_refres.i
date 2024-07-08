@@ -1,6 +1,6 @@
-initial_temperature=1350
-initial_voltage=3.95e7 #from the engineering scale at the specific element
-initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
+initial_temperature = 1350
+initial_voltage = 3.95e7 #from the engineering scale at the specific element
+initial_current_density = -5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
 # lower_flux=1.0e-9 #roughly calculated from the original marmot example problem
 
 [Mesh]
@@ -43,21 +43,26 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
   [PolycrystalVariables]
   []
 
-  [Tx_AEH] #Temperature used for the x-component of the AEH solve
+  [Tx_AEH]
+    #Temperature used for the x-component of the AEH solve
     initial_condition = ${initial_temperature} # should match the initial auxvariable value
     # scaling = 1.0e-4 #Scales residual to improve convergence
   []
-  [Ty_AEH] #Temperature used for the y-component of the AEH solve
+  [Ty_AEH]
+    #Temperature used for the y-component of the AEH solve
     initial_condition = ${initial_temperature}
     # scaling = 1.0e-4  #Scales residual to improve convergence
   []
 
-  [V] ##defined in nVolts
+  [V]
+    ##defined in nVolts
   []
-  [Vx_AEH] # Voltage potential used for the x-component of the AEH solve
+  [Vx_AEH]
+    # Voltage potential used for the x-component of the AEH solve
     initial_condition = ${initial_voltage} # should match the initial auxvariable value
   []
-  [Vy_AEH] #Voltage potential used for the y-component of the AEH solve
+  [Vy_AEH]
+    #Voltage potential used for the y-component of the AEH solve
     initial_condition = ${initial_voltage}
   []
 []
@@ -85,7 +90,7 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
 []
 
 [ICs]
-  [./phi_IC]
+  [phi_IC]
     type = SpecifiedSmoothCircleIC
     variable = phi
     x_positions = '20 20  60 60'
@@ -94,8 +99,8 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
     radii = '20 20 20 20'
     invalue = 0
     outvalue = 1
-  [../]
-  [./gr0_IC]
+  []
+  [gr0_IC]
     type = SmoothCircleIC
     variable = gr0
     x1 = 20
@@ -104,8 +109,8 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
     radius = 20
     invalue = 1
     outvalue = 0
-  [../]
-  [./gr1_IC]
+  []
+  [gr1_IC]
     type = SmoothCircleIC
     variable = gr1
     x1 = 20
@@ -114,8 +119,8 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
     radius = 20
     invalue = 1
     outvalue = 0
-  [../]
-  [./gr2_IC]
+  []
+  [gr2_IC]
     type = SmoothCircleIC
     variable = gr2
     x1 = 60
@@ -124,8 +129,8 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
     radius = 20
     invalue = 1
     outvalue = 0
-  [../]
-  [./gr3_IC]
+  []
+  [gr3_IC]
     type = SmoothCircleIC
     variable = gr3
     x1 = 60
@@ -134,7 +139,7 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
     radius = 20
     invalue = 1
     outvalue = 0
-  [../]
+  []
 []
 
 [BCs]
@@ -177,25 +182,29 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
       variable = Vy_AEH
     []
   []
-  [fix_AEH_Tx] #Fix Tx_AEH at a single point
+  [fix_AEH_Tx]
+    #Fix Tx_AEH at a single point
     type = PostprocessorDirichletBC
     variable = Tx_AEH
     postprocessor = center_temperature
     boundary = 1000
   []
-  [fix_AEH_Ty] #Fix Ty_AEH at a single point
+  [fix_AEH_Ty]
+    #Fix Ty_AEH at a single point
     type = PostprocessorDirichletBC
     variable = Ty_AEH
     postprocessor = center_temperature
     boundary = 1000
   []
-  [fix_AEH_Vx] #Fix Tx_AEH at a single point
+  [fix_AEH_Vx]
+    #Fix Tx_AEH at a single point
     type = PostprocessorDirichletBC
     variable = Vx_AEH
     postprocessor = potential_in
     boundary = 1000
   []
-  [fix_AEH_Vy] #Fix Ty_AEH at a single point
+  [fix_AEH_Vy]
+    #Fix Ty_AEH at a single point
     type = PostprocessorDirichletBC
     variable = Vy_AEH
     postprocessor = potential_in
@@ -203,25 +212,24 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
   []
 []
 
-
 [Materials]
   # Free energy coefficients for parabolic curves
-  [./ks]
+  [ks]
     type = ParsedMaterial
     property_name = ks
     coupled_variables = 'temperature_in'
     constant_names = 'a b'
     constant_expressions = '-0.0017 140.44'
     expression = 'a*temperature_in + b'
-  [../]
-  [./kv]
+  []
+  [kv]
     type = ParsedMaterial
     property_name = kv
     material_property_names = 'ks'
     expression = '10*ks'
-  [../]
+  []
   # Diffusivity and mobilities
-  [./chiD]
+  [chiD]
     type = GrandPotentialTensorMaterial
     f_name = chiD
     solid_mobility = L
@@ -237,9 +245,9 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
     bulkindex = 1
     gbindex = 1e6
     surfindex = 1e9
-  [../]
+  []
   # Everything else
-  [./cv_eq]
+  [cv_eq]
     type = DerivativeParsedMaterial
     property_name = cv_eq
     coupled_variables = 'gr0 gr1 gr2 gr3 temperature_in'
@@ -248,8 +256,8 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
     derivative_order = 2
     expression = 'c_B:=exp(-Ef/kB/temperature_in); bnds:=gr0^2 + gr1^2 + gr2^2 + gr3^2;
                 c_B + 4.0 * c_GB * (1.0 - bnds)^2'
-  [../]
-  [./sintering]
+  []
+  [sintering]
     type = GrandPotentialSinteringMaterial
     chemical_potential = w
     void_op = phi
@@ -260,10 +268,10 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
     solid_energy_coefficient = ks
     solid_energy_model = PARABOLIC
     equilibrium_vacancy_concentration = cv_eq
-  [../]
+  []
 
   # Concentration is only meant for output
-  [./c]
+  [c]
     type = ParsedMaterial
     property_name = c
     material_property_names = 'hs rhos hv rhov'
@@ -271,8 +279,8 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
     constant_expressions = '0.0774'
     expression = 'Va*(hs*rhos + hv*rhov)'
     outputs = exodus
-  [../]
-  [./f_bulk]
+  []
+  [f_bulk]
     type = ParsedMaterial
     property_name = f_bulk
     coupled_variables = 'phi gr0 gr1 gr2 gr3'
@@ -282,21 +290,21 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
                   + gamma*(phi^2*(gr0^2+gr1^2+gr2^2+gr3^2) + gr0^2*(gr1^2+gr2^2+gr3^2)
                   + gr1^2*(gr2^2 + gr3^2) + gr2^2*gr3^2) + 0.25)'
     outputs = exodus
-  [../]
-  [./f_switch]
+  []
+  [f_switch]
     type = ParsedMaterial
     property_name = f_switch
     coupled_variables = 'w'
     material_property_names = 'chi'
     expression = '0.5*w^2*chi'
     outputs = exodus
-  [../]
-  [./f0]
+  []
+  [f0]
     type = ParsedMaterial
     property_name = f0
     material_property_names = 'f_bulk f_switch'
     expression = 'f_bulk + f_switch'
-  [../]
+  []
 
   [electrical_conductivity]
     type = ADDerivativeParsedMaterial
@@ -318,8 +326,8 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
     type = ParsedMaterial
     property_name = thermal_conductivity
     coupled_variables = 'phi temperature_in'
-    constant_names =        'prefactor_void  prefactor_solid'
-    constant_expressions =  '0.025        3214.06' #in W/(m-K) #solid value from Larry's curve fitting, data from Klein and Croft, JAP, v. 38, p. 1603 and UC report "For Computer Heat Conduction Calculations - A compilation of thermal properties data" by A.L. Edwards, UCRL-50589 (1969)
+    constant_names = 'prefactor_void  prefactor_solid'
+    constant_expressions = '0.025        3214.06' #in W/(m-K) #solid value from Larry's curve fitting, data from Klein and Croft, JAP, v. 38, p. 1603 and UC report "For Computer Heat Conduction Calculations - A compilation of thermal properties data" by A.L. Edwards, UCRL-50589 (1969)
     expression = '(phi * prefactor_void + (1-phi) * prefactor_solid) / (temperature_in - 147.73)'
     outputs = exodus
   []
@@ -329,8 +337,8 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
     type = DerivativeParsedMaterial
     property_name = density
     coupled_variables = 'phi'
-    constant_names =        'density_void   density_solid'
-    constant_expressions =  '1.25           5.01e3' #units are kg/m^3
+    constant_names = 'density_void   density_solid'
+    constant_expressions = '1.25           5.01e3' #units are kg/m^3
     derivative_order = 2
     expression = 'phi * density_void + (1-phi) * density_solid'
     outputs = exodus
@@ -340,8 +348,8 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
     property_name = specific_heat
     coupled_variables = 'phi'
     material_property_names = 'specific_heat_yttria'
-    constant_names =        'specific_heat_void'
-    constant_expressions =  '1.005e3' #units are J/(K-kg)
+    constant_names = 'specific_heat_void'
+    constant_expressions = '1.005e3' #units are J/(K-kg)
     expression = 'phi * specific_heat_void + (1-phi) * specific_heat_yttria'
     outputs = exodus
   []
@@ -361,8 +369,8 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
 []
 
 [Modules]
-  [./PhaseField]
-    [./GrandPotential]
+  [PhaseField]
+    [GrandPotential]
       switching_function_names = 'hv hs'
       anisotropic = 'true'
 
@@ -381,26 +389,26 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
       mobility_name_op = Lv
       kappa_op = kappa
       free_energies_op = 'omegav omegas'
-    [../]
-  [../]
+    []
+  []
 []
 
 [Kernels]
-  [./barrier_phi]
+  [barrier_phi]
     type = ACBarrierFunction
     variable = phi
     v = 'gr0 gr1 gr2 gr3'
     gamma = gamma
     mob_name = Lv
     extra_vector_tags = 'ref'
-  [../]
-  [./kappa_phi]
+  []
+  [kappa_phi]
     type = ACKappaFunction
     variable = phi
     mob_name = Lv
     kappa_name = kappa
     extra_vector_tags = 'ref'
-  [../]
+  []
   [electric_yttria]
     type = ADMatDiffusion
     variable = V
@@ -432,7 +440,8 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
   #   args = 'phi'
   # [../]
 
-  [heat_x] #All other kernels are for AEH approach to calculate thermal cond.
+  [heat_x]
+    #All other kernels are for AEH approach to calculate thermal cond.
     type = HeatConduction
     variable = Tx_AEH
     diffusion_coefficient = thermal_conductivity
@@ -459,7 +468,8 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
     extra_vector_tags = 'ref'
   []
 
-  [voltage_x] #The following four kernels are for AEH approach to calculate electrical cond.
+  [voltage_x]
+    #The following four kernels are for AEH approach to calculate electrical cond.
     type = HeatConduction
     variable = Vx_AEH
     diffusion_coefficient = reg_electrical_conductivity
@@ -487,38 +497,37 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
   []
 []
 
-
 [AuxKernels]
-  [./bnds_aux]
+  [bnds_aux]
     type = BndsCalcAux
     variable = bnds
     execute_on = 'initial timestep_end'
-  [../]
-  [./F_aux]
+  []
+  [F_aux]
     type = TotalFreeEnergy
     variable = F_loc
     f_name = f0
     interfacial_vars = 'phi gr0 gr1 gr2 gr3'
     kappa_names = 'kappa kappa kappa kappa kappa'
-  [../]
-  [./negative_V]
+  []
+  [negative_V]
     type = ParsedAux
     variable = negative_V
-    coupled_variables  = V
+    coupled_variables = V
     expression = '-V'
-  [../]
-  [./E_x]
+  []
+  [E_x]
     type = VariableGradientComponent
     variable = E_x
     gradient_variable = negative_V
     component = x
-  [../]
-  [./E_y]
+  []
+  [E_y]
     type = VariableGradientComponent
     variable = E_y
     gradient_variable = negative_V
     component = y
-  [../]
+  []
 []
 
 [Postprocessors]
@@ -551,7 +560,8 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
     type = ElementAverageMaterialProperty
     mat_prop = density
   []
-  [k_x_AEH] #Effective thermal conductivity in x-direction from AEH
+  [k_x_AEH]
+    #Effective thermal conductivity in x-direction from AEH
     type = HomogenizedThermalConductivity
     chi = 'Tx_AEH Ty_AEH'
     row = 0
@@ -559,7 +569,8 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
     execute_on = TIMESTEP_END
     # scale_factor = 1e6 #Scale due to length scale of problem
   []
-  [k_y_AEH] #Effective thermal conductivity in x-direction from AEH
+  [k_y_AEH]
+    #Effective thermal conductivity in x-direction from AEH
     type = HomogenizedThermalConductivity
     chi = 'Tx_AEH Ty_AEH'
     row = 1
@@ -577,7 +588,8 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
     type = ADElementAverageMaterialProperty
     mat_prop = electrical_conductivity
   []
-  [sigma_x_AEH] #Effective electrical conductivity in x-direction from AEH
+  [sigma_x_AEH]
+    #Effective electrical conductivity in x-direction from AEH
     type = HomogenizedThermalConductivity
     chi = 'Vx_AEH Vy_AEH'
     row = 0
@@ -586,7 +598,8 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
     execute_on = TIMESTEP_END
     # scale_factor = 1e6 #Scale due to length scale of problem
   []
-  [sigma_y_AEH] #Effective electrical conductivity in x-direction from AEH
+  [sigma_y_AEH]
+    #Effective electrical conductivity in x-direction from AEH
     type = HomogenizedThermalConductivity
     chi = 'Vx_AEH Vy_AEH'
     row = 1
@@ -601,23 +614,23 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
     pp_names = 'sigma_x_AEH sigma_y_AEH'
   []
 
-  [./c_total]
+  [c_total]
     type = ElementIntegralMaterialProperty
     mat_prop = c
     outputs = csv
-  [../]
-  [./total_energy]
+  []
+  [total_energy]
     type = ElementIntegralVariablePostprocessor
     variable = F_loc
     outputs = csv
-  [../]
-  [./void_tracker]
+  []
+  [void_tracker]
     type = FeatureFloodCount
     execute_on = 'initial timestep_end'
     variable = phi
     threshold = 0.5
     compute_var_to_feature_map = true
-  [../]
+  []
   [rough_phi]
     type = ElementAverageValue
     variable = phi
@@ -636,18 +649,18 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
 # []
 
 [UserObjects]
-  [./terminator]
+  [terminator]
     type = Terminator
     expression = 'void_tracker = 1'
     execute_on = TIMESTEP_END
-  [../]
+  []
 []
 
 [Preconditioning]
-  [./SMP]
+  [SMP]
     type = SMP
     full = true
-  [../]
+  []
 []
 
 [Executioner]
@@ -685,12 +698,12 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
   dtmin = 1.0e-4
   timestep_tolerance = 1e-8
   # num_steps = 10
-  [./TimeStepper]
+  [TimeStepper]
     type = IterationAdaptiveDT
     dt = 10.0
     optimal_iterations = 8
     iteration_window = 2
-  [../]
+  []
   # [./Adaptivity]
   #   refine_fraction = 0.8
   #   coarsen_fraction = 0.2
@@ -703,5 +716,4 @@ initial_current_density=-5.6e-10 # -5.8e-10 #roughly for 1350K #nV/nm * \sigma
   perf_graph = true
   csv = true
   exodus = true
-#  checkpoint = true
 []

@@ -1,4 +1,4 @@
-initial_temperature=1350
+initial_temperature = 1350
 
 [Mesh]
   type = GeneratedMesh
@@ -16,7 +16,6 @@ initial_temperature=1350
   reference_vector = 'ref'
   extra_tag_vectors = 'ref'
 []
-
 
 [Variables]
   [temperature]
@@ -44,7 +43,8 @@ initial_temperature=1350
   [sigma_aeh]
     initial_condition = 2.0e-10 #in units eV/((nV)^2-s-nm)
   []
-  [microapp_potential] #converted to microapp electronVolts units
+  [microapp_potential]
+    #converted to microapp electronVolts units
   []
   [E_x]
     order = FIRST
@@ -151,7 +151,7 @@ initial_temperature=1350
     type = FunctionDirichletBC
     variable = yttria_potential
     boundary = top
-    function = '0.05'  #+1.0e-6*t'
+    function = '0.05' #+1.0e-6*t'
   []
   [electric_bottom]
     type = DirichletBC
@@ -179,8 +179,8 @@ initial_temperature=1350
     expression = 'specific_heat_capacity_va' #in J/(K-kg)
     output_properties = yttria_specific_heat_capacity
     outputs = 'csv exodus'
-  [../]
-  [./yttria_density]
+  []
+  [yttria_density]
     type = ADParsedMaterial
     property_name = 'yttria_density'
     coupled_variables = 'density_va'
@@ -314,7 +314,7 @@ initial_temperature=1350
   [micro]
     type = TransientMultiApp
     # type = CentroidMultiApp # lauches one in the middle of each element so don't need to give positions
-      #can specify the number of procs
+    #can specify the number of procs
     max_procs_per_app = 1 #paolo recommends starting here
     app_type = MalamuteApp
     positions = '0.00805 0.00295 0
@@ -362,7 +362,7 @@ initial_temperature=1350
     variable = temperature_in
   []
   [temperaturepp_to_sub]
-   type = MultiAppVariableValueSamplePostprocessorTransfer
+    type = MultiAppVariableValueSamplePostprocessorTransfer
     to_multi_app = micro
     source_variable = temperature
     postprocessor = center_temperature
@@ -376,19 +376,18 @@ initial_temperature=1350
     postprocessor = sigma_AEH_average
   []
   [micro_potential_pp_to_sub]
-   type = MultiAppVariableValueSamplePostprocessorTransfer
+    type = MultiAppVariableValueSamplePostprocessorTransfer
     to_multi_app = micro
     source_variable = microapp_potential
     postprocessor = potential_in
   []
   [micro_current_density_pp_to_sub]
-   type = MultiAppVariableValueSamplePostprocessorTransfer
+    type = MultiAppVariableValueSamplePostprocessorTransfer
     to_multi_app = micro
     source_variable = microapp_current_density
     postprocessor = current_density_in
   []
 []
-
 
 [Outputs]
   csv = true
