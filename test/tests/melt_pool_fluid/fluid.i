@@ -48,14 +48,18 @@
   []
 []
 
-[AuxVariables/ls]
+[AuxVariables]
+  [ls]
+  []
 []
 
-[Functions/ls_exact]
-   type = LevelSetOlssonPlane
-   epsilon = 0.0002
-   point = '0.005 0.005 0'
-   normal = '0 1 0'
+[Functions]
+  [ls_exact]
+    type = LevelSetOlssonPlane
+    epsilon = 0.0002
+    point = '0.005 0.005 0'
+    normal = '0 1 0'
+  []
 []
 
 [BCs]
