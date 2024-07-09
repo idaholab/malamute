@@ -22,55 +22,55 @@
 []
 
 [Variables]
-  [./graphite_potential]
-  [../]
+  [graphite_potential]
+  []
 []
 
 [AuxVariables]
-  [./temperature]
+  [temperature]
     initial_condition = 713.0
-  [../]
+  []
 []
 
 [Kernels]
-  [./electric_graphite]
+  [electric_graphite]
     type = ADMatDiffusion
     variable = graphite_potential
     diffusivity = ad_electrical_conductivity
-  [../]
+  []
 []
 
 [BCs]
-  [./elec_top]
+  [elec_top]
     type = DirichletBC
     variable = graphite_potential
     boundary = top
     value = 10
-  [../]
-  [./elec_bottom]
+  []
+  [elec_bottom]
     type = DirichletBC
     variable = graphite_potential
     boundary = bottom
     value = 0
-  [../]
+  []
 []
 
 [Materials]
-  [./graphite_electrical]
+  [graphite_electrical]
     type = GraphiteElectricalConductivity
     temperature = temperature
-  [../]
-  [./converter]
+  []
+  [converter]
     type = MaterialADConverter
     reg_props_in = electrical_conductivity
     ad_props_out = ad_electrical_conductivity
-  [../]
-  [./graphite_electrical_resistivity]
+  []
+  [graphite_electrical_resistivity]
     type = ParsedMaterial
     property_name = electrical_resistivity
     material_property_names = electrical_conductivity
     expression = '1 / electrical_conductivity'
-  [../]
+  []
 []
 
 [Executioner]
@@ -82,18 +82,17 @@
 []
 
 [Postprocessors]
-  [./max_temperature]
+  [max_temperature]
     type = NodalExtremeValue
     variable = temperature
     value_type = max
-  [../]
-  [./max_electrical_resistivity]
+  []
+  [max_electrical_resistivity]
     type = ElementExtremeMaterialProperty
     mat_prop = electrical_resistivity
     value_type = max
-  [../]
+  []
 []
-
 
 [Outputs]
   csv = true

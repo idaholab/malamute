@@ -12,27 +12,27 @@
 []
 
 [Variables]
-  [./temperature]
+  [temperature]
     initial_condition = 300.0
-  [../]
+  []
 []
 
 [Kernels]
-  [./HeatDiff]
+  [HeatDiff]
     type = HeatConduction
     variable = temperature
     diffusion_coefficient = yttria_thermal_conductivity
-  [../]
-  [./HeatTdot]
+  []
+  [HeatTdot]
     type = SpecificHeatConductionTimeDerivative
     variable = temperature
     specific_heat = yttria_specific_heat_capacity
     density = yttria_density
-  [../]
+  []
 []
 
 [BCs]
-  [./external_surface]
+  [external_surface]
     type = InfiniteCylinderRadiativeBC
     boundary = right
     variable = temperature
@@ -40,30 +40,30 @@
     boundary_radius = 0.01
     cylinder_radius = 1
     boundary_emissivity = 0.9
-  [../]
-  [./top_surface]
+  []
+  [top_surface]
     type = FunctionDirichletBC
     boundary = top
     variable = temperature
     function = '293 + 100.0/60.*t' #stand-in for the 100C/min heating rate
-  [../]
+  []
 []
 
 [Materials]
-  [./yttria_thermal_conductivity]
+  [yttria_thermal_conductivity]
     type = ParsedMaterial
     coupled_variables = 'temperature'
     expression = '3214.46 / (temperature - 147.73)' #in W/(m-K)
     property_name = 'yttria_thermal_conductivity'
     output_properties = yttria_thermal_conductivity
     outputs = 'csv exodus'
-  [../]
-  [./yttria_specific_heat_capacity]
+  []
+  [yttria_specific_heat_capacity]
     type = DerivativeParsedMaterial
     property_name = yttria_specific_heat_capacity
     coupled_variables = 'temperature'
-    constant_names =        'molar_mass    gtokg'
-    constant_expressions =  '225.81         1.0e3' #
+    constant_names = 'molar_mass    gtokg'
+    constant_expressions = '225.81         1.0e3' #
     expression = 'if(temperature<1503.7, (3.0183710318246e-19 * temperature^7 - 2.03644357435399e-15 * temperature^6
                               + 5.75283959486472e-12 * temperature^5 - 8.8224198737065e-09 * temperature^4
                               + 7.96030446457309e-06  * temperature^3 - 0.00427362972278911 * temperature^2
@@ -71,19 +71,19 @@
                   (0.0089*temperature + 119.59) / molar_mass * gtokg)' #in J/(K-kg)
     output_properties = yttria_specific_heat_capacity
     outputs = 'csv exodus'
-  [../]
-  [./yttria_density]
+  []
+  [yttria_density]
     type = GenericConstantMaterial
     prop_names = 'yttria_density'
     prop_values = 5.01e3 #in kg/m^3, 5.01 g/cm^3
-  [../]
+  []
 []
 
 [Preconditioning]
-  [./SMP]
+  [SMP]
     type = SMP
     full = true
-  [../]
+  []
 []
 
 [Executioner]
@@ -104,20 +104,19 @@
 []
 
 [Postprocessors]
-  [./temperature]
+  [temperature]
     type = AverageNodalVariableValue
     variable = temperature
-  [../]
-  [./yttria_thermal_conductivity]
+  []
+  [yttria_thermal_conductivity]
     type = ElementAverageValue
     variable = yttria_thermal_conductivity
-  [../]
-  [./yttria_specific_heat_capacity]
+  []
+  [yttria_specific_heat_capacity]
     type = ElementAverageValue
     variable = yttria_specific_heat_capacity
-  [../]
+  []
 []
-
 
 [Outputs]
   csv = true

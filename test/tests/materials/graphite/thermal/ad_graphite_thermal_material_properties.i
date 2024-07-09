@@ -28,44 +28,44 @@
 []
 
 [Variables]
-  [./temperature]
+  [temperature]
     initial_condition = 500.0
-  [../]
+  []
 []
 
 [Kernels]
-  [./HeatDiff]
+  [HeatDiff]
     type = ADHeatConduction
     variable = temperature
-  [../]
-  [./HeatTdot]
+  []
+  [HeatTdot]
     type = ADHeatConductionTimeDerivative
     variable = temperature
     specific_heat = heat_capacity
     density_name = graphite_density
-  [../]
+  []
 []
 
 [BCs]
-  [./top_surface]
+  [top_surface]
     type = ADFunctionDirichletBC
     boundary = top
     variable = temperature
     function = '500 + 200.0/60.*t' #stand-in for the 200C/min heating rate
-  [../]
+  []
 []
 
 [Materials]
-  [./graphite_thermal]
+  [graphite_thermal]
     type = ADGraphiteThermal
     temperature = temperature
     output_properties = all
-  [../]
-  [./graphite_density]
+  []
+  [graphite_density]
     type = ADGenericConstantMaterial
     prop_names = 'graphite_density'
     prop_values = 1.750e3 #in kg/m^3 from Cincotti et al 2007, Table 2, doi:10.1002/aic
-  [../]
+  []
 []
 
 [Executioner]
@@ -83,23 +83,22 @@
 []
 
 [Postprocessors]
-  [./max_temperature]
+  [max_temperature]
     type = NodalExtremeValue
     variable = temperature
     value_type = max
-  [../]
-  [./max_thermal_conductivity]
+  []
+  [max_thermal_conductivity]
     type = ADElementExtremeMaterialProperty
     mat_prop = thermal_conductivity
     value_type = max
-  [../]
-  [./max_heat_capacity]
+  []
+  [max_heat_capacity]
     type = ADElementExtremeMaterialProperty
     mat_prop = heat_capacity
     value_type = max
-  [../]
+  []
 []
-
 
 [Outputs]
   csv = true

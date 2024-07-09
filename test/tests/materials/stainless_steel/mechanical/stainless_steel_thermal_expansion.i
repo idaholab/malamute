@@ -11,90 +11,90 @@
 []
 
 [Mesh]
-  [./mesh]
+  [mesh]
     type = PatchMeshGenerator
     dim = 2
-  [../]
+  []
   coord_type = RZ
 []
 
 [AuxVariables]
-  [./temperature]
+  [temperature]
     initial_condition = 300.0
-  [../]
+  []
 []
 
 [AuxKernels]
-  [./temp_aux]
+  [temp_aux]
     type = FunctionAux
     variable = temperature
     function = temp_ramp
-  [../]
+  []
 []
 
 [Functions]
-  [./temp_ramp]
+  [temp_ramp]
     type = ParsedFunction
     expression = '300 + 100.0/60.*t' #stand-in for a 100C/min heating rate
-  [../]
-  [./thermal_expansion]
+  []
+  [thermal_expansion]
     type = ParsedFunction
     symbol_names = T
     symbol_values = temperature
     expression = 'if(T>588, (1.84e-5), if(T>373, (1.78e-5), (1.72e-5)))'
-  [../]
-  [./thexp_exact]
+  []
+  [thexp_exact]
     type = ParsedFunction
     symbol_names = 'ref_temperature thermal_expansion temperature'
     symbol_values = '300.0 thermal_expansion temperature'
     expression = 'thermal_expansion * (temperature - ref_temperature)'
-  [../]
+  []
 []
 
 [Physics]
   [SolidMechanics]
     [QuasiStatic]
-      [./all]
+      [all]
         strain = SMALL
         decomposition_method = EigenSolution
         add_variables = true
         eigenstrain_names = stainless_steel_thermal_expansion
         generate_output = 'strain_xx'
-      [../]
-    [../]
-  [../]
+      []
+    []
+  []
 []
 
 [BCs]
-  [./left]
+  [left]
     type = DirichletBC
     variable = disp_x
     value = 0
     boundary = left
-  [../]
-  [./bottom]
+  []
+  [bottom]
     type = DirichletBC
     variable = disp_y
     value = 0
     boundary = bottom
-  [../]
+  []
 []
 
 [Materials]
-  [./elasticity_tensor]
+  [elasticity_tensor]
     type = ComputeIsotropicElasticityTensor
     youngs_modulus = 1
     poissons_ratio = 0.3
-  [../]
-  [./stainless_steel_thermal_expansion]
+  []
+  [stainless_steel_thermal_expansion]
     type = StainlessSteelThermalExpansionEigenstrain
     eigenstrain_name = stainless_steel_thermal_expansion
     stress_free_temperature = 300
     temperature = temperature
-  [../]
-  [./stress]
+  []
+  [stress]
     type = ComputeLinearElasticStress
-  [../]
+  []
 []
 
 [Executioner]
@@ -111,31 +111,30 @@
 []
 
 [Postprocessors]
-  [./temperature]
+  [temperature]
     type = ElementAverageValue
     variable = temperature
-  [../]
-  [./strain_xx]
+  []
+  [strain_xx]
     type = ElementAverageValue
     variable = strain_xx
-  [../]
-  [./thexp_exact]
+  []
+  [thexp_exact]
     type = FunctionValuePostprocessor
     function = thexp_exact
-  [../]
-  [./thexp_diff]
+  []
+  [thexp_diff]
     type = DifferencePostprocessor
     value1 = strain_xx
     value2 = thexp_exact
     outputs = none
-  [../]
-  [./thexp_max_diff]
+  []
+  [thexp_max_diff]
     type = TimeExtremeValue
     postprocessor = thexp_diff
     value_type = abs_max
-  [../]
+  []
 []
-
 
 [Outputs]
   csv = true
