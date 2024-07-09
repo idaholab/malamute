@@ -127,21 +127,25 @@ dt = 200
   []
 []
 
-[Physics/SolidMechanics/QuasiStatic]
-  strain = FINITE
-  incremental = true
-  generate_output = 'stress_xx stress_yy stress_zz stress_xy stress_yz stress_xz strain_yy strain_xx '
-                    'strain_zz strain_xy strain_xz strain_yz'
-  use_automatic_differentiation = true
-  [product]
-    block = '2'
-    eigenstrain_names = 'thermal_eigenstrain_product'
-    use_automatic_differentiation = true
-  []
-  [substrate]
-    block = '3'
-    eigenstrain_names = 'thermal_eigenstrain_substrate'
-    use_automatic_differentiation = true
+[Physics]
+  [SolidMechanics]
+    [QuasiStatic]
+      strain = FINITE
+      incremental = true
+      generate_output = 'stress_xx stress_yy stress_zz stress_xy stress_yz stress_xz strain_yy strain_xx '
+                        'strain_zz strain_xy strain_xz strain_yz'
+      use_automatic_differentiation = true
+      [product]
+        block = '2'
+        eigenstrain_names = 'thermal_eigenstrain_product'
+        use_automatic_differentiation = true
+      []
+      [substrate]
+        block = '3'
+        eigenstrain_names = 'thermal_eigenstrain_substrate'
+        use_automatic_differentiation = true
+      []
+    []
   []
 []
 
@@ -255,15 +259,19 @@ dt = 200
   marker = marker
   initial_marker = marker
   max_h_level = 3
-  [Indicators/indicator]
-    type = GradientJumpIndicator
-    variable = temp_aux
+  [Indicators]
+    [indicator]
+      type = GradientJumpIndicator
+      variable = temp_aux
+    []
   []
-  [Markers/marker]
-    type = ErrorFractionMarker
-    indicator = indicator
-    coarsen = 0 # coarsening is pending MOOSE PR #23078 being merged
-    refine = 0.5
+  [Markers]
+    [marker]
+      type = ErrorFractionMarker
+      indicator = indicator
+      coarsen = 0 # coarsening is pending MOOSE PR #23078 being merged
+      refine = 0.5
+    []
   []
 []
 
