@@ -9,11 +9,11 @@
   dim = 2 # Problem dimension
   nx = 11 # Number of elements in the x-direction
   ny = 11 # Number of elements in the y-direction
-  xmin = 0    # minimum x-coordinate of the mesh
+  xmin = 0 # minimum x-coordinate of the mesh
   xmax = 1e5 # maximum x-coordinate of the mesh
-  ymin = 0    # minimum y-coordinate of the mesh
+  ymin = 0 # minimum y-coordinate of the mesh
   ymax = 1e5 # maximum y-coordinate of the mesh
-  elem_type = QUAD4  # Type of elements used in the mesh
+  elem_type = QUAD4 # Type of elements used in the mesh
   uniform_refine = 3 # Initial uniform refinement of the mesh
 
   parallel_type = replicated # Periodic BCs
@@ -27,123 +27,123 @@
 
 [Variables]
   # Variable block, where all variables in the simulation are declared
-  [./PolycrystalVariables]
-  [../]
+  [PolycrystalVariables]
+  []
 []
 
 [UserObjects]
-  [./voronoi]
+  [voronoi]
     type = PolycrystalVoronoi
     grain_num = 100 # Number of grains
     rand_seed = 10
-  [../]
-  [./grain_tracker]
+  []
+  [grain_tracker]
     type = GrainTracker
     threshold = 0.2
     connecting_threshold = 0.08
     compute_halo_maps = true # Only necessary for displaying HALOS
-  [../]
+  []
 []
 
 [ICs]
-  [./PolycrystalICs]
-    [./PolycrystalColoringIC]
+  [PolycrystalICs]
+    [PolycrystalColoringIC]
       polycrystal_ic_uo = voronoi
-    [../]
-  [../]
+    []
+  []
 []
 
 [AuxVariables]
   # Dependent variables
-  [./bnds]
+  [bnds]
     # Variable used to visualize the grain boundaries in the simulation
-  [../]
-  [./unique_grains]
+  []
+  [unique_grains]
     order = CONSTANT
     family = MONOMIAL
-  [../]
-  [./var_indices]
+  []
+  [var_indices]
     order = CONSTANT
     family = MONOMIAL
-  [../]
-  [./ghost_regions]
+  []
+  [ghost_regions]
     order = CONSTANT
     family = MONOMIAL
-  [../]
-  [./halos]
+  []
+  [halos]
     order = CONSTANT
     family = MONOMIAL
-  [../]
-  [./T_1000K]
+  []
+  [T_1000K]
     initial_condition = 0.298
-  [../]
-  [./T]
+  []
+  [T]
     initial_condition = 298
-  [../]
+  []
 []
 
 [Kernels]
   # Kernel block, where the kernels defining the residual equations are set up.
-  [./PolycrystalKernel]
+  [PolycrystalKernel]
     # Custom action creating all necessary kernels for grain growth.  All input parameters are up in GlobalParams
-  [../]
+  []
 []
 
 [AuxKernels]
   # AuxKernel block, defining the equations used to calculate the auxvars
-  [./bnds_aux]
+  [bnds_aux]
     # AuxKernel that calculates the GB term
     type = BndsCalcAux
     variable = bnds
     execute_on = 'initial timestep_end'
-  [../]
-  [./unique_grains]
+  []
+  [unique_grains]
     type = FeatureFloodCountAux
     variable = unique_grains
     flood_counter = grain_tracker
     field_display = UNIQUE_REGION
     execute_on = 'initial timestep_end'
-  [../]
-  [./var_indices]
+  []
+  [var_indices]
     type = FeatureFloodCountAux
     variable = var_indices
     flood_counter = grain_tracker
     field_display = VARIABLE_COLORING
     execute_on = 'initial timestep_end'
-  [../]
-  [./ghosted_entities]
+  []
+  [ghosted_entities]
     type = FeatureFloodCountAux
     variable = ghost_regions
     flood_counter = grain_tracker
     field_display = GHOSTED_ENTITIES
     execute_on = 'initial timestep_end'
-  [../]
-  [./halos]
+  []
+  [halos]
     type = FeatureFloodCountAux
     variable = halos
     flood_counter = grain_tracker
     field_display = HALOS
     execute_on = 'initial timestep_end'
-  [../]
-  [./temp_conversion]
+  []
+  [temp_conversion]
     type = ParsedAux
     coupled_variables = 'T_1000K'
     expression = '1000 * T_1000K'
     variable = T
-  [../]
+  []
 []
 
 [BCs]
   # Boundary Condition block
-  [./Periodic]
-    [./top_bottom]
+  [Periodic]
+    [top_bottom]
       auto_direction = 'x y'
-    [../]
-  [../]
+    []
+  []
 []
 
 [Materials]
-  [./CuGrGr]
+  [CuGrGr]
     # Material properties
     type = GBEvolution
     T = T # Specified temperature profile
@@ -151,18 +151,18 @@
     GBmob0 = 3.19e-4 #m^4(Js) for copper from Schoenfelder1997
     Q = 0.23 #eV for copper from Schoenfelder1997
     GBenergy = 0.708 #J/m^2 from Schoenfelder1997
-  [../]
+  []
 []
 
 [Postprocessors]
   # Scalar postprocessors
-  [./dt]
+  [dt]
     # Outputs the current time step
     type = TimestepSize
-  [../]
-  [./num_dofs]
+  []
+  [num_dofs]
     type = NumDOFs
-  [../]
+  []
 []
 
 [Preconditioning]
@@ -191,26 +191,26 @@
   start_time = 0.0
   end_time = 4800
 
-  [./TimeStepper]
+  [TimeStepper]
     type = IterationAdaptiveDT
     dt = 25 # Initial time step.  In this simulation it changes.
     optimal_iterations = 8 # Time step will adapt to maintain this number of nonlinear iterations
-  [../]
+  []
 
-  [./Adaptivity]
+  [Adaptivity]
     # Block that turns on mesh adaptivity. Note that mesh will never coarsen beyond initial mesh (before uniform refinement)
     initial_adaptivity = 2 # Number of times mesh is adapted to initial condition
     refine_fraction = 0.7 # Fraction of high error that will be refined
     coarsen_fraction = 0.1 # Fraction of low error that will coarsened
     max_h_level = 4 # Max number of refinements used, starting from initial mesh (before uniform refinement)
-  [../]
+  []
 []
 
 [Outputs]
   exodus = true # Exodus file will be outputted
   csv = true
-  [./console]
+  [console]
     type = Console
     max_rows = 20 # Will print the 20 most recent postprocessor values to the screen
-  [../]
+  []
 []
