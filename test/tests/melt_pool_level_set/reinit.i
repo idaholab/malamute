@@ -1,13 +1,15 @@
-[Mesh/gen]
-  type = GeneratedMeshGenerator
-  dim = 2
-  xmin = 0
-  xmax = 0.01
-  ymin = 0
-  ymax = 0.01
-  nx = 50
-  ny = 50
-  elem_type = QUAD4
+[Mesh]
+  [gen]
+    type = GeneratedMeshGenerator
+    dim = 2
+    xmin = 0
+    xmax = 0.01
+    ymin = 0
+    ymax = 0.01
+    nx = 50
+    ny = 50
+    elem_type = QUAD4
+  []
 []
 
 [Variables]
