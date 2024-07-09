@@ -1,13 +1,15 @@
-[Mesh/gen]
-  type = GeneratedMeshGenerator
-  dim = 2
-  xmin = 0
-  xmax = 1
-  ymin = 0
-  ymax = 1
-  nx = 40
-  ny = 40
-  elem_type = QUAD4
+[Mesh]
+  [gen]
+    type = GeneratedMeshGenerator
+    dim = 2
+    xmin = 0
+    xmax = 1
+    ymin = 0
+    ymax = 1
+    nx = 40
+    ny = 40
+    elem_type = QUAD4
+  []
 []
 
 [ICs]
@@ -26,11 +28,13 @@
   []
 []
 
-[Functions/ls_exact]
-  type = LevelSetOlssonPlane
-  epsilon = 0.04
-  point = '0.5 0.5 0'
-  normal = '0 1 0'
+[Functions]
+  [ls_exact]
+    type = LevelSetOlssonPlane
+    epsilon = 0.04
+    point = '0.5 0.5 0'
+    normal = '0 1 0'
+  []
 []
 
 [Kernels]
