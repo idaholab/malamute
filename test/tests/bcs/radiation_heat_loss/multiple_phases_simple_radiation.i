@@ -25,41 +25,41 @@
 []
 
 [Variables]
-  [./temperature]
+  [temperature]
     initial_condition = 400.0
-  [../]
+  []
 []
 
 [Kernels]
-  [./heat]
+  [heat]
     type = HeatConduction
     variable = temperature
-  [../]
+  []
 []
 
 [BCs]
-  [./heatloss]
+  [heatloss]
     type = ADCoupledSimpleRadiativeHeatFluxBC
     boundary = right
     variable = temperature
     T_infinity = '293 293'
     emissivity = '0.95 0.07'
     alpha = '0.4 0.6'
-  [../]
-  [./insulation]
+  []
+  [insulation]
     type = DirichletBC
     boundary = 'left'
     variable = temperature
     value = 400
-  [../]
+  []
 []
 
 [Materials]
-  [./density]
+  [density]
     type = GenericConstantMaterial
     prop_names = 'thermal_conductivity'
     prop_values = '1e3'
-  [../]
+  []
 []
 
 [Executioner]
@@ -68,17 +68,17 @@
 []
 
 [Postprocessors]
-  [./right_temperature]
+  [right_temperature]
     type = SideAverageValue
     variable = temperature
     boundary = right
-  [../]
-  [./right_heatflux]
+  []
+  [right_heatflux]
     type = SideDiffusiveFluxIntegral
     variable = temperature
     boundary = right
     diffusivity = thermal_conductivity
-  [../]
+  []
 []
 
 [Outputs]
