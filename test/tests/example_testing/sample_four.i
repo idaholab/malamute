@@ -30,256 +30,256 @@
 # Reference: Cincotti et al, DOI 10.1002/aic.11102
 
 [Mesh]
-  [./import_mesh]
+  [import_mesh]
     type = FileMeshGenerator
     file = spsdie_table1model4_2d.e
-  [../]
+  []
   coord_type = RZ
 []
 
 [Variables]
-  [./temperature_graphite]
+  [temperature_graphite]
     initial_condition = 293.0
     block = graphite
-  [../]
-  [./temperature_stainless_steel]
+  []
+  [temperature_stainless_steel]
     initial_condition = 293.0
     block = stainless_steel
-  [../]
-  [./potential_graphite]
+  []
+  [potential_graphite]
     block = graphite
-  [../]
-  [./potential_stainless_steel]
+  []
+  [potential_stainless_steel]
     block = stainless_steel
-  [../]
+  []
 []
 
 [AuxVariables]
-  [./electric_field_r]
+  [electric_field_r]
     family = MONOMIAL
     order = CONSTANT
-  [../]
-  [./electric_field_z]
+  []
+  [electric_field_z]
     family = MONOMIAL
     order = CONSTANT
-  [../]
-  [./current_density]
+  []
+  [current_density]
     family = NEDELEC_ONE
     order = FIRST
-  [../]
-  [./T_infinity]
+  []
+  [T_infinity]
     initial_condition = 293.0
-  [../]
-  [./heatflux_graphite_r]
+  []
+  [heatflux_graphite_r]
     family = MONOMIAL
     order = CONSTANT
     block = graphite
-  [../]
-  [./heatflux_graphite_z]
+  []
+  [heatflux_graphite_z]
     family = MONOMIAL
     order = CONSTANT
     block = graphite
-  [../]
-  [./heatflux_stainless_steel_r]
+  []
+  [heatflux_stainless_steel_r]
     family = MONOMIAL
     order = CONSTANT
     block = stainless_steel
-  [../]
-  [./heatflux_stainless_steel_z]
+  []
+  [heatflux_stainless_steel_z]
     family = MONOMIAL
     order = CONSTANT
     block = stainless_steel
-  [../]
+  []
 []
 
 [Kernels]
-  [./HeatDiff_graphite]
+  [HeatDiff_graphite]
     type = ADHeatConduction
     variable = temperature_graphite
     block = graphite
-  [../]
-  [./HeatTdot_graphite]
+  []
+  [HeatTdot_graphite]
     type = ADHeatConductionTimeDerivative
     variable = temperature_graphite
     specific_heat = heat_capacity
     block = graphite
-  [../]
-  [./HeatSource_graphite]
+  []
+  [HeatSource_graphite]
     type = ADJouleHeatingSource
     variable = temperature_graphite
     elec = potential_graphite
     block = graphite
-  [../]
+  []
 
-  [./HeatDiff_stainless_steel]
+  [HeatDiff_stainless_steel]
     type = ADHeatConduction
     variable = temperature_stainless_steel
     block = stainless_steel
-  [../]
-  [./HeatTdot_stainless_steel]
+  []
+  [HeatTdot_stainless_steel]
     type = ADHeatConductionTimeDerivative
     variable = temperature_stainless_steel
     specific_heat = heat_capacity
     block = stainless_steel
-  [../]
-  [./HeatSource_stainless_steel]
+  []
+  [HeatSource_stainless_steel]
     type = ADJouleHeatingSource
     variable = temperature_stainless_steel
     elec = potential_stainless_steel
     block = stainless_steel
-  [../]
+  []
 
-  [./electric_graphite]
+  [electric_graphite]
     type = ADMatDiffusion
     variable = potential_graphite
     diffusivity = electrical_conductivity
     block = graphite
-  [../]
-  [./electric_stainless_steel]
+  []
+  [electric_stainless_steel]
     type = ADMatDiffusion
     variable = potential_stainless_steel
     diffusivity = electrical_conductivity
     block = stainless_steel
-  [../]
+  []
 []
 
 [AuxKernels]
-  [./electrostatic_calculation_r_graphite]
+  [electrostatic_calculation_r_graphite]
     type = PotentialToFieldAux
     gradient_variable = potential_graphite
     variable = electric_field_r
     sign = negative
     component = x
     block = graphite
-  [../]
-  [./electrostatic_calculation_z_graphite]
+  []
+  [electrostatic_calculation_z_graphite]
     type = PotentialToFieldAux
     gradient_variable = potential_graphite
     variable = electric_field_z
     sign = negative
     component = y
     block = graphite
-  [../]
-  [./electrostatic_calculation_r_stainless_steel]
+  []
+  [electrostatic_calculation_r_stainless_steel]
     type = PotentialToFieldAux
     gradient_variable = potential_stainless_steel
     variable = electric_field_r
     sign = negative
     component = x
     block = stainless_steel
-  [../]
-  [./electrostatic_calculation_z_stainless_steel]
+  []
+  [electrostatic_calculation_z_stainless_steel]
     type = PotentialToFieldAux
     gradient_variable = potential_stainless_steel
     variable = electric_field_z
     sign = negative
     component = y
     block = stainless_steel
-  [../]
-  [./current_density_graphite]
+  []
+  [current_density_graphite]
     type = ADCurrentDensity
     variable = current_density
     potential = potential_graphite
     block = graphite
-  [../]
-  [./current_density_stainless_steel]
+  []
+  [current_density_stainless_steel]
     type = ADCurrentDensity
     variable = current_density
     potential = potential_stainless_steel
     block = stainless_steel
-  [../]
-  [./heat_flux_graphite_r]
+  []
+  [heat_flux_graphite_r]
     type = DiffusionFluxAux
     diffusivity = nonad_thermal_conductivity
     diffusion_variable = temperature_graphite
     variable = heatflux_graphite_r
     component = x
     block = graphite
-  [../]
-  [./heat_flux_graphite_z]
+  []
+  [heat_flux_graphite_z]
     type = DiffusionFluxAux
     diffusivity = nonad_thermal_conductivity
     diffusion_variable = temperature_graphite
     variable = heatflux_graphite_z
     component = y
     block = graphite
-  [../]
-  [./heat_flux_stainless_r]
+  []
+  [heat_flux_stainless_r]
     type = DiffusionFluxAux
     diffusivity = nonad_thermal_conductivity
     diffusion_variable = temperature_stainless_steel
     variable = heatflux_stainless_steel_r
     block = stainless_steel
     component = x
-  [../]
-  [./heat_flux_stainless_z]
+  []
+  [heat_flux_stainless_z]
     type = DiffusionFluxAux
     diffusivity = nonad_thermal_conductivity
     diffusion_variable = temperature_stainless_steel
     variable = heatflux_stainless_steel_z
     block = stainless_steel
     component = y
-  [../]
+  []
 []
 
 [BCs]
-  [./external_surface_stainless]
+  [external_surface_stainless]
     type = ADCoupledSimpleRadiativeHeatFluxBC
     boundary = right_die_stainless_steel
     variable = temperature_stainless_steel
     T_infinity = T_infinity
     emissivity = 0.4
-  [../]
-  [./external_surface_graphite]
+  []
+  [external_surface_graphite]
     type = ADCoupledSimpleRadiativeHeatFluxBC
     boundary = right_die_graphite
     variable = temperature_graphite
     T_infinity = T_infinity
     emissivity = 0.85
-  [../]
-  [./water_channel]
+  []
+  [water_channel]
     type = CoupledConvectiveHeatFluxBC
     boundary = water_channel
     variable = temperature_stainless_steel
     T_infinity = 293
     htc = 4725
-  [../]
-  [./temp_top]
+  []
+  [temp_top]
     type = ADDirichletBC
     variable = temperature_stainless_steel
     boundary = top_die
     value = 293
-  [../]
-  [./temp_bottom]
+  []
+  [temp_bottom]
     type = ADDirichletBC
     variable = temperature_stainless_steel
     boundary = bottom_die
     value = 293
-  [../]
-  [./elec_top]
+  []
+  [elec_top]
     type = ADFunctionNeumannBC
     variable = potential_stainless_steel
     boundary = top_die
     function = 'if(t < 31, (980 / (pi * 0.00155))*((0.141301/4.3625)*t), if(t > 600, 0, 980 / (pi * 0.00155)))' # RMS Current / Cross-sectional Area. Ramping for t < 31s approximately reflects Cincotti et al (DOI: 10.1002/aic.11102) Figure 21(b)
-  [../]
-  [./elec_bottom]
+  []
+  [elec_bottom]
     type = ADDirichletBC
     variable = potential_stainless_steel
     boundary = bottom_die
     value = 0
-  [../]
+  []
 []
 
 [InterfaceKernels]
-  [./electric_contact_conductance_ssg]
+  [electric_contact_conductance_ssg]
     type = ElectrostaticContactCondition
     variable = potential_stainless_steel
     neighbor_var = potential_graphite
     boundary = ssg_interface
     mean_hardness = graphite_stainless_mean_hardness
     mechanical_pressure = mechanical_pressure_func
-  [../]
-  [./thermal_contact_conductance_calculated_ssg]
+  []
+  [thermal_contact_conductance_calculated_ssg]
     type = ThermalContactCondition
     variable = temperature_stainless_steel
     neighbor_var = temperature_graphite
@@ -292,16 +292,16 @@
     mean_hardness = graphite_stainless_mean_hardness
     mechanical_pressure = mechanical_pressure_func
     boundary = ssg_interface
-  [../]
-  [./electric_contact_conductance_gss]
+  []
+  [electric_contact_conductance_gss]
     type = ElectrostaticContactCondition
     variable = potential_graphite
     neighbor_var = potential_stainless_steel
     boundary = gss_interface
     mean_hardness = graphite_stainless_mean_hardness
     mechanical_pressure = mechanical_pressure_func
-  [../]
-  [./thermal_contact_conductance_calculated_gss]
+  []
+  [thermal_contact_conductance_calculated_gss]
     type = ThermalContactCondition
     variable = temperature_graphite
     neighbor_var = temperature_stainless_steel
@@ -314,66 +314,66 @@
     mean_hardness = graphite_stainless_mean_hardness
     mechanical_pressure = mechanical_pressure_func
     boundary = gss_interface
-  [../]
+  []
 []
 
 [Materials]
   #graphite
-  [./heat_conductor_graphite]
+  [heat_conductor_graphite]
     type = ADGraphiteThermal
     temperature = temperature_graphite
     block = graphite
-  [../]
-  [./rho_graphite]
+  []
+  [rho_graphite]
     type = ADGenericConstantMaterial
     prop_names = 'density'
     prop_values = 1750
     block = graphite
-  [../]
-  [./sigma_graphite]
+  []
+  [sigma_graphite]
     type = ADGraphiteElectricalConductivity
     temperature = temperature_graphite
     block = graphite
-  [../]
+  []
 
   #stainless_steel
-  [./heat_conductor_stainless_steel]
+  [heat_conductor_stainless_steel]
     type = ADStainlessSteelThermal
     temperature = temperature_stainless_steel
     block = stainless_steel
-  [../]
-  [./rho_stainless_steel]
+  []
+  [rho_stainless_steel]
     type = ADGenericConstantMaterial
     prop_names = 'density'
     prop_values = 8000
     block = stainless_steel
-  [../]
-  [./sigma_stainless_steel]
+  []
+  [sigma_stainless_steel]
     type = ADStainlessSteelElectricalConductivity
     temperature = temperature_stainless_steel
     block = stainless_steel
-  [../]
+  []
 
   # harmonic mean of graphite and stainless steel hardness
-  [./mean_hardness]
+  [mean_hardness]
     type = GraphiteStainlessMeanHardness
-  [../]
+  []
 
   # Material property converter for DiffusionFluxAux object
-  [./converter]
+  [converter]
     type = MaterialADConverter
     ad_props_in = thermal_conductivity
     reg_props_out = nonad_thermal_conductivity
-  [../]
+  []
 []
 
 [Functions]
-  [./mechanical_pressure_func]
+  [mechanical_pressure_func]
     type = ParsedFunction
     symbol_names = 'radius force'
     symbol_values = '0.04 3.5' # 'm kN'
     expression = 'force * 1e3 / (pi * radius^2)' # (N / m^2)
-  [../]
+  []
 []
 
 # Tracking data locations specified in Cincotti paper
@@ -396,10 +396,10 @@
 # []
 
 [Preconditioning]
-  [./SMP]
+  [SMP]
     type = SMP
     full = true
-  [../]
+  []
 []
 
 [Executioner]
@@ -416,11 +416,12 @@
   perf_graph = true
   file_base = sample_four_out
   active = 'normal_out'
-  [./normal_out]
+  [normal_out]
     type = Exodus
-  [../]
-  [./testing_out] # Due to platform diffs in *really* small auxvariable values
+  []
+  [testing_out]
+    # Due to platform diffs in *really* small auxvariable values
     type = Exodus
     show = 'temperature_graphite temperature_stainless_steel potential_graphite potential_stainless_steel'
-  [../]
+  []
 []
