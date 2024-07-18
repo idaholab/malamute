@@ -22,50 +22,50 @@
 []
 
 [Variables]
-  [./stainless_steel_potential]
-  [../]
+  [stainless_steel_potential]
+  []
 []
 
 [AuxVariables]
-  [./temperature]
+  [temperature]
     initial_condition = 573.0
-  [../]
+  []
 []
 
 [Kernels]
-  [./electric_stainless_steel]
+  [electric_stainless_steel]
     type = ADMatDiffusion
     variable = stainless_steel_potential
     diffusivity = electrical_conductivity
-  [../]
+  []
 []
 
 [BCs]
-  [./elec_top]
+  [elec_top]
     type = ADDirichletBC
     variable = stainless_steel_potential
     boundary = top
     value = 10
-  [../]
-  [./elec_bottom]
+  []
+  [elec_bottom]
     type = ADDirichletBC
     variable = stainless_steel_potential
     boundary = bottom
     value = 0
-  [../]
+  []
 []
 
 [Materials]
-  [./stainless_steel_electrical]
+  [stainless_steel_electrical]
     type = ADStainlessSteelElectricalConductivity
     temperature = temperature
-  [../]
-  [./stainless_steel_electrical_resistivity]
+  []
+  [stainless_steel_electrical_resistivity]
     type = ADParsedMaterial
     property_name = electrical_resistivity
     material_property_names = electrical_conductivity
     expression = '1 / electrical_conductivity'
-  [../]
+  []
 []
 
 [Executioner]
@@ -77,18 +77,17 @@
 []
 
 [Postprocessors]
-  [./max_temperature]
+  [max_temperature]
     type = NodalExtremeValue
     variable = temperature
     value_type = max
-  [../]
-  [./max_electrical_resistivity]
+  []
+  [max_electrical_resistivity]
     type = ADElementExtremeMaterialProperty
     mat_prop = electrical_resistivity
     value_type = max
-  [../]
+  []
 []
-
 
 [Outputs]
   csv = true

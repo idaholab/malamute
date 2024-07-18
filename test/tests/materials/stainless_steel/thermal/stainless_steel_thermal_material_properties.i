@@ -27,45 +27,45 @@
 []
 
 [Variables]
-  [./temperature]
+  [temperature]
     initial_condition = 350.0
-  [../]
+  []
 []
 
 [Kernels]
-  [./HeatDiff]
+  [HeatDiff]
     type = HeatConduction
     variable = temperature
     diffusion_coefficient = thermal_conductivity
-  [../]
-  [./HeatTdot]
+  []
+  [HeatTdot]
     type = HeatConductionTimeDerivative
     variable = temperature
     specific_heat = heat_capacity
     density_name = stainless_steel_density
-  [../]
+  []
 []
 
 [BCs]
-  [./top_surface]
+  [top_surface]
     type = FunctionDirichletBC
     boundary = top
     variable = temperature
     function = '350 + 100.0/60.*t' #stand-in for the 100C/min heating rate
-  [../]
+  []
 []
 
 [Materials]
-  [./stainless_steel_thermal]
+  [stainless_steel_thermal]
     type = StainlessSteelThermal
     temperature = temperature
     output_properties = all
-  [../]
-  [./stainless_steel_density]
+  []
+  [stainless_steel_density]
     type = GenericConstantMaterial
     prop_names = 'stainless_steel_density'
     prop_values = 8.0e3 #in kg/m^3 from Cincotti et al 2007, Table 2, doi:10.1002/aic
-  [../]
+  []
 []
 
 [Executioner]
@@ -83,23 +83,22 @@
 []
 
 [Postprocessors]
-  [./max_temperature]
+  [max_temperature]
     type = NodalExtremeValue
     variable = temperature
     value_type = max
-  [../]
-  [./max_thermal_conductivity]
+  []
+  [max_thermal_conductivity]
     type = ElementExtremeMaterialProperty
     mat_prop = thermal_conductivity
     value_type = max
-  [../]
-  [./max_heat_capacity]
+  []
+  [max_heat_capacity]
     type = ElementExtremeMaterialProperty
     mat_prop = heat_capacity
     value_type = max
-  [../]
+  []
 []
-
 
 [Outputs]
   csv = true
