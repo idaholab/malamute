@@ -62,8 +62,8 @@
     type = DerivativeParsedMaterial
     property_name = yttria_specific_heat_capacity
     coupled_variables = 'temperature'
-    constant_names = 'molar_mass    gtokg'
-    constant_expressions = '225.81         1.0e3' #
+    constant_names =        'molar_mass    gtokg'
+    constant_expressions =  '225.81         1.0e3' #
     expression = 'if(temperature<1503.7, (3.0183710318246e-19 * temperature^7 - 2.03644357435399e-15 * temperature^6
                               + 5.75283959486472e-12 * temperature^5 - 8.8224198737065e-09 * temperature^4
                               + 7.96030446457309e-06  * temperature^3 - 0.00427362972278911 * temperature^2
