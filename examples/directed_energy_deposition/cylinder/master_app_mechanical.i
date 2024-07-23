@@ -132,8 +132,7 @@ dt = 200
     [QuasiStatic]
       strain = FINITE
       incremental = true
-      generate_output = 'stress_xx stress_yy stress_zz stress_xy stress_yz stress_xz strain_yy strain_xx '
-                        'strain_zz strain_xy strain_xz strain_yz'
+      generate_output = 'stress_xx stress_yy stress_zz stress_xy stress_yz stress_xz strain_yy strain_xx strain_zz strain_xy strain_xz strain_yz'
       use_automatic_differentiation = true
       [product]
         block = '2'
@@ -241,7 +240,7 @@ dt = 200
   []
 []
 
-[UserObjects]
+[MeshModifiers]
   [activated_elem_uo_beam]
     type = CoupledVarThresholdElementSubdomainModifier
     execute_on = 'TIMESTEP_BEGIN'
@@ -250,8 +249,9 @@ dt = 200
     subdomain_id = 2
     criterion_type = ABOVE
     threshold = ${T_melt}
-    moving_boundary_name = 'moving_boundary'
-    apply_initial_conditions = false
+    moving_boundaries = 'moving_boundary'
+    moving_boundary_subdomain_pairs = '2 1'
+    reinitialize_subdomains = ''
   []
 []
 
@@ -286,8 +286,7 @@ dt = 200
   type = Transient
   solve_type = 'NEWTON'
 
-  petsc_options_iname = '-ksp_type -pc_type -pc_factor_mat_solver_package -pc_factor_shift_type '
-                        '-pc_factor_shift_amount'
+  petsc_options_iname = '-ksp_type -pc_type -pc_factor_mat_solver_package -pc_factor_shift_type -pc_factor_shift_amount'
   petsc_options_value = 'preonly lu       superlu_dist NONZERO 1e-10'
 
   line_search = 'none'
