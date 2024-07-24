@@ -250,8 +250,9 @@ dt = 200
     subdomain_id = 2
     criterion_type = ABOVE
     threshold = ${T_melt}
-    moving_boundary_name = 'moving_boundary'
-    apply_initial_conditions = false
+    moving_boundaries = 'moving_boundary'
+    moving_boundary_subdomain_pairs = '2 1'
+    reinitialize_subdomains = ''
   []
 []
 
