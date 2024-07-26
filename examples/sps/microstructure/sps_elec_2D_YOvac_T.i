@@ -1,7 +1,7 @@
 #This input file reflects the updated phase-field model that includes multiple intrinsic
 #defect species (yttrium and oxygen vacancies), defect species charges, and the effect
-#of applied voltage. It does not solve for temperature increase and therefore is appropriate
-#for cases where Joule heating within the particle compact is expected to be negligible.
+#of applied voltage. It calculates the increase in temperature due to applied electric
+#field using the approach in Aagesen et al., Acta Materialia, 275, 120049 (2024)
 
 [Mesh]
   type = GeneratedMesh
@@ -150,7 +150,7 @@
     preset = true
     variable = dV
     boundary = top
-    value = 4e-4 #Results in E-field 4e-4 V / 40 nm = 1e-5 V/nm or 10,000 V/m
+    value = 4e-4 #Results in E-field of 4e-4 V / 40 nm = 1e-5 V/nm or 10,000 V/m
   []
   [dV_bottom]
     type = DirichletBC
@@ -172,7 +172,7 @@
     expression = '(a*T + b) * Va^2'
   []
   [ks_an]
-    type = ParsedMaterial #TODO re-fit this for oxygen
+    type = ParsedMaterial
     property_name = ks_an
     coupled_variables = 'T'
     constant_names = 'a b Va'
