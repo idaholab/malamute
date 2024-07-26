@@ -134,7 +134,7 @@
     preset = true
     variable = dV
     boundary = top
-    value = 4e-7 #Results in E-field 4e-7 V / 40 nm = 1e-8 V/nm or 10 V/m
+    value = 4e-7 #Results in E-field of 4e-7 V / 40 nm = 1e-8 V/nm or 10 V/m
   []
   [dV_bottom]
     type = DirichletBC
@@ -156,7 +156,7 @@
     expression = '(a*T + b) * Va^2'
   []
   [ks_an]
-    type = ParsedMaterial #TODO re-fit this for oxygen
+    type = ParsedMaterial
     property_name = ks_an
     coupled_variables = 'T'
     constant_names = 'a b Va'
