@@ -1522,7 +1522,7 @@ stack_with_powder = ${fparse ram_cc_sinter_punch_height + powder_height}
   [pyrometer_point]
     type = PointValue
     variable = temperature
-    point = '0.01375 ${fparse ram_cc_sinter_punch_height + powder_height / 2.0} 0'
+    point = '${fparse powder_radius + 0.004} ${fparse ram_cc_sinter_punch_height + powder_height / 2.0} 0'
   []
 []
 
@@ -1552,6 +1552,7 @@ stack_with_powder = ${fparse ram_cc_sinter_punch_height + powder_height}
   l_max_its = 50
 
   dtmax = 10
+  dt = 6
   end_time = 1800
 []
 
