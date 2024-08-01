@@ -6,10 +6,10 @@ In the Electric-Field Assisted Sintering (EFAS) process, Joule heating plays a c
 
 This diagram showcases all the components in the DCS-5 tooling stack: 
 
-!media folder/picture.png 
+!media doc/content/media/tutorial_dcs5_images/tutorial_pngs/toolset.png 
 style=width:80%;margin-left:auto;margin-right:auto;
 id=problem-schematic
-caption=DCS-5 tooling stack [!cite](source here).
+caption=DCS-5 tooling stack
 
  
 There is a uniaxial pressure due to steel rams that are placed on the top of the tooling stack as shown by the applied pressure load in the diagram. The graphite plungers on the top and the bottom of the tooling stack allow for temperature distribution onto the powder and apply the intended uniaxial pressure. 

@@ -47,7 +47,7 @@ The input file and csv & .e files will share the same file name, with .i or .e o
 
 We will now see the file name on the left side of the ParaView menu under “Pipeline Browser.” Click “apply” under the “Properties” section to allow for “Reflect” annotation later. Make sure to click the dotted ellipse next to the file name to ensure an eyeball icon appears, to ensure you can observe the DCS machine’s geometry. Also, be sure to select the +Toggle Color Legend Visibility+ icon, which is the leftmost icon in [paraview_options]. 
 
-!media /media/paraview_options.png
+!media doc/content/media/tutorial_dcs5_images/tutorial_pngs/paraview_options.png
        style=width:80%;margin-left:auto;margin-right:auto;
        id=paraview_options
        caption=ParaView screenshot.
@@ -68,7 +68,7 @@ Use dt = 6 for the required timestep in the `[Executioner]` to allow for a quick
 
 The highest temperature out of all the wall thicknesses occurred with the 5mm die wall thickness at 954 seconds. For a visual representation of various aspects such as electric potential, temperature, heat transfer radiation, and electric field, we recommend viewing these aspects in a program such as ParaView in the timeframe range of 954 and 966 seconds. The approximate time values in which the max temperature occurs is shown in a chart [here](introduction/concluding_remarks.md#demo) while discussing the sizable difference between each of the max temperature values for the various die wall thicknesses.
 
-!media /media/potential_temp_screenshot.png
+!media doc/content/media/tutorial_dcs5_images/tutorial_pngs/results_pngs/potential_temp_screenshot.png
        style=width:80%;margin-left:auto;margin-right:auto;
        id=potential_temp_screenshot
        caption=Electric Potential and Temperature Contour Plots in ParaView.

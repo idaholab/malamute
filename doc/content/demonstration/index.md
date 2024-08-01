@@ -7,7 +7,7 @@ Documentation regarding demonstration problems using MALAMUTE are outlined here.
 !style halign=left
 Step-by-step introductory tutorial with examples and documentation are linked below.
 
-1. [tutorials/efas/introduction/tutortial_overview.md]
+1. [tutorials/efas/introduction/tutorial_overview.md]
 
 ## Verification & Validation Problems
 
