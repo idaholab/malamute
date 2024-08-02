@@ -25,7 +25,7 @@ These five separate input files were created so these five different MALAMUTE ru
 
 One concern we held was how to accurately represent the distance of the pyrometer inside the die wall. The first equation in ` [Postprocessors] `, which includes ` fparse powder_radius`, details the length at which the pyrometer is inserted into the die wall. 
 
-!listing tutorials/tutorials/efas/introduction/dcs5_copper_constant_properties_electrothermal.i
+!listing tutorials/efas/introduction/dcs5_copper_constant_properties_electrothermal.i
          block=Postprocessors/ pyrometer_point
          link=False
 

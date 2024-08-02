@@ -18,19 +18,19 @@ The initial condition value of 300 K should remain as such. Also, understand tha
 
 `[AuxVariables]` contains a block that applies boundary conditions related to heat transfer and includes a block that displays pictures of the electric field with smoother values. 
 
-!listing tutorials/tutorials/efas/introduction/dcs5_copper_constant_properties_electrothermal.i
+!listing tutorials/efas/introduction/dcs5_copper_constant_properties_electrothermal.i
          block=AuxVariables
          link=False
 
 The `[Kernels]` block uses the same equation for diffusion of temperature and diffusion of electric potential. The goal of this block is to couple temperature and electrical physics with joule heating. There are 12 sub-blocks inside the high-level `[Kernel]` block which are named according to the material it supports. For example, there are four out of twelve sub-blocks that include graphite in their name and include temperature diffusion (“HeatDiff_graphite”), electric potential diffusion (“electric_graphite”), and joule heating (“JouleHeating_graphite”).
 
-!listing tutorials/tutorials/efas/introduction/dcs5_copper_constant_properties_electrothermal.i
+!listing tutorials/efas/introduction/dcs5_copper_constant_properties_electrothermal.i
          block=Kernels
          link=False
 
 The `[AuxKernels]` block contains a sub-block (“heat_transfer_radiation”) from the `[AuxVariables]` block that applies radiation heat loss boundary conditions on the external right side of spacers and die wall, as well as on the external right side of punches when uncovered. Constant expressions are also included in the `[AuxKernels]` block, such as graphite emissivity and initial temperature. 
 
-!listing tutorials/tutorials/efas/introduction/dcs5_copper_constant_properties_electrothermal.i
+!listing tutorials/efas/introduction/dcs5_copper_constant_properties_electrothermal.i
          block=AuxKernels
          link=False
 
@@ -38,31 +38,31 @@ Current from the DCS-5 sintering machine is generalized in the `[Functions]` blo
 
 `(top electrode, top surface) --> Neumann condition function of time, generalized from an uninsulated, 20mm G535 graphite tooling DCS-5 run`
 
-!listing tutorials/tutorials/efas/introduction/dcs5_copper_constant_properties_electrothermal.i
+!listing tutorials/efas/introduction/dcs5_copper_constant_properties_electrothermal.i
          block=Functions
          link=False
 
 The `[BCs]` block sets the temperature and electrical boundary conditions on various parts of the sintering machine. For example, the ("temperature_rams") sub-block sets the edge of the top ram spacer and the edge of the bottom ram spacer to 300 K. 
 
-!listing tutorials/tutorials/efas/introduction/dcs5_copper_constant_properties_electrothermal.i
+!listing tutorials/efas/introduction/dcs5_copper_constant_properties_electrothermal.i
          block=BCs
          link=False
 
 The `[Constraints]` block is meant to specify contact interfaces and should remain unmodified throughout the tutorial. 
 
-!listing tutorials/tutorials/efas/introduction/dcs5_copper_constant_properties_electrothermal.i
+!listing tutorials/efas/introduction/dcs5_copper_constant_properties_electrothermal.i
          block=Constraints
          link=False
 
 All three materials (copper, graphite, C-C fiber) involved with the EFAS machine are described in the `[Materials]` block. Property values for each the materials are constant values as opposed to variable values, as shown in the "carbon_fiber_electro_thermal_properties" sub-block, for example. In the same sub-block, at `prop_values`, note the value for `ccfiber_thermal_conductivity`. The value “5” is the thermal conductivity of the C-C fiber in the y direction. This “5” value is the same as the middle value in the tensor matrix shown below under the sub-block titled “carbon_fiber_anisotropic_thermal_cond”. This matrix is a representation of anisoptropic thermal conductivity of C-C fiber. 
 
-!listing tutorials/tutorials/efas/introduction/dcs5_copper_constant_properties_electrothermal.i
+!listing tutorials/efas/introduction/dcs5_copper_constant_properties_electrothermal.i
          block=Materials/carbon_fiber_electro_thermal_properties
          link=False
 
 The `[UserObjects]` block is used for contact models and should remain untouched for the tutorial’s ease of use. When opening an output csv file, the `[Postprocessors]` block allows for a better understanding of boundary conditions by exporting the data to a program such as Excel. The "pyrometer_point" sub-block under the `[Postprocessors]` block points to where the pyrometer reads temperature at the end of the view hole. 
 
-!listing tutorials/tutorials/efas/introduction/dcs5_copper_constant_properties_electrothermal.i
+!listing tutorials/efas/introduction/dcs5_copper_constant_properties_electrothermal.i
          block=Postprocessors
          link=False
 
