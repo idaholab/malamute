@@ -1,5 +1,4 @@
 !content pagination previous=introduction/required_input_file_modifications.md
-                    next=introduction/concluding_remarks.md
                     margin-bottom=0px
 
 ## Running MALAMUTE and Viewing Results
@@ -42,7 +41,6 @@ Finished Executing                                                              
 There are two “output” files generated after running an input file: a csv file and .e file. To open a .e file in ParaView, open ParaView, navigate to ‘File’ and select ‘Open’. You'll need to collect the file path of the .e file, which can be done by using the 'pwd' command in the Terminal. Once you have the file path, copy and paste it into the 'Name:' box and click OK.
 
 !alert tip title=Input versus Output file
-
 The input file and csv & .e files will share the same file name, with .i or .e on the end of the file name being one difference, and the word “out” attached to the end of the .e and csv file being another difference. 
 
 We will now see the file name on the left side of the ParaView menu under “Pipeline Browser.” Click “apply” under the “Properties” section to allow for “Reflect” annotation later. Make sure to click the dotted ellipse next to the file name to ensure an eyeball icon appears, to ensure you can observe the DCS machine’s geometry. Also, be sure to select the +Toggle Color Legend Visibility+ icon, which is the leftmost icon in [paraview_options]. 

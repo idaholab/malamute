@@ -7,7 +7,7 @@ In the Electric-Field Assisted Sintering (EFAS) process, Joule heating plays a c
 This diagram showcases all the components in the DCS-5 tooling stack: 
 
 !media media/tutorial_dcs5_images/tutorial_pngs/toolset.png 
-style=width:80%;margin-left:auto;margin-right:auto;
+style=width:40%;margin-left:auto;margin-right:auto; 
 id=problem-schematic
 caption=DCS-5 tooling stack
 
@@ -32,7 +32,7 @@ die_wall_thickness = 0.013875
 
 The die wall thickness is shown above and on Line 55 of the input file. This value has units in meters, and the units should be converted accordingly. Each thickness could correspond to a separate input file in MALAMUTE, creating five distinct simulations for comparison. 
 
-The primary objective of this tutorial is to examine how the temperature distribution within the DSC-5 tooling stack varies with die wall thickness. We will achieve this goal by utilizing temperature contour fields to identify any patterns of temperature localization that might emerge. While the temperature of the powder itself is not measured directly, this study aims to discern trends that link the observed temperature distribution within the die to the likely temperature of the powder. The analysis further is improved by outputting the temperature at the approximate pyrometer location throughout the simulation. Time versus history graphs and temperature contour fields will both be used to provide a visual representation of the data. Analysis of these results will be completed to determine the impact of the die wall thickness on the temperature evolution as predicted by this series of MALAMUTE simulations.
+The primary objective of this tutorial is to examine how the temperature distribution within the DCS-5 tooling stack varies with die wall thickness. We will achieve this goal by utilizing temperature contour fields to identify any patterns of temperature localization that might emerge. While the temperature of the powder itself is not measured directly, this study aims to discern trends that link the observed temperature distribution within the die to the likely temperature of the powder. The analysis is further improved by outputting the temperature at the approximate pyrometer location throughout the simulation. Time versus history graphs and temperature contour fields will both be used to provide a visual representation of the data. Analysis of these results will be completed to determine the impact of the die wall thickness on the temperature evolution as predicted by this series of MALAMUTE simulations.
 
 
 

@@ -4,9 +4,9 @@
 
 ## Input File Content
 
-The six key parts of an input file are as follows: `Mesh, Variables, Kernels, BCs, Executioner, and Outputs`. This guide is an overview of what elements to modify (or not modify) within these parts to run an electrothermal simulation with the desired parameters. A key term to keep in mind is “block.” The six key parts as mentioned earlier are considered high-level blocks and will be referred to as blocks for the remainder of this guide. View the [MOOSE Workshop](https://mooseframework.inl.gov/workshop/#/) to explore these six parts in greater detail. The majority of this input file is presented as a template, and only a few lines of the input file will need to be modified for the purposes of this tutorial.
+The six key parts of an input file are as follows: `[Mesh], [Variables], [Kernels], [BCs], [Executioner], and [Outputs]`. This guide is an overview of what elements to modify (or not modify) within these parts to run an electrothermal simulation with the desired parameters. A key term to keep in mind is “block.” The six key parts as mentioned earlier are considered high-level blocks and will be referred to as blocks for the remainder of this guide. View the [MOOSE Workshop](https://mooseframework.inl.gov/workshop/#/) to explore these six parts in greater detail. The majority of this input file is presented as a template, and only a few lines of the input file will need to be modified for the purposes of this tutorial.
 
-The `Mesh` block maps out and displays the geometry of the distinct sections of the EFAS tooling stack, as described in the [tutorial_overview.md] +Motivation+ section, that are shown in open-source data visualization software such as [ParaView](https://www.paraview.org/download/). The `[Problem]` block sets up the handling of numerical convergence. Please do not modify any values in the `[Mesh]` and `[Problem]` blocks as to allow for easier understanding of the tutorial.
+The `Mesh` block maps out and displays the geometry of the distinct sections of the EFAS tooling stack, as described in the [tutorial_overview.md] +Motivation+ section, that are shown in open-source data visualization software such as [ParaView](https://www.paraview.org). The `[Problem]` block sets up the handling of numerical convergence. Please do not modify any values in the `[Mesh]` and `[Problem]` blocks as to allow for easier understanding of the tutorial.
 
 The `[Variables]` block has two parts of note, in particular the `[temperature]` and `[potential]` blocks: 
 
@@ -14,7 +14,7 @@ The `[Variables]` block has two parts of note, in particular the `[temperature]`
          block=Variables
          link=False
 
-The initial condition value of 300 K should remain as such. Also, understand that temperature and potential will be showcased in ParaView. While the remaining “_lm” listings are shown in `[Variables]`, these variables are associated with the many interfaces within the simulation. These variables will not be included directly in the analyses performed in this tutorial, and more information on these variables and their use in the Constraint system is available [here](link https://mooseframework.inl.gov/syntax/Constraints/). 
+The initial condition value of 300 K should remain as such. Also, understand that temperature and potential will be showcased in ParaView. While the remaining “_lm” listings are shown in `[Variables]`, these variables are associated with the many interfaces within the simulation. These variables will not be included directly in the analyses performed in this tutorial, and more information on these variables and their use in the Constraint system is available [here](https://mooseframework.inl.gov/syntax/Constraints/). 
 
 `[AuxVariables]` contains a block that applies boundary conditions related to heat transfer and includes a block that displays pictures of the electric field with smoother values. 
 
@@ -34,9 +34,7 @@ The `[AuxKernels]` block contains a sub-block (“heat_transfer_radiation”) fr
          block=AuxKernels
          link=False
 
-Current from the DCS-5 sintering machine is generalized in the `[Functions]` block. Further information regarding this generalization is found in the top of this tutorial’s input file. 
-
-`(top electrode, top surface) --> Neumann condition function of time, generalized from an uninsulated, 20mm G535 graphite tooling DCS-5 run`
+Current from the DCS-5 sintering machine is generalized in the `[Functions]` block. Please note a few aspects of the Neumann boundary condition. It is a function of time and is generalized from an uninsulated, 20 mm G535 graphite tooling DCS-5 run. Also, the Neumann boundary condition is the current divided by the surface area of the top surface of the top ram spacer.   
 
 !listing tutorials/efas/introduction/dcs5_copper_constant_properties_electrothermal.i
          block=Functions
@@ -67,6 +65,12 @@ The `[UserObjects]` block is used for contact models and should remain untouched
          link=False
 
 `[Preconditioning]` and `[Executioner]` blocks are typically used for numerical convergence and for the sake of this tutorial, should remain unmodified. The `[Outputs]` block should also remain unmodified and simply exists to display data in Excel and ParaView. 
+
+!listing tutorials/efas/introduction/dcs5_copper_constant_properties_electrothermal.i
+         block=Outputs
+         link=False
+
+Now that we are familiar with the sections of an input file, we are ready to make changes to the input file.
 
 !content pagination previous=introduction/tutorial_overview.md
                     next=introduction/required_input_file_modifications.md
