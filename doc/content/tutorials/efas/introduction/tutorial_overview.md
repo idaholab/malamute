@@ -7,7 +7,7 @@ In the Electric-Field Assisted Sintering (EFAS) process, Joule heating plays a c
 This diagram showcases all the components in the DCS-5 tooling stack: 
 
 !media media/tutorial_dcs5_images/tutorial_pngs/toolset.png 
-style=width:40%;margin-left:auto;margin-right:auto; 
+style=width:40%;margin-left:auto;margin-right:auto;
 id=problem-schematic
 caption=DCS-5 tooling stack
 

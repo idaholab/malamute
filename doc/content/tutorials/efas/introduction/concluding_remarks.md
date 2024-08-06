@@ -1,5 +1,4 @@
 content pagination previous=introduction/running_malamute_view_results.md
-                    next=introduction/concluding_remarks.md
                     margin-bottom=0px
 
 This tutorial was created with the intention of providing initial instructions for MALAMUTE by exploring the relation between temperature and die wall thickness. After visualizing in Excel, the +Temperature vs Time+ data for each wall thickness, we see that the overall temperature decreases as the wall thickness increases. One exception to this pattern is the similar temperature values approximately halfway through the linear portion (approximately t = 1240 s to t = 1260 s) of the “cooling process”. Also, as the die wall thickness increases, the time at which max temperature occurs is higher. 
@@ -28,36 +27,36 @@ The electric potential on the toolset steadily decreases from the top of the too
 Electric field values slightly between different wall thickness, but noticeably changes on the graphite spacers. The electric field is highly concentrated in the center of these graphite spacers and seems to correspond with the higher temperature values in the same spot. This phenomenon is shown in [10mm-elec-field-and-temp], for example. However, the powder casing and die wall do not experience a similar spike in temperature or electric potential to the graphite spacers and may need to be considered when analyzing an EFAS toolset.
 
 !row!
-!col! small=12 medium=6 large=6
+!col! small=12 medium=12 large=12
 !style halign=center
 
-!media media/tutorial_dcs5_images/tutorial_pngs/results_pngs/5mm_elec_field_and_temp.png
+!media media/tutorial_dcs5_images/tutorial_pngs/results_pngs/5mm_elec_field_and_temp
     style=width:40%;margin-left:auto;margin-right:auto;
     id=5mm-elec-field-and-temp
     caption=Electric Field and Temperature Contour Plots for a 5 mm wall thickness at t = 954 seconds.
 
-!media media/tutorial_dcs5_images/tutorial_pngs/results_pngs/13.875mm_elec_field_and_temp.png
+!media media/tutorial_dcs5_images/tutorial_pngs/results_pngs/13.875mm_elec_field_and_temp
     style=width:40%;margin-left:auto;margin-right:auto;
     id=13.875mm-elec-field-and-temp
     caption=Electric Field and Temperature Contour Plots for a 13.875 mm wall thickness at t = 960 seconds.
 
-!media media/tutorial_dcs5_images/tutorial_pngs/results_pngs/25mm_elec_field_and_temp.png
+!media media/tutorial_dcs5_images/tutorial_pngs/results_pngs/25mm_elec_field_and_temp
     style=width:40%;margin-left:auto;margin-right:auto;
     id=25mm-elec-field-and-temp
     caption=Electric Field and Temperature Contour Plots for a 25 mm wall thickness at t = 972 seconds.
 
 !col-end!
 
-!col! small=12 medium=6 large=6
+!col! small=12 medium=12 large=12
 
 !style halign=center
 
-!media media/tutorial_dcs5_images/tutorial_pngs/results_pngs/10mm_elec_field_and_temp.png
+!media media/tutorial_dcs5_images/tutorial_pngs/results_pngs/10mm_elec_field_and_temp
     style=width:40%;margin-left:auto;margin-right:auto;
     id=10mm-elec-field-and-temp
     caption=Electric Field and Temperature Contour Plots for a 10 mm wall thickness at t = 960 seconds.
 
-!media media/tutorial_dcs5_images/tutorial_pngs/results_pngs/20mm_elec_field_and_temp.png
+!media media/tutorial_dcs5_images/tutorial_pngs/results_pngs/20mm_elec_field_and_temp
     style=width:40%;margin-left:auto;margin-right:auto;
     id=20mm-elec-field-and-temp
     caption=Electric Field and Temperature Contour Plots for a 20 mm wall thickness at t = 966 seconds.
@@ -75,3 +74,6 @@ We successfully performed a basic one-factor study involving a parametric analys
 The primary objective of this tutorial was to observe how the temperature distribution within the DCS-5 tooling stack varies with die wall thickness. 
 
 We achieved this goal by utilizing temperature and electrical potential contour fields as well as time versus history graphs to identify any patterns of temperature localization that emerged. Analysis of these results was completed effectively to determine the impact of the die wall thickness relative to temperature as predicted by these MALAMUTE simulations.
+
+content pagination previous=introduction/running_malamute_view_results.md
+                    margin-bottom=0px

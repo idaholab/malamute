@@ -1,4 +1,5 @@
 !content pagination previous=introduction/required_input_file_modifications.md
+                    next=introduction/concluding_remarks.md
                     margin-bottom=0px
 
 ## Running MALAMUTE and Viewing Results
