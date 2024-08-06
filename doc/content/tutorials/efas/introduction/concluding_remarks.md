@@ -30,17 +30,17 @@ Electric field values slightly between different wall thickness, but noticeably 
 !col! small=12 medium=12 large=12
 !style halign=center
 
-!media media/tutorial_dcs5_images/tutorial_pngs/results_pngs/5mm_elec_field_and_temp
+!media media/tutorial_dcs5_images/tutorial_pngs/results_pngs/5mm_elec_field_and_temp.jpg
     style=width:40%;margin-left:auto;margin-right:auto;
     id=5mm-elec-field-and-temp
     caption=Electric Field and Temperature Contour Plots for a 5 mm wall thickness at t = 954 seconds.
 
-!media media/tutorial_dcs5_images/tutorial_pngs/results_pngs/13.875mm_elec_field_and_temp
+!media media/tutorial_dcs5_images/tutorial_pngs/results_pngs/13.875mm_elec_field_and_temp.jpg
     style=width:40%;margin-left:auto;margin-right:auto;
     id=13.875mm-elec-field-and-temp
     caption=Electric Field and Temperature Contour Plots for a 13.875 mm wall thickness at t = 960 seconds.
 
-!media media/tutorial_dcs5_images/tutorial_pngs/results_pngs/25mm_elec_field_and_temp
+!media media/tutorial_dcs5_images/tutorial_pngs/results_pngs/25mm_elec_field_and_temp.jpg
     style=width:40%;margin-left:auto;margin-right:auto;
     id=25mm-elec-field-and-temp
     caption=Electric Field and Temperature Contour Plots for a 25 mm wall thickness at t = 972 seconds.
@@ -51,12 +51,12 @@ Electric field values slightly between different wall thickness, but noticeably 
 
 !style halign=center
 
-!media media/tutorial_dcs5_images/tutorial_pngs/results_pngs/10mm_elec_field_and_temp
+!media media/tutorial_dcs5_images/tutorial_pngs/results_pngs/10mm_elec_field_and_temp.jpg
     style=width:40%;margin-left:auto;margin-right:auto;
     id=10mm-elec-field-and-temp
     caption=Electric Field and Temperature Contour Plots for a 10 mm wall thickness at t = 960 seconds.
 
-!media media/tutorial_dcs5_images/tutorial_pngs/results_pngs/20mm_elec_field_and_temp
+!media media/tutorial_dcs5_images/tutorial_pngs/results_pngs/20mm_elec_field_and_temp.jpg
     style=width:40%;margin-left:auto;margin-right:auto;
     id=20mm-elec-field-and-temp
     caption=Electric Field and Temperature Contour Plots for a 20 mm wall thickness at t = 966 seconds.
