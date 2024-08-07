@@ -8,24 +8,24 @@ After verifying that the electrostatic [Electrostatic Contact, Two Blocks](verif
 
 The sample cases are summarized below:
 
-!media media/electrothermal_veri_images/sample_one.png
+!media media/cincotti_validation_images/sample_one.png
     style=width:80%;margin-left:auto;margin-right:auto;
     id=sample_one
     caption=Represents the two big spacers configuration in both Samples I and II. 
 
-!media media/electrothermal_veri_images/sample_three.png
+!media media/cincotti_validation_images/sample_three.png
     style=width:80%;margin-left:auto;margin-right:auto;
     id=sample_three
     caption=Represents the two big spacers, two small spacers, and one plunger configuration in Sample III.
 
-!media media/electrothermal_veri_images/sample_four.png
+!media media/cincotti_validation_images/sample_four.png
     style=width:80%;margin-left:auto;margin-right:auto;
     id=sample_four
     caption=Represents the two big spacers, two small spacers, one die and plungers configuration in Sample IV.
 
 Here is a cross-section visual of the SPS system:
 
-!media media/electrothermal_veri_images/sps_schematic.png
+!media media/cincotti_validation_images/sps_schematic.png
     style=width:80%;margin-left:auto;margin-right:auto;
     id=sps_schematic
     caption=Schematic from [!citep](cincotti2007sps).
@@ -169,17 +169,17 @@ In this section, results for each sample case will be discussed. Mesh and input 
 
 For sample one, the die assembly shown in [sample_one] was used. Thermal and electric contact resistance was simulated on either contact surface with the stainless steel electrodes, which had the geometry shown in [sps_schematic]. The current source was turned on at t = 0, held for 20 minutes, and then turned off. The assembly was then allowed to cool back to ambient temperature (293 K) for another 40 minutes. 
 
-!media media/electrothermal_veri_images/sample_one.pdf
+!media media/cincotti_validation_images/sample_one.pdf
     style=width:50%;margin-left:auto;margin-right:auto;
     id=sample_one
     caption=Sample one die assembly.
 
-!media media/electrothermal_veri_images/sample_one_potential.pdf
+!media media/cincotti_validation_images/sample_one_potential.pdf
     style=width:50%;margin-left:auto;margin-right:auto;
     id=sample_one_potential
     caption=Electric potential results shown here. 
 
-!media media/electrothermal_veri_images/sample_one_temperature.pdf
+!media media/cincotti_validation_images/sample_one_temperature.pdf
     style=width:50%;margin-left:auto;margin-right:auto;
     id=sample_one_temperature
     caption=Temperature results displayed here. 
@@ -190,12 +190,12 @@ Cincotti compensated for any deviation in properties in the COMSOL model by usin
 
 For sample three, the die assembly shown in [sample_three] was used. Thermal and electric contact resistance was simulated on either contact surface with the stainless-steel electrodes, which had the geometry shown in [sps_schematic]. The current source was turned on at t = 0, held for 20 minutes, and then turned off. The assembly was then allowed to cool back to ambient temperature (293 K) for another 40 minutes. A two-dimensional view of the sample three assembly with contact interfaces highlighted is shown in [sample_three_2d]. 
 
-!media media/electrothermal_veri_images/sample_three.png
+!media media/cincotti_validation_images/sample_three.png
     style=width:50%;margin-left:auto;margin-right:auto;
     id=sample_three
     caption=Sample three die assembly.
 
-!media media/electrothermal_veri_images/sample_three_2d.png
+!media media/cincotti_validation_images/sample_three_2d.png
     style=width:50%;margin-left:auto;margin-right:auto;
     id=sample_three_2d
     caption=2D view of sample three.
@@ -206,17 +206,17 @@ Overall, results for both potential and temperature were in good agreement with 
 
 For sample four, the die assembly shown in [sample_four] was used. Thermal and electric contact resistance was simulated on either contact surface with the stainless-steel electrodes, which had the geometry shown in [sps_schematic]. The current source was turned on at t = 0, held for 10 minutes, and then turned off. The assembly was then allowed to cool back to ambient temperature (293 K) for another 20 minutes. The potential results are shown in [sample_four_potential] with the temperature results shown in [sample_four_temperature]. Considering that sample four is the more geometrically “complicated” model under examination here, there are many horizontal surfaces nearby other vertical surfaces (and vice versa). As previously seen in both conducting and non-conducting powders, heat transfer from the surrounding domain is an important part of the SPS process, and some component of that is lost in this formulation.
 
-!media media/electrothermal_veri_images/sample_four.pdf
+!media media/cincotti_validation_images/sample_four.png
     style=width:50%;margin-left:auto;margin-right:auto;
     id=sample_four
     caption=Sample four die assembly.
 
-!media media/electrothermal_veri_images/sample_four_potential.pdf
+!media media/cincotti_validation_images/sample_four_potential.pdf
     style=width:50%;margin-left:auto;margin-right:auto;
     id=sample_four_potential
     caption=Electric potential results shown here. 
 
-!media media/electrothermal_veri_images/sample_four_temperature.pdf
+!media media/cincotti_validation_images/sample_four_temperature.pdf
     style=width:50%;margin-left:auto;margin-right:auto;
     id=sample_four_temperature
     caption=Temperature results displayed here. 
