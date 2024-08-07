@@ -1,6 +1,8 @@
 !content pagination previous=introduction/running_malamute_view_results.md
                     margin-bottom=0px
 
+## Concluding Remarks
+
 This tutorial was created with the intention of providing initial instructions for MALAMUTE by exploring the relation between temperature and die wall thickness. After visualizing in Excel, the +Temperature vs Time+ data for each wall thickness, we see that the overall temperature decreases as the wall thickness increases. One exception to this pattern is the similar temperature values approximately halfway through the linear portion (approximately t = 1240 s to t = 1260 s) of the “cooling process”. Also, as the die wall thickness increases, the time at which max temperature occurs is higher. 
 
 !media media/tutorial_dcs5_images/tutorial_pngs/results_pngs/temp_vs_sim_time.png
@@ -66,7 +68,7 @@ Electric field values slightly between different wall thickness, but noticeably 
 
 ### Conclusion
 
-As mentioned in the beginning of this tutorial, temperature distribution as a function of die geometry is crucial in the EFAS process. A thicker die wall thickness led to a lower temperature on the die wall, and thus a lower overall temperature on the powder casing. A die wall being too thin caused an ineffective management of temperature gradients, as shown in ([!cite](Preston20243dprinted)). It is therefore essential to optimize the die wall thickness to ensure consistent heating and the integrity of the sintering process.
+As mentioned in the beginning of this tutorial, temperature distribution as a function of die geometry is crucial in the EFAS process. A thicker die wall thickness led to a lower temperature on the die wall, and thus a lower overall temperature on the powder casing. A die wall being too thin caused an ineffective management of temperature gradients, as shown in the journal article at the beginning of this tutorial. It is therefore essential to optimize the die wall thickness to ensure consistent heating and the integrity of the sintering process.
 
 We successfully performed a basic one-factor study involving a parametric analysis, limiting the independent variable to five different die wall thicknesses (e.g., 5 mm, 10 mm, 13.875 mm, 20 mm, 25 mm).  
 
