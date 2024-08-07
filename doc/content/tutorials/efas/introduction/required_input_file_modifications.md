@@ -3,7 +3,7 @@
 
 ## Required Input File Modifications
 
-Two sections that may require editing is in Line 55’s `die_wall_thickness`variable and the `pyrometer_point` block. The value for die wall thickness must be written in meters, not millimeters. The impact of die wall thickness on the temperature read by the pyrometer is explored in this tutorial. 
+Two sections that may require editing is in Line 55’s `die_wall_thickness` variable and the `pyrometer_point` block. The value for die wall thickness must be written in meters, not millimeters. The impact of die wall thickness on the temperature read by the pyrometer is explored in this tutorial. 
 
 ### Die Wall Thickness
 
@@ -13,7 +13,7 @@ We performed a study to observe the temperature of the powder as the die wall th
 die_wall_thickness = (value here)
 ```
 
- We will create a separate input file for each thickness change. The [suggested_input_file_names] below shows suggested names for the five separate input files for each die wall thickness. 
+ We will create a separate input file for each thickness change. [suggested_input_file_names] below shows suggested names for the five separate input files for each die wall thickness. 
 
 !table id=suggested_input_file_names caption=Input file name suggestions for the five different die wall thicknesses.
 | Case | die_wall_thickness | Suggested Input File Name |
