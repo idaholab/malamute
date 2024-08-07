@@ -18,11 +18,11 @@ die_wall_thickness = (value here)
 !table id=suggested_input_file_names caption=Input file name suggestions for the five different die wall thicknesses.
 | Case | die_wall_thickness | Suggested Input File Name |
 | :- | :- | :- |
-| 1 | 5 mm | dcs5_5_mm_dt_6_copper_constant_properties_electrothermal.i |
-| 2 | 10 mm | dcs5_10_mm_dt_6_copper_constant_properties_electrothermal.i |
-| 3 | 13.875 mm | dcs5_13.875_mm_dt_6_copper_constant_properties_electrothermal.i |
-| 4 | 20 mm | dcs5_20_mm_dt_6_copper_constant_properties_electrothermal.i |
-| 5 | 25 mm | dcs5_25_mm_dt_6_copper_constant_properties_electrothermal.i |
+| 1 | 5 mm | dcs5_5_mm_constant_properties.i |
+| 2 | 10 mm | dcs5_10_mm_constant_properties.i |
+| 3 | 13.875 mm | dcs5_13.875_mm_constant_properties.i |
+| 4 | 20 mm | dcs5_20_mm_constant_properties.i |
+| 5 | 25 mm | dcs5_25_mm_constant_properties.i |
 
 These five separate input files were created so these five different MALAMUTE runs could process at the same moment and thus save time compared to running these input files separately. 
 
