@@ -11,17 +11,17 @@ The sample cases are summarized below:
 !media media/cincotti_validation_images/sample_one.png
     style=width:80%;margin-left:auto;margin-right:auto;
     id=sample_one
-    caption=Represents the two big spacers configuration in both Samples I and II. 
+    caption=Represents the two big spacers configuration in both Samples I and II [!citep](cincotti2007sps). 
 
 !media media/cincotti_validation_images/sample_three.png
     style=width:80%;margin-left:auto;margin-right:auto;
     id=sample_three
-    caption=Represents the two big spacers, two small spacers, and one plunger configuration in Sample III.
+    caption=Represents the two big spacers, two small spacers, and one plunger configuration in Sample III [!citep](cincotti2007sps).
 
 !media media/cincotti_validation_images/sample_four.png
     style=width:80%;margin-left:auto;margin-right:auto;
     id=sample_four
-    caption=Represents the two big spacers, two small spacers, one die and plungers configuration in Sample IV.
+    caption=Represents the two big spacers, two small spacers, one die and plungers configuration in Sample IV [!citep](cincotti2007sps).
 
 Here is a cross-section visual of the SPS system:
 
@@ -167,22 +167,17 @@ In this section, results for each sample case will be discussed. Mesh and input 
 
 ### Sample One
 
-For sample one, the die assembly shown in [sample_one_2nd] was used. Thermal and electric contact resistance was simulated on either contact surface with the stainless steel electrodes, which had the geometry shown in [sps_schematic]. The current source was turned on at t = 0, held for 20 minutes, and then turned off. The assembly was then allowed to cool back to ambient temperature (293 K) for another 40 minutes. 
-
-!media media/cincotti_validation_images/sample_one.png
-    style=width:50%;margin-left:auto;margin-right:auto;
-    id=sample_one_2nd
-    caption=Sample one die assembly.
+For sample one, the die assembly shown in [sample_one] was used. Thermal and electric contact resistance was simulated on either contact surface with the stainless steel electrodes, which had the geometry shown in [sps_schematic]. The current source was turned on at t = 0, held for 20 minutes, and then turned off. The assembly was then allowed to cool back to ambient temperature (293 K) for another 40 minutes. 
 
 !media media/cincotti_validation_images/sample_one_potential.png
     style=width:50%;margin-left:auto;margin-right:auto;
     id=sample_one_potential
-    caption=Electric potential results shown here. 
+    caption=Electric potential results shown here [!citep](cincotti2007sps). 
 
 !media media/cincotti_validation_images/sample_one_temperature.png
     style=width:50%;margin-left:auto;margin-right:auto;
     id=sample_one_temperature
-    caption=Temperature results displayed here. 
+    caption=Temperature results displayed here [!citep](cincotti2007sps). 
 
 Cincotti compensated for any deviation in properties in the COMSOL model by using the α and β parameters in the contact conductance calculation. These parameters were experimentally derived parameters. This deviation is much less evident in later sample cases, so the parameters were left unchanged for the remainder of the validation study. It is thus important to note that tuning of the current contact model cannot be neglected when accounting for variations in material properties and model parameters with the experimental setup. Benchmarking against a system of interest should be a first step in the process of using the code implemented here.
 
@@ -190,15 +185,10 @@ Cincotti compensated for any deviation in properties in the COMSOL model by usin
 
 For sample three, the die assembly shown in [sample_three] was used. Thermal and electric contact resistance was simulated on either contact surface with the stainless-steel electrodes, which had the geometry shown in [sps_schematic]. The current source was turned on at t = 0, held for 20 minutes, and then turned off. The assembly was then allowed to cool back to ambient temperature (293 K) for another 40 minutes. A two-dimensional view of the sample three assembly with contact interfaces highlighted is shown in [sample_three_2d]. 
 
-!media media/cincotti_validation_images/sample_three.png
-    style=width:50%;margin-left:auto;margin-right:auto;
-    id=sample_three
-    caption=Sample three die assembly.
-
 !media media/cincotti_validation_images/sample_three_2d.png
     style=width:50%;margin-left:auto;margin-right:auto;
     id=sample_three_2d
-    caption=2D view of sample three.
+    caption=2D view of sample three [!citep](cincotti2007sps).
 
 Overall, results for both potential and temperature were in good agreement with the COMSOL model and decent agreement with Cincotti experimental data. Both codes had difficulty in the current model with resolving the cool-down period after the current source was turned off. 
 
@@ -206,20 +196,15 @@ Overall, results for both potential and temperature were in good agreement with 
 
 For sample four, the die assembly shown in [sample_four] was used. Thermal and electric contact resistance was simulated on either contact surface with the stainless-steel electrodes, which had the geometry shown in [sps_schematic]. The current source was turned on at t = 0, held for 10 minutes, and then turned off. The assembly was then allowed to cool back to ambient temperature (293 K) for another 20 minutes. 
 
-!media media/cincotti_validation_images/sample_four.png
-    style=width:50%;margin-left:auto;margin-right:auto;
-    id=sample_four
-    caption=Sample four die assembly.
-
 !media media/cincotti_validation_images/sample_four_potential.png
     style=width:50%;margin-left:auto;margin-right:auto;
     id=sample_four_potential
-    caption=Electric potential results shown here. 
+    caption=Electric potential results shown here [!citep](cincotti2007sps). 
 
 !media media/cincotti_validation_images/sample_four_temperature.png
     style=width:50%;margin-left:auto;margin-right:auto;
     id=sample_four_temperature
-    caption=Temperature results displayed here. 
+    caption=Temperature results displayed here [!citep](cincotti2007sps). 
 
 The potential results are shown in [sample_four_potential] with the temperature results shown in [sample_four_temperature]. Considering that sample four is the more geometrically “complicated” model under examination here, there are many horizontal surfaces nearby other vertical surfaces (and vice versa). As previously seen in both conducting and non-conducting powders, heat transfer from the surrounding domain is an important part of the SPS process, and some component of that is lost in this formulation.
 
