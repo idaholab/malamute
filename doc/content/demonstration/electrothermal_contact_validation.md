@@ -167,19 +167,19 @@ In this section, results for each sample case will be discussed. Mesh and input 
 
 ### Sample One
 
-For sample one, the die assembly shown in [sample_one] was used. Thermal and electric contact resistance was simulated on either contact surface with the stainless steel electrodes, which had the geometry shown in [sps_schematic]. The current source was turned on at t = 0, held for 20 minutes, and then turned off. The assembly was then allowed to cool back to ambient temperature (293 K) for another 40 minutes. 
+For sample one, the die assembly shown in [sample_one_2nd] was used. Thermal and electric contact resistance was simulated on either contact surface with the stainless steel electrodes, which had the geometry shown in [sps_schematic]. The current source was turned on at t = 0, held for 20 minutes, and then turned off. The assembly was then allowed to cool back to ambient temperature (293 K) for another 40 minutes. 
 
-!media media/cincotti_validation_images/sample_one.pdf
+!media media/cincotti_validation_images/sample_one.png
     style=width:50%;margin-left:auto;margin-right:auto;
-    id=sample_one
+    id=sample_one_2nd
     caption=Sample one die assembly.
 
-!media media/cincotti_validation_images/sample_one_potential.pdf
+!media media/cincotti_validation_images/sample_one_potential.png
     style=width:50%;margin-left:auto;margin-right:auto;
     id=sample_one_potential
     caption=Electric potential results shown here. 
 
-!media media/cincotti_validation_images/sample_one_temperature.pdf
+!media media/cincotti_validation_images/sample_one_temperature.png
     style=width:50%;margin-left:auto;margin-right:auto;
     id=sample_one_temperature
     caption=Temperature results displayed here. 
@@ -204,22 +204,24 @@ Overall, results for both potential and temperature were in good agreement with 
 
 ### Sample Four
 
-For sample four, the die assembly shown in [sample_four] was used. Thermal and electric contact resistance was simulated on either contact surface with the stainless-steel electrodes, which had the geometry shown in [sps_schematic]. The current source was turned on at t = 0, held for 10 minutes, and then turned off. The assembly was then allowed to cool back to ambient temperature (293 K) for another 20 minutes. The potential results are shown in [sample_four_potential] with the temperature results shown in [sample_four_temperature]. Considering that sample four is the more geometrically “complicated” model under examination here, there are many horizontal surfaces nearby other vertical surfaces (and vice versa). As previously seen in both conducting and non-conducting powders, heat transfer from the surrounding domain is an important part of the SPS process, and some component of that is lost in this formulation.
+For sample four, the die assembly shown in [sample_four] was used. Thermal and electric contact resistance was simulated on either contact surface with the stainless-steel electrodes, which had the geometry shown in [sps_schematic]. The current source was turned on at t = 0, held for 10 minutes, and then turned off. The assembly was then allowed to cool back to ambient temperature (293 K) for another 20 minutes. 
 
 !media media/cincotti_validation_images/sample_four.png
     style=width:50%;margin-left:auto;margin-right:auto;
     id=sample_four
     caption=Sample four die assembly.
 
-!media media/cincotti_validation_images/sample_four_potential.pdf
+!media media/cincotti_validation_images/sample_four_potential.png
     style=width:50%;margin-left:auto;margin-right:auto;
     id=sample_four_potential
     caption=Electric potential results shown here. 
 
-!media media/cincotti_validation_images/sample_four_temperature.pdf
+!media media/cincotti_validation_images/sample_four_temperature.png
     style=width:50%;margin-left:auto;margin-right:auto;
     id=sample_four_temperature
     caption=Temperature results displayed here. 
+
+The potential results are shown in [sample_four_potential] with the temperature results shown in [sample_four_temperature]. Considering that sample four is the more geometrically “complicated” model under examination here, there are many horizontal surfaces nearby other vertical surfaces (and vice versa). As previously seen in both conducting and non-conducting powders, heat transfer from the surrounding domain is an important part of the SPS process, and some component of that is lost in this formulation.
 
 Overall, results for both potential and temperature were in excellent agreement with the experimental data for potential. For the temperature prediction, the COMSOL and MALAMUTE models once again tracked well with each other, but both deviated within the die region (where the powder resides) and in the cool-down period. 
 
@@ -264,14 +266,14 @@ Stainless steel information:
 A tabulated comparison of the MALAMUTE code performance with that of Cincotti’s (COMSOL) code is shown below, with data points taken just before the current source was turned off in the model.
 
 !table id=malamute_vs_cincotti caption=MALAMUTE results comparison with Cincotti COMSOL model.
-| Sample | Location | MALAMUTE (degrees Celsius) | COMSOL (degrees Celsius) | Abs. Diff (degrees Celsius) | Rel. Diff (%) |
+| Sample | Location | MALAMUTE (Celsius) | COMSOL (Celsius) | (Absolute Diff) | (Relative Diff) |
 | :- | :- | :- | :- | :- | :- |
-| One | Lower Spacer | 200.76 | 175.40 | 25.36 | 14.46 |
-| Three | Big Spacer | 538.97 | 540.45 | 1.48 | 0.27 |
-| Three | Plunger | 927.89 | 963.28 | 35.38 | 3.67 |
-| Three | Small Spacer | 678.38 | 687.34 | 8.97 | 1.31 |
-| Four | Inside Die | 1158.12 | 1184.17 | 26.05 | 2.20 |
-| Four | Lower Small Spacer | 890.58 | 903.07 | 12.49 | 1.38 |
+| 1 | Lower Spacer | 200.76 | 175.40 | 25.36 | 14.46 |
+| 3 | Big Spacer | 538.97 | 540.45 | 1.48 | 0.27 |
+| 3 | Plunger | 927.89 | 963.28 | 35.38 | 3.67 |
+| 3 | Small Spacer | 678.38 | 687.34 | 8.97 | 1.31 |
+| 4 | Inside Die | 1158.12 | 1184.17 | 26.05 | 2.20 |
+| 4 | Lower Small Spacer | 890.58 | 903.07 | 12.49 | 1.38 |
 
 As the model became more geometrically complicated, the deviations for each model relatively reduced, giving both MALAMUTE and COMSOL codes good agreement (less than 2.5% relative difference by sample four). 
 
