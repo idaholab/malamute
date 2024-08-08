@@ -4,7 +4,7 @@ This document attempts to couple heat conduction and electrostatic physics to co
 
 ## Introduction
 
-After verifying that the electrostatic [Electrostatic Contact, Two Blocks](verification/electrostatic_contact_two_block.md) contact resistance model for this simulation is working correctly, the electrothermal model outlined in [Heat Conduction Tutorial] (introduction/therm_step01.md) can be implemented in the sample cases outlined by Cincotti: [!citep](cincotti2007sps). The physics behind the electromagnetic and heat conduction modules in MOOSE will be used to model EFAS techniques described in Cincotti and introduce thermal contact and material definitions, based on findings from [!citep](cincotti2007sps). 
+After verifying that the electrostatic [Electrostatic Contact, Two Blocks](verification/electrostatic_contact_two_block.md) contact resistance model for this simulation is working correctly, the electrothermal model outlined in [Heat Conduction Tutorial](tutorial03_verification/step01_heat_conduction.md) can be implemented in the sample cases outlined by Cincotti: [!citep](cincotti2007sps). The physics behind the electromagnetic and heat conduction modules in MOOSE will be used to model EFAS techniques described in Cincotti and introduce thermal contact and material definitions, based on findings from [!citep](cincotti2007sps). 
 
 The sample cases are summarized below:
 
@@ -47,23 +47,23 @@ The transient heat conduction equation shown below models the flow of heat throu
 
 \begin{equation}
 \begin{aligned}
-\rho (t,\mathbf{r}) c (t,r) &= nabla k (t,\mathbf{r}) nabla T + dot{q}
+\rho (t,\mathbf{r}) c (t,r) &= \nabla k (t,\mathbf{r}) \nabla T + $\dot{q}$
 \end{aligned}
 \end{equation}
 
 - $T$ is the temperature of the domain,
 - $t$ is the time,
-- $r$ is a spatial coordinate vector,
+- \mathbf{r} is a spatial coordinate vector,
 - $\rho$ is the material density,
 - $c$ is the specific heat capacity,
 - $k$ is the thermal conductivity,
-- dot{q} is a heat source.
+- $\dot{q}$ is a heat source.
 
 This convection boundary condition is used to simulate the heat loss via cooling water and is along the surface of the water channel within each stainless-steel electrode. 
 
 \begin{equation}
 \begin{aligned}
-\k_S nabla T \mathbf{\hat{n}} &= h (T - T_0)
+\$k_S$ \nabla T \mathbf{\hat{n}} &= h (T - T_0)
 \end{aligned}
 \end{equation}
 
@@ -75,7 +75,7 @@ For vacuum-facing surfaces, a radiative boundary condition (simulating radiation
 
 \begin{equation}
 \begin{aligned}
-\k_i nabla T \mathbf{\hat{n}} &= eta_i nu (T^4 - T_0^4)
+\k_i \nabla T \mathbf{\hat{n}} &= \eta_i nu (T^4 - T_0^4)
 \end{aligned}
 \end{equation}
 
@@ -83,12 +83,12 @@ Thermal contact [ThermalContactCondition.md] between interfaces of the same mate
 
 \begin{equation}
 \begin{aligned}
-\frac{\partial phi}{\partial x} \bigg\rvert_A &= \frac{\partial phi}{\partial z} \bigg\rvert_B
+\frac{\partial \phi}{\partial x} \bigg\rvert_A &= \frac{\partial \phi}{\partial z} \bigg\rvert_B
 \end{aligned}
 \end{equation}
 
 - where $i$ is either stainless steel or graphite,
-- $eta_i$ is the emissivity of the material,
+- $\eta_i$ is the emissivity of the material,
 - $nu$ is the Stefan-Boltzmann constant.
 
 ### Electrostatic Physics
@@ -105,7 +105,7 @@ Using Ohm’s Law (J = σE) one could modify the previous equation to receive th
 
 \begin{equation}
 \begin{aligned}
-\nabla (sigma \cdot \mathbf{E}) &= 0
+\nabla (sigma $\dot{c}$ \mathbf{E}) &= 0
 \end{aligned}
 \end{equation}
 
@@ -117,7 +117,7 @@ This is an electrostatic field given by the equation:
  
 \begin{equation}
 \begin{aligned}
-\E &= -nabla phi
+\E &= -\nabla \phi
 \end{aligned}
 \end{equation} 
  
@@ -125,7 +125,7 @@ and substituting this into the previous expression yields:
 
 \begin{equation}
 \begin{aligned}
-\nabla \cdot (sigma nabla phi) &= 0
+\nabla \cdot (sigma \nabla \phi) &= 0
 \end{aligned}
 \end{equation} 
 
@@ -133,7 +133,7 @@ The potential on grounded surfaces (the bottom electrode in the cases outlined h
 
 \begin{equation}
 \begin{aligned}
-\iint sigma_S nabla phi /cdot \mathbf{\hat{n}} {\text{d} S} &= I_RMS
+\iint sigma_S \nabla \phi /cdot \mathbf{\hat{n}} {\text{d} S} &= I_RMS
 \end{aligned}
 \end{equation} 
 
@@ -141,7 +141,7 @@ It was assumed that the electrical conductivity of stainless steel as well as th
 
 \begin{equation}
 \begin{aligned}
-\sigma_S nabla phi /cdot \mathbf{\hat{n}} &= \frac{I_RMS}{pi(r_2^2 - r_1^2)}
+\sigma_S \nabla \phi /cdot \mathbf{\hat{n}} &= \frac{I_RMS}{\pi(r_2^2 - r_1^2)}
 \end{aligned}
 \end{equation} 
 
@@ -149,7 +149,7 @@ where r1 and r2 are the inner and outer radii of the electrode geometry at the b
 
 \begin{equation}
 \begin{aligned}
-\nabla phi \mathbf{\hat{n}} &= 0
+\nabla \phi \mathbf{\hat{n}} &= 0
 \end{aligned}
 \end{equation} 
 
@@ -157,7 +157,7 @@ Similar to thermal contact ([ThermalContactCondition.md]), electrostatic contact
 
 \begin{equation}
 \begin{aligned}
-\frac{\partial phi}{\partial x} \bigg\rvert_A &= \frac{\partial phi}{\partial z} \bigg\rvert_B
+\frac{\partial \phi}{\partial x} \bigg\rvert_A &= \frac{\partial \phi}{\partial z} \bigg\rvert_B
 \end{aligned}
 \end{equation}
 
@@ -224,15 +224,15 @@ The constant parameters used in this simulation corresponding to the model descr
 | h | 4725 | W m^-2 K^-1 |
 | $H_G$ | 3.5 x 10^9 | Pa |
 | $H_S$ | 1.92 x 10^9 | Pa |
-| $eta_G$ | 0.85 |  |
-| $eta_S$ | 0.4 |  |
-| nu | 5.67 x 10^-8 | W m^-2 K^-4 |
-| $rho_G$ | 1750 | kg m^-3 |
-| $rho_S$ | 8000 | kg m^-3 |
-| $alpha_T$ | 22,810 | m^-1 |
-| $beta_T$ | 1.08 |  |
-| $alpha_E$ | 64 | m^-1 |
-| $beta_E$ | 0.35 |  |
+| $\eta_G$ | 0.85 |  |
+| $\eta_S$ | 0.4 |  |
+| \nu | 5.67 x 10^-8 | W m^-2 K^-4 |
+| $\rho_G$ | 1750 | kg m^-3 |
+| $\rho_S$ | 8000 | kg m^-3 |
+| $\alpha_T$ | 22,810 | m^-1 |
+| $\beta_T$ | 1.08 |  |
+| $\alpha_E$ | 64 | m^-1 |
+| $\beta_E$ | 0.35 |  |
 
 The electrothermal material property fits used to generate the results for AISI 304 stainless steel and AT 101 graphite were generated by Pitts [here](https://inldigitallibrary.inl.gov/sites/sti/sti/Sort_26145.pdf) and are shown displayed on the material property data used to make them in functional fit graphs for stainless steel with the functions themselves in the functional fit equations. The material property data, fit quality, and applicable equations for graphite and stainless steel are shown in these MOOSE websites:
 
@@ -251,7 +251,7 @@ Stainless steel information:
 A tabulated comparison of the MALAMUTE code performance with that of Cincotti’s (COMSOL) code is shown below, with data points taken just before the current source was turned off in the model.
 
 !table id=malamute_vs_cincotti caption=MALAMUTE results comparison with Cincotti COMSOL model.
-| Sample | Location | MALAMUTE (Celsius) | COMSOL (Celsius) | (Absolute Diff) | (Relative Diff) |
+| Sample | Location | MALAMUTE (Celsius) | COMSOL (Celsius) | Absolute Diff | Relative Diff |
 | :- | :- | :- | :- | :- | :- |
 | 1 | Lower Spacer | 200.76 | 175.40 | 25.36 | 14.46 |
 | 3 | Big Spacer | 538.97 | 540.45 | 1.48 | 0.27 |
