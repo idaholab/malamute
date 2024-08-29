@@ -36,7 +36,7 @@
 # Reference for graphite, stainless steel: Cincotti et al, DOI 10.1002/aic.11102
 # Assorted references for yttria, listed as comments in input file
 
-initial_temperature=293 #roughly 600C where the pyrometer kicks in
+initial_temperature = 293 #roughly 600C where the pyrometer kicks in
 #initial_porosity=0.36 #Maximum random jammed packing, Donev et al (2004) Science Magazine
 
 [Mesh]
@@ -88,7 +88,8 @@ initial_temperature=293 #roughly 600C where the pyrometer kicks in
     initial_condition = 2.0e-10 #in units eV/((nV)^2-s-nm)
     block = 'powder_compact'
   []
-  [microapp_potential] #converted to microapp electronVolts units
+  [microapp_potential]
+    #converted to microapp electronVolts units
     block = 'powder_compact'
   []
   [E_x]
@@ -106,7 +107,6 @@ initial_temperature=293 #roughly 600C where the pyrometer kicks in
     family = MONOMIAL
     block = 'powder_compact'
   []
-
 
   # [T_infinity]
   #   initial_condition = ${initial_temperature}
@@ -384,7 +384,7 @@ initial_temperature=293 #roughly 600C where the pyrometer kicks in
     variable = heat_transfer_radiation
     boundary = 'outer_radiative_spacers outer_die_wall radiative_upper_plunger radiative_lower_plunger'
     coupled_variables = 'temperature'
-    constant_names = 'boltzmann epsilon temperature_farfield'  #published emissivity for graphite is 0.85
+    constant_names = 'boltzmann epsilon temperature_farfield' #published emissivity for graphite is 0.85
     constant_expressions = '5.67e-8 0.85 293.0' #roughly room temperature, which is probably too cold
     expression = '-boltzmann*epsilon*(temperature^4-temperature_farfield^4)'
   []
@@ -393,7 +393,7 @@ initial_temperature=293 #roughly 600C where the pyrometer kicks in
     variable = heat_transfer_radiation
     boundary = 'outer_radiative_stainless_steel'
     coupled_variables = 'temperature_stainless_steel'
-    constant_names = 'boltzmann epsilon temperature_farfield'  #published emissivity for graphite is 0.85
+    constant_names = 'boltzmann epsilon temperature_farfield' #published emissivity for graphite is 0.85
     constant_expressions = '5.67e-8 0.4 293.0' #roughly room temperature, which is probably too cold
     expression = '-boltzmann*epsilon*(temperature_stainless_steel^4-temperature_farfield^4)'
   []
@@ -620,10 +620,8 @@ initial_temperature=293 #roughly 600C where the pyrometer kicks in
     gap_conductivity_function_variable = temperature
     normal_smoothing_distance = 0.1
   []
-[]
 
 ##Thermal Contact between gapped graphite die components
-[ThermalContact]
   [upper_plunger_spacer_gap_thermal]
     type = GapHeatTransfer
     primary = spacer_facing_upper_plunger
@@ -678,7 +676,7 @@ initial_temperature=293 #roughly 600C where the pyrometer kicks in
   []
   [upper_plunger_diewall_gap_thermal]
     type = GapHeatTransfer
-    primary = inner_die_wall  ### paired temperature doesn't show on inner die wall, but temperature profile looks reasonable
+    primary = inner_die_wall ### paired temperature doesn't show on inner die wall, but temperature profile looks reasonable
     secondary = die_wall_facing_upper_plunger
     variable = temperature
     quadrature = true
@@ -691,7 +689,7 @@ initial_temperature=293 #roughly 600C where the pyrometer kicks in
   []
   [lower_plunger_diewall_gap_thermal]
     type = GapHeatTransfer
-    primary = inner_die_wall  ### paired temperature doesn't show on inner die wall, but temperature profile looks reasonable
+    primary = inner_die_wall ### paired temperature doesn't show on inner die wall, but temperature profile looks reasonable
     secondary = die_wall_facing_lower_plunger
     variable = temperature
     quadrature = true
@@ -702,10 +700,8 @@ initial_temperature=293 #roughly 600C where the pyrometer kicks in
     gap_conductivity_function_variable = temperature
     normal_smoothing_distance = 0.1
   []
-[]
 
   ## Thermal Contact between touching components of powder and die
-[ThermalContact]
   [upper_plunger_powder_thermal]
     type = GapHeatTransfer
     primary = bottom_upper_plunger
@@ -759,7 +755,6 @@ initial_temperature=293 #roughly 600C where the pyrometer kicks in
     normal_smoothing_distance = 0.1
   []
 []
-
 
 [Materials]
   ## graphite blocks
@@ -836,8 +831,8 @@ initial_temperature=293 #roughly 600C where the pyrometer kicks in
   []
   [electrical_conductivity]
     type = ADParsedMaterial
-  #   coupled_variables = 'yttria_sigma_aeh'
-  #   expression = 'yttria_sigma_aeh*1.602e8' #converts to units of J/(V^2-m-s)
+    #   coupled_variables = 'yttria_sigma_aeh'
+    #   expression = 'yttria_sigma_aeh*1.602e8' #converts to units of J/(V^2-m-s)
     property_name = 'electrical_conductivity'
     output_properties = electrical_conductivity
     outputs = 'exodus csv'
@@ -845,7 +840,7 @@ initial_temperature=293 #roughly 600C where the pyrometer kicks in
     # type = ADDerivativeParsedMaterial
     # property_name = electrical_conductivity
     coupled_variables = 'temperature'
-    constant_names =       'Q_elec  kB            prefactor_solid  initial_porosity'
+    constant_names = 'Q_elec  kB            prefactor_solid  initial_porosity'
     constant_expressions = '1.61    8.617343e-5        1.25e-4           0.38'
     expression = '(1-initial_porosity) * prefactor_solid * exp(-Q_elec/kB/temperature) * 1.602e8' # in eV/(nV^2 s nm) per chat with Larry, last term converts to units of J/(V^2-m-s)
   []
@@ -895,7 +890,6 @@ initial_temperature=293 #roughly 600C where the pyrometer kicks in
   []
 []
 
-
 [Postprocessors]
   [temperature_pp]
     type = AverageNodalVariableValue
@@ -938,7 +932,6 @@ initial_temperature=293 #roughly 600C where the pyrometer kicks in
     block = powder_compact
   []
 []
-
 
 [Outputs]
   csv = true
