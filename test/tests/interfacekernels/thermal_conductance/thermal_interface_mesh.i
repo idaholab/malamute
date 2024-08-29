@@ -2,7 +2,7 @@
 # To generate meshes, select appropriate ix, iy below and use the --mesh-only flag when running this input file.
 
 [Mesh]
-  [./assembly]
+  [assembly]
     type = CartesianMeshGenerator
     dim = 2
     dx = '0.04 0.01'
@@ -18,37 +18,36 @@
                     2 4
                     1 3
                     1 3' # this is the top of the mesh
-  [../]
-  [./create_interface]
+  []
+  [create_interface]
     type = SideSetsBetweenSubdomainsGenerator
     input = assembly
     master_block = 1
     paired_block = 2
     new_boundary = 'ssg_interface'
-
-  [../]
-  [./rename_boundaries]
+  []
+  [rename_boundaries]
     type = RenameBoundaryGenerator
     input = create_interface
     old_boundary_name = 'top bottom'
     new_boundary_name = 'top_die bottom_die'
-  [../]
-  [./rename_blocks]
+  []
+  [rename_blocks]
     type = RenameBlockGenerator
     input = rename_boundaries
     old_block = '1 2'
     new_block = 'stainless_steel graphite'
-  [../]
-  [./rename_stainless_steel_sideset]
+  []
+  [rename_stainless_steel_sideset]
     type = BlockDeletionGenerator
     input = rename_blocks
     block_id = 3
     new_boundary = 'right_stainless_steel'
-  [../]
-  [./rename_graphite_sideset]
+  []
+  [rename_graphite_sideset]
     type = BlockDeletionGenerator
     input = rename_stainless_steel_sideset
     block_id = 4
     new_boundary = 'right_graphite'
-  [../]
+  []
 []
