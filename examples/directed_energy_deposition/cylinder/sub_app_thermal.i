@@ -244,7 +244,7 @@ dt = 200
   []
 []
 
-[UserObjects]
+[MeshModifiers]
   [activated_elem_uo_beam]
     type = CoupledVarThresholdElementSubdomainModifier
     execute_on = 'TIMESTEP_BEGIN'
@@ -253,7 +253,8 @@ dt = 200
     subdomain_id = 2
     criterion_type = ABOVE
     threshold = ${T_melt}
-    moving_boundary_name = 'moving_boundary'
+    moving_boundaries = 'moving_boundary'
+    moving_boundary_subdomain_pairs = '2 1'
   []
 []
 
