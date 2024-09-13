@@ -7,6 +7,7 @@ Two sections that may require editing is in Line 55’s `die_wall_thickness` var
 
 !alert note title=Input File Template Available in Repository
 Use the provided input file template from the MALAMUTE repository to complete the study outlined below:
+
 !listing tutorials/efas/introduction/dcs5_copper_constant_properties_electrothermal.i
 
 ### Die Wall Thickness

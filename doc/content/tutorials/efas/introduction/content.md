@@ -6,7 +6,7 @@
 
 The six key parts of an input file are as follows: `[Mesh], [Variables], [Kernels], [BCs], [Executioner], and [Outputs]`. This guide is an overview of what elements to modify (or not modify) within these parts to run an electrothermal simulation with the desired parameters. A key term to keep in mind is “block.” The six key parts as mentioned earlier are considered high-level blocks and will be referred to as blocks for the remainder of this guide. View the [MOOSE Workshop](https://mooseframework.inl.gov/workshop/#/) to explore these six parts in greater detail. The majority of this input file is presented as a template, and only a few lines of the input file will need to be modified for the purposes of this tutorial. The full input file is available within the MALAMUTE github repository:
 
-!listing !listing tutorials/efas/introduction/dcs5_copper_constant_properties_electrothermal.i
+!listing tutorials/efas/introduction/dcs5_copper_constant_properties_electrothermal.i
 
 The `Mesh` block maps out and displays the geometry of the distinct sections of the EFAS tooling stack, as described in the [tutorial_overview.md] +Motivation+ section, that are shown in open-source data visualization software such as [ParaView](https://www.paraview.org). The `[Problem]` block sets up the handling of numerical convergence. Please do not modify any values in the `[Mesh]` and `[Problem]` blocks as to allow for easier understanding of the tutorial.
 
