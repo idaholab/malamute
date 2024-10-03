@@ -12,7 +12,7 @@
 
 [Mesh]
   [mesh]
-    type = PatchMeshGenerator
+    type = ExamplePatchMeshGenerator
     dim = 2
   []
   coord_type = RZ
