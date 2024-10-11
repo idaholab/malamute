@@ -506,23 +506,23 @@ initial_voltage=0.0001
     type = MatReaction
     variable = V
     v = wvy
-    mob_name = cat_mu_pre
+    reaction_rate = cat_mu_pre
   [../]
   [./potential_an_mu]
     type = MatReaction
     variable = V
     v = wvo
-    mob_name = an_mu_pre
+    reaction_rate = an_mu_pre
   [../]
   [./potential_cat_V]
     type = MatReaction
     variable = V
-    mob_name = cat_V_pre
+    reaction_rate = cat_V_pre
   [../]
   [./potential_an_V]
     type = MatReaction
     variable = V
-    mob_name = an_V_pre
+    reaction_rate = an_V_pre
   [../]
   [./Laplace_dV]
     type = MatDiffusion
