@@ -1,3 +1,7 @@
+# The material properties used in this example are based on typical values for stainless steel.
+# For detailed reference, please consult the following paper:
+# https://www.sciencedirect.com/science/article/pii/S2214860418301246
+
 T_room = 300
 T_ambient = 300
 T_melt = 1700
