@@ -55,6 +55,7 @@ APPLICATION_DIR    := $(CURDIR)
 APPLICATION_NAME   := malamute
 BUILD_EXEC         := yes
 GEN_REVISION       := yes
+INSTALLABLE_DIRS   := test/tests->tests tutorials
 include            $(FRAMEWORK_DIR)/app.mk
 
 ###############################################################################
