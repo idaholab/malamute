@@ -36,6 +36,20 @@ cd malamute
 git checkout main
 ```
 
+!alert! tip title=SSH clone not successful? Use HTTPS!
+This guide assumes you have setup SSH with your [GitHub] account. If the `git clone` command above was
+not successful on your machine, you have the option of cloning via HTTPS using the following command:
+
+```
+git clone https://github.com/idaholab/malamute.git
+```
+
+which is sufficient if you only need to clone MALAMUTE on your local machine and do not intend to
+`git push` back to GitHub to save developed MALAMUTE code. If you do intend to push code to GitHub,
+we recommend you review the ["About remote repositories"](https://docs.github.com/en/get-started/getting-started-with-git/about-remote-repositories)
+page on GitHub to learn how to setup a Personal Access Token for `git push` with HTTPS.
+!alert-end!
+
 !alert! note title=MALAMUTE branches
 This sequence of commands downloads MALAMUTE from the GitLab server and checks
 out the "main" code branch. There are two code branches available:
