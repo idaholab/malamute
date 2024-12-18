@@ -23,6 +23,8 @@ Content:
         root_dir: ${MOOSE_DIR}/modules/ray_tracing/doc/content      # pulled in by heat_transfer
     rdg:
         root_dir: ${MOOSE_DIR}/modules/rdg/doc/content              # pulled in by navier_stokes
+    stochastic_tools:
+        root_dir: ${MOOSE_DIR}/modules/stochastic_tools/doc/content
     solid_mechanics:
         root_dir: ${MOOSE_DIR}/modules/solid_mechanics/doc/content
     level_set:
@@ -75,6 +77,7 @@ Extensions:
             phase_field: !include ${MOOSE_DIR}/modules/phase_field/doc/sqa_phase_field.yml
             ray_tracing: !include ${MOOSE_DIR}/modules/ray_tracing/doc/sqa_ray_tracing.yml
             rdg: !include ${MOOSE_DIR}/modules/rdg/doc/sqa_rdg.yml
+            stochastic_tools: !include ${MOOSE_DIR}/modules/stochastic_tools/doc/sqa_stochastic_tools.yml
             solid_mechanics: !include ${MOOSE_DIR}/modules/solid_mechanics/doc/sqa_solid_mechanics.yml
         reports: !include ${ROOT_DIR}/doc/sqa_reports.yml
         repos:
