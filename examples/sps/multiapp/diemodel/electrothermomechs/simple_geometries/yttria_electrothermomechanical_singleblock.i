@@ -239,7 +239,7 @@ initial_temperature = 300 #roughly 600C where the pyrometer kicks in
     expression = '3214.46 / (temperature - 147.73)' #in W/(m-K) #Given from Larry's curve fitting, data from Klein and Croft, JAP, v. 38, p. 1603 and UC report "For Computer Heat Conduction Calculations - A compilation of thermal properties data" by A.L. Edwards, UCRL-50589 (1969)
     property_name = 'thermal_conductivity'
     output_properties = thermal_conductivity
-    outputs = 'csv exodus'
+    outputs = 'exodus'
   []
   [thermal_expansion]
     type = ADComputeThermalExpansionEigenstrain
@@ -266,7 +266,7 @@ initial_temperature = 300 #roughly 600C where the pyrometer kicks in
     #   expression = 'sigma_aeh*1.602e8' #converts to units of J/(V^2-m-s)
     property_name = 'electrical_conductivity'
     output_properties = electrical_conductivity
-    outputs = 'exodus csv'
+    outputs = 'exodus'
     coupled_variables = 'temperature'
     constant_names = 'Q_elec  kB            prefactor_solid  initial_porosity'
     constant_expressions = '1.61    8.617343e-5        1.25e-4           0.38'

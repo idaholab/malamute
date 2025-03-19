@@ -233,7 +233,7 @@ initial_temperature = 600 #roughly 600C where the pyrometer kicks in
     # expression = 'thermal_conductivity_aeh' #in W/(m-K) directly, for now
     property_name = 'thermal_conductivity'
     output_properties = thermal_conductivity
-    outputs = 'csv exodus'
+    outputs = 'exodus'
   []
   [thermal_expansion]
     type = ADComputeThermalExpansionEigenstrain
@@ -248,7 +248,7 @@ initial_temperature = 600 #roughly 600C where the pyrometer kicks in
     coupled_variables = 'specific_heat_capacity_va'
     expression = 'specific_heat_capacity_va' #in J/(K-kg)
     # output_properties = yttria_specific_heat_capacity
-    # outputs = 'csv exodus'
+    # outputs = 'exodus'
   []
   [yttria_density]
     type = ADParsedMaterial
@@ -256,7 +256,7 @@ initial_temperature = 600 #roughly 600C where the pyrometer kicks in
     coupled_variables = 'density_va'
     expression = 'density_va'
     # output_properties = yttria_density
-    # outputs = 'csv exodus'
+    # outputs = 'exodus'
   []
   [electrical_conductivity]
     type = ADParsedMaterial
@@ -264,7 +264,7 @@ initial_temperature = 600 #roughly 600C where the pyrometer kicks in
     #   expression = 'sigma_aeh*1.602e8' #converts to units of J/(V^2-m-s)
     property_name = 'electrical_conductivity'
     output_properties = electrical_conductivity
-    outputs = 'exodus csv'
+    outputs = 'exodus'
     # type = ADDerivativeParsedMaterial
     # property_name = electrical_conductivity
     coupled_variables = 'temperature'

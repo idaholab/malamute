@@ -239,7 +239,7 @@ initial_temperature = 300 #roughly 600C where the pyrometer kicks in
     coupled_variables = 'density_va'
     expression = 'density_va'
     # output_properties = yttria_density
-    # outputs = 'csv exodus'
+    # outputs = 'exodus'
     block = powder_compact
   []
 []
