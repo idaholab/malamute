@@ -541,7 +541,7 @@ initial_temperature = 300 #roughly 600C where the pyrometer kicks in
   #   type = ADGraphiteElectricalConductivity
   #   temperature = temperature
   #   output_properties = all
-  #   outputs = 'csv exodus'
+  #   outputs = 'exodus'
   #   block = 'upper_plunger lower_plunger die_wall'
   # []
   # [graphite_electrical_resistivity]
@@ -550,7 +550,7 @@ initial_temperature = 300 #roughly 600C where the pyrometer kicks in
   #   material_property_names = electrical_conductivity
   #   expression = '1 / electrical_conductivity'
   #   output_properties = electrical_conductivity
-  #   outputs = 'csv exodus'
+  #   outputs = 'exodus'
   #   block = 'upper_plunger lower_plunger die_wall'
   # []
   [graphite_electrical_conductivity]
@@ -559,7 +559,7 @@ initial_temperature = 300 #roughly 600C where the pyrometer kicks in
     coupled_variables = 'temperature'
     expression = '1.0/(-2.705e-15*temperature^3+1.263e-11*temperature^2-1.836e-8*temperature+1.813e-5)'
     output_properties = electrical_conductivity
-    outputs = 'csv exodus'
+    outputs = 'exodus'
     block = 'upper_plunger lower_plunger die_wall'
   []
 
@@ -599,7 +599,7 @@ initial_temperature = 300 #roughly 600C where the pyrometer kicks in
     # expression = 'thermal_conductivity_aeh' #in W/(m-K) directly, for now
     property_name = 'yttria_thermal_conductivity'
     output_properties = yttria_thermal_conductivity
-    outputs = 'csv exodus'
+    outputs = 'exodus'
     block = powder_compact
   []
   [yttria_specific_heat_capacity]
@@ -608,7 +608,7 @@ initial_temperature = 300 #roughly 600C where the pyrometer kicks in
     coupled_variables = 'specific_heat_capacity_va'
     expression = 'specific_heat_capacity_va' #in J/(K-kg)
     # output_properties = yttria_specific_heat_capacity
-    # outputs = 'csv exodus'
+    # outputs = 'exodus'
     block = powder_compact
   []
   [yttria_density]
@@ -617,7 +617,7 @@ initial_temperature = 300 #roughly 600C where the pyrometer kicks in
     coupled_variables = 'density_va'
     expression = 'density_va'
     # output_properties = yttria_density
-    # outputs = 'csv exodus'
+    # outputs = 'exodus'
     block = powder_compact
   []
   [electrical_conductivity]
@@ -626,7 +626,7 @@ initial_temperature = 300 #roughly 600C where the pyrometer kicks in
     #   expression = 'sigma_aeh*1.602e8' #converts to units of J/(V^2-m-s)
     property_name = 'electrical_conductivity'
     output_properties = electrical_conductivity
-    outputs = 'exodus csv'
+    outputs = 'exodus'
     block = powder_compact
     # type = ADDerivativeParsedMaterial
     # property_name = electrical_conductivity
