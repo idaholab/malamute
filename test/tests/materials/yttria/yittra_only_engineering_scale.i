@@ -56,7 +56,7 @@
     expression = '3214.46 / (temperature - 147.73)' #in W/(m-K)
     property_name = 'yttria_thermal_conductivity'
     output_properties = yttria_thermal_conductivity
-    outputs = 'exodus'
+    outputs = 'csv'
   []
   [yttria_specific_heat_capacity]
     type = DerivativeParsedMaterial
@@ -70,7 +70,7 @@
                               + 1.30756778141995 * temperature - 61.6301212149735) / molar_mass * gtokg,
                   (0.0089*temperature + 119.59) / molar_mass * gtokg)' #in J/(K-kg)
     output_properties = yttria_specific_heat_capacity
-    outputs = 'exodus'
+    outputs = 'csv'
   []
   [yttria_density]
     type = GenericConstantMaterial
@@ -120,6 +120,5 @@
 
 [Outputs]
   csv = true
-  exodus = true
   perf_graph = true
 []
