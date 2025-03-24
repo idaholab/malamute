@@ -49,14 +49,38 @@
   []
 []
 
+[AuxVariables]
+  [yttria_thermal_conductivity]
+    order = CONSTANT
+    family = MONOMIAL
+  []
+  [yttria_specific_heat_capacity]
+    order = CONSTANT
+    family = MONOMIAL
+  []
+[]
+
+[AuxKernels]
+  [yttria_thermal_conductivity]
+    type = MaterialRealAux
+    property = yttria_thermal_conductivity
+    variable = yttria_thermal_conductivity
+    execute_on = timestep_end
+  []
+  [yttria_specific_heat_capacity]
+    type = MaterialRealAux
+    property = yttria_specific_heat_capacity
+    variable = yttria_specific_heat_capacity
+    execute_on = timestep_end
+  []
+[]
+
 [Materials]
   [yttria_thermal_conductivity]
     type = ParsedMaterial
     coupled_variables = 'temperature'
     expression = '3214.46 / (temperature - 147.73)' #in W/(m-K)
     property_name = 'yttria_thermal_conductivity'
-    output_properties = yttria_thermal_conductivity
-    outputs = 'csv'
   []
   [yttria_specific_heat_capacity]
     type = DerivativeParsedMaterial
@@ -69,8 +93,6 @@
                               + 7.96030446457309e-06  * temperature^3 - 0.00427362972278911 * temperature^2
                               + 1.30756778141995 * temperature - 61.6301212149735) / molar_mass * gtokg,
                   (0.0089*temperature + 119.59) / molar_mass * gtokg)' #in J/(K-kg)
-    output_properties = yttria_specific_heat_capacity
-    outputs = 'csv'
   []
   [yttria_density]
     type = GenericConstantMaterial
