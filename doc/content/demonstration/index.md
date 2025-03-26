@@ -17,7 +17,7 @@ are described in this section.
 
 1. [verification/thermal_contact_verification.md]
 
-<!--TODO: These comments should be removed when example problems for MALAMUTE exist-->
+!! TODO: These comments should be removed when example problems for MALAMUTE exist
 !! ## Example Problems
 
 !! Examples of MALAMUTE usage are described in this section.
