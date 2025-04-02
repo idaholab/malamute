@@ -58,7 +58,6 @@
   [stainless_steel_thermal]
     type = ADStainlessSteelThermal
     temperature = temperature
-    output_properties = all
   []
   [stainless_steel_density]
     type = ADGenericConstantMaterial
