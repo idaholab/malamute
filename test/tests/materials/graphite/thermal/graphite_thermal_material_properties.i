@@ -59,7 +59,6 @@
   [graphite_thermal]
     type = ADGraphiteThermal
     temperature = temperature
-    output_properties = all
   []
   [graphite_density]
     type = ADGenericConstantMaterial

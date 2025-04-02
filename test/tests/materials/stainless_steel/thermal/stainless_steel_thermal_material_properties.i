@@ -59,7 +59,6 @@
   [stainless_steel_thermal]
     type = StainlessSteelThermal
     temperature = temperature
-    output_properties = all
   []
   [stainless_steel_density]
     type = GenericConstantMaterial

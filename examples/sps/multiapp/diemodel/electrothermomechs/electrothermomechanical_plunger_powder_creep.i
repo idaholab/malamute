@@ -534,7 +534,6 @@ initial_temperature = 300 #roughly 600C where the pyrometer kicks in
   [graphite_thermal]
     type = ADGraphiteThermal
     temperature = temperature
-    output_properties = 'thermal_conductivity heat_capacity'
     block = 'upper_plunger lower_plunger die_wall'
   []
   # [graphite_electrical]
