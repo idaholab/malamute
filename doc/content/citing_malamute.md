@@ -1,7 +1,7 @@
 # Citing MALAMUTE
 
 This page lists the references to use if you are using MALAMUTE in your publication. For a
-list of publications that have used and expanded MALAMUTE, please refer to the [publications.md].
+list of publications that have used and expanded MALAMUTE, please refer to the [malamute_publications.md].
 
 ## MALAMUTE
 

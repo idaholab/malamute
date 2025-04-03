@@ -36,6 +36,7 @@ Content:
             - help/finite_element_concepts/nodal_patch_recovery.md
             - application_usage/restart_recover.md
             - citing.md
+            - publications.md
     python:
         root_dir: ${MOOSE_DIR}/python/doc/content
         content:
@@ -64,7 +65,7 @@ Extensions:
             Software Quality Assurance (SQA) Information: /sqa/index.md
             Code Coverage: https://mooseframework.inl.gov/malamute/docs/coverage/
             Testing Status: https://civet.inl.gov/repo/936/
-            Publications Using MALAMUTE: publications.md
+            Publications Using MALAMUTE: malamute_publications.md
           Citing: citing_malamute.md
     MooseDocs.extensions.appsyntax:
         executable: ${ROOT_DIR}
