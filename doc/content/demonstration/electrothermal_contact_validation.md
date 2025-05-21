@@ -4,7 +4,7 @@ This document attempts to couple heat conduction and electrostatic physics to co
 
 ## Introduction
 
-After verifying that the electrostatic [Electrostatic Contact, Two Blocks](verification/electrostatic_contact_two_block.md) contact resistance model for this simulation is working correctly, the electrothermal model outlined in [Heat Conduction Tutorial](tutorial03_verification/step01_heat_conduction.md) can be implemented in the sample cases outlined by Cincotti: [!citep](cincotti2007sps). The physics behind the electromagnetic and heat conduction modules in MOOSE will be used to model EFAS techniques described in Cincotti and introduce thermal contact and material definitions, based on findings from [!citep](cincotti2007sps). 
+After verifying that the electrostatic [Electrostatic Contact, Two Blocks](verification/electrostatic_contact_two_block.md) contact resistance model for this simulation is working correctly, the electrothermal model outlined in [Heat Conduction Tutorial](modules/heat_transfer/tutorials/introduction/index.md) can be implemented in the sample cases outlined by Cincotti: [!citep](cincotti2007sps). The physics behind the electromagnetic and heat conduction modules in MOOSE will be used to model EFAS techniques described in Cincotti and introduce thermal contact and material definitions, based on findings from [!citep](cincotti2007sps).
 
 The sample cases are summarized below:
 
