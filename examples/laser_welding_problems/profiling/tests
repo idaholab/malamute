@@ -1,9 +1,0 @@
-[Tests]
-  [kc-profiling]
-    type = RunApp
-    input = kc-profiling.i
-    check_input = True
-    skip = "from baldr, broken"
-    issues = '#5'
-  []
-[]
