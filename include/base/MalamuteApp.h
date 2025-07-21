@@ -16,7 +16,7 @@ class MalamuteApp : public MooseApp
 public:
   static InputParameters validParams();
 
-  MalamuteApp(InputParameters parameters);
+  MalamuteApp(const InputParameters & parameters);
   virtual ~MalamuteApp();
 
   static void registerApps();

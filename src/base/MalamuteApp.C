@@ -24,7 +24,7 @@ MalamuteApp::validParams()
   return params;
 }
 
-MalamuteApp::MalamuteApp(InputParameters parameters) : MooseApp(parameters)
+MalamuteApp::MalamuteApp(const InputParameters & parameters) : MooseApp(parameters)
 {
   MalamuteApp::registerAll(_factory, _action_factory, _syntax);
 }
