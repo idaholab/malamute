@@ -43,6 +43,7 @@ Content:
             - python/CSVDiff.md
             - python/mms.md
             - python/MooseDocs/**
+            - ~python/MooseDocs/extensions/civet.md
             - python/moosesqa/index.md
             - python/source/moosetree/Node.md
             - python/testers/**
@@ -107,3 +108,4 @@ Extensions:
           - kim_phase-field_1999
           - popp2014dual
           - puso2008segment
+          - rhebergen2017analysis
