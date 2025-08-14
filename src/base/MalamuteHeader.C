@@ -3,7 +3,7 @@
 /*                                                                          */
 /* MALAMUTE: MOOSE Application Library for Advanced Manufacturing UTilitiEs */
 /*                                                                          */
-/*           Copyright 2021 - 2024, Battelle Energy Alliance, LLC           */
+/*           Copyright 2021 - 2025, Battelle Energy Alliance, LLC           */
 /*                           ALL RIGHTS RESERVED                            */
 /****************************************************************************/
 
@@ -25,7 +25,7 @@ header()
          << "\n\n"
          << "MALAMUTE: MOOSE Application Library for Advanced Manufacturing UTilitiEs \n"
          << "\n\n"
-         << "Copyright 2021 - 2024, Battelle Energy Alliance, LLC \n"
+         << "Copyright 2021 - 2025, Battelle Energy Alliance, LLC \n"
          << "ALL RIGHTS RESERVED \n"
          << "\n\n"
          << "NOTICE: These data were produced by BATTELLE ENERGY ALLIANCE, LLC under Contract \n"
