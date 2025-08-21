@@ -8,4 +8,4 @@ at https://mooseframework.inl.gov/malamute.
 MALAMUTE is based on the MOOSE framework, with more information on MOOSE
 to be found at https://mooseframework.inl.gov.
 
-Copyright 2021 - 2024, Battelle Energy Alliance, LLC
+Copyright 2021 - 2025, Battelle Energy Alliance, LLC

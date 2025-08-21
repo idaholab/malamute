@@ -3,7 +3,7 @@
 /*                                                                          */
 /* MALAMUTE: MOOSE Application Library for Advanced Manufacturing UTilitiEs */
 /*                                                                          */
-/*           Copyright 2021 - 2024, Battelle Energy Alliance, LLC           */
+/*           Copyright 2021 - 2025, Battelle Energy Alliance, LLC           */
 /*                           ALL RIGHTS RESERVED                            */
 /****************************************************************************/
 
