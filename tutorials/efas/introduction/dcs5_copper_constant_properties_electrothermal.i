@@ -5,7 +5,10 @@
 #           are defined below by radius and height, in meters
 #       The simulation is defined using axisymmetric RZ assumptions
 #       Electric and thermal physics are included in the simulation, and a constant
-#           interface pressure of 1.0 MPa
+#           interface pressure, calculated from the applied load and interface geometry is
+#           applied to horizontal interfaces (e.g. between spacers). A constant interface
+#           pressure of 1.0MPa is applied to vertical interfaces (e.g. between the punches
+#           and the die wall) is prescribed.
 #
 # BCs:
 #    Potential:
@@ -22,7 +25,7 @@
 #       (internal left side, along centerline) --> symmetry boundary conditions
 # Modeling across interfaces uses the mortar contact, for both thermal and electrical:
 #       (for contact with blocks touching) --> GapFluxModelPressureDependentConduction
-#                                              A constant interface pressure of 1.0 MPa is prescribed
+#                                              A constant interface pressure is prescribed
 #       (for contact across gap filled with graphite foil)  --> GapFluxModelConduction
 #       (for contact across gap, argon gas filled)  --> GapFluxModelConduction
 # Initial Conditions:
@@ -92,7 +95,7 @@ stack_with_powder = ${fparse ram_cc_sinter_punch_height + powder_height}
     elem_type = QUAD8
   []
   [stitch_bottom_ram_spacer]
-    type = StitchedMeshGenerator
+    type = StitchMeshGenerator
     inputs = 'bottom_ram_spacer bottom_ram_overhang'
     stitch_boundaries_pairs = 'bottom_ram_spacer_top bottom_ram_spacer_overhang_bottom'
   []
@@ -144,7 +147,7 @@ stack_with_powder = ${fparse ram_cc_sinter_punch_height + powder_height}
     boundary_id_offset = 16
   []
   [stitch_bottom_sinter_spacer]
-    type = StitchedMeshGenerator
+    type = StitchMeshGenerator
     inputs = 'bottom_sinter_spacer bottom_sinter_overhang'
     stitch_boundaries_pairs = 'bottom_sinter_spacer_top bottom_sinter_spacer_overhang_bottom'
   []
@@ -232,7 +235,7 @@ stack_with_powder = ${fparse ram_cc_sinter_punch_height + powder_height}
     boundary_id_offset = 36
   []
   [stitch_top_sinter_spacer]
-    type = StitchedMeshGenerator
+    type = StitchMeshGenerator
     inputs = 'top_sinter_spacer top_sinter_overhang'
     stitch_boundaries_pairs = 'top_sinter_spacer_bottom top_sinter_spacer_overhang_top'
   []
@@ -284,7 +287,7 @@ stack_with_powder = ${fparse ram_cc_sinter_punch_height + powder_height}
     boundary_id_offset = 48
   []
   [stitch_top_ram_spacer]
-    type = StitchedMeshGenerator
+    type = StitchMeshGenerator
     inputs = 'top_ram_spacer top_ram_overhang'
     stitch_boundaries_pairs = 'top_ram_spacer_bottom top_ram_spacer_overhang_top'
   []
@@ -658,17 +661,13 @@ stack_with_powder = ${fparse ram_cc_sinter_punch_height + powder_height}
              powder top_punch top_sinter_spacer top_cc_spacer top_ram_spacer die_wall'
   []
 
-  # [interface_normal_lm]
-  #   order = FIRST
-  #   family = LAGRANGE
-  #   block = 'bottom_ram_cc_secondary_subdomain bottom_cc_sinter_secondary_subdomain
-  #            bottom_sinter_punch_secondary_subdomain bottom_punch_powder_secondary_subdomain
-  #            powder_top_punch_secondary_subdomain top_punch_sinter_secondary_subdomain
-  #            top_sinter_cc_secondary_subdomain top_cc_ram_secondary_subdomain
-  #            inside_low_punch_secondary_subdomain inside_powder_secondary_subdomain
-  #            inside_top_punch_secondary_subdomain'
-  #   initial_condition = 1.0e6
-  # []
+  [interface_normal_lm]
+    order = FIRST
+    family = LAGRANGE
+    block = 'inside_low_punch_secondary_subdomain inside_powder_secondary_subdomain
+             inside_top_punch_secondary_subdomain'
+    initial_condition = 1.0e6
+  []
     [interface_sinter_spacer_lm]
     order = FIRST
     family = LAGRANGE
@@ -704,9 +703,9 @@ stack_with_powder = ${fparse ram_cc_sinter_punch_height + powder_height}
              top_punch top_sinter_spacer top_ram_spacer die_wall'
   []
   [electric_graphite]
-    type = ADMatDiffusion
+    type = ADHeatConduction
     variable = potential
-    diffusivity = graphite_electrical_conductivity
+    thermal_conductivity = graphite_electrical_conductivity
     extra_vector_tags = 'ref'
     block = 'bottom_ram_spacer bottom_sinter_spacer bottom_punch
              top_punch top_sinter_spacer top_ram_spacer die_wall'
@@ -714,8 +713,7 @@ stack_with_powder = ${fparse ram_cc_sinter_punch_height + powder_height}
   [JouleHeating_graphite]
     type = ADJouleHeatingSource
     variable = temperature
-    elec = potential
-    electrical_conductivity = graphite_electrical_conductivity
+    heating_term = graphite_electric_field_heating
     # use_displaced_mesh = true
     extra_vector_tags = 'ref'
     block = 'bottom_ram_spacer bottom_sinter_spacer bottom_punch
@@ -738,17 +736,16 @@ stack_with_powder = ${fparse ram_cc_sinter_punch_height + powder_height}
     block = 'bottom_cc_spacer top_cc_spacer'
   []
   [electric_carbon_fiber]
-    type = ADMatDiffusion
+    type = ADHeatConduction
     variable = potential
-    diffusivity = ccfiber_electrical_conductivity
+    thermal_conductivity = ccfiber_electrical_conductivity
     extra_vector_tags = 'ref'
     block = 'bottom_cc_spacer top_cc_spacer'
   []
   [JouleHeating_carbon_fiber]
     type = ADJouleHeatingSource
     variable = temperature
-    elec = potential
-    electrical_conductivity = ccfiber_electrical_conductivity
+    heating_term = ccfiber_electric_field_heating
     # use_displaced_mesh = true
     extra_vector_tags = 'ref'
     block = 'bottom_cc_spacer top_cc_spacer'
@@ -770,17 +767,16 @@ stack_with_powder = ${fparse ram_cc_sinter_punch_height + powder_height}
     block = 'powder'
   []
   [electric_powder]
-    type = ADMatDiffusion
+    type = ADHeatConduction
     variable = potential
-    diffusivity = copper_electrical_conductivity
+    thermal_conductivity = copper_electrical_conductivity
     extra_vector_tags = 'ref'
     block = 'powder'
   []
   [JouleHeating_powder]
     type = ADJouleHeatingSource
     variable = temperature
-    elec = potential
-    electrical_conductivity = copper_electrical_conductivity
+    heating_term = copper_electric_field_heating
     # use_displaced_mesh = true
     extra_vector_tags = 'ref'
     block = 'powder'
@@ -1094,7 +1090,7 @@ stack_with_powder = ${fparse ram_cc_sinter_punch_height + powder_height}
     secondary_boundary = bottom_punch_right
     secondary_subdomain = inside_low_punch_secondary_subdomain
     gap_geometry_type = CYLINDER
-    gap_flux_models = 'thermal_conduction_wall_low_punch' # closed_thermal_interface_inside_die_low_punch'
+    gap_flux_models = 'thermal_conduction_wall_low_punch closed_thermal_interface_inside_die_low_punch'
     extra_vector_tags = 'ref'
     correct_edge_dropping = true
     # use_displaced_mesh = true
@@ -1108,7 +1104,7 @@ stack_with_powder = ${fparse ram_cc_sinter_punch_height + powder_height}
     secondary_boundary = bottom_punch_right
     secondary_subdomain = inside_low_punch_secondary_subdomain
     gap_geometry_type = CYLINDER
-    gap_flux_models = 'electrical_conduction_wall_low_punch' # closed_electric_interface_inside_die_low_punch'
+    gap_flux_models = 'electrical_conduction_wall_low_punch closed_electric_interface_inside_die_low_punch'
     extra_vector_tags = 'ref'
     correct_edge_dropping = true
     # use_displaced_mesh = true
@@ -1122,7 +1118,7 @@ stack_with_powder = ${fparse ram_cc_sinter_punch_height + powder_height}
     secondary_boundary = powder_right
     secondary_subdomain = inside_powder_secondary_subdomain
     gap_geometry_type = CYLINDER
-    gap_flux_models = 'thermal_conduction_wall_powder' # closed_thermal_interface_inside_die_powder'
+    gap_flux_models = 'thermal_conduction_wall_powder closed_thermal_interface_inside_die_powder'
     extra_vector_tags = 'ref'
     correct_edge_dropping = true
     # use_displaced_mesh = true
@@ -1136,7 +1132,7 @@ stack_with_powder = ${fparse ram_cc_sinter_punch_height + powder_height}
     secondary_boundary = powder_right
     secondary_subdomain = inside_powder_secondary_subdomain
     gap_geometry_type = CYLINDER
-    gap_flux_models = 'electrical_conduction_wall_powder' # closed_electric_interface_inside_die_powder'
+    gap_flux_models = 'electrical_conduction_wall_powder closed_electric_interface_inside_die_powder'
     extra_vector_tags = 'ref'
     correct_edge_dropping = true
     # use_displaced_mesh = true
@@ -1150,7 +1146,7 @@ stack_with_powder = ${fparse ram_cc_sinter_punch_height + powder_height}
     secondary_boundary = top_punch_right
     secondary_subdomain = inside_top_punch_secondary_subdomain
     gap_geometry_type = CYLINDER
-    gap_flux_models = 'thermal_conduction_wall_top_punch' # closed_thermal_interface_inside_die_top_punch'
+    gap_flux_models = 'thermal_conduction_wall_top_punch closed_thermal_interface_inside_die_top_punch'
     extra_vector_tags = 'ref'
     correct_edge_dropping = true
     # use_displaced_mesh = true
@@ -1164,7 +1160,7 @@ stack_with_powder = ${fparse ram_cc_sinter_punch_height + powder_height}
     secondary_boundary = top_punch_right
     secondary_subdomain = inside_top_punch_secondary_subdomain
     gap_geometry_type = CYLINDER
-    gap_flux_models = 'electrical_conduction_wall_top_punch' # closed_electric_interface_inside_die_top_punch'
+    gap_flux_models = 'electrical_conduction_wall_top_punch closed_electric_interface_inside_die_top_punch'
     extra_vector_tags = 'ref'
     correct_edge_dropping = true
     # use_displaced_mesh = true
@@ -1215,6 +1211,16 @@ stack_with_powder = ${fparse ram_cc_sinter_punch_height + powder_height}
     #           available at http://schunk-tokai.pl/pl/wp-content/uploads/Schunk-Tokai-2015-englisch.pdf
     # specific heat capacity for IG110 graphite, https://www.nrc.gov/docs/ML2121/ML21215A346.pdf, equation on pg A-40 at 293K,
   []
+  [graphite_em_heating_material]
+    type = ElectromagneticHeatingMaterial
+    electric_field = potential
+    electric_field_heating_name = graphite_electric_field_heating
+    electrical_conductivity = graphite_electrical_conductivity
+    formulation = 'time'
+    solver = 'electrostatic'
+    block = 'bottom_ram_spacer bottom_sinter_spacer bottom_punch
+             top_punch top_sinter_spacer top_ram_spacer die_wall'
+  []
   [carbon_fiber_electro_thermal_properties]
     type = ADGenericConstantMaterial
     prop_names = 'ccfiber_density ccfiber_thermal_conductivity ccfiber_heat_capacity ccfiber_electrical_conductivity ccfiber_hardness'
@@ -1233,6 +1239,15 @@ stack_with_powder = ${fparse ram_cc_sinter_punch_height + powder_height}
     M_name = ccfiber_aniso_thermal_conductivity
     # data sourced from Schunk CF226 manufacturer's datasheet, available at http://schunk-tokai.pl/en/wp-content/uploads/e_CF-226.pdf
   []
+  [carbon_fiber_em_heating_material]
+    type = ElectromagneticHeatingMaterial
+    electric_field = potential
+    electric_field_heating_name = ccfiber_electric_field_heating
+    electrical_conductivity = ccfiber_electrical_conductivity
+    formulation = 'time'
+    solver = 'electrostatic'
+    block = 'bottom_cc_spacer top_cc_spacer'
+  []
   [copper_electro_thermal_properties]
     type = ADGenericConstantMaterial
     prop_names = 'copper_density copper_thermal_conductivity copper_heat_capacity copper_electrical_conductivity copper_hardness'
@@ -1243,6 +1258,15 @@ stack_with_powder = ${fparse ram_cc_sinter_punch_height + powder_height}
     # hardness set to unity to remove dependence on that quantity
     block = 'powder bottom_punch_powder_secondary_subdomain powder_top_punch_secondary_subdomain
              inside_powder_secondary_subdomain'
+  []
+  [copper_em_heating_material]
+    type = ElectromagneticHeatingMaterial
+    electric_field = potential
+    electric_field_heating_name = copper_electric_field_heating
+    electrical_conductivity = copper_electrical_conductivity
+    formulation = 'time'
+    solver = 'electrostatic'
+    block = powder
   []
 []
 
@@ -1422,26 +1446,26 @@ stack_with_powder = ${fparse ram_cc_sinter_punch_height + powder_height}
     gap_conductivity = 6.67e-2  # S/m ceramaterials, through thickness for graphite foil: https://www.ceramaterials.com/wp-content/uploads/2022/01/GRAPHITE_FOIL_TDS_CM_01_22.pdf
     # use_displaced_mesh = true
   []
-  # [closed_thermal_interface_inside_die_low_punch]
-  #   type = GapFluxModelPressureDependentConduction
-  #   primary_conductivity = graphite_thermal_conductivity
-  #   secondary_conductivity = graphite_thermal_conductivity
-  #   temperature = temperature
-  #   contact_pressure = interface_normal_lm
-  #   primary_hardness = graphite_hardness
-  #   secondary_hardness = graphite_hardness
-  #   boundary = bottom_punch_right
-  # []
-  # [closed_electric_interface_inside_die_low_punch]
-  #   type = GapFluxModelPressureDependentConduction
-  #   primary_conductivity = graphite_electrical_conductivity
-  #   secondary_conductivity = graphite_electrical_conductivity
-  #   temperature = potential
-  #   contact_pressure = interface_normal_lm
-  #   primary_hardness = graphite_hardness
-  #   secondary_hardness = graphite_hardness
-  #   boundary = bottom_punch_right
-  # []
+  [closed_thermal_interface_inside_die_low_punch]
+    type = GapFluxModelPressureDependentConduction
+    primary_conductivity = graphite_thermal_conductivity
+    secondary_conductivity = graphite_thermal_conductivity
+    temperature = temperature
+    contact_pressure = interface_normal_lm
+    primary_hardness = graphite_hardness
+    secondary_hardness = graphite_hardness
+    boundary = bottom_punch_right
+  []
+  [closed_electric_interface_inside_die_low_punch]
+    type = GapFluxModelPressureDependentConduction
+    primary_conductivity = graphite_electrical_conductivity
+    secondary_conductivity = graphite_electrical_conductivity
+    temperature = potential
+    contact_pressure = interface_normal_lm
+    primary_hardness = graphite_hardness
+    secondary_hardness = graphite_hardness
+    boundary = bottom_punch_right
+  []
   [thermal_conduction_wall_powder]
     type = GapFluxModelConduction
     temperature = temperature
@@ -1456,26 +1480,26 @@ stack_with_powder = ${fparse ram_cc_sinter_punch_height + powder_height}
     gap_conductivity = 6.67e-2  # S/m ceramaterials, through thickness for graphite foil: https://www.ceramaterials.com/wp-content/uploads/2022/01/GRAPHITE_FOIL_TDS_CM_01_22.pdf
     # use_displaced_mesh = true
   []
-  # [closed_thermal_interface_inside_die_powder]
-  #   type = GapFluxModelPressureDependentConduction
-  #   primary_conductivity = graphite_thermal_conductivity
-  #   secondary_conductivity = copper_thermal_conductivity
-  #   temperature = temperature
-  #   contact_pressure = interface_normal_lm
-  #   primary_hardness = graphite_hardness
-  #   secondary_hardness = copper_hardness
-  #   boundary = powder_right
-  # []
-  # [closed_electric_interface_inside_die_powder]
-  #   type = GapFluxModelPressureDependentConduction
-  #   primary_conductivity = graphite_electrical_conductivity
-  #   secondary_conductivity = copper_electrical_conductivity
-  #   temperature = potential
-  #   contact_pressure = interface_normal_lm
-  #   primary_hardness = graphite_hardness
-  #   secondary_hardness = copper_hardness
-  #   boundary = powder_right
-  # []
+  [closed_thermal_interface_inside_die_powder]
+    type = GapFluxModelPressureDependentConduction
+    primary_conductivity = graphite_thermal_conductivity
+    secondary_conductivity = copper_thermal_conductivity
+    temperature = temperature
+    contact_pressure = interface_normal_lm
+    primary_hardness = graphite_hardness
+    secondary_hardness = copper_hardness
+    boundary = powder_right
+  []
+  [closed_electric_interface_inside_die_powder]
+    type = GapFluxModelPressureDependentConduction
+    primary_conductivity = graphite_electrical_conductivity
+    secondary_conductivity = copper_electrical_conductivity
+    temperature = potential
+    contact_pressure = interface_normal_lm
+    primary_hardness = graphite_hardness
+    secondary_hardness = copper_hardness
+    boundary = powder_right
+  []
   [thermal_conduction_wall_top_punch]
     type = GapFluxModelConduction
     temperature = temperature
@@ -1490,26 +1514,26 @@ stack_with_powder = ${fparse ram_cc_sinter_punch_height + powder_height}
     gap_conductivity = 6.67e-2  # S/m ceramaterials, through thickness for graphite foil: https://www.ceramaterials.com/wp-content/uploads/2022/01/GRAPHITE_FOIL_TDS_CM_01_22.pdf
     # use_displaced_mesh = true
   []
-  # [closed_thermal_interface_inside_die_top_punch]
-  #   type = GapFluxModelPressureDependentConduction
-  #   primary_conductivity = graphite_thermal_conductivity
-  #   secondary_conductivity = graphite_thermal_conductivity
-  #   temperature = temperature
-  #   contact_pressure = interface_normal_lm
-  #   primary_hardness = graphite_hardness
-  #   secondary_hardness = graphite_hardness
-  #   boundary = top_punch_right
-  # []
-  # [closed_electric_interface_inside_die_top_punch]
-  #   type = GapFluxModelPressureDependentConduction
-  #   primary_conductivity = graphite_electrical_conductivity
-  #   secondary_conductivity = graphite_electrical_conductivity
-  #   temperature = potential
-  #   contact_pressure = interface_normal_lm
-  #   primary_hardness = graphite_hardness
-  #   secondary_hardness = graphite_hardness
-  #   boundary = top_punch_right
-  # []
+  [closed_thermal_interface_inside_die_top_punch]
+    type = GapFluxModelPressureDependentConduction
+    primary_conductivity = graphite_thermal_conductivity
+    secondary_conductivity = graphite_thermal_conductivity
+    temperature = temperature
+    contact_pressure = interface_normal_lm
+    primary_hardness = graphite_hardness
+    secondary_hardness = graphite_hardness
+    boundary = top_punch_right
+  []
+  [closed_electric_interface_inside_die_top_punch]
+    type = GapFluxModelPressureDependentConduction
+    primary_conductivity = graphite_electrical_conductivity
+    secondary_conductivity = graphite_electrical_conductivity
+    temperature = potential
+    contact_pressure = interface_normal_lm
+    primary_hardness = graphite_hardness
+    secondary_hardness = graphite_hardness
+    boundary = top_punch_right
+  []
 
   [gap_thermal_interface_bottom_sinter_die]
     type = GapFluxModelConduction
