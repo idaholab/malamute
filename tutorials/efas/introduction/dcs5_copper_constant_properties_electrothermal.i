@@ -5,10 +5,10 @@
 #           are defined below by radius and height, in meters
 #       The simulation is defined using axisymmetric RZ assumptions
 #       Electric and thermal physics are included in the simulation, and a constant
-#           interface pressure, calculated from the applied load and interface geometry is
+#           interface pressure, calculated from the applied load and interface geometry, is
 #           applied to horizontal interfaces (e.g. between spacers). A constant interface
 #           pressure of 1.0MPa is applied to vertical interfaces (e.g. between the punches
-#           and the die wall) is prescribed.
+#           and the die wall).
 #
 # BCs:
 #    Potential:
