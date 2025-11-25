@@ -48,6 +48,7 @@ LevelSetPowderAddition::LevelSetPowderAddition(const InputParameters & parameter
 ADReal
 LevelSetPowderAddition::precomputeQpResidual()
 {
+  using std::exp;
   Point p(0, 0, 0);
   RealVectorValue laser_location(_laser_location_x.value(_t, p),
                                  _laser_location_y.value(_t, p),
@@ -59,7 +60,7 @@ LevelSetPowderAddition::precomputeQpResidual()
 
   if (r <= _mass_radius)
     power_feed = _mass_scale * _eta_p * _mass_rate *
-                 std::exp(-_mass_scale * Utility::pow<2>(r / _mass_radius)) / _rho_p / libMesh::pi /
+                 exp(-_mass_scale * Utility::pow<2>(r / _mass_radius)) / _rho_p / libMesh::pi /
                  Utility::pow<2>(_mass_radius);
 
   return _delta_function[_qp] * power_feed;
