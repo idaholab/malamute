@@ -77,7 +77,8 @@ ValueAndDerivative<is_ad>
 GraphiteThermalExpansionEigenstrainTempl<is_ad>::computeCoefficientThermalExpansion(
     const ValueAndDerivative<is_ad> & temperature)
 {
+  using std::log;
   const auto coefficient_thermal_expansion =
-      1.996e-6 * std::log(4.799e-2 * temperature) - 4.041e-6; // in 1/K
+      1.996e-6 * log(4.799e-2 * temperature) - 4.041e-6; // in 1/K
   return coefficient_thermal_expansion * _coeff_thermal_expansion_scale_factor;
 }

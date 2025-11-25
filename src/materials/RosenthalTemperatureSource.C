@@ -57,25 +57,27 @@ template <bool is_ad>
 void
 RosenthalTemperatureSourceTempl<is_ad>::computeQpProperties()
 {
+  using std::exp;
+  using std::sqrt;
   const Real & x = _q_point[_qp](0);
   const Real & y = _q_point[_qp](1);
   const Real & z = _q_point[_qp](2);
 
   // Moving heat source and distance
   Real x_t = x - _x0 - _V * _t;
-  Real r = std::sqrt(x_t * x_t + y * y + z * z);
+  Real r = sqrt(x_t * x_t + y * y + z * z);
 
   _thermal_diffusivity[_qp] = _thermal_conductivity[_qp] / (_specific_heat[_qp] * _density[_qp]);
 
   _temp_source[_qp] = _T0 + (_absorptivity[_qp] * _P) /
                                 (2.0 * libMesh::pi * _thermal_conductivity[_qp] * r) *
-                                std::exp(-_V / (2.0 * _thermal_diffusivity[_qp]) * (r + x_t));
+                                exp(-_V / (2.0 * _thermal_diffusivity[_qp]) * (r + x_t));
   if (_temp_source[_qp] > _Tm)
     _temp_source[_qp] = _Tm;
 
   _meltpool_depth[_qp] =
-      std::sqrt((2.0 * _absorptivity[_qp] * _P) / (std::exp(1.0) * libMesh::pi * _density[_qp] *
-                                                   _specific_heat[_qp] * (_Tm - _T0) * _V));
+      sqrt((2.0 * _absorptivity[_qp] * _P) /
+           (exp(1.0) * libMesh::pi * _density[_qp] * _specific_heat[_qp] * (_Tm - _T0) * _V));
 
   _meltpool_width[_qp] = 2.0 * _meltpool_depth[_qp];
 }

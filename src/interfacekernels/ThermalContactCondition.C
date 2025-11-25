@@ -101,6 +101,7 @@ ThermalContactCondition::computeQpResidual(Moose::DGResidualType type)
   else if (_mean_hardness_was_set && !_thermal_conductance_was_set &&
            !_electrical_conductance_was_set)
   {
+    using std::pow;
     ADReal mean_thermal_conductivity =
         2 * _thermal_conductivity_primary[_qp] * _thermal_conductivity_secondary[_qp] /
         (_thermal_conductivity_primary[_qp] + _thermal_conductivity_secondary[_qp]);
@@ -111,13 +112,11 @@ ThermalContactCondition::computeQpResidual(Moose::DGResidualType type)
 
     thermal_contact_conductance =
         _alpha_thermal * mean_thermal_conductivity *
-        std::pow((_mechanical_pressure.value(_t, _q_point[_qp]) / _mean_hardness[_qp]),
-                 _beta_thermal);
+        pow((_mechanical_pressure.value(_t, _q_point[_qp]) / _mean_hardness[_qp]), _beta_thermal);
 
     electrical_contact_conductance =
         _alpha_electric * mean_electrical_conductivity *
-        std::pow((_mechanical_pressure.value(_t, _q_point[_qp]) / _mean_hardness[_qp]),
-                 _beta_electric);
+        pow((_mechanical_pressure.value(_t, _q_point[_qp]) / _mean_hardness[_qp]), _beta_electric);
   }
   else
   {
