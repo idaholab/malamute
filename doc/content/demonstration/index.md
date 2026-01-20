@@ -16,6 +16,9 @@ Problems and documentation that describe the basis of [MALAMUTE verification & v
 are described in this section.
 
 1. [verification/thermal_contact_verification.md]
+1. [verification/electrostatic_contact_two_block.md]
+1. [verification/electrostatic_contact_three_block.md]
+1. [validation/electrothermal_contact_validation.md]
 
 !! TODO: These comments should be removed when example problems for MALAMUTE exist
 !! ## Example Problems
