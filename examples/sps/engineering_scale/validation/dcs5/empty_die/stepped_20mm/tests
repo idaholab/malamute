@@ -3,7 +3,7 @@
     type = RunApp
     input = 'dcs5_stepped20mm_empty_constant_properties.i'
     check_input = True
-    method = opt
+    capabilities = 'method=opt'
     issues = '#91'
     requirement = 'The system shall compute the electro-thermo-mechanical response '
                   'of a 2D-axisymmetric representation of the DCS-5 stepped 20mm diameter '

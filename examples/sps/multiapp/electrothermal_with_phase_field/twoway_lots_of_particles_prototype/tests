@@ -4,7 +4,7 @@
     input = 'engineering_scale_electrothermal_twoway_lots_prototype.i'
     min_parallel = 5
     check_input = True
-    method = opt
+    capabilities = 'method=opt'
     issues = '#20'
   []
   [micro_yttria_thermoelectric_twoway_lots_controls]
@@ -12,7 +12,7 @@
     input = 'micro_yttria_thermoelectric_twoway_lots_controls.i'
     check_input = true
     cli_args = 'Mesh/gen/nx=52 Mesh/gen/ny=52'
-    method = opt
+    capabilities = 'method=opt'
     issues = '#20'
   []
 []

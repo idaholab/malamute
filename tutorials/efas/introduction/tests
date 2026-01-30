@@ -3,7 +3,7 @@
     type = RunApp
     input = 'dcs5_copper_constant_properties_electrothermal.i'
     check_input = true
-    method = opt
+    capabilities = 'method=opt'
     issues = '#145'
   []
 []
