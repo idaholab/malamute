@@ -3,21 +3,21 @@
     type = RunApp
     input = 'electrothermomechanical_plunger_powder_bothends_pressurebc.i'
     check_input = True
-    method = opt
+    capabilities = 'method=opt'
     issues = '#9'
   [../]
   [./electrothermomechanics_nodalcontact_creep_powder]
     type = RunApp
     input = 'electrothermomechanical_plunger_powder_creep.i'
     check_input = True
-    method = opt
+    capabilities = 'method=opt'
     issues = '#9'
   [../]
   [./mechanics_contact_plastic]
     type = RunApp
     input = 'mechanical_plunger_powder_plastic.i'
     check_input = True
-    method = opt
+    capabilities = 'method=opt'
     issues = '#22'
   [../]
 []

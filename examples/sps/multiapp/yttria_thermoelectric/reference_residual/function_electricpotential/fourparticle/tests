@@ -4,12 +4,12 @@
     type = RunApp
     input = 'twoway_coupling_demo_new_phasefield.i'
     check_input = True
-    method = opt
+    capabilities = 'method=opt'
   [../]
   [./fourparticle_micro_yttria_thermoelectric_twoway]
     type = RunApp
     input = 'fourparticle_micro_yttria_thermoelectric_twoway.i'
     check_input = true
-    method = opt
+    capabilities = 'method=opt'
   [../]
 []
