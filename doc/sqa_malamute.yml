@@ -4,4 +4,17 @@ specs:
     - tests
 dependencies:
     - framework
+    - contact
+    - electromagnetics
+    - fluid_properties
+    - heat_transfer
+    - level_set
+    - misc
+    - navier_stokes
+    - phase_field
+    - ray_tracing
+    - rdg
+    - stochastic_tools
+    - solid_mechanics
+    - level_set
 reports: !include ${ROOT_DIR}/doc/sqa_reports.yml
