@@ -739,7 +739,7 @@
     primary_conductivity = graphite_thermal_conductivity
     secondary_conductivity = graphite_thermal_conductivity
     temperature = temperature
-    contact_pressure = top_spacers_normal_lm
+    contact_pressure_uo = lm_weightedgap_object_top_spacers
     primary_hardness = graphite_hardness
     secondary_hardness = graphite_hardness
     boundary = top_sinter_spacer_top
@@ -749,7 +749,7 @@
     primary_conductivity = graphite_electrical_conductivity
     secondary_conductivity = graphite_electrical_conductivity
     temperature = potential
-    contact_pressure = top_spacers_normal_lm
+    contact_pressure_uo = lm_weightedgap_object_top_spacers
     primary_hardness = graphite_hardness
     secondary_hardness = graphite_hardness
     boundary = top_sinter_spacer_top
@@ -759,7 +759,7 @@
     primary_conductivity = graphite_thermal_conductivity
     secondary_conductivity = graphite_thermal_conductivity
     temperature = temperature
-    contact_pressure = top_spacer_punch_normal_lm
+    contact_pressure_uo = lm_weightedgap_object_top_spacer_punch
     primary_hardness = graphite_hardness
     secondary_hardness = graphite_hardness
     boundary = top_punch_top
@@ -769,7 +769,7 @@
     primary_conductivity = graphite_electrical_conductivity
     secondary_conductivity = graphite_electrical_conductivity
     temperature = potential
-    contact_pressure = top_spacer_punch_normal_lm
+    contact_pressure_uo = lm_weightedgap_object_top_spacer_punch
     primary_hardness = graphite_hardness
     secondary_hardness = graphite_hardness
     boundary = top_punch_top
@@ -780,7 +780,7 @@
     primary_conductivity = graphite_thermal_conductivity
     secondary_conductivity = graphite_thermal_conductivity
     temperature = temperature
-    contact_pressure = punch_normal_lm
+    contact_pressure_uo = lm_weightedgap_object_punch
     primary_hardness = graphite_hardness
     secondary_hardness = graphite_hardness
     boundary = low_punch_full_top
@@ -790,7 +790,7 @@
     primary_conductivity = graphite_electrical_conductivity
     secondary_conductivity = graphite_electrical_conductivity
     temperature = potential
-    contact_pressure = punch_normal_lm
+    contact_pressure_uo = lm_weightedgap_object_punch
     primary_hardness = graphite_hardness
     secondary_hardness = graphite_hardness
     boundary = low_punch_full_top
@@ -801,7 +801,7 @@
     primary_conductivity = graphite_thermal_conductivity
     secondary_conductivity = graphite_thermal_conductivity
     temperature = temperature
-    contact_pressure = low_spacer_punch_normal_lm
+    contact_pressure_uo = lm_weightedgap_object_low_spacer_punch
     primary_hardness = graphite_hardness
     secondary_hardness = graphite_hardness
     boundary = low_punch_bottom
@@ -811,7 +811,7 @@
     primary_conductivity = graphite_electrical_conductivity
     secondary_conductivity = graphite_electrical_conductivity
     temperature = potential
-    contact_pressure = low_spacer_punch_normal_lm
+    contact_pressure_uo = lm_weightedgap_object_low_spacer_punch
     primary_hardness = graphite_hardness
     secondary_hardness = graphite_hardness
     boundary = low_punch_bottom
@@ -821,7 +821,7 @@
     primary_conductivity = graphite_thermal_conductivity
     secondary_conductivity = graphite_thermal_conductivity
     temperature = temperature
-    contact_pressure = low_spacers_normal_lm
+    contact_pressure_uo = lm_weightedgap_object_low_spacers
     primary_hardness = graphite_hardness
     secondary_hardness = graphite_hardness
     boundary = low_sinter_spacer_bottom
@@ -831,7 +831,7 @@
     primary_conductivity = graphite_electrical_conductivity
     secondary_conductivity = graphite_electrical_conductivity
     temperature = potential
-    contact_pressure = low_spacers_normal_lm
+    contact_pressure_uo = lm_weightedgap_object_low_spacers
     primary_hardness = graphite_hardness
     secondary_hardness = graphite_hardness
     boundary = low_sinter_spacer_bottom
@@ -856,7 +856,7 @@
     primary_conductivity = graphite_thermal_conductivity
     secondary_conductivity = graphite_thermal_conductivity
     temperature = temperature
-    contact_pressure = punch_wall_normal_lm
+    contact_pressure_uo = lm_weightedgap_object_punch_wall
     primary_hardness = graphite_hardness
     secondary_hardness = graphite_hardness
     boundary = punch_step_exterior
@@ -866,7 +866,7 @@
     primary_conductivity = graphite_electrical_conductivity
     secondary_conductivity = graphite_electrical_conductivity
     temperature = potential
-    contact_pressure = punch_wall_normal_lm
+    contact_pressure_uo = lm_weightedgap_object_punch_wall
     primary_hardness = graphite_hardness
     secondary_hardness = graphite_hardness
     boundary = punch_step_exterior
