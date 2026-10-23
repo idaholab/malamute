@@ -221,6 +221,10 @@
 []
 
 [Outputs]
-  exodus = true
   perf_graph = true
+  [out]
+    type = Exodus
+    # legacy value
+    max_output_name_length = 32
+  []
 []
