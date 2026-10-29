@@ -5,6 +5,7 @@
     check_input = True
     capabilities = 'method=opt'
     issues = '#9'
+    min_slots = 2 # 304 MB per slot observed during https://civet.inl.gov/job/4323154/ during step Test. Usage is over or within 100 MB of the total memory limit based on a 400 MB per slot limit.
   [../]
   [./fullphysics_oneway_coupling_elasticmechanices_yttria_macroblock]
     type = RunApp
@@ -62,5 +63,6 @@
     check_input = true
     capabilities = 'method=opt'
     issues = '#20'
+    min_slots = 7 # 531 MB per slot observed during https://civet.inl.gov/job/4323154/ during step Test. Usage is over or within 100 MB of the total memory limit based on a 400 MB per slot limit.
   [../]
 []
