@@ -2,5 +2,6 @@
   [./melt_pool_3d]
     type = 'RunApp'
     input = 'melt_pool.i'
+    min_slots = 2
   [../]
 []
